@@ -1,6 +1,5 @@
 import { Component } from "react";
 import Layout from "./components/Layout";
-import Button from '@mui/material/Button';
 
 export default class About extends Component {
   render(): JSX.Element {

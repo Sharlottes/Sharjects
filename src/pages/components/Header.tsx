@@ -26,13 +26,13 @@ class Header extends Component {
         </Head>
         <div className='header'>
           <dl className='logo'>
-            <img src={discord.src} alt="discord" />
+            <img src={(discord as unknown as {src: string}).src} alt="discord" />
           </dl>
           <dl className='navigator'>
             {links.map((link, i) => <Link href={link.url} key={i}>{link.name}</Link>)}
           </dl>
           <dl className='icons'>
-            <img src={setting.src} alt="setting" />
+            <img src={(setting as unknown as {src: string}).src} alt="setting" />
           </dl>
         </div>
       </>

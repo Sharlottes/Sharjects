@@ -1,5 +1,6 @@
 {
-  "name": "my-app",
+  "homepage": "https://discords.bots",
+  "name": "discordbots",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -14,6 +15,7 @@
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "axios": "^0.27.2",
+    "gh-pages": "^4.0.0",
     "koreanbots": "^3.2.1",
     "markdown-to-jsx": "^7.1.7",
     "mui-markdown": "^0.5.3",
@@ -25,11 +27,11 @@
     "typescript": "^4.7.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "dev": "next"
+    "start": "next start",
+    "build": "next build",
+    "dev": "next",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
