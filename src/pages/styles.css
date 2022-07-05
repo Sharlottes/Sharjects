@@ -1,0 +1,91 @@
+@font-face {
+  font-family: "uni-sans-heavy";
+  src: local("uni-sans-heavy"), url("../fonts/Uni\ Sans\ Heavy.otf") format("truetype");
+}
+@font-face {
+  font-family: "uni-sans-heavy-italic";
+  src: local("uni-sans"), url("../fonts/Uni\ Sans\ Heavy\ Italic.otf") format("truetype");
+}
+@font-face {
+  font-family: "uni-sans-thin";
+  src: local("uni-sans-thin"), url("../fonts/Uni\ Sans\ Thin.otf") format("truetype");
+}
+@font-face {
+  font-family: "uni-sans-thin-italic";
+  src: local("uni-sans-thin-italic"), url("../fonts/Uni\ Sans\ Thin\ Italic.otf") format("truetype");
+}
+
+@keyframes icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  display: flex;
+  width: 100vw;
+  border-bottom: 2px solid black;
+  box-shadow: 0px 0px 5px;
+  padding-top: 10px;
+}
+
+.header dl {
+  display: inline;
+}
+
+.header .logo {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+ 
+.header .logo img {
+  width: 50px;
+}
+
+.header .navigator {
+  position: relative;
+  top: 5px;
+  display: inline;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.header .navigator a {
+  font-family: "uni-sans-heavy";
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  transition: all 0.5s;
+  margin: 5px;
+  padding: 5px;
+}
+
+.header .navigator a:hover {
+  background-color: #a7abd7;
+}
+
+.header .icons {
+  flex: 1;
+  text-align: right;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 0;
+}
+
+.header .icons img {
+  width: 30px;
+}
+
+.header .icons img:hover {
+  animation: icon-spin infinite 10s linear;
+}
