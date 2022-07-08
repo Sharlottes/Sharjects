@@ -173,7 +173,7 @@ function BotListPage() {
             boxShadow: 'none'
           }
         ]} >
-          {shown ? <KeyboardArrowDownIcon /> : <KeyboardArrowDownIcon />}
+          {shown ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </Fab>
       }
       </>
