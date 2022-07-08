@@ -1,16 +1,23 @@
-import { Avatar, Badge, Chip, Divider, Grid, Stack, Typography } from "@mui/material";
-import Layout from "./components/Layout";
+import { alpha, Avatar, Badge, Chip, Divider, Grid, InputBase, Collapse, Stack, Toolbar, Typography, IconButton, Fab } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import { Bot } from "koreanbots";
+import Button from '@mui/material/Button';
+
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DnsIcon from '@mui/icons-material/Dns';
 import ShareIcon from '@mui/icons-material/Share';
 import LinkIcon from '@mui/icons-material/Link';
 import AddIcon from '@mui/icons-material/Add';
-import Button from '@mui/material/Button';
-import axios from "axios";
-import { useInfiniteQuery } from "react-query";
+import SearchIcon from '@mui/icons-material/Search';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 import InfiniteScroll from "react-infinite-scroll-component";
+import React, { useState, MouseEvent } from "react";
+import { useInfiniteQuery } from "react-query";
+
+import { Bot } from "koreanbots";
+
+import Layout from "./components/Layout";
 
 export type DiriAPI<T> = {
   code: number,
@@ -55,11 +62,53 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+}));
+
+
 function BotListPage() {
   const { data, status, fetchNextPage, hasNextPage } = useInfiniteQuery<DiriAPI<DiriAPIBotlist>>(
     "infiniteCharacters",
     async ({ pageParam = 1}) => await fetch(
-      `/api/list/bots/votes?page=${pageParam}`
+      `/api/v2/list/bots/votes?page=${pageParam}`
     ).then((result) => {
       console.log(result);
       return result.json();
@@ -70,25 +119,80 @@ function BotListPage() {
       },
     }
   );
+  const [shown, setShown] = useState(true);
+
+  const handleCollapse = (event: MouseEvent) => {
+    setShown(!shown);
+  };
+  
+  const handleCollapseEnd = (node: HTMLElement, done: () => void) => {
+
+  }
 
   return (
-    <Layout>
-      {status && (
+    <Layout header={
+      <>
+        <Collapse in={shown} addEndListener={handleCollapseEnd}>
+          <Toolbar sx={{backgroundColor: '#7289DA'}}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="collapse up"
+              sx={{ mr: 2 }}
+              onClick={handleCollapse}
+            >
+              <KeyboardArrowUpIcon />
+            </IconButton>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
+          </Toolbar>
+        </Collapse>
+
+      {
+        <Fab size='medium' onClick={handleCollapse} sx={[
+          { 
+            margin: 1.5, 
+            backgroundColor: '#7289DA', 
+            position: 'absolute', 
+            top: '65px'
+          },
+          {
+            '&:hover': {
+              backgroundColor: '#7289DA'
+            }
+          },
+          shown && {
+            boxShadow: 'none'
+          }
+        ]} >
+          {shown ? <KeyboardArrowDownIcon /> : <KeyboardArrowDownIcon />}
+        </Fab>
+      }
+      </>
+    }>
+      {status && 
         <InfiniteScroll
           dataLength={(data?.pages.length ?? 0) * 20}
           next={fetchNextPage}
           hasMore={hasNextPage ?? false}
           loader={<h4>Loading...</h4>}
         >
-        <Stack 
-          direction='column' 
-          spacing={2} 
-          justifyContent="flex-start" 
-          alignItems="stretch" 
-          divider={<Divider flexItem />}
-          mt='20px'
-          mr='10px'
-        >
+          <Stack 
+            direction='column' 
+            spacing={2} 
+            justifyContent="flex-start" 
+            alignItems="stretch" 
+            divider={<Divider flexItem />}
+            m='20px'
+          >
           {
             data?.pages.map((data) => {
               return data.data.data.map(bot => (
@@ -148,22 +252,11 @@ function BotListPage() {
               ))
             })
           }
-        </Stack>
-      </InfiniteScroll>)}
+          </Stack>
+        </InfiniteScroll>
+      }
     </Layout>
   )
 }
-
-/*
-BotListPage.getInitialProps = async () => {
-  const res = await axios.get('https://koreanbots.dev/api/v2/list/bots/votes');
-  const data: DiriAPI<DiriAPIBotlist> = res.data;
-  
-  return {
-    bots: data.data.data
-  }
-}
-*/
-
 
 export default BotListPage;

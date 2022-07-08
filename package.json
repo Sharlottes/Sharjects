@@ -16,7 +16,6 @@
     "@types/react-dom": "^18.0.5",
     "axios": "^0.27.2",
     "gh-pages": "^4.0.0",
-    "http-proxy-middleware": "^2.0.6",
     "koreanbots": "^3.2.1",
     "markdown-to-jsx": "^7.1.7",
     "mui-markdown": "^0.5.3",
@@ -58,6 +57,5 @@
   "license": "MIT",
   "devDependencies": {
     "@svgr/webpack": "^6.2.1"
-  },
-  "proxy": "https://koreanbots.dev"
+  }
 }

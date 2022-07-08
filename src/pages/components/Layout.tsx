@@ -5,12 +5,13 @@ import Header from './Header';
 import ScrollTop from './ScrollTop';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-class Layout extends Component<ScriptProps> {
+class Layout extends Component<ScriptProps & {header?: JSX.Element}> {
   render(): JSX.Element {
     return (
       <div>     
         <AppBar sx={{'backgroundColor': 'white'}}>
             <Header/>
+            {this.props.header}
         </AppBar>
         <Toolbar id="back-to-top-anchor" />
         <div>

@@ -15,7 +15,6 @@ const links: {url: string, name: string}[] = [];
   addLink('/search', 'Search');
 })();
 
-
 class Header extends Component {
   render(): ReactNode {
     return (
