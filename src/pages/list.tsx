@@ -1,3 +1,4 @@
+
 import { alpha, Avatar, Badge, Chip, Divider, Grid, InputBase, Collapse, Stack, Toolbar, Typography, IconButton, Fab, Tabs, Tab } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
@@ -20,6 +21,10 @@ import { Bot } from "koreanbots";
 import Layout from "./components/Layout";
 import VoteBotList from './voteList';
 
+export default function BotListPage() {
+  return <VoteBotList />
+}
+/*
 type DiriAPI<T> = {
   code: number,
   data: T,
@@ -283,9 +288,6 @@ function VoteBotList() {
 }
 
 */
-function BotListPage() {
-  
-  return <VoteBotList />
   /*
   const [shown, setShown] = useState(false);
   const [searching, setSearching] = useState(false);
@@ -363,7 +365,7 @@ function BotListPage() {
       }
     </Layout>
   )
-  */
 }
 
 export default BotListPage;
+  */
