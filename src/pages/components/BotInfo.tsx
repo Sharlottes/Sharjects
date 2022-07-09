@@ -38,7 +38,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export default function BotInfo(props: {bot: Bot}) {
   const bot = props.bot;
-  return (                
+  return bot && (
     <Stack 
       direction='row' 
       spacing={1} 
