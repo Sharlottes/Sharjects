@@ -8,8 +8,9 @@ export default function RecentBotList(props: any) {
   const [list, setList] = useState([] as Bot[]);
   
   useEffect(() => {
+    console.log(1)
     fetch('/api/v2/list/bots/new').then(res => res.json().then(data => setList(data.data.data)));
-  });
+  }, []);
 
   return (
     <ListLayout index={1}>
