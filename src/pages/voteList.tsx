@@ -1,33 +1,16 @@
 import { Stack, Divider } from "@mui/material";
-import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useInfiniteQuery } from "react-query";
 import BotInfo from "./components/BotInfo";
 import ListLayout from "./components/ListLayout";
-import { DiriAPI, DiriAPIBotlist, DiriAPIError } from "../@type";
+import { DiriAPI, DiriAPIBotlist } from "../@type";
 
 export default function VoteBotList() {
-  const [error, setError] = useState('');
-
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<DiriAPI<DiriAPIBotlist>, unknown, DiriAPI<DiriAPIBotlist>, string>({
     queryKey: "infiniteCharacters",
     queryFn: async ({ pageParam = 1, meta }) => {
       const result = await fetch(`/api/v2/list/bots/votes?page=${pageParam}`);
-
-      console.log(meta);
-      console.log(result);
-
-      return result.json().then((value: DiriAPI<DiriAPIBotlist>) => {
-        console.log(value);
-        if(result.status === 200) {
-          setError(() => '');
-        }
-        else {
-          setError(() => (value as unknown as DiriAPIError).message);
-        }
-        
-        return value;
-      });
+      return result.json();
     },
     getNextPageParam: (lastPage, pages) => {
       if(pages.length < lastPage.data?.totalPage ?? 0) return pages.length + 1;

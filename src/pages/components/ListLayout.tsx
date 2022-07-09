@@ -1,4 +1,4 @@
-import { alpha, InputBase, Collapse, Toolbar, IconButton, Fab, Tabs, Tab } from '@mui/material';
+import { alpha, InputBase, Collapse, Toolbar, Fab, Tabs, Tab } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -54,8 +54,11 @@ const CollapseFab = styled(Fab)(({ theme }) => ({
   backgroundColor: '#7289DA', 
   position: 'absolute', 
   top: '65px',
+  opacity: 0.3,
+  transition: 'all 0.5s ease-out',
   '&:hover': {
-    backgroundColor: '#7289DA'
+    backgroundColor: '#7289DA',
+    opacity: 0.7,
   },
 })); 
 
@@ -68,7 +71,7 @@ export default function ListLayout(props: { children: JSX.Element, index: number
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    setQuery(() => event.target.value);
+    setQuery(event.target.value);
   };
 
   const handleSubmit = async (event: React.KeyboardEvent) => {
@@ -81,18 +84,8 @@ export default function ListLayout(props: { children: JSX.Element, index: number
   return (
     <Layout header={
       <>
-        <Collapse in={shown}>
-          <Toolbar sx={{backgroundColor: '#7289DA'}}>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="collapse up"
-              sx={{ mr: 2 }}
-              onClick={handleCollapse}
-            >
-              <KeyboardArrowUpIcon />
-            </IconButton>
+        <Collapse in={shown} sx={{backgroundColor: '#7289DA',}}>
+          <Toolbar sx={{ml: '20px'}}>
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -107,7 +100,7 @@ export default function ListLayout(props: { children: JSX.Element, index: number
             </Search>
             <Tabs value={props.index} aria-label="basic tabs example">
               <Link href='/voteList'><Tab label="추천" /></Link>
-              <Tab label="최신" />
+              <Link href='/recentList'><Tab label="최신" /></Link>
               <Link href='/searchList'><Tab label="검색" /></Link>
             </Tabs>
           </Toolbar>
