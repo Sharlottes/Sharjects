@@ -11,8 +11,8 @@ const links: {url: string, name: string}[] = [];
   }
   addLink('/', 'Home');
   addLink('/about', 'About');
-  addLink('/list', 'Bots');
-  addLink('/search', 'Search');
+  addLink('/botList', 'Bots');
+  addLink('/serverList', 'Servers');
 })();
 
 class Header extends Component {

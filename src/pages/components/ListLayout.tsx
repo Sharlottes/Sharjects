@@ -1,4 +1,4 @@
-import { alpha, InputBase, Collapse, Toolbar, Fab, Tabs, Tab } from '@mui/material';
+import { alpha, InputBase, Collapse, Toolbar, Fab, Tabs, Tab, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -7,7 +7,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import React, { useState } from "react";
 
 import Layout from "./Layout";
-import Link from 'next/link';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -49,7 +48,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const CollapseFab = styled(Fab)(({ theme }) => ({
+const CollapseFab = styled(Fab)<{shown: boolean}>(({ shown, theme }) => ({
+  ...(shown && {
+    boxShadow: 'none'
+  }),
   margin: '15px', 
   backgroundColor: '#7289DA', 
   position: 'absolute', 
@@ -60,11 +62,19 @@ const CollapseFab = styled(Fab)(({ theme }) => ({
     backgroundColor: '#7289DA',
     opacity: 0.7,
   },
-})); 
+}));
 
-export default function ListLayout(props: { children: JSX.Element, index: number, onSearch?: (query: string)=>void }) {
+const StyledTab = styled(Tab)(({ theme }) => ({
+  '&.Mui-selected': {
+    color: '#adb6ff',
+  },
+    transition: 'all 0.5s'
+}));
+
+export default function ListLayout(props: { children: JSX.Element, onSearch?: (query: string)=>void, onTapChanged?: (value: any) => void}) {
   const [shown, setShown] = useState(true);
   const [query, setQuery] = useState('');
+  const [index, setIndex] = useState(0);
 
   const handleCollapse = async (event: React.MouseEvent) => {
     setShown(prevState => !prevState);
@@ -76,14 +86,21 @@ export default function ListLayout(props: { children: JSX.Element, index: number
 
   const handleSubmit = async (event: React.KeyboardEvent) => {
     if(event.code === "Enter") {
-      console.log(props);
+      if(!query) return;
+      setIndex(2);
+      if(props.onTapChanged) props.onTapChanged(2);
       if(props.onSearch) props.onSearch(query);
     }
   }
 
+  const handleTapChanged = (event: React.SyntheticEvent, value: any) => {
+    setIndex(value);
+    if(props.onTapChanged) props.onTapChanged(value);
+  }
+
   return (
     <Layout header={
-      <>
+      <Box>
         <Collapse in={shown} sx={{backgroundColor: '#7289DA',}}>
           <Toolbar sx={{ml: '20px'}}>
             <Search>
@@ -98,18 +115,18 @@ export default function ListLayout(props: { children: JSX.Element, index: number
                 onKeyDown={handleSubmit}
               />
             </Search>
-            <Tabs value={props.index} aria-label="basic tabs example">
-              <Link href='/voteList'><Tab label="추천" /></Link>
-              <Link href='/recentList'><Tab label="최신" /></Link>
-              <Link href='/searchList'><Tab label="검색" /></Link>
+            <Tabs value={index} onChange={handleTapChanged}>
+              <StyledTab label="추천" />
+              <StyledTab label="최신" />
+              <StyledTab label="검색" />
             </Tabs>
           </Toolbar>
         </Collapse>
 
-        <CollapseFab size='medium' onClick={handleCollapse} sx={[shown && {boxShadow: 'none'}]} >
+        <CollapseFab size='medium' shown={shown} onClick={handleCollapse} >
           {shown ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </CollapseFab>
-      </>
+      </Box>
     }>
       {props.children}
     </Layout>

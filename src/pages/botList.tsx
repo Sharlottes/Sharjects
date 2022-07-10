@@ -1,40 +1,51 @@
-import { Stack, Divider } from "@mui/material";
-import { useState } from "react";
+
+import { Divider, Stack } from '@mui/material';
+
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useInfiniteQuery } from "react-query";
-import { DiriAPI, DiriAPIBotlist } from "../@type";
-import BotInfo from "./components/BotInfo";
-import ListLayout from "./components/ListLayout";
+import React, { useState } from "react";
 
-export default function SearchBotList(props: {query: string}) {
-  const [query, setQuery] = useState(props.query);
+import { DiriAPI, DiriAPIBotlist } from '../@type';
+import { ListLayout, BotInfo } from './components';
+
+export default function BotListPage() {
+  const [query, setQuery] = useState("");
+  const [tap, setTap] = useState(0);
 
   const { data, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery<DiriAPI<DiriAPIBotlist>, unknown, DiriAPI<DiriAPIBotlist>, string>({
     queryKey: "infiniteCharacters",
-    queryFn: async ({ pageParam = 1, meta }) => {
-      const result = await fetch(`/api/v2/search/bots?query=${query}&page=${pageParam}`);
+    queryFn: async ({ pageParam = 1 }) => {
+      const result = await fetch(
+        tap === 0
+          ? `/api/v2/list/bots/votes?page=${pageParam}`
+          : tap === 1
+            ? `/api/v2/list/bots/new`
+            : tap === 2 
+              ? `/api/v2/search/bots?query=${query}&page=${pageParam}`
+              : `error`
+      );
 
       console.log(result);
-      console.log(meta);
 
       return result.json();
     },
     getNextPageParam: (lastPage: any, pages: string | any[]) => {
-      if(pages.length < lastPage.data?.totalPage ?? 0) return pages.length + 1;
-    },
-    meta: {
-      query: query
+      if(tap !== 1 && pages.length < (lastPage.data?.totalPage ?? 0)) return pages.length + 1;
     }
   });
 
   const handleSearch = (query: string) => {
     setQuery(query);
-    console.log(query);
-    setTimeout(()=>refetch(), 1000);
+    setTimeout(()=>refetch(), 100);
+  }
+
+  const handleTapChanged = (value: any) => {
+    setTap(value);
+    setTimeout(()=>refetch(), 100);
   }
 
   return (
-    <ListLayout index={2} onSearch={handleSearch}>
+    <ListLayout onSearch={handleSearch} onTapChanged={handleTapChanged}>
       <InfiniteScroll
         dataLength={(data?.pages.length ?? 0) * 20}
         next={fetchNextPage}
@@ -47,8 +58,7 @@ export default function SearchBotList(props: {query: string}) {
           justifyContent="flex-start" 
           alignItems="stretch" 
           divider={<Divider flexItem />}
-          m='20px'
-          mt='80px'
+          m='20px' mt='80px'
         >
           {data?.pages.map((data) => data.data?.data.map(bot => (<BotInfo bot={bot}/>)))}
         </Stack>
