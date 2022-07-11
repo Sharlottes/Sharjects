@@ -6,7 +6,8 @@ import { useInfiniteQuery } from "react-query";
 import React, { useState } from "react";
 
 import { DiriAPI, DiriAPIBotlist } from '../@type';
-import { ListLayout, BotInfo } from './components';
+import ListLayout from './components/ListLayout';
+import BotInfo from './components/BotInfo';
 
 export default function BotListPage() {
   const [query, setQuery] = useState("");
