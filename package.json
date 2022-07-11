@@ -15,6 +15,9 @@
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
     "gh-pages": "^4.0.0",
     "koreanbots": "^3.2.1",
     "markdown-to-jsx": "^7.1.7",
@@ -56,6 +59,7 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "@svgr/webpack": "^6.2.1"
+    "@svgr/webpack": "^6.2.1",
+    "@types/cors": "^2.8.12"
   }
 }

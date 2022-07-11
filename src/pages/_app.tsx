@@ -7,11 +7,12 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import theme from '../theme';
 import createEmotionCache from '../createEmotionCache';
 import { QueryClient, QueryClientProvider } from 'react-query'
-import './styles.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css'; 
+import '@fontsource/roboto/700.css';
+import 'assets/fonts/UniSans.css';
+import 'assets/styles/global.css';
 
  // Create a client
  const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ export default function MyApp(props: MyAppProps) {
     <QueryClientProvider client={queryClient}>
       <CacheProvider value={emotionCache}>
         <Head>
+          <title>React App</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
         <ThemeProvider theme={theme}>

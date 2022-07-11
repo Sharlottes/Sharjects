@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { Component, ReactNode } from 'react';
-import discord from './discord.svg';
-import setting from './setting.svg';
-import Head from "next/head";
+import { Grid, Stack, Typography } from '@mui/material';
+import { SettingIcon, DiscordIcon } from 'src/assets/icons';
+import { styled } from '@mui/system';
 
 const links: {url: string, name: string}[] = [];
 (()=>{
@@ -12,29 +12,37 @@ const links: {url: string, name: string}[] = [];
   addLink('/', 'Home');
   addLink('/about', 'About');
   addLink('/botList', 'Bots');
-  addLink('/serverList', 'Servers');
 })();
+
+const StyledTypography = styled(Typography)(() => ({
+  fontFamily: 'uni-sans-heavy',
+  textAlign: 'center',
+  textDecoration: 'none',
+  color: 'black',
+  transition: 'all 0.5s',
+  margin: '5px',
+  padding: '5px',
+  '&:hover': {
+    backgroundColor: '#a7abd7'
+  }
+}));
 
 class Header extends Component {
   render(): ReactNode {
     return (
-      <>
-        <Head>
-          <title>React App</title>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head>
-        <div className='header'>
-          <dl className='logo'>
-            <img src={(discord as unknown as {src: string}).src} alt="discord" />
-          </dl>
-          <dl className='navigator'>
-            {links.map((link, i) => <Link href={link.url} key={i}>{link.name}</Link>)}
-          </dl>
-          <dl className='icons'>
-            <img src={(setting as unknown as {src: string}).src} alt="setting" />
-          </dl>
-        </div>
-      </>
+      <Grid container direction="row" justifyContent="space-between" alignItems="center" sx={{width:'100%', borderBottom: '2px solid black', boxShadow: '0px 0px 5px', pt: '10px'}}>
+        <Grid item sx={{transform: 'scale(2)'}} ml='20px'><DiscordIcon /></Grid>
+        <Grid item xs={10}>
+          <Stack direction="row">
+            {links.map((link, i) => 
+              <Link href={link.url} key={i}>
+                <StyledTypography className='.noselect'>{link.name}</StyledTypography>
+              </Link>
+            )}
+          </Stack>
+        </Grid>
+        <Grid item mr='10px'><SettingIcon /></Grid>
+      </Grid>
     )
   }
 }
