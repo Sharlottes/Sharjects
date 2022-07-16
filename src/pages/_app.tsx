@@ -4,9 +4,10 @@ import { AppProps } from 'next/app';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import theme from '../theme';
-import createEmotionCache from '../createEmotionCache';
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from 'react-query';
+import theme from 'src/theme';
+import createEmotionCache from 'src/createEmotionCache';
+
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -14,8 +15,8 @@ import '@fontsource/roboto/700.css';
 import 'assets/fonts/UniSans.css';
 import 'assets/styles/global.css';
 
- // Create a client
- const queryClient = new QueryClient();
+// Create a client
+const queryClient = new QueryClient();
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();

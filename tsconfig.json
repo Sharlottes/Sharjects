@@ -1,35 +1,34 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "target": "es6",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "jsx": "preserve",
     "baseUrl": "./",
     "paths": {
       "src/*": ["src/*"],
-      "assets/*": ["assets/*"]
+      "assets/*": ["assets/*"],
+      "models/*": ["models/*"],
+      "controllers/*": ["controllers/*"]
     },
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "strict": true,
+    "noEmit": true,
     "allowJs": true,
+    "incremental": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "preserve",
-    "incremental": true
+    "resolveJsonModule": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["dist", ".next", "out", "next.config.js", "node_modules"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }
