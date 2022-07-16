@@ -31,9 +31,22 @@ const StyledTypography = styled(Typography)(() => ({
   }
 }));
 
+function IconTabs() {
+  return (
+    <Stack direction="row" sx={{
+      "& .MuiSvgIcon-root": { mr: '4px', ml: '4px'},
+      "& :hover": {color: 'black'},
+      color: 'gray'
+    }}>
+      <Link href='/login'><AccountCircleIcon /></Link>
+      <SettingIcon />
+    </Stack>
+  )
+}
+
 function Header() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [isOverlap, setOverlap] = React.useState(false);
+  const [overlapStep, setOverlapStep] = React.useState(0); //0: none, 1: navigator, 2: icons
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
@@ -42,22 +55,25 @@ function Header() {
     const target = document.getElementById('navigator') as HTMLElement;
     const io = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
-        setOverlap(entry.intersectionRatio < 0.9);
+        setOverlapStep(entry.intersectionRatio < 0.95 ? 2 : entry.intersectionRatio < 0.99 ? 1 : 0);
+        if(entry.intersectionRatio >= 0.99) setAnchorEl(null);
       })
     }, {
       root: null,
       rootMargin: '0px',
-      threshold: [0, 0.1, 0.9, 1]
+      threshold: [0, 0.95, 0.99, 1]
     });
     io.observe(target);
     return () => io.unobserve(target);
-  }, [isOverlap]);
+  }, [overlapStep]);
 
-  return (
-    <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{width:'100%', borderBottom: '2px solid black', boxShadow: '0px 0px 5px', pt: '10px'}}>
-      <Box sx={{transform: 'scale(2)', mr:'10px'}} ml='20px'><DiscordIcon /></Box>
-      <Stack direction="row" id='navigator' sx={{minWidth: '200px'}}>
-        {isOverlap 
+  return (      
+    <Stack direction="row" alignItems="center" sx={{width:'100%', borderBottom: '2px solid black', boxShadow: '0px 0px 5px', pt: '10px'}}>
+    <Box sx={{transform: 'scale(2)', mr:'10px'}} ml='20px'><DiscordIcon /></Box>
+    <Stack direction="row" id='navigator' justifyContent="space-between" alignItems="center" sx={{width:'100%'}}>
+
+      <Stack direction="row" sx={{minWidth: '200px'}}>
+        {overlapStep > 0 
           ? <IconButton onClick={handleOpen}><MenuIcon /></IconButton> 
           : links.map((link, i) => 
             <Link href={link.url} key={i}>
@@ -66,17 +82,7 @@ function Header() {
           )
         }
       </Stack>
-      <Box sx={{
-        "& .MuiSvgIcon-root": {
-          mr: '4px', ml: '4px'
-        },
-        minWidth: '100px'
-      }}>
-        <Stack direction="row">
-          <Link href='/login'><IconButton><AccountCircleIcon /></IconButton></Link>
-          <IconButton><SettingIcon /></IconButton>
-        </Stack>
-      </Box>
+      <IconTabs />
 
       <Menu 
         anchorEl={anchorEl} 
@@ -120,7 +126,9 @@ function Header() {
             </Link>
           </MenuItem>
         )}
+        {overlapStep === 2 && <MenuItem><IconTabs /></MenuItem>}
       </Menu>
+    </Stack>
     </Stack>
   );
 }

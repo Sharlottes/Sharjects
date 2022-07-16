@@ -1,6 +1,7 @@
 import express from 'express';
 import next from 'next';
 import botListController from '../controllers/botlistController';
+import accountController from '../controllers/accountController';
 import mongoose from 'mongoose';
 
 const port = parseInt(process.env.PORT ?? '3000', 10);
@@ -13,10 +14,15 @@ app.prepare().then(() => {
 
   server.use(express.urlencoded({ extended: true }), express.json());
 
-  server.get('/api/', botListController.readAll);
-  server.get('/api/:botId', botListController.read);
-  server.post('/api/', botListController.write);
-  server.delete('/api/:botId', botListController.delete);
+  server.get('/api/bot/', botListController.readAll);
+  server.get('/api/bot/:botId', botListController.read);
+  server.post('/api/bot/', botListController.write);
+  server.delete('/api/bot/:botId', botListController.delete);
+
+  server.get('/api/account/', accountController.readAll);
+  server.get('/api/account/:accountId', accountController.read);
+  server.post('/api/account/', accountController.write);
+  server.delete('/api/account/:accountId', accountController.delete);
 
   server.all('*', (req, res) => {
     return handle(req, res)

@@ -10,9 +10,10 @@ import ListLayout from './components/ListLayout';
 import BotInfo from './components/BotInfo';
 
 export default function BotListPage() {
+  return <></>;
+  /*
   const [query, setQuery] = useState("");
   const [tap, setTap] = useState(0);
-/*
   const { data, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery<DiriAPI<DiriAPIBotlist>, unknown, DiriAPI<DiriAPIBotlist>, string>({
     queryKey: "infiniteCharacters",
     queryFn: async ({ pageParam = 1 }) => {
@@ -25,7 +26,6 @@ export default function BotListPage() {
               ? `/api/v2/search/bots?query=${query}&page=${pageParam}`
               : `error`
       );
-*/
       console.log(result);
 
       return result.json();
@@ -66,4 +66,5 @@ export default function BotListPage() {
       </InfiniteScroll>
     </ListLayout>
   )
+  */
 }
