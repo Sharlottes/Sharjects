@@ -1,5 +1,5 @@
 import { Stack, Avatar, Grid, Typography, Chip, Button, Badge, styled } from "@mui/material";
-import { Bot } from "koreanbots";
+
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DnsIcon from '@mui/icons-material/Dns';
 import ShareIcon from '@mui/icons-material/Share';
@@ -35,7 +35,11 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
   },
 }));
+export default function BotInfo(){
+  return(<></>);
+}
 
+/*
 export default function BotInfo(props: {bot: Bot}) {
   const bot = props.bot;
   return bot && (
@@ -94,3 +98,4 @@ export default function BotInfo(props: {bot: Bot}) {
     </Stack>
   )
 }
+*/
