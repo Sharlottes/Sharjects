@@ -1,8 +1,8 @@
-import { AppBar, Fab, Toolbar } from '@mui/material';
 import { ScriptProps } from 'next/script';
+import { AppBar, Fab, Toolbar } from '@mui/material';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Header from './Header';
 import ScrollTop from './ScrollTop';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 interface LayoutProps extends ScriptProps {
   header?: JSX.Element
@@ -14,12 +14,12 @@ const Layout: React.FC<LayoutProps> = (props) =>
       <Header />
       {props.header}
     </AppBar>
-    <Toolbar id="back-to-top-anchor" />
+    <Toolbar id='back-to-top-anchor' />
     <div>
       {props.children}
     </div>
     <ScrollTop {...props}>
-      <Fab size="small" aria-label="scroll back to top">
+      <Fab size='small' aria-label='scroll back to top'>
         <KeyboardArrowUpIcon />
       </Fab>
     </ScrollTop>

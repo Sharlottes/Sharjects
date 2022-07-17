@@ -19,22 +19,20 @@ const accountSchema = new Schema<IAccount>(
     password: { type: String, required: true }
   },
   {
+    statics: {
+      findAll() {
+        return this.find();
+      },
+      findById(id: string) {
+        return this.findOneAndUpdate({ id });
+      },
+      deleteById(id: string) {
+        return this.remove({ id });
+      },
+    },
     timestamps: true,
-    collection: 'accounts'
+    collection: 'accounts',
   }
 );
-
-
-accountSchema.statics.findAll = function () {
-  return this.find();
-}
-
-accountSchema.statics.findById = function (id: string) {
-  return this.findOneAndUpdate({ id });
-}
-
-accountSchema.statics.deleteById = function (id: string) {
-  return this.remove({ id });
-}
 
 export default model<IAccount, IAccountModel>('Account', accountSchema);

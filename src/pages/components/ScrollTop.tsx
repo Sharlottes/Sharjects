@@ -1,4 +1,4 @@
-import { useScrollTrigger, Fade, Box } from "@mui/material";
+import { useScrollTrigger, Fade, Box } from '@mui/material';
 
 interface ScrollTopProps {
   children: React.ReactElement;
@@ -11,21 +11,19 @@ const ScrollTop: React.FC<ScrollTopProps> = ({ children }) => {
     threshold: 100,
   });
 
-  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    const anchor = event.currentTarget.ownerDocument.querySelector('#back-to-top-anchor');
+  const handleClick = (evt: React.MouseEvent<HTMLDivElement>) => {
+    const anchor = evt.currentTarget.ownerDocument.querySelector('#back-to-top-anchor');
 
-    if (anchor !== null) {
-      anchor.scrollIntoView({
-        block: 'center',
-      });
-    }
+    anchor?.scrollIntoView({
+      block: 'center',
+    });
   };
 
   return (
     <Fade in={trigger}>
       <Box
         onClick={handleClick}
-        role="presentation"
+        role='presentation'
         sx={{ position: 'fixed', bottom: 16, right: 16 }}
       >
         {children}

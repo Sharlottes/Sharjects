@@ -1,9 +1,9 @@
 
 import { Divider, Stack } from '@mui/material';
 
-import InfiniteScroll from "react-infinite-scroll-component";
-import { useInfiniteQuery } from "react-query";
-import React, { useState } from "react";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useInfiniteQuery } from 'react-query';
+import React, { useState } from 'react';
 
 import { DiriAPI, DiriAPIBotlist } from '../@type';
 import ListLayout from './components/ListLayout';
@@ -12,10 +12,10 @@ import BotInfo from './components/BotInfo';
 export default function BotListPage() {
   return <></>;
   /*
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [tap, setTap] = useState(0);
   const { data, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery<DiriAPI<DiriAPIBotlist>, unknown, DiriAPI<DiriAPIBotlist>, string>({
-    queryKey: "infiniteCharacters",
+    queryKey: 'infiniteCharacters',
     queryFn: async ({ pageParam = 1 }) => {
       const result = await fetch(
         tap === 0
@@ -31,7 +31,7 @@ export default function BotListPage() {
       return result.json();
     },
     getNextPageParam: (lastPage: any, pages: string | any[]) => {
-      if(tap !== 1 && pages.length < (lastPage.data?.totalPage ?? 0)) return pages.length + 1;
+      if (tap !== 1 && pages.length < (lastPage.data?.totalPage ?? 0)) return pages.length + 1;
     }
   });
 
@@ -56,8 +56,8 @@ export default function BotListPage() {
         <Stack 
           direction='column' 
           spacing={2} 
-          justifyContent="flex-start" 
-          alignItems="stretch" 
+          justifyContent='flex-start' 
+          alignItems='stretch' 
           divider={<Divider flexItem />}
           m='20px' mt='80px'
         >

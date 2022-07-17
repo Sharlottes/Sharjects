@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import React from 'react';
 import { Box, Stack, Typography, IconButton } from '@mui/material';
-import { SettingIcon, DiscordIcon } from 'src/assets/icons';
 import { styled } from '@mui/system';
 import { Menu } from '@mui/material';
 import { MenuItem } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
+import { SettingIcon, DiscordIcon } from 'src/assets/icons';
 import { typeAsserted } from 'src/utils/typeAsserted'
 
 // js는 ; 안 써도 되는데요
@@ -79,8 +79,8 @@ function Header() {
 
   return (
     <Stack
-      direction="row"
-      alignItems="center"
+      direction='row'
+      alignItems='center'
       sx={{
         width: '100%',
         borderBottom: '2px solid black',
@@ -93,10 +93,10 @@ function Header() {
       </Box>
 
       <Stack
-        direction="row"
+        direction='row'
         id='navigator'
-        justifyContent="space-between"
-        alignItems="center"
+        justifyContent='space-between'
+        alignItems='center'
         sx={{ width: '100%' }}
       >
         <Stack direction="row" sx={{ minWidth: '200px' }}>

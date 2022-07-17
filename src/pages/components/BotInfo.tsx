@@ -1,4 +1,4 @@
-import { Stack, Avatar, Grid, Typography, Chip, Button, Badge, styled } from "@mui/material";
+import { Stack, Avatar, Grid, Typography, Chip, Button, Badge, styled } from '@mui/material';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DnsIcon from '@mui/icons-material/Dns';
@@ -35,7 +35,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
   },
 }));
-export default function BotInfo(){
+export default function BotInfo() {
   return (<></>);
 }
 
@@ -50,13 +50,13 @@ export default function BotInfo(props: {bot: Bot}) {
       sx={{backgroundImage: `url(${bot.bg})`}}
     >
       <StyledBadge
-        overlap="circular"
+        overlap='circular'
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        variant="dot"
+        variant='dot'
         color={bot.status === 'online' ? 'success' : bot.status === 'idle' ? 'warning' : bot.status === 'streaming' ? 'secondary' : bot.status === 'dnd' ? 'error' : 'default' }
         sx={{width: 40, height: 40}}
       >
-        <Avatar src={(bot.avatar ? `https://cdn.discordapp.com/avatars/${bot.id}/${bot.avatar}.png` : "https://styles.redditmedia.com/t5_3b1wr/styles/communityIcon_qdbg6bz0bud71.png?width=256&s=ccf3d06bf3b8056f312f207c7ce906cf69af6efd")}/>
+        <Avatar src={(bot.avatar ? `https://cdn.discordapp.com/avatars/${bot.id}/${bot.avatar}.png` : 'https://styles.redditmedia.com/t5_3b1wr/styles/communityIcon_qdbg6bz0bud71.png?width=256&s=ccf3d06bf3b8056f312f207c7ce906cf69af6efd')}/>
       </StyledBadge>
 
       <Stack 
@@ -66,31 +66,31 @@ export default function BotInfo(props: {bot: Bot}) {
       >
         <Grid container spacing={0.5}>
           <Grid item display='flex'>
-            <Typography variant="h5" noWrap>{bot.name}</Typography>
-            <Typography variant="body2" pt='10px'>{`#${bot.tag}`}</Typography>
+            <Typography variant='h5' noWrap>{bot.name}</Typography>
+            <Typography variant='body2' pt='10px'>{`#${bot.tag}`}</Typography>
           </Grid>
           <Grid item>
             <Grid container spacing={0.5}>
             {bot.category.slice(0, 5)
-              .map((category: string, i: number) => <Grid item key={i} ><Chip label={`#${category}`} variant="outlined" color="primary" /></Grid>)
-              .concat(bot.category.length > 5 ? <Grid item key="more..." ><Chip label={`+${bot.category.length-5}...`} variant="outlined" color="info" /></Grid> : <div key='none'></div>)}
+              .map((category: string, i: number) => <Grid item key={i} ><Chip label={`#${category}`} variant='outlined' color='primary' /></Grid>)
+              .concat(bot.category.length > 5 ? <Grid item key='more...' ><Chip label={`+${bot.category.length-5}...`} variant='outlined' color='info' /></Grid> : <div key='none'></div>)}
             </Grid>
           </Grid>
         </Grid>
 
         <Grid container>
-          <Grid item mr='5px'><Chip label={`${bot.votes}`} icon={<FavoriteIcon />} size="small" /></Grid>
-          {bot.servers ? <Grid item mr='5px'><Chip label={`${bot.servers}`} icon={<DnsIcon />} size="small" /></Grid> : <></>}
-          {bot.shards ? <Grid item mr='5px'><Chip label={`${bot.shards}`} icon={<ShareIcon />} size="small" /></Grid> : <></>}
-          <Grid item mr='5px'><Chip label={`${bot.lib}`} size="small" /></Grid>
-          <Grid item><Chip label={`${bot.prefix}`} size="small" /></Grid>
+          <Grid item mr='5px'><Chip label={`${bot.votes}`} icon={<FavoriteIcon />} size='small' /></Grid>
+          {bot.servers ? <Grid item mr='5px'><Chip label={`${bot.servers}`} icon={<DnsIcon />} size='small' /></Grid> : <></>}
+          {bot.shards ? <Grid item mr='5px'><Chip label={`${bot.shards}`} icon={<ShareIcon />} size='small' /></Grid> : <></>}
+          <Grid item mr='5px'><Chip label={`${bot.lib}`} size='small' /></Grid>
+          <Grid item><Chip label={`${bot.prefix}`} size='small' /></Grid>
         </Grid>
         
-        {bot.vanity ? <Chip label={`https://discord.gg/${bot.vanity}`} variant="outlined" color="info" size="small" onClick={() => window.open(`https://discord.gg/${bot.vanity}`, '_blank')} icon={<LinkIcon />} /> : <></>}
+        {bot.vanity ? <Chip label={`https://discord.gg/${bot.vanity}`} variant='outlined' color='info' size='small' onClick={() => window.open(`https://discord.gg/${bot.vanity}`, '_blank')} icon={<LinkIcon />} /> : <></>}
         
         <Grid container>
-          {bot.discord ? <Grid item mr='12px'><Button variant="outlined" color="primary" startIcon={<AddIcon />} href={`https://discord.gg/${bot.discord}`}>Server Join</Button></Grid> : <></>}
-          {bot.url ? <Grid item><Button variant="outlined" color="secondary" startIcon={<AddIcon />} href={bot.url}>Bot Invite</Button></Grid> : <></>}
+          {bot.discord ? <Grid item mr='12px'><Button variant='outlined' color='primary' startIcon={<AddIcon />} href={`https://discord.gg/${bot.discord}`}>Server Join</Button></Grid> : <></>}
+          {bot.url ? <Grid item><Button variant='outlined' color='secondary' startIcon={<AddIcon />} href={bot.url}>Bot Invite</Button></Grid> : <></>}
         </Grid>
 
         <Typography mt='12px' pr='24px'>{bot.intro}</Typography>

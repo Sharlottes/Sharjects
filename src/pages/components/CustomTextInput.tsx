@@ -1,6 +1,6 @@
-import { VisibilityOff, Visibility } from "@mui/icons-material";
-import { FormControl, InputLabel, Input, InputAdornment, IconButton, Typography } from "@mui/material";
-import React from "react";
+import React from 'react';
+import { VisibilityOff, Visibility } from '@mui/icons-material';
+import { FormControl, InputLabel, Input, InputAdornment, IconButton, Typography } from '@mui/material';
 
 interface CustomTextInputProps {
   handleChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,7 +19,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   const [show, setShow] = React.useState(false);
 
   return (
-    <FormControl variant="standard" disabled={!enable}>
+    <FormControl variant='standard' disabled={!enable}>
       <InputLabel htmlFor={`input-${name}`}>{name}</InputLabel>
       <Input
         error={!value}
@@ -32,9 +32,9 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
         onChange={handleChange}
         endAdornment={
           <>{privated &&
-            <InputAdornment position="end">
+            <InputAdornment position='end'>
               <IconButton
-                aria-label="toggle password visibility"
+                aria-label='toggle password visibility'
                 onClick={() => setShow(prev => !prev)}
                 onMouseDown={evt => evt.preventDefault()}
               >
@@ -44,7 +44,9 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
           }</>
         }
       />
-      {!value && <Typography variant='caption' sx={{ ml: '10px', color: 'red' }}>input required</Typography>}
+      {!value && (
+        <Typography variant='caption' sx={{ ml: '10px', color: 'red' }}>input required</Typography>
+      )}
     </FormControl>
   )
 }
