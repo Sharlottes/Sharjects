@@ -25,7 +25,7 @@ interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-export default function MyApp(props: MyAppProps) {
+const MyApp: React.FC<MyAppProps> = (props: MyAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
     <QueryClientProvider client={queryClient}>
@@ -42,4 +42,6 @@ export default function MyApp(props: MyAppProps) {
       </CacheProvider>
     </QueryClientProvider>
   );
-}
+};
+
+export default MyApp;

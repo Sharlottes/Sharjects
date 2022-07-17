@@ -36,7 +36,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 export default function BotInfo(){
-  return(<></>);
+  return (<></>);
 }
 
 /*
@@ -86,7 +86,7 @@ export default function BotInfo(props: {bot: Bot}) {
           <Grid item><Chip label={`${bot.prefix}`} size="small" /></Grid>
         </Grid>
         
-        {bot.vanity ? <Chip label={`https://discord.gg/${bot.vanity}`} variant="outlined" color="info" size="small" onClick={()=>window.open(`https://discord.gg/${bot.vanity}`, '_blank')} icon={<LinkIcon />} /> : <></>}
+        {bot.vanity ? <Chip label={`https://discord.gg/${bot.vanity}`} variant="outlined" color="info" size="small" onClick={() => window.open(`https://discord.gg/${bot.vanity}`, '_blank')} icon={<LinkIcon />} /> : <></>}
         
         <Grid container>
           {bot.discord ? <Grid item mr='12px'><Button variant="outlined" color="primary" startIcon={<AddIcon />} href={`https://discord.gg/${bot.discord}`}>Server Join</Button></Grid> : <></>}

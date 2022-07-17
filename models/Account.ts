@@ -2,7 +2,7 @@ import { Schema, Document, Model, QueryWithHelpers, HydratedDocument, model } fr
 
 type IAccountQuery = QueryWithHelpers<any, HydratedDocument<IAccount, {}, {}>, {}, IAccount>;
 
-interface IAccount extends Document {
+export interface IAccount extends Document {
   id: string;
   password: string;
 }

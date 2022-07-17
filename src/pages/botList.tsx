@@ -37,12 +37,12 @@ export default function BotListPage() {
 
   const handleSearch = (query: string) => {
     setQuery(query);
-    setTimeout(()=>refetch(), 100);
+    setTimeout(() => refetch(), 100);
   }
 
   const handleTapChanged = (value: any) => {
     setTap(value);
-    setTimeout(()=>refetch(), 100);
+    setTimeout(() => refetch(), 100);
   }
 
   return (

@@ -5,8 +5,8 @@ class AccountController {
   public async readAll(req: Request, res: Response) {
     const accounts = await Account.findAll();
     try {
-      if (!accounts.length) res.status(404).send({ err: 'Bots not found' });
-      else res.send(`find successfully: ${accounts}`);
+      if (!accounts.length) res.status(404).send({ err: 'Account not found' });
+      else res.send(accounts);
     } catch (err: any) {
       res.status(500).send(err);
     }
@@ -14,9 +14,10 @@ class AccountController {
 
   public async read(req: Request<{ id: string }>, res: Response) {
     const accounts = await Account.findById(req.params.id);
+    console.log(req.params.id);
     try {
-      if (!accounts.length) res.status(404).send({ err: 'Bots not found' });
-      else res.send(`find successfully: ${accounts}`);
+      if (!accounts.length) res.status(404).send({ err: 'Account not found' });
+      else res.send(accounts);
     } catch (err: any) {
       res.status(500).send(err);
     }
