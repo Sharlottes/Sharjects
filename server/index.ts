@@ -1,6 +1,5 @@
 import express from 'express';
 import next from 'next';
-import botListController from '../controllers/botlistController';
 import accountController from '../controllers/accountController';
 import mongoose from 'mongoose';
 
@@ -14,18 +13,14 @@ app.prepare().then(() => {
 
   server.use(express.urlencoded({ extended: true }), express.json());
 
-  server.get('/api/bot/', botListController.readAll);
-  server.get('/api/bot/:botId', botListController.read);
-  server.post('/api/bot/', botListController.write);
-  server.delete('/api/bot/:botId', botListController.delete);
-
   server.get('/api/account/', accountController.readAll);
-  server.get('/api/account/:accountId', accountController.read);
+  server.get('/api/account/:userId', accountController.read);
   server.post('/api/account/', accountController.write);
-  server.delete('/api/account/:accountId', accountController.delete);
+  server.delete('/api/account/:userId', accountController.delete);
 
   server.all('*', (req, res) => {
     return handle(req, res)
+    // 세미콜론을 붙이거나 all('*', (req, res) => handle(req, res))로 고치거나 all('*', handle)로 고치거나
   });
 
   server.listen(port, () => {

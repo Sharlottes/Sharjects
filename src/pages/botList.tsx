@@ -6,8 +6,8 @@ import { useInfiniteQuery } from 'react-query';
 import React, { useState } from 'react';
 
 import { DiriAPI, DiriAPIBotlist } from '../@type';
-import ListLayout from './components/ListLayout';
-import BotInfo from './components/BotInfo';
+import ListLayout from '../components/ListLayout';
+import BotInfo from '../components/BotInfo';
 
 export default function BotListPage() {
   return <></>;
@@ -30,7 +30,7 @@ export default function BotListPage() {
 
       return result.json();
     },
-    getNextPageParam: (lastPage: any, pages: string | any[]) => {
+    getNextPageParam: (lastPage: any, pages: string | Array<any>) => {
       if (tap !== 1 && pages.length < (lastPage.data?.totalPage ?? 0)) return pages.length + 1;
     }
   });

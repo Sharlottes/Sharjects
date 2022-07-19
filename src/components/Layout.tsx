@@ -9,20 +9,21 @@ interface LayoutProps extends ScriptProps {
 }
 
 const Layout: React.FC<LayoutProps> = (props) =>
-  <div>
+  <>
     <AppBar sx={{ 'backgroundColor': 'white' }}>
       <Header />
       {props.header}
     </AppBar>
+
     <Toolbar id='back-to-top-anchor' />
-    <div>
-      {props.children}
-    </div>
+
+    {props.children}
+
     <ScrollTop {...props}>
       <Fab size='small' aria-label='scroll back to top'>
         <KeyboardArrowUpIcon />
       </Fab>
     </ScrollTop>
-  </div>
+  </>
 
 export default Layout;

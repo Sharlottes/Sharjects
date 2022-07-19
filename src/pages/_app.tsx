@@ -7,6 +7,7 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import theme from 'src/theme';
 import createEmotionCache from 'src/createEmotionCache';
+import { SnackbarProvider } from 'notistack'; // ??
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -14,6 +15,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import 'assets/fonts/UniSans.css';
 import 'assets/styles/global.css';
+import UserContextProvider from 'src/components/providers/UserContextProvider';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -27,6 +29,7 @@ interface MyAppProps extends AppProps {
 
 const MyApp: React.FC<MyAppProps> = (props: MyAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+
   return (
     <QueryClientProvider client={queryClient}>
       <CacheProvider value={emotionCache}>
@@ -37,7 +40,11 @@ const MyApp: React.FC<MyAppProps> = (props: MyAppProps) => {
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <Component {...pageProps} />
+          <UserContextProvider>
+            <SnackbarProvider maxSnack={2}>
+              <Component {...pageProps} />
+            </SnackbarProvider>
+          </UserContextProvider>
         </ThemeProvider>
       </CacheProvider>
     </QueryClientProvider>

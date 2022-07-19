@@ -2,20 +2,23 @@ import { Schema, Document, Model, QueryWithHelpers, HydratedDocument, model } fr
 
 type IAccountQuery = QueryWithHelpers<any, HydratedDocument<IAccount, {}, {}>, {}, IAccount>;
 
-export interface IAccount extends Document {
-  id: string;
+export interface IAccount {
+  userId: string;
   password: string;
+  email: string;
 }
 
-interface IAccountModel extends Model<IAccount> {
+interface IAccountDocument extends IAccount, Document { }
+
+interface IAccountModel extends Model<IAccountDocument> {
   findAll: () => IAccountQuery;
-  findById: (id: string) => IAccountQuery;
-  deleteById: (id: string) => IAccountQuery;
+  findById: (userId: string) => IAccountQuery;
+  deleteById: (userId: string) => IAccountQuery;
 }
 
-const accountSchema = new Schema<IAccount>(
+const accountSchema = new Schema<IAccountDocument>(
   {
-    id: { type: String, required: true },
+    userId: { type: String, required: true },
     password: { type: String, required: true }
   },
   {
@@ -23,11 +26,11 @@ const accountSchema = new Schema<IAccount>(
       findAll() {
         return this.find();
       },
-      findById(id: string) {
-        return this.findOneAndUpdate({ id });
+      findById(userId: string) {
+        return this.findOneAndUpdate({ userId });
       },
-      deleteById(id: string) {
-        return this.remove({ id });
+      deleteById(userId: string) {
+        return this.remove({ userId });
       },
     },
     timestamps: true,
@@ -35,4 +38,4 @@ const accountSchema = new Schema<IAccount>(
   }
 );
 
-export default model<IAccount, IAccountModel>('Account', accountSchema);
+export default model<IAccountDocument, IAccountModel>('Account', accountSchema);

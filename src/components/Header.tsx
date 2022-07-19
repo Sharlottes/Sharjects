@@ -1,20 +1,18 @@
 import Link from 'next/link';
+import Router from 'next/router';
 import React from 'react';
-import { Box, Stack, Typography, IconButton } from '@mui/material';
+
+import { Box, Stack, Typography, IconButton, Avatar, Menu, MenuItem, ListItemIcon } from '@mui/material';
 import { styled } from '@mui/system';
-import { Menu } from '@mui/material';
-import { MenuItem } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
-import { SettingIcon, DiscordIcon } from 'src/assets/icons';
-import { typeAsserted } from 'src/utils/typeAsserted'
+import Logout from '@mui/icons-material/Logout';
 
-// js는 ; 안 써도 되는데요
-// 근데 안 쓴 코드를 작성하다보면 마음이 바뀌실수도 있음
-// 제가 그랬거든요 
-//어차피 우리들의 멋진 prettier가 다 해결해줄겁니다..!
-// 강박증이에요
-const links = typeAsserted<[string, string][]>()([
+import { DiscordIcon } from 'src/assets/icons';
+import { typeAsserted } from 'src/utils/typeAsserted';
+import UserContext from 'src/contexts/UserContext';
+
+const links = typeAsserted<Array<[string, string]>>()([
   ['/', 'Home'],
   ['/about', 'About'],
   ['/botList', 'Bots'],
@@ -36,7 +34,7 @@ const StyledTypography = styled(Typography)(() => ({
   },
 }));
 
-const IconTabs: React.FC = () =>
+const IconTabs: React.FC<{ onClick: (evt: React.MouseEvent<HTMLElement>) => void }> = ({ onClick }) =>
   <Stack
     direction='row'
     sx={{
@@ -46,20 +44,91 @@ const IconTabs: React.FC = () =>
       color: 'gray',
     }}
   >
-    <Link href='/login'>
+    <IconButton onClick={onClick}>
       <AccountCircleIcon />
-    </Link>
+    </IconButton>
 
-    {/*TODO: make setting page */}
-    <SettingIcon />
+    {/*TODO: make setting page 
+      <SettingIcon />
+    */}
+
   </Stack>
+
+const Profile: React.FC = () => {
+  const [profileAnchorEl, setProfileAnchorEl] = React.useState<HTMLElement | null>(null);
+  const { setLoggedIn, loggedIn } = React.useContext(UserContext);
+  const handleProfileOpen = (evt: React.MouseEvent<HTMLElement>) => setProfileAnchorEl(evt.currentTarget);
+  const handleProfileClose = () => setProfileAnchorEl(null);
+
+  const handleLog = () => {
+    if (loggedIn) setLoggedIn(false);
+    else Router.push('/login');
+  }
+
+  return (
+    <>
+      <IconTabs onClick={handleProfileOpen} />
+
+      <Menu
+        anchorEl={profileAnchorEl}
+        id='profile-menu'
+        open={Boolean(profileAnchorEl)}
+        onClick={handleProfileClose}
+        onClose={handleProfileClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.32))',
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <Link href='/mypage'>
+          <MenuItem>
+            <Avatar /> Profile
+          </MenuItem>
+        </Link>
+        <MenuItem onClick={handleLog}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          {loggedIn ? "Logout" : "Login"}
+        </MenuItem>
+      </Menu>
+    </>
+  )
+}
 
 function Header() {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+
   const [overlapStep, setOverlapStep] = React.useState(0); //0: none, 1: navigator, 2: icons
+
 
   const handleOpen = (evt: React.MouseEvent<HTMLElement>) => setAnchorEl(evt.currentTarget);
   const handleClose = () => setAnchorEl(null);
+
 
   React.useEffect(() => {
     const target = document.getElementById('navigator') as HTMLElement;
@@ -109,7 +178,7 @@ function Header() {
             )
           }
         </Stack>
-        <IconTabs />
+        <Profile />
 
         <Menu
           anchorEl={anchorEl}
@@ -153,11 +222,6 @@ function Header() {
                   {link.name}
                 </StyledTypography>
               </Link>
-            </MenuItem>
-          )}
-          {overlapStep === 2 && (
-            <MenuItem>
-              <IconTabs />
             </MenuItem>
           )}
         </Menu>

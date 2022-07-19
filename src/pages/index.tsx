@@ -1,4 +1,4 @@
-import Layout from './components/Layout';
+import Layout from '../components/Layout';
 
 const Home: React.FC = () =>
   <Layout>
