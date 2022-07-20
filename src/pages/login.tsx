@@ -41,15 +41,14 @@ const LoginPage: React.FC<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
     setSubmitStatus(SubmitStatus.SUBMITTING);
     await fetch(`/api/account/${id}`, { method: 'GET' })
       .then(res => always<Promise<IAccount>>(res.json(), console.log(res)))
-      .then(({ userId, password: resPassword }) => {
-        console.log(userId);
-        if (resPassword === password) {
-          setLoggedUser({ userId, password: resPassword });
+      .then((account) => {
+        if (account.password === password) {
+          setLoggedUser(account);
           setSubmitStatus(SubmitStatus.DONE);
           Router.push(fromUrl);
         } else {
           setSubmitStatus(SubmitStatus.FAILED);
-          throw new global.Error(); // 이거 global 쓰는 게 좋은 습관이 아닌데.. 음ㅁ
+          throw new global.Error();
         }
       })
       .catch((e) => {
