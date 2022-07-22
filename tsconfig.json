@@ -1,57 +1,42 @@
 {
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
-    "target": "es6",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "jsx": "preserve",
-    "baseUrl": "./",
-    "paths": {
-      "src/*": [
-        "src/*"
-      ],
-      "assets/*": [
-        "assets/*"
-      ],
-      "models/*": [
-        "models/*"
-      ],
-      "controllers/*": [
-        "controllers/*"
-      ]
-    },
+    "target": "ESNext",
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "moduleResolution": "Node",
+    "outDir": "./dist",
     "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
     ],
     "strict": true,
     "noEmit": true,
+    "allowJs": true,
+    "sourceMap": true,
     "incremental": true,
+    "declaration": true,
     "skipLibCheck": true,
+    "removeComments": true,
     "esModuleInterop": true,
-    "exactOptionalPropertyTypes": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "exactOptionalPropertyTypes": true,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "allowJs": true
   },
-  "exclude": [
-    "dist",
-    ".next",
-    "out",
-    "next.config.js",
-    "node_modules"
-  ],
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
+    "src/**/*.ts",
+    "src/**/*.tsx"
   ],
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS"
-    }
-  }
+  "exclude": [
+    ".next",
+    "node_modules",
+    "test",
+    "dist",
+    "**/*spec.ts"
+  ]
 }
