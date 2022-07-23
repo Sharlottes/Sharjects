@@ -43,7 +43,6 @@ const LoginPage: React.FC<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
     setSubmitStatus(SubmitStatus.SUBMITTING)
     await fetch(`/api/account/find?userId=${id}`, { method: 'GET' })
       .then(res => always<Promise<IAccount>>(res.json(), console.log(res)))
-<<<<<<< HEAD:src/frontend/client/pages/login.tsx
       .then((account) => {
         if (account.password === password) {
           logIn(account)
@@ -52,17 +51,6 @@ const LoginPage: React.FC<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
         } else {
           setSubmitStatus(SubmitStatus.FAILED)
           throw new global.Error()
-=======
-      .then(({ userId, password: resPassword }) => {
-        console.log(userId);
-        if (resPassword === password) {
-          setLoggedUser({ userId, password: resPassword });
-          setSubmitStatus(SubmitStatus.DONE);
-          Router.push(fromUrl);
-        } else {
-          setSubmitStatus(SubmitStatus.FAILED);
-          throw new global.Error(); // 이거 global 쓰는 게 좋은 습관이 아닌데.. 음ㅁ
->>>>>>> parent of 1deee35 (hotfix):src/pages/login.tsx
         }
       })
       .catch((e) => {
