@@ -51,7 +51,7 @@ const LoginPage: React.FC<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
           Router.push(fromUrl);
         } else {
           setSubmitStatus(SubmitStatus.FAILED);
-          throw new global.Error();
+          throw new global.Error(); // 이거 global 쓰는 게 좋은 습관이 아닌데.. 음ㅁ
         }
       })
       .catch((e) => {
