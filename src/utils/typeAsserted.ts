@@ -1,2 +1,2 @@
 export const typeAsserted = <T>() =>
-  (value: T) => value;
+  (value: T) => value
