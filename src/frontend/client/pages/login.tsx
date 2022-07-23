@@ -43,14 +43,15 @@ const LoginPage: React.FC<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
     setSubmitStatus(SubmitStatus.SUBMITTING)
     await fetch(`/api/account/find?userId=${id}`, { method: 'GET' })
       .then(res => always<Promise<IAccount>>(res.json(), console.log(res)))
-      .then((account) => {
-        if (account.password === password) {
-          logIn(account)
-          setSubmitStatus(SubmitStatus.DONE)
-          Router.push(fromUrl)
+      .then(({ userId, password: resPassword }) => {
+        console.log(userId);
+        if (resPassword === password) {
+          setLoggedUser({ userId, password: resPassword });
+          setSubmitStatus(SubmitStatus.DONE);
+          Router.push(fromUrl);
         } else {
-          setSubmitStatus(SubmitStatus.FAILED)
-          throw new global.Error()
+          setSubmitStatus(SubmitStatus.FAILED);
+          throw new global.Error();
         }
       })
       .catch((e) => {
