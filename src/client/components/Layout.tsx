@@ -30,7 +30,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
         autoHideDuration: 5000
       })
     }, 3000);
-  }, [])
+  }, [closeSnackbar, enqueueSnackbar])
 
   return (
     <>
