@@ -1,14 +1,18 @@
-import * as React from 'react';
-import Head from 'next/head';
-import { AppProps } from 'next/app';
-import { ThemeProvider } from '@mui/material/styles';
+import React from 'react';
+import Head from 'next/head'
+  ;
+import type { AppProps } from 'next/app';
 import CssBaseline from '@mui/material/CssBaseline';
-import { CacheProvider, EmotionCache } from '@emotion/react';
+import type { EmotionCache } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import theme from 'src/client/pages/theme';
 import createEmotionCache from 'src/client/pages/createEmotionCache';
+
+import { ThemeProvider } from '@mui/material/styles';
+import { CacheProvider } from '@emotion/react';
 import { SnackbarProvider } from 'notistack';
 import { SessionProvider } from "next-auth/react"
+import UserContextProvider from 'components/providers/UserContextProvider';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -16,7 +20,6 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import 'assets/fonts/UniSans.css';
 import 'assets/styles/global.css';
-import UserContextProvider from 'components/providers/UserContextProvider';
 
 // Create a client
 const queryClient = new QueryClient();

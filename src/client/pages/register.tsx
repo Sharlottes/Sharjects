@@ -1,5 +1,5 @@
 import React from 'react'
-import * as NotiStack from 'notistack'
+import { useSnackbar } from 'notistack'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { Box, Stack, Typography, Tooltip, Step, Stepper, StepLabel } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
@@ -49,7 +49,7 @@ interface State {
 const DataInputStep: React.FC = () => {
   const [{ id, password, email }, setValues] = React.useState<State>({ id: '', password: '' })
   const [submitStatus, setSubmitStatus] = React.useState<SubmitStatus>(SubmitStatus.READY)
-  const { enqueueSnackbar } = NotiStack.useSnackbar()
+  const { enqueueSnackbar } = useSnackbar()
   const { nextStep } = React.useContext(StepContext)
 
   const handleChange = (prop: keyof State) =>

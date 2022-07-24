@@ -1,12 +1,11 @@
 import React from 'react';
-import { ScriptProps } from 'next/script';
-import { AppBar, Fab, Toolbar, Button, SlideProps } from '@mui/material';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import type { ScriptProps } from 'next/script';
+import { AppBar, Toolbar, Button, IconButton } from '@mui/material';
 import Header from './Header';
-import ScrollTop from './ScrollTop';
-import * as NotiStack from 'notistack'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { useSnackbar } from 'notistack'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface LayoutProps extends ScriptProps {
   header?: JSX.Element
@@ -14,7 +13,7 @@ interface LayoutProps extends ScriptProps {
 
 const Layout: React.FC<LayoutProps> = (props) => {
   const { data: session } = useSession();
-  const { enqueueSnackbar, closeSnackbar } = NotiStack.useSnackbar()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -23,7 +22,11 @@ const Layout: React.FC<LayoutProps> = (props) => {
           vertical: 'top',
           horizontal: 'center'
         },
-        action: () => <Link href='/login'><Button>Log In</Button></Link>,
+        action: (id) =>
+          <>
+            <Link href='/login'><Button>Log In</Button></Link>
+            <IconButton onClick={() => closeSnackbar(id)}><CloseIcon /></IconButton>
+          </>,
         autoHideDuration: 5000
       })
     }, 3000);
@@ -39,12 +42,6 @@ const Layout: React.FC<LayoutProps> = (props) => {
       <Toolbar id='back-to-top-anchor' />
 
       {props.children}
-
-      <ScrollTop {...props}>
-        <Fab size='small' aria-label='scroll back to top'>
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </ScrollTop>
     </>
   )
 }

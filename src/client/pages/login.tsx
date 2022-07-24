@@ -1,7 +1,7 @@
 import React from 'react'
 import Router from 'next/router'
 import { useSnackbar } from 'notistack'
-import { IAccountDocument } from 'models/Account'
+import type { IAccountDocument } from 'models/Account'
 
 import { always, initCasePartially } from 'src/utils/'
 import UserContext from 'src/client/contexts/UserContext'

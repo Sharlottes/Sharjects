@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express'
-import AccountModel, { IAccount } from '../models/Account'
+import AccountModel from '../models/Account'
+import type { IAccount } from '../models/Account'
 import type { ParamsDictionary } from 'express-serve-static-core'
 
 const createControllerMethod = <

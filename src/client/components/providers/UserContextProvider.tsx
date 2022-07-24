@@ -1,11 +1,12 @@
 import React from 'react'
-import * as ReactCookie from 'react-cookie'
-import UserContext, { IAccountContext } from 'src/client/contexts/UserContext'
-import { IAccount, IAccountDocument } from 'models/Account'
+import { useCookies } from 'react-cookie'
+import UserContext from 'src/client/contexts/UserContext'
+import type { IAccountContext } from 'src/client/contexts/UserContext'
+import type { IAccount, IAccountDocument } from 'models/Account'
 import { always } from 'src/utils/always'
 
 const UserContextProvider: React.FC<{ children: JSX.Element }> = ({ children }) => {
-  const [cookies, setCookie, removeCookie] = ReactCookie.useCookies(['rememberAccountId'])
+  const [cookies, setCookie, removeCookie] = useCookies(['rememberAccountId'])
 
   const initState: IAccountContext = {
     loggedIn: Boolean(cookies.rememberAccountId),

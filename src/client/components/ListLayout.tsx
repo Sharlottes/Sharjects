@@ -7,6 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import React from 'react';
 
 import Layout from './Layout';
+import ScrollTop from './ScrollTop';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -100,33 +101,42 @@ export default function ListLayout(props: { children: JSX.Element, onSearch?: (q
 
   return (
     <Layout header={
-      <Box>
-        <Collapse in={shown} sx={{ backgroundColor: '#7289DA', }}>
-          <Toolbar sx={{ ml: '20px' }}>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder='Search…'
-                inputProps={{ 'aria-label': 'search' }}
-                value={query}
-                onChange={handleChange}
-                onKeyDown={handleSubmit}
-              />
-            </Search>
-            <Tabs value={index} onChange={handleTapChanged}>
-              <StyledTab label='추천' />
-              <StyledTab label='최신' />
-              <StyledTab label='검색' />
-            </Tabs>
-          </Toolbar>
-        </Collapse>
+      <>
+        <Box>
+          <Collapse in={shown} sx={{ backgroundColor: '#7289DA', }}>
+            <Toolbar sx={{ ml: '20px' }}>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder='Search…'
+                  inputProps={{ 'aria-label': 'search' }}
+                  value={query}
+                  onChange={handleChange}
+                  onKeyDown={handleSubmit}
+                />
+              </Search>
+              <Tabs value={index} onChange={handleTapChanged}>
+                <StyledTab label='추천' />
+                <StyledTab label='최신' />
+                <StyledTab label='검색' />
+              </Tabs>
+            </Toolbar>
+          </Collapse>
 
-        <CollapseFab size='medium' shown={shown} onClick={handleCollapse} >
-          {shown ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-        </CollapseFab>
-      </Box>
+          <CollapseFab size='medium' shown={shown} onClick={handleCollapse} >
+            {shown ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </CollapseFab>
+          
+        </Box>
+        
+        <ScrollTop {...props}>
+          <Fab size='small' aria-label='scroll back to top'>
+            <KeyboardArrowUpIcon />
+          </Fab>
+        </ScrollTop>
+      </>
     }>
       {props.children}
     </Layout>

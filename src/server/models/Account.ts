@@ -1,4 +1,5 @@
-import { Schema, Document, model } from 'mongoose'
+import { Schema, model } from 'mongoose'
+import type { Document } from 'mongoose'
 
 export interface IAccount {
   userId: string

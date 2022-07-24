@@ -7,6 +7,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
  */
 const nextConfig = {
   reactStrictMode: true,
+  distDir: 'dist',
   webpack: (config) => {
     config.module.rules.push({
       test: /\.tsx?$/,
