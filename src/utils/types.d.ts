@@ -5,15 +5,7 @@ export type NonNullableKeys<T, K extends keyof T> = Omit<T, K> & {
 
 declare module 'react' {
   interface HasChildren<T = ReactElement> {
-    children: T
+    children: T;
   }
-  type PureFC<P = {}> = (props: P, context?: any) => ReactElement<any, any> | null
-}
-
-declare global {
-  namespace NodeJS {
-    interface ProcessEnv {
-      readonly PORT: number
-    }
-  }
+  type PureFC<P = {}> = (props: P, context?: any) => ReactElement<any, any> | null;
 }

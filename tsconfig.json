@@ -1,42 +1,57 @@
 {
-  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "jsx": "react-jsx",
-    "moduleResolution": "Node",
-    "outDir": "./dist",
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "paths": {
+      "src/*": [
+        "src/*"
+      ],
+      "assets/*": [
+        "assets/*"
+      ],
+      "models/*": [
+        "src/server/models/*"
+      ],
+      "controllers/*": [
+        "src/server/controllers/*"
+      ],
+      "components/*": [
+        "src/client/components/*"
+      ],
+    },
     "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
+      "dom",
+      "dom.iterable",
+      "esnext"
     ],
     "strict": true,
     "noEmit": true,
-    "allowJs": true,
-    "sourceMap": true,
     "incremental": true,
-    "declaration": true,
     "skipLibCheck": true,
-    "removeComments": true,
     "esModuleInterop": true,
+    "exactOptionalPropertyTypes": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
-    "experimentalDecorators": true,
-    "exactOptionalPropertyTypes": true,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
+    "allowJs": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ],
   "exclude": [
-    ".next",
-    "node_modules",
-    "test",
     "dist",
-    "**/*spec.ts"
-  ]
+    "node_modules"
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }
