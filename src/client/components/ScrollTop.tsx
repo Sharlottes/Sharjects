@@ -1,4 +1,6 @@
-import { useScrollTrigger, Fade, Box } from '@mui/material';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import Fade from '@mui/material/Fade'
+import Box from '@mui/material/Box'
 
 interface ScrollTopProps {
   children: React.ReactElement;

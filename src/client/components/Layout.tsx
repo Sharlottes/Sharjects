@@ -1,11 +1,18 @@
 import React from 'react';
+import Link from 'next/link';
+
 import type { ScriptProps } from 'next/script';
-import { AppBar, Toolbar, Button, IconButton } from '@mui/material';
+
+import IconButton from '@mui/material/IconButton'
+import Toolbar from '@mui/material/Toolbar'
+import Button from '@mui/material/Button'
+import AppBar from '@mui/material/AppBar'
+
+import CloseIcon from '@mui/icons-material/Close';
+
 import Header from './Header';
 import { useSnackbar } from 'notistack'
 import { useSession } from 'next-auth/react'
-import Link from 'next/link';
-import CloseIcon from '@mui/icons-material/Close';
 
 interface LayoutProps extends ScriptProps {
   header?: JSX.Element
@@ -16,6 +23,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
   React.useEffect(() => {
+    console.log("called");
     setTimeout(() => {
       enqueueSnackbar('you are not logged in', {
         anchorOrigin: {

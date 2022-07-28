@@ -3,15 +3,28 @@ import Router from 'next/router'
 import { useSnackbar } from 'notistack'
 import type { IAccountDocument } from 'models/Account'
 
-import { always, initCasePartially } from 'src/utils/'
+import { initCasePartially } from 'src/utils/initCasePartially'
+import { always } from 'src/utils/always'
 import UserContext from 'src/client/contexts/UserContext'
-import { CustomTextInput, Layout } from 'src/client/components/'
+import CustomTextInput from 'components/CustomTextInput'
+import Layout from 'components/Layout'
 
 import LoadingButton from '@mui/lab/LoadingButton'
-import { Box, IconButton, Link, Stack, Tooltip, Typography, Button } from '@mui/material'
-import { CheckBoxOutlineBlankRounded, CheckBoxRounded } from '@mui/icons-material/'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Link from '@mui/material/Link'
+import Stack from '@mui/material/Stack'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 
-import { Add, Check, Error, Clear } from '@mui/icons-material'
+import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded'
+import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutlineBlankRounded'
+
+import AddIcon from '@mui/icons-material/Add'
+import CheckIcon from '@mui/icons-material/Check'
+import ErrorIcon from '@mui/icons-material/Error'
+import ClearIcon from '@mui/icons-material/Clear'
 
 
 interface State {
@@ -87,7 +100,7 @@ const LoginPage: React.FC<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
             },
             action: id => (
               <IconButton onClick={() => closeSnackbar(id)}>
-                <Clear />
+                <ClearIcon />
               </IconButton>
             ),
           })
@@ -108,8 +121,8 @@ const LoginPage: React.FC<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
           <CustomTextInput handleChange={handleChange('id')} value={id} enable={submitStatus !== SubmitStatus.SUBMITTING} name='Id' />
           <CustomTextInput handleChange={handleChange('password')} value={password} enable={submitStatus !== SubmitStatus.SUBMITTING} name='Password' privated />
           <Button color='inherit' sx={{ justifyContent: 'flex-start', alignItems: 'center', m: 0, p: 0 }} onClick={() => setInputSaved(prev => !prev)}>
-            <CheckBoxRounded color='primary' sx={{ opacity: inputSaved ? 0 : 1, transition: 'all 0.25s' }} />
-            <CheckBoxOutlineBlankRounded sx={{ opacity: inputSaved ? 1 : 0, position: 'absolute', transition: 'all 0.25s' }} />
+            <CheckBoxRoundedIcon color='primary' sx={{ opacity: inputSaved ? 0 : 1, transition: 'all 0.25s' }} />
+            <CheckBoxOutlineBlankRoundedIcon sx={{ opacity: inputSaved ? 1 : 0, position: 'absolute', transition: 'all 0.25s' }} />
             Remember Account
           </Button>
           <Tooltip title={
@@ -131,9 +144,9 @@ const LoginPage: React.FC<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
                 loadingPosition='start'
                 startIcon={
                   initCasePartially<JSX.Element>()(SubmitStatus, {
-                    [SubmitStatus.DONE]: () => <Check />,
-                    [SubmitStatus.FAILED]: () => <Error />,
-                  }, submitStatus) ?? <Add />
+                    [SubmitStatus.DONE]: () => <CheckIcon />,
+                    [SubmitStatus.FAILED]: () => <ErrorIcon />,
+                  }, submitStatus) ?? <AddIcon />
                 }
                 color={
                   initCasePartially<string>()(SubmitStatus, {

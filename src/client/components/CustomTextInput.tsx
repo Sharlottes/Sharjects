@@ -1,6 +1,14 @@
 import React from 'react';
-import { VisibilityOff, Visibility } from '@mui/icons-material';
-import { FormControl, InputLabel, Input, InputAdornment, IconButton, Typography, Tooltip } from '@mui/material';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import Input from '@mui/material/Input'
+import InputAdornment from '@mui/material/InputAdornment'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import Tooltip from '@mui/material/Tooltip'
 
 interface CustomTextInputProps {
   handleChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
@@ -45,7 +53,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
                   onClick={() => setShow(prev => !prev)}
                   onMouseDown={evt => evt.preventDefault()}
                 >
-                  {show ? <VisibilityOff /> : <Visibility />}
+                  {show ? <VisibilityOffIcon /> : <VisibilityIcon />}
                 </IconButton>
               </InputAdornment>
             }</>

@@ -1,10 +1,18 @@
-import { alpha, InputBase, Collapse, Toolbar, Fab, Tabs, Tab, Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import React from 'react';
+
+import { alpha } from '@mui/material';
+import InputBase from '@mui/material/InputBase'
+import Collapse from '@mui/material/Collapse'
+import Toolbar from '@mui/material/Toolbar'
+import Fab from '@mui/material/Fab'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Box from '@mui/material/Box'
+
+import styled from '@mui/material/styles/styled';
 import SearchIcon from '@mui/icons-material/Search';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-import React from 'react';
 
 import Layout from './Layout';
 import ScrollTop from './ScrollTop';
@@ -128,9 +136,9 @@ export default function ListLayout(props: { children: JSX.Element, onSearch?: (q
           <CollapseFab size='medium' shown={shown} onClick={handleCollapse} >
             {shown ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </CollapseFab>
-          
+
         </Box>
-        
+
         <ScrollTop {...props}>
           <Fab size='small' aria-label='scroll back to top'>
             <KeyboardArrowUpIcon />

@@ -1,11 +1,21 @@
 import React from 'react'
 import { useSnackbar } from 'notistack'
 import LoadingButton from '@mui/lab/LoadingButton'
-import { Box, Stack, Typography, Tooltip, Step, Stepper, StepLabel } from '@mui/material'
+
+import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import Step from '@mui/material/Step'
+import Stepper from '@mui/material/Stepper'
+import StepLabel from '@mui/material/StepLabel'
 import AddIcon from '@mui/icons-material/Add'
 import CheckIcon from '@mui/icons-material/Check'
 import ErrorIcon from '@mui/icons-material/Error'
-import { Layout, CustomTextInput } from 'components/index'
+
+import Layout from 'components/Layout'
+import CustomTextInput from 'components/CustomTextInput'
+
 import { initCasePartially } from 'src/utils/initCasePartially'
 
 enum SubmitStatus {

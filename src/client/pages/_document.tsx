@@ -1,4 +1,3 @@
-import React from 'react';
 import Document from 'next/document';
 import type { DocumentContext } from 'next/document';
 import { Html, Head, Main, NextScript } from 'next/document';
