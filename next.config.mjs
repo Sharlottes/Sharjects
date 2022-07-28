@@ -1,11 +1,10 @@
 //@ts-check
 
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-
 /**
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+  swcMinify: true,
   reactStrictMode: true,
   distDir: 'dist',
   webpack: (config) => {
@@ -18,11 +17,12 @@ const nextConfig = {
       issuer: /\.[jt]sx?$/,
       use: ["@svgr/webpack"]
     });
-    config.plugins.push(
-      new BundleAnalyzerPlugin()
-    )
     return config;
   },
+  compiler: {
+    styledComponents: true,
+    emotion: true
+  }
 };
 
 export default nextConfig;
