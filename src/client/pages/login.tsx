@@ -26,6 +26,8 @@ import CheckIcon from '@mui/icons-material/Check'
 import ErrorIcon from '@mui/icons-material/Error'
 import ClearIcon from '@mui/icons-material/Clear'
 
+import { signIn } from 'next-auth/react'
+import { Divider } from '@mui/material'
 
 interface State {
   id: string
@@ -87,6 +89,7 @@ const LoginPage: React.FC<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
           throw new global.Error()
         }
       })
+      .then(() => signIn())
       .catch((e) => {
         console.error(e)
         setSubmitStatus(SubmitStatus.FAILED)
@@ -111,7 +114,7 @@ const LoginPage: React.FC<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
   const isEnd = submitStatus === SubmitStatus.DONE || submitStatus === SubmitStatus.FAILED
 
   return (
-    <Layout>
+    <Layout muteAlart>
       <Box flexDirection='column' sx={{ display: 'flex', alignItems: 'center', pt: '100px', justifyContent: 'center', minWidth: '100%', minHeight: '100%' }}>
         <Typography id='title' variant='h2' noWrap fontSize='min(6vw, 70px)'>
           Login Account

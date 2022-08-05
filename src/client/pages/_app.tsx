@@ -11,7 +11,7 @@ import createEmotionCache from 'src/client/pages/createEmotionCache';
 import { ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import { SnackbarProvider } from 'notistack';
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider, useSession } from "next-auth/react"
 import UserContextProvider from 'components/providers/UserContextProvider';
 
 import '@fontsource/roboto/300.css';
@@ -20,6 +20,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import 'assets/fonts/UniSans.css';
 import 'assets/styles/global.css';
+import { NextComponentType, NextPageContext } from 'next';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const clientSideEmotionCache = createEmotionCache();
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
+  Component: NextComponentType<NextPageContext, any, {}> & { auth?: any };
 }
 
 const MyApp: React.FC<MyAppProps> = (
@@ -50,7 +52,13 @@ const MyApp: React.FC<MyAppProps> = (
           <SessionProvider session={session}>
             <UserContextProvider>
               <SnackbarProvider maxSnack={1}>
-                <Component {...pageProps} />
+                {Component.auth ? (
+                  <Auth>
+                    <Component {...pageProps} />
+                  </Auth>
+                ) : (
+                  <Component {...pageProps} />
+                )}
               </SnackbarProvider>
             </UserContextProvider>
           </SessionProvider>
@@ -59,5 +67,16 @@ const MyApp: React.FC<MyAppProps> = (
     </QueryClientProvider>
   );
 };
+
+const Auth: React.FC<{ children: JSX.Element }> = ({ children }) => {
+  // if `{ required: true }` is supplied, `status` can only be "loading" or "authenticated"
+  const { status } = useSession({ required: true })
+
+  if (status === "loading") {
+    return <div>Loading...</div>
+  }
+
+  return children
+}
 
 export default MyApp;

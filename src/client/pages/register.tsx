@@ -17,6 +17,8 @@ import Layout from 'components/Layout'
 import CustomTextInput from 'components/CustomTextInput'
 
 import { initCasePartially } from 'src/utils/initCasePartially'
+import { Button, Divider } from '@mui/material'
+import GoogleIcon from '../assets/icons/GoogleIcon'
 
 enum SubmitStatus {
   READY,
@@ -112,7 +114,7 @@ const DataInputStep: React.FC = () => {
   return (
     <>
       <Typography id='title' variant='h2' noWrap fontSize='min(6vw, 70px)' sx={{ textAlign: 'center' }}>Register Account</Typography>
-      <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', }}>
+      <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
         <Stack direction='column' spacing={1} sx={{ mt: '20px', mb: '20px', width: 'min(70vw, 300px)', justifyContent: 'center' }}>
           <CustomTextInput
             handleChange={handleChange('id')}
@@ -177,6 +179,24 @@ const DataInputStep: React.FC = () => {
           </Tooltip>
         </Stack>
       </Box>
+      <Divider sx={{ color: "gray", ml: "15vw", mr: "15vw", mb: "20px", "&::before": { top: 0 }, "&::after": { top: 0 } }}>
+        OR
+      </Divider>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Button sx={{
+          width: 'min(70vw, 300px)',
+          transitionProperty: "width, background-color, color",
+          transitionDuration: "0.5s, 0.5s, 0.3s",
+          transitionDelay: "0s, 0.25s, 0.75s",
+          "&:hover": {
+            width: '100vw',
+            'background-color': '#aebcfc',
+            color: '#4242f5'
+          }
+        }} variant='outlined'>
+          <GoogleIcon /> <Divider orientation='vertical' sx={{ ml: 1, mr: 1 }} /> with Google
+        </Button>
+      </Box>
     </>
   )
 }
@@ -190,8 +210,8 @@ const InputStepper: React.FC = () => {
   return (
     <>
       <Stepper activeStep={activeStep} sx={{ ml: '10px', mr: '10px', mb: '25px' }}>
-        {steps.map(([label,]) => (
-          <Step>
+        {steps.map(([label,], i) => (
+          <Step key={i}>
             <StepLabel>
               <Typography>{label}</Typography>
             </StepLabel>

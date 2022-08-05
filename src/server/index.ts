@@ -26,7 +26,7 @@ app.prepare()
     server.listen(port, () => {
       console.log(`Ready on http://localhost:${port}`);
     });
-
+    /*
     mongoose.Promise = global.Promise;
     const db = mongoose.connection;
     db.on('error', e => console.error(`
@@ -37,8 +37,8 @@ app.prepare()
     db.once('open', () => {
       console.log('connected to mongo DB server');
     });
-    mongoose.connect('mongodb://localhost/discordbots');
-
+    mongoose.connect(process.env.MONGODB_URI);
+    */
     module.exports = server;
   })
   .catch(console.error);

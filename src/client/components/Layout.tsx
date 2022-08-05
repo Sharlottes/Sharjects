@@ -15,15 +15,17 @@ import { useSnackbar } from 'notistack'
 import { useSession } from 'next-auth/react'
 
 interface LayoutProps extends ScriptProps {
-  header?: JSX.Element
+  header?: JSX.Element,
+  muteAlart?: boolean
 }
 
-const Layout: React.FC<LayoutProps> = (props) => {
+const Layout: React.FC<LayoutProps> = ({ header, children, muteAlart = false }) => {
   const { data: session } = useSession();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
-
+  console.log(session);
   React.useEffect(() => {
-    console.log("called");
+    if (muteAlart || !session) return;
+
     setTimeout(() => {
       enqueueSnackbar('you are not logged in', {
         anchorOrigin: {
@@ -38,18 +40,18 @@ const Layout: React.FC<LayoutProps> = (props) => {
         autoHideDuration: 5000
       })
     }, 3000);
-  }, [closeSnackbar, enqueueSnackbar])
+  }, [closeSnackbar, enqueueSnackbar, muteAlart, session])
 
   return (
     <>
       <AppBar sx={{ 'backgroundColor': 'white' }}>
         <Header />
-        {props.header}
+        {header}
       </AppBar>
 
       <Toolbar id='back-to-top-anchor' />
 
-      {props.children}
+      {children}
     </>
   )
 }

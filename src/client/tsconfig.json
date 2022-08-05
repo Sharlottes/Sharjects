@@ -6,7 +6,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "lib/mongodb.ts"
   ],
   "exclude": [
     "node_modules"

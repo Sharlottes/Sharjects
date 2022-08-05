@@ -3,6 +3,9 @@ import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google"
 import DiscordProvider from "next-auth/providers/discord";
 
+import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
+import clientPromise from 'src/client/lib/mongodb'
+
 export default NextAuth({
   providers: [
     GithubProvider({
@@ -18,4 +21,15 @@ export default NextAuth({
       clientSecret: process.env.DISCORD_CLIENT_SECRET as string
     })
   ],
+  callbacks: {
+    async jwt({ token, account }) {
+      if (account) token.accessToken = account.access_token
+      return token
+    },
+    async session({ session, token, user }) {
+      session.accessToken = token.accessToken
+      return session
+    }
+  },
+  //adapter: MongoDBAdapter(clientPromise)
 })
