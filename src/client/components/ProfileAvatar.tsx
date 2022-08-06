@@ -11,7 +11,7 @@ import Link from '@mui/material/Link'
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
-
+import { useSession, signIn, signOut } from 'next-auth/react'
 
 import UserContext from '../contexts/UserContext'
 
@@ -41,9 +41,10 @@ const ProfileAvatar: React.FC = () => {
   const handleProfileOpen = (evt: React.MouseEvent<HTMLElement>) => setProfileAnchorEl(evt.currentTarget)
   const handleProfileClose = () => setProfileAnchorEl(null)
 
-  const { logOut, loggedIn } = React.useContext(UserContext)
+  const { data: session } = useSession();
+  //const { logOut, loggedIn } = React.useContext(UserContext)
   const handleLog = () => {
-    if (loggedIn) logOut()
+    if (session?.user !== undefined) signOut()
     else Router.push('/login')
   }
 
@@ -95,7 +96,7 @@ const ProfileAvatar: React.FC = () => {
           <ListItemIcon>
             <LogoutIcon fontSize="small" />
           </ListItemIcon>
-          {loggedIn ? "Logout" : "Login"}
+          {session?.user !== undefined ? "Logout" : "Login"}
         </MenuItem>
       </Menu>
     </>

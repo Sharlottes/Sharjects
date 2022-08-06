@@ -17,17 +17,17 @@ import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
+import Divider from '@mui/material/Divider'
 
 import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded'
 import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutlineBlankRounded'
 
+import Auths from 'components/Auths'
 import AddIcon from '@mui/icons-material/Add'
 import CheckIcon from '@mui/icons-material/Check'
 import ErrorIcon from '@mui/icons-material/Error'
 import ClearIcon from '@mui/icons-material/Clear'
-
-import { signIn } from 'next-auth/react'
-import { Divider } from '@mui/material'
+import { BaseComponentType } from './_app'
 
 interface State {
   id: string
@@ -63,7 +63,7 @@ const WarnAlert = (
   </div>
 )
 
-const LoginPage: React.FC<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
+const LoginPage: BaseComponentType<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
   const [{ id, password }, setValues] = React.useState({ id: '', password: '' })
   const [submitStatus, setSubmitStatus] = React.useState<SubmitStatus>(SubmitStatus.READY)
   const [inputSaved, setInputSaved] = React.useState(false)
@@ -89,7 +89,6 @@ const LoginPage: React.FC<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
           throw new global.Error()
         }
       })
-      .then(() => signIn())
       .catch((e) => {
         console.error(e)
         setSubmitStatus(SubmitStatus.FAILED)
@@ -178,8 +177,13 @@ const LoginPage: React.FC<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
           </Link>
         </Stack>
       </Box>
+      <Divider sx={{ color: "gray", ml: "15vw", mr: "15vw", mb: "20px", "&::before": { top: 0 }, "&::after": { top: 0 } }}>
+        OR
+      </Divider>
+      <Auths />
     </Layout>
   )
 }
+LoginPage.auth = true
 
 export default LoginPage

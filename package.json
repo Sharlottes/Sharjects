@@ -15,7 +15,6 @@
     "@mui/lab": "^5.0.0-alpha.90",
     "@mui/material": "^5.8.6",
     "@next-auth/mongodb-adapter": "^0.0.2-next.298",
-    "cross-env": "^7.0.3",
     "express": "^4.18.1",
     "mongodb": "^4.8.1",
     "mongoose": "^6.4.4",
@@ -27,10 +26,9 @@
     "react": "^18.2.0",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
-    "react-infinite-scroll-component": "^6.1.0",
     "react-query": "^3.39.1",
     "react-scripts": "5.0.1",
-    "ts-loader": "^9.3.1"
+    "react-infinite-scroll-component": "^6.1.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^6.2.1",
@@ -43,6 +41,7 @@
     "eslint": "^8.20.0",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
+    "ts-loader": "^9.3.1",
     "typescript": "^4.8.0-dev.20220728"
   },
   "eslintConfig": {

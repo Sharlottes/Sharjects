@@ -28,9 +28,11 @@ const queryClient = new QueryClient();
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
+export type BaseComponentType<P, IP = P> = NextComponentType<NextPageContext, IP, P> & { auth?: any };
+
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
-  Component: NextComponentType<NextPageContext, any, {}> & { auth?: any };
+  Component: BaseComponentType<any, {}>;
 }
 
 const MyApp: React.FC<MyAppProps> = (
@@ -50,17 +52,15 @@ const MyApp: React.FC<MyAppProps> = (
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <SessionProvider session={session}>
-            <UserContextProvider>
-              <SnackbarProvider maxSnack={1}>
-                {Component.auth ? (
-                  <Auth>
-                    <Component {...pageProps} />
-                  </Auth>
-                ) : (
+            <SnackbarProvider maxSnack={1}>
+              {Component.auth ? (
+                <Auth>
                   <Component {...pageProps} />
-                )}
-              </SnackbarProvider>
-            </UserContextProvider>
+                </Auth>
+              ) : (
+                <Component {...pageProps} />
+              )}
+            </SnackbarProvider>
           </SessionProvider>
         </ThemeProvider>
       </CacheProvider>
@@ -69,7 +69,6 @@ const MyApp: React.FC<MyAppProps> = (
 };
 
 const Auth: React.FC<{ children: JSX.Element }> = ({ children }) => {
-  // if `{ required: true }` is supplied, `status` can only be "loading" or "authenticated"
   const { status } = useSession({ required: true })
 
   if (status === "loading") {

@@ -8,6 +8,7 @@ const nextConfig = {
   reactStrictMode: true,
   distDir: 'dist',
   webpack: (config) => {
+    config.resolve.fallback = { fs: false };
     config.module.rules.push({
       test: /\.tsx?$/,
       use: "ts-loader"

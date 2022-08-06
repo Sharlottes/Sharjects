@@ -21,15 +21,5 @@ export default NextAuth({
       clientSecret: process.env.DISCORD_CLIENT_SECRET as string
     })
   ],
-  callbacks: {
-    async jwt({ token, account }) {
-      if (account) token.accessToken = account.access_token
-      return token
-    },
-    async session({ session, token, user }) {
-      session.accessToken = token.accessToken
-      return session
-    }
-  },
   //adapter: MongoDBAdapter(clientPromise)
 })

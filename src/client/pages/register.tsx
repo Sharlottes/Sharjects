@@ -9,16 +9,17 @@ import Typography from '@mui/material/Typography'
 import Step from '@mui/material/Step'
 import Stepper from '@mui/material/Stepper'
 import StepLabel from '@mui/material/StepLabel'
+import Divider from '@mui/material/Divider'
+
 import AddIcon from '@mui/icons-material/Add'
 import CheckIcon from '@mui/icons-material/Check'
 import ErrorIcon from '@mui/icons-material/Error'
 
 import Layout from 'components/Layout'
 import CustomTextInput from 'components/CustomTextInput'
+import Auths from 'components/Auths'
 
 import { initCasePartially } from 'src/utils/initCasePartially'
-import { Button, Divider } from '@mui/material'
-import GoogleIcon from '../assets/icons/GoogleIcon'
 
 enum SubmitStatus {
   READY,
@@ -182,21 +183,7 @@ const DataInputStep: React.FC = () => {
       <Divider sx={{ color: "gray", ml: "15vw", mr: "15vw", mb: "20px", "&::before": { top: 0 }, "&::after": { top: 0 } }}>
         OR
       </Divider>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Button sx={{
-          width: 'min(70vw, 300px)',
-          transitionProperty: "width, background-color, color",
-          transitionDuration: "0.5s, 0.5s, 0.3s",
-          transitionDelay: "0s, 0.25s, 0.75s",
-          "&:hover": {
-            width: '100vw',
-            'background-color': '#aebcfc',
-            color: '#4242f5'
-          }
-        }} variant='outlined'>
-          <GoogleIcon /> <Divider orientation='vertical' sx={{ ml: 1, mr: 1 }} /> with Google
-        </Button>
-      </Box>
+      <Auths />
     </>
   )
 }
