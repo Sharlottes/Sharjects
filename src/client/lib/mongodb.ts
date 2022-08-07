@@ -1,7 +1,6 @@
 import { MongoClient, ServerApiVersion } from 'mongodb'
 
-//TODO - set mongo db uri into environment data
-const uri: string | undefined = process.env.MONGODB_URI ?? 'mongodb://localhost/';
+const uri: string = process.env.MONGODB_URI as string;
 const options: any = {
   useUnifiedTopology: true,
   useNewUrlParser: true,
@@ -19,8 +18,6 @@ type withMongoPromise = (typeof global) & ({ '_mongoClientPromise': Promise<Mong
 const globalWithMongo: withMongoPromise = global as withMongoPromise;
 
 if (process.env.NODE_ENV === "development") {
-  // In development mode, use a global variable so that the value
-  // is preserved across module reloads caused by HMR (Hot Module Replacement).
   if (!globalWithMongo._mongoClientPromise) {
     client = new MongoClient(uri, options)
     globalWithMongo._mongoClientPromise = client.connect()

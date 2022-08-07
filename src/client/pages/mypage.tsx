@@ -1,22 +1,18 @@
 import type React from 'react'
 import Layout from 'components/Layout'
-import { useAccount } from 'src/client/contexts/UserContext'
 import type { IAccount } from 'models/Account'
+import { BaseComponentType } from './_app'
+import { useSession } from 'next-auth/react';
 
-const MyPage: React.FC<{ account: IAccount }> = () => {
-  const { loggedAccount, loggedIn } = useAccount({});
-
-  if (!loggedIn || !loggedAccount) {
-    return (
-      <Layout>Loading...</Layout>
-    )
-  }
+const MyPage: BaseComponentType<{ account: IAccount }> = () => {
+  const { data: session } = useSession();
 
   return (
     <Layout>
-      <h1>Welcome {loggedAccount.userId}!</h1>
+      <h1>Welcome {session?.user?.name}!</h1>
     </Layout>
   )
 }
+MyPage.auth = true;
 
 export default MyPage

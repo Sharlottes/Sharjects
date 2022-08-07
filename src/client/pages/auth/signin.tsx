@@ -27,7 +27,9 @@ import AddIcon from '@mui/icons-material/Add'
 import CheckIcon from '@mui/icons-material/Check'
 import ErrorIcon from '@mui/icons-material/Error'
 import ClearIcon from '@mui/icons-material/Clear'
-import { BaseComponentType } from './_app'
+import { BaseComponentType } from '../_app'
+import { ClientSafeProvider, getProviders, LiteralUnion } from 'next-auth/react'
+import { BuiltInProviderType } from 'next-auth/providers'
 
 interface State {
   id: string
@@ -63,13 +65,15 @@ const WarnAlert = (
   </div>
 )
 
-const LoginPage: BaseComponentType<{ fromUrl?: string }> = ({ fromUrl = '/mypage' }) => {
+const SignIn: BaseComponentType<{
+  fromUrl?: string,
+  providers?: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>
+}> = ({ fromUrl = '/mypage', providers }) => {
   const [{ id, password }, setValues] = React.useState({ id: '', password: '' })
   const [submitStatus, setSubmitStatus] = React.useState<SubmitStatus>(SubmitStatus.READY)
   const [inputSaved, setInputSaved] = React.useState(false)
   const { logIn } = React.useContext(UserContext)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
-
 
   const handleChange = (prop: keyof State) => (evt: React.ChangeEvent<HTMLInputElement>) => {
     setValues(prev => ({ ...prev, [prop]: evt.target.value }))
@@ -137,7 +141,7 @@ const LoginPage: BaseComponentType<{ fromUrl?: string }> = ({ fromUrl = '/mypage
                 [SubmitStatus.FAILED]: 'failed!',
               }[submitStatus]
           }>
-            <> {/*empty tag for wrapping disabled button to active tooltip*/}
+            <>
               <LoadingButton
                 disabled={!isValid}
                 onClick={submitData}
@@ -180,10 +184,16 @@ const LoginPage: BaseComponentType<{ fromUrl?: string }> = ({ fromUrl = '/mypage
       <Divider sx={{ color: "gray", ml: "15vw", mr: "15vw", mb: "20px", "&::before": { top: 0 }, "&::after": { top: 0 } }}>
         OR
       </Divider>
-      <Auths />
+      <Auths providers={providers} />
     </Layout>
   )
 }
-LoginPage.auth = true
 
-export default LoginPage
+export async function getServerSideProps() {
+  const providers = await getProviders()
+  return {
+    props: { providers },
+  }
+}
+
+export default SignIn

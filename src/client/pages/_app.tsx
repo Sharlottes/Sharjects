@@ -12,7 +12,6 @@ import { ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import { SnackbarProvider } from 'notistack';
 import { SessionProvider, useSession } from "next-auth/react"
-import UserContextProvider from 'components/providers/UserContextProvider';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';

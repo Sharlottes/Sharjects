@@ -56,7 +56,6 @@ function Header() {
         <Toolbar disableGutters>
           <DiscordIcon sx={{ transform: 'scale(2)', mr: 1 }} />
 
-
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"

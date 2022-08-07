@@ -1,5 +1,4 @@
 import React from 'react'
-import Router from 'next/router'
 
 import ListItemIcon from '@mui/material/ListItemIcon'
 import IconButton from '@mui/material/IconButton'
@@ -9,48 +8,31 @@ import Stack from '@mui/material/Stack'
 import Menu from '@mui/material/Menu'
 import Link from '@mui/material/Link'
 
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { useSession, signIn, signOut } from 'next-auth/react'
-
-import UserContext from '../contexts/UserContext'
-
-const IconTabs: React.FC<{ onClick: (evt: React.MouseEvent<HTMLElement>) => void }> = ({ onClick }) =>
-  <Stack
-    direction='row'
-    sx={{
-      '& .MuiSvgIcon-root': { mr: '4px', ml: '4px' },
-      '& :hover': { color: 'black' },
-      '& *': { transition: 'color 0.25s ease-in' },
-      color: 'gray',
-    }}
-  >
-    <IconButton onClick={onClick}>
-      <AccountCircleIcon />
-    </IconButton>
-
-    {/*TODO: make setting page 
-      <SettingIcon />
-    */}
-
-  </Stack>
-
+import { useSession, signOut, signIn } from 'next-auth/react'
 
 const ProfileAvatar: React.FC = () => {
   const [profileAnchorEl, setProfileAnchorEl] = React.useState<HTMLElement | null>(null)
   const handleProfileOpen = (evt: React.MouseEvent<HTMLElement>) => setProfileAnchorEl(evt.currentTarget)
   const handleProfileClose = () => setProfileAnchorEl(null)
 
-  const { data: session } = useSession();
-  //const { logOut, loggedIn } = React.useContext(UserContext)
-  const handleLog = () => {
-    if (session?.user !== undefined) signOut()
-    else Router.push('/login')
-  }
+  const { data: session, status } = useSession();
 
   return (
     <>
-      <IconTabs onClick={handleProfileOpen} />
+      <Stack
+        direction='row'
+        sx={{
+          '& .MuiSvgIcon-root': { mr: '4px', ml: '4px' },
+          '& :hover': { color: 'black' },
+          '& *': { transition: 'color 0.25s ease-in' },
+          color: 'gray',
+        }}
+      >
+        <IconButton onClick={handleProfileOpen}>
+          <Avatar src={session?.user?.image ?? ''} />
+        </IconButton>
+      </Stack>
 
       <Menu
         anchorEl={profileAnchorEl}
@@ -89,14 +71,14 @@ const ProfileAvatar: React.FC = () => {
       >
         <Link href='/mypage'>
           <MenuItem>
-            <Avatar /> Profile
+            <Avatar src={session?.user?.image ?? ''} /> Profile
           </MenuItem>
         </Link>
-        <MenuItem onClick={handleLog}>
+        <MenuItem onClick={() => status === 'unauthenticated' ? signIn() : signOut()}>
           <ListItemIcon>
             <LogoutIcon fontSize="small" />
           </ListItemIcon>
-          {session?.user !== undefined ? "Logout" : "Login"}
+          {status === 'unauthenticated' ? "Login" : "Logout"}
         </MenuItem>
       </Menu>
     </>

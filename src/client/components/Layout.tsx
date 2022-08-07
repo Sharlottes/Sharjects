@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 
 import type { ScriptProps } from 'next/script';
 
@@ -12,7 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import Header from './Header';
 import { useSnackbar } from 'notistack'
-import { useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 
 interface LayoutProps extends ScriptProps {
   header?: JSX.Element,
@@ -20,11 +19,11 @@ interface LayoutProps extends ScriptProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ header, children, muteAlart = false }) => {
-  const { data: session } = useSession();
+  const { status } = useSession();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
-  console.log(session);
+
   React.useEffect(() => {
-    if (muteAlart || !session) return;
+    if (muteAlart || status !== "unauthenticated") return;
 
     setTimeout(() => {
       enqueueSnackbar('you are not logged in', {
@@ -34,13 +33,13 @@ const Layout: React.FC<LayoutProps> = ({ header, children, muteAlart = false }) 
         },
         action: (id) =>
           <>
-            <Link href='/login'><Button>Log In</Button></Link>
+            <Button onClick={() => signIn()}>Log In</Button>
             <IconButton onClick={() => closeSnackbar(id)}><CloseIcon /></IconButton>
           </>,
         autoHideDuration: 5000
       })
     }, 3000);
-  }, [closeSnackbar, enqueueSnackbar, muteAlart, session])
+  }, [closeSnackbar, enqueueSnackbar, muteAlart, status])
 
   return (
     <>
