@@ -33,7 +33,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   const isValid = cons.every(c => c[0](value));
 
   return (
-    <Tooltip title="This input is required" disableHoverListener={!required}>
+    <Tooltip title={required ? "This input is required" : ''} disableHoverListener={!required} sx={{ width: '100%' }}>
       <FormControl variant='standard' disabled={!enable}>
         <InputLabel htmlFor={`input-${name}`}>{name} {required ? '*' : ''}</InputLabel>
         <Input

@@ -1,6 +1,8 @@
-import { Stack, Button, Divider } from '@mui/material';
+import React from 'react';
+import { Stack, Button, Divider, styled } from '@mui/material';
 import { BuiltInProviderType } from 'next-auth/providers';
 import { ClientSafeProvider, LiteralUnion, signIn } from 'next-auth/react';
+import CustomTextInput from './CustomTextInput';
 import { DiscordIcon } from '../assets/icons';
 import GithubIcon from '../assets/icons/GithubIcon';
 import GoogleIcon from '../assets/icons/GoogleIcon';
@@ -15,17 +17,36 @@ const Auths: React.FC<{
       colors: ['#679df6', '#5491f5', 'white']
     },
     github: {
-      icon: <GithubIcon sx={{ color: 'black' }} />,
-      colors: ['#8b76a9', '#7c659e', 'black']
+      icon: <GithubIcon sx={{ color: 'black' }} className='githubIcon' />,
+      colors: ['#8b76a9', 'black', 'white']
     },
     discord: {
       icon: <DiscordIcon sx={{ color: 'white' }} />,
       colors: ['#8ea0e1', '#8094dd', 'white']
     }
   }
+
+  const StyledCustomTextInput = styled(CustomTextInput)(() => ({
+    width: 'min(70vw, 300px)',
+  }));
+  const [email, setEmail] = React.useState('');
+
   return (
     <Stack direction='column' spacing={1.5}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+        <StyledCustomTextInput
+          handleChange={e => setEmail(e.target.value)}
+          value={email ?? ''}
+          name='Email'
+          required={false}
+          cons={[[(value: string) => !value || /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value), 'Invalid Format']]}
+        />
+      </div>
       {Object.values(providers ?? {}).map((provider) => {
+        if (provider.name === 'Email') return;
         const { icon, colors: [base, bg, accent] } = icons[provider.name.toLowerCase()];
 
         return (
@@ -39,9 +60,18 @@ const Auths: React.FC<{
                 borderColor: base,
                 color: base,
                 "&:hover": {
-                  width: '100vw',
+                  width: 'calc(min(70vw, 300px) * 1.2)',
                   'background-color': bg,
-                  color: accent
+                  color: accent,
+                  "& .githubIcon": {
+                    color: 'white'
+                  }
+                },
+                "& .githubIcon": {
+                  transitionProperty: "color",
+                  transitionDuration: "0.5s",
+                  transitionDelay: "0.25s",
+                  color: 'black'
                 }
               }}
               variant='outlined'
