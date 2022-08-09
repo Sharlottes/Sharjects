@@ -1,12 +1,55 @@
-import React from 'react';
-import { Stack, Button, Divider, styled } from '@mui/material';
-import { BuiltInProviderType } from 'next-auth/providers';
-import { ClientSafeProvider, LiteralUnion, signIn } from 'next-auth/react';
-import CustomTextInput from './CustomTextInput';
-import { DiscordIcon } from '../assets/icons';
-import GithubIcon from '../assets/icons/GithubIcon';
-import GoogleIcon from '../assets/icons/GoogleIcon';
+import React from 'react'
+import { Stack, Button, Divider, Box, Zoom, InputLabel, FormControl, InputAdornment, FormHelperText, OutlinedInput } from '@mui/material'
+import { signIn } from 'next-auth/react'
+import DiscordIcon from '../assets/icons/DiscordIcon'
+import GithubIcon from '../assets/icons/GithubIcon'
+import GoogleIcon from '../assets/icons/GoogleIcon'
 
+import type { BuiltInProviderType } from 'next-auth/providers'
+import type { ClientSafeProvider, LiteralUnion } from 'next-auth/react'
+
+const EmailField: React.FC = () => {
+  const [email, setEmail] = React.useState('');
+  const isValid = !email || /^[a-zA-Z0-9.! #$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\. [a-zA-Z0-9-]+)*$/.test(email);
+
+  return <Box
+    sx={{ display: 'flex', justifyContent: 'flex-start', width: 'min(70vw, 300px)' }}
+  >
+    <FormControl>
+      <InputLabel htmlFor='email' variant='outlined'>Email</InputLabel>
+      <OutlinedInput
+        id='email'
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        error={!isValid}
+        endAdornment={
+          <InputAdornment position="end">
+            <Zoom in={email !== '' && isValid}>
+              <Button sx={{
+                color: 'white',
+                backgroundColor: '#468440',
+                width: '88px', height: '55px',
+                mr: '-14px',
+                opacity: 1,
+                "&:hover": {
+                  backgroundColor: '#468440',
+                }
+              }}>SIGN IN</Button>
+            </Zoom>
+          </InputAdornment>
+        }
+        label="Email"
+        aria-describedby="filled-weight-helper-text"
+        inputProps={{
+          'aria-label': 'weight',
+        }}
+      />
+      {!isValid && (
+        <FormHelperText id="filled-weight-helper-text" sx={{ color: 'red' }}>Invalid Format</FormHelperText>
+      )}
+    </FormControl>
+  </Box>;
+}
 
 const Auths: React.FC<{
   providers?: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | undefined
@@ -26,27 +69,16 @@ const Auths: React.FC<{
     }
   }
 
-  const StyledCustomTextInput = styled(CustomTextInput)(() => ({
-    width: 'min(70vw, 300px)',
-  }));
-  const [email, setEmail] = React.useState('');
-
   return (
     <Stack direction='column' spacing={1.5}>
       <div style={{
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'center',
       }}>
-        <StyledCustomTextInput
-          handleChange={e => setEmail(e.target.value)}
-          value={email ?? ''}
-          name='Email'
-          required={false}
-          cons={[[(value: string) => !value || /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value), 'Invalid Format']]}
-        />
+        <EmailField />
       </div>
       {Object.values(providers ?? {}).map((provider) => {
-        if (provider.name === 'Email') return;
+        if (provider.name === 'Email') return <></>;
         const { icon, colors: [base, bg, accent] } = icons[provider.name.toLowerCase()];
 
         return (
@@ -55,8 +87,8 @@ const Auths: React.FC<{
               sx={{
                 width: 'min(70vw, 300px)',
                 transitionProperty: "width, background-color, color",
-                transitionDuration: "0.5s, 0.5s, 0.5s",
-                transitionDelay: "0s, 0.4s, 0.25s",
+                transitionDuration: "0.3s, 0.3s, 0.3s",
+                transitionDelay: "0s, 0.2s, 0.1s",
                 borderColor: base,
                 color: base,
                 "&:hover": {
