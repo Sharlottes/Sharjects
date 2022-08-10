@@ -1,9 +1,10 @@
 import React from 'react'
-import { Stack, Button, Divider, Box, Zoom, InputLabel, FormControl, InputAdornment, FormHelperText, OutlinedInput } from '@mui/material'
+import { Stack, IconButton, Divider, Box, Button, InputLabel, FormControl, InputAdornment, FormHelperText, OutlinedInput } from '@mui/material'
 import { signIn } from 'next-auth/react'
 import DiscordIcon from '../assets/icons/DiscordIcon'
 import GithubIcon from '../assets/icons/GithubIcon'
 import GoogleIcon from '../assets/icons/GoogleIcon'
+import SendIcon from '@mui/icons-material/Send';
 
 import type { BuiltInProviderType } from 'next-auth/providers'
 import type { ClientSafeProvider, LiteralUnion } from 'next-auth/react'
@@ -13,39 +14,40 @@ const EmailField: React.FC = () => {
   const isValid = !email || /^[a-zA-Z0-9.! #$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\. [a-zA-Z0-9-]+)*$/.test(email);
 
   return <Box
-    sx={{ display: 'flex', justifyContent: 'flex-start', width: 'min(70vw, 300px)' }}
+    sx={{ display: 'flex', justifyContent: 'flex-start' }}
   >
-    <FormControl>
-      <InputLabel htmlFor='email' variant='outlined'>Email</InputLabel>
+    <FormControl sx={{ width: 'min(70vw, 300px)' }}>
+      <InputLabel htmlFor='email' variant='outlined' size='small'>Email</InputLabel>
       <OutlinedInput
         id='email'
         value={email}
         onChange={e => setEmail(e.target.value)}
         error={!isValid}
+        size='small'
         endAdornment={
           <InputAdornment position="end">
-            <Zoom in={email !== '' && isValid}>
-              <Button sx={{
-                color: 'white',
-                backgroundColor: '#468440',
-                width: '88px', height: '55px',
-                mr: '-14px',
-                opacity: 1,
-                "&:hover": {
-                  backgroundColor: '#468440',
-                }
-              }}>SIGN IN</Button>
-            </Zoom>
+            <IconButton
+              disabled={email === '' || !isValid}
+              sx={{
+                transition: 'color 0.25s',
+                color: '#468440',
+                marginRight: '-10px'
+              }}
+            >
+              <SendIcon />
+            </IconButton>
           </InputAdornment>
         }
         label="Email"
-        aria-describedby="filled-weight-helper-text"
+        aria-describedby="error-text"
         inputProps={{
           'aria-label': 'weight',
         }}
       />
       {!isValid && (
-        <FormHelperText id="filled-weight-helper-text" sx={{ color: 'red' }}>Invalid Format</FormHelperText>
+        <FormHelperText id="error-text" sx={{ color: 'red' }}>
+          Invalid Format
+        </FormHelperText>
       )}
     </FormControl>
   </Box>;
@@ -86,13 +88,11 @@ const Auths: React.FC<{
             <Button
               sx={{
                 width: 'min(70vw, 300px)',
-                transitionProperty: "width, background-color, color",
-                transitionDuration: "0.3s, 0.3s, 0.3s",
-                transitionDelay: "0s, 0.2s, 0.1s",
+                transitionProperty: "background-color, color",
+                transitionDuration: "0.3s",
                 borderColor: base,
                 color: base,
                 "&:hover": {
-                  width: 'calc(min(70vw, 300px) * 1.2)',
                   'background-color': bg,
                   color: accent,
                   "& .githubIcon": {
@@ -101,8 +101,7 @@ const Auths: React.FC<{
                 },
                 "& .githubIcon": {
                   transitionProperty: "color",
-                  transitionDuration: "0.5s",
-                  transitionDelay: "0.25s",
+                  transitionDuration: "0.3s",
                   color: 'black'
                 }
               }}
