@@ -11,7 +11,7 @@ import type { ClientSafeProvider, LiteralUnion } from 'next-auth/react'
 
 const EmailField: React.FC = () => {
   const [email, setEmail] = React.useState('');
-  const isValid = !email || /^[a-zA-Z0-9.! #$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\. [a-zA-Z0-9-]+)*$/.test(email);
+  const isValid = !email || /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
 
   return <Box
     sx={{ display: 'flex', justifyContent: 'flex-start' }}
@@ -27,6 +27,7 @@ const EmailField: React.FC = () => {
         endAdornment={
           <InputAdornment position="end">
             <IconButton
+              onClick={() => signIn('email', { email })}
               disabled={email === '' || !isValid}
               sx={{
                 transition: 'color 0.25s',
@@ -80,7 +81,7 @@ const Auths: React.FC<{
         <EmailField />
       </div>
       {Object.values(providers ?? {}).map((provider) => {
-        if (provider.name === 'Email') return <></>;
+        if (provider.name === 'Credentials') return <div style={{ display: 'none' }} key={provider.name} />;
         const { icon, colors: [base, bg, accent] } = icons[provider.name.toLowerCase()];
 
         return (
@@ -93,7 +94,7 @@ const Auths: React.FC<{
                 borderColor: base,
                 color: base,
                 "&:hover": {
-                  'background-color': bg,
+                  backgroundColor: bg,
                   color: accent,
                   "& .githubIcon": {
                     color: 'white'

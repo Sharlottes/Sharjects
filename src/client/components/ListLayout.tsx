@@ -108,7 +108,7 @@ export default function ListLayout(props: { children: JSX.Element, onSearch?: (q
   }
 
   return (
-    <Layout header={
+    <Layout>
       <>
         <Box>
           <Collapse in={shown} sx={{ backgroundColor: '#7289DA', }}>
@@ -144,9 +144,8 @@ export default function ListLayout(props: { children: JSX.Element, onSearch?: (q
             <KeyboardArrowUpIcon />
           </Fab>
         </ScrollTop>
+        {props.children}
       </>
-    }>
-      {props.children}
     </Layout>
   )
 }

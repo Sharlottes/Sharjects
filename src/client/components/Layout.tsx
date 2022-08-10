@@ -5,7 +5,6 @@ import type { ScriptProps } from 'next/script';
 import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
-import AppBar from '@mui/material/AppBar'
 
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -14,11 +13,10 @@ import { useSnackbar } from 'notistack'
 import { signIn, useSession } from 'next-auth/react'
 
 interface LayoutProps extends ScriptProps {
-  header?: JSX.Element,
   muteAlart?: boolean
 }
 
-const Layout: React.FC<LayoutProps> = ({ header, children, muteAlart = false }) => {
+const Layout: React.FC<LayoutProps> = ({ children, muteAlart = false }) => {
   const { status } = useSession();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
@@ -43,13 +41,8 @@ const Layout: React.FC<LayoutProps> = ({ header, children, muteAlart = false }) 
 
   return (
     <>
-      <AppBar sx={{ 'backgroundColor': 'white' }}>
-        <Header />
-        {header}
-      </AppBar>
-
+      <Header />
       <Toolbar id='back-to-top-anchor' />
-
       {children}
     </>
   )
