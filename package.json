@@ -4,7 +4,7 @@
     "dev": "nodemon",
     "client": "cd src/client && next dev",
     "start": "build && next start",
-    "build": "next build"
+    "build": "cd src/client && next dev"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
