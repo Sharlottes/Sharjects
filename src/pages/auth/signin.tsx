@@ -41,7 +41,6 @@ const SignIn: BaseComponentType<{
   }
 
   const registerUser = async (username: string, password: string, e: React.MouseEvent) => {
-    console.log(`client side - id:`, username, ', pw:', password);
     e.preventDefault()
     const res = await fetch('/api/register', {
       method: 'POST',
@@ -51,11 +50,11 @@ const SignIn: BaseComponentType<{
       body: JSON.stringify({ username, password }),
     })
     let data = await res.json()
-    console.log(`client side - register request: `, JSON.stringify(data));
     if (data.message === "success") {
-      const prov = await signIn("credentials", { redirect: false, username, password, remember })
-      console.log(`client side - after signIn: `, prov);
+      await signIn("credentials", { redirect: false, username, password, remember })
       return Router.push("/")
+    } else if (data.message === "already registered") {
+      enqueueSnackbar(data.message, { variant: 'warning', anchorOrigin: { vertical: 'top', horizontal: 'left' } })
     }
   }
 
@@ -95,7 +94,6 @@ const SignIn: BaseComponentType<{
           <Button
             onClick={async () => {
               const res = await signIn('credentials', { redirect: false, username, password, remember })
-              console.log(`client side - signIn result: `, res)
               if (res) {
                 if (!res.ok) {
                   enqueueSnackbar(res.error, { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'left' } })

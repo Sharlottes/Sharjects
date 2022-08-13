@@ -31,10 +31,10 @@ const links = typeAsserted<Array<[string, string]>>()([
 
 const Profile: React.FC = () => {
   const [profileAnchorEl, setProfileAnchorEl] = React.useState<HTMLElement | null>(null)
+  const { data: session } = useSession();
+
   const handleProfileOpen = (evt: React.MouseEvent<HTMLElement>) => setProfileAnchorEl(evt.currentTarget)
   const handleProfileClose = () => setProfileAnchorEl(null)
-
-  const { data: session, status } = useSession();
 
   return (
     <>
@@ -64,9 +64,6 @@ const Profile: React.FC = () => {
           </Link>
         </MenuItem>
         <Divider />
-        <MenuItem onClick={() => status === 'unauthenticated' ? signIn() : signOut()}>
-          {status === 'unauthenticated' ? "Sign In" : "Sign Out"}
-        </MenuItem>
       </Menu>
     </>
   )
@@ -103,6 +100,8 @@ const SideMenu: React.FC = () => {
 }
 
 const Header: React.FC = () => {
+  const { status } = useSession();
+
   return (
     <AppBar>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -119,7 +118,14 @@ const Header: React.FC = () => {
           </Link>
           <NavMenu />
         </Stack>
-        <Profile />
+        <Stack direction='row' spacing={3}>
+          <Button
+            sx={{ color: 'white' }}
+            onClick={() => status === 'unauthenticated' ? signIn() : signOut()}>
+            {status === 'unauthenticated' ? "Sign In" : "Sign Out"}
+          </Button>
+          <Profile />
+        </Stack>
       </Toolbar>
     </AppBar >
   )

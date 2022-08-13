@@ -16,14 +16,13 @@ export default NextAuth({
         email: {},
         password: {}
       },
+
       async authorize(credentials, req) {
         if (!credentials) throw new Error('no credentials');
-        console.log('credentials password: ', credentials.password);
         const username = credentials.username;
         const email = credentials.email;
         const password = credentials.password;
         const user = await UserModel.findOne({ email }) ?? await UserModel.findOne({ username })
-        console.log(`credentials found user: `, user);
         if (!user) throw new Error('NO USER FOUND')
         if (!password) throw new Error("Please enter password")
         if (!(await bcrypt.compare(password, user.password))) throw new Error("Password Incorrect.");

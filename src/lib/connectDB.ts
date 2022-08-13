@@ -11,6 +11,6 @@ const connectDB = () => {
     console.log('Connected to mongodb.')
   })
 }
-console.log('connectDB');
+console.log('connecting to mongodb');
 
 export default connectDB;
