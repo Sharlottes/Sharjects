@@ -1,5 +1,5 @@
 import React from 'react'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 
 import CustomTextInput from 'components/CustomTextInput'
 import Layout from 'components/Layout'
@@ -20,6 +20,7 @@ import { getProviders, signIn } from 'next-auth/react'
 import type { ClientSafeProvider, LiteralUnion } from 'next-auth/react'
 import type { BuiltInProviderType } from 'next-auth/providers'
 import type { BaseComponentType } from '../_app'
+import { useSnackbar } from 'notistack';
 
 interface State {
   username: string
@@ -32,12 +33,15 @@ const SignIn: BaseComponentType<{
   const [{ username, password }, setValues] = React.useState<State>({ username: '', password: '' })
   const [asEmail, setAsEmail] = React.useState(false);
   const [remember, setRemember] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+  const { query } = useRouter();
 
   const handleChange = (prop: keyof State) => (evt: React.ChangeEvent<HTMLInputElement>) => {
     setValues(prev => ({ ...prev, [prop]: evt.target.value }))
   }
 
   const registerUser = async (username: string, password: string, e: React.MouseEvent) => {
+    console.log(`client side - id:`, username, ', pw:', password);
     e.preventDefault()
     const res = await fetch('/api/register', {
       method: 'POST',
@@ -47,8 +51,10 @@ const SignIn: BaseComponentType<{
       body: JSON.stringify({ username, password }),
     })
     let data = await res.json()
+    console.log(`client side - register request: `, JSON.stringify(data));
     if (data.message === "success") {
-      await signIn("credentials", { redirect: false, username, password })
+      const prov = await signIn("credentials", { redirect: false, username, password, remember })
+      console.log(`client side - after signIn: `, prov);
       return Router.push("/")
     }
   }
@@ -87,7 +93,17 @@ const SignIn: BaseComponentType<{
             Remember User
           </Button>
           <Button
-            onClick={() => signIn('credentials', { username, password, remember })}
+            onClick={async () => {
+              const res = await signIn('credentials', { redirect: false, username, password, remember })
+              console.log(`client side - signIn result: `, res)
+              if (res) {
+                if (!res.ok) {
+                  enqueueSnackbar(res.error, { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'left' } })
+                } else if (query.callbackUrl) {
+                  Router.push(query.callbackUrl as string);
+                }
+              }
+            }}
             startIcon={<AddIcon />}
             disabled={!isValid}
             variant='outlined'

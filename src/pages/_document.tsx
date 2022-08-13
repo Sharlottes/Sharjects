@@ -1,9 +1,10 @@
 import Document from 'next/document';
-import type { DocumentContext } from 'next/document';
 import { Html, Head, Main, NextScript } from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from './createEmotionCache';
 import theme from './theme';
+
+import type { DocumentContext } from 'next/document';
 
 class MyDocument extends Document {
   render() {

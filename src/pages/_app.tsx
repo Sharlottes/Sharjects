@@ -1,17 +1,16 @@
 import React from 'react';
+import { SessionProvider, useSession } from "next-auth/react"
 import Head from 'next/head'
 
-import type { AppProps } from 'next/app';
-import CssBaseline from '@mui/material/CssBaseline';
-import type { EmotionCache } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import theme from 'src/pages/theme';
 import createEmotionCache from 'src/pages/createEmotionCache';
 
+import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import { SnackbarProvider } from 'notistack';
-import { SessionProvider, useSession } from "next-auth/react"
+import connectdb from '../lib/connectDB'
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -19,16 +18,21 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import 'assets/fonts/UniSans.css';
 import 'assets/styles/global.css';
-import { NextComponentType, NextPageContext } from 'next';
-import connectdb from '../lib/connectDB'
+
+import type { AppProps } from 'next/app';
+import type { EmotionCache } from '@emotion/react';
+import type { NextComponentType, NextPageContext } from 'next';
+
+// connect to mongo db
 connectdb()
+
 // Create a client
 const queryClient = new QueryClient();
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-export type BaseComponentType<P, IP = P> = NextComponentType<NextPageContext, IP, P> & { auth?: any };
+export type BaseComponentType<P = {}, IP = P> = NextComponentType<NextPageContext, IP, P> & { auth?: any };
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;

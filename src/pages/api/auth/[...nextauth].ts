@@ -7,7 +7,6 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcrypt'
 import UserModel from 'models/User'
 
-
 export default NextAuth({
   providers: [
     CredentialsProvider({
@@ -18,12 +17,17 @@ export default NextAuth({
         password: {}
       },
       async authorize(credentials, req) {
-        const { username, email, password } = { ...credentials };
-        const user = await UserModel.findOne({ email })
-        if (!user) {
-          throw new Error("You haven't registered yet")
-        }
-        if (user) return signinUser({ password: password as string, user })
+        if (!credentials) throw new Error('no credentials');
+        console.log('credentials password: ', credentials.password);
+        const username = credentials.username;
+        const email = credentials.email;
+        const password = credentials.password;
+        const user = await UserModel.findOne({ email }) ?? await UserModel.findOne({ username })
+        console.log(`credentials found user: `, user);
+        if (!user) throw new Error('NO USER FOUND')
+        if (!password) throw new Error("Please enter password")
+        if (!(await bcrypt.compare(password, user.password))) throw new Error("Password Incorrect.");
+        return user;
       }
     }),
     GithubProvider({
@@ -52,9 +56,3 @@ export default NextAuth({
     secret: process.env.JWT_SECRET as string,
   }
 })
-
-const signinUser: (user: { password: string, user: any }) => Promise<any> = async ({ password, user }) => {
-  if (!user.password) throw new Error("Please enter password")
-  if (!(await bcrypt.compare(password, user.password))) throw new Error("Password Incorrect.");
-  return user;
-}

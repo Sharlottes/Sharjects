@@ -1,8 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "nodemon",
-    "client": "next dev",
+    "dev": "next dev",
     "start": "build && next start",
     "build": "next build"
   },

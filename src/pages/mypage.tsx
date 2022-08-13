@@ -1,10 +1,8 @@
-import type React from 'react'
 import Layout from 'components/Layout'
-import type { IUser } from 'src/models/User'
-import { BaseComponentType } from './_app'
+import type { BaseComponentType } from './_app'
 import { useSession } from 'next-auth/react';
 
-const MyPage: BaseComponentType<{ User: IUser }> = () => {
+const MyPage: BaseComponentType = () => {
   const { data: session } = useSession();
 
   return (

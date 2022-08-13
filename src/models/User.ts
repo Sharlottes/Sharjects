@@ -1,8 +1,8 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, models } from 'mongoose'
 import type { Document } from 'mongoose'
 
 export interface IUser {
-  userId: string
+  username: string
   password: string
   email?: string
 }
@@ -11,8 +11,9 @@ export interface IUserDocument extends IUser, Document { }
 
 const UserSchema = new Schema<IUserDocument>(
   {
-    userId: { type: String, required: true },
-    password: { type: String, required: true }
+    username: { type: String, required: true },
+    password: { type: String, required: true },
+    email: { type: String, required: false }
   },
   {
     timestamps: true,
@@ -20,4 +21,4 @@ const UserSchema = new Schema<IUserDocument>(
   },
 )
 
-export default model<IUserDocument>('User', UserSchema)
+export default models.User || model<IUserDocument>('User', UserSchema)
