@@ -11,23 +11,13 @@ import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar'
 import Stack from '@mui/material/Stack'
 import Menu from '@mui/material/Menu'
-import Box from '@mui/material/Box'
 
 import CommunicationIcon from '../assets/icons/CommunicationIcon'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu'
 
-import { typeAsserted } from 'src/utils/typeAsserted'
 import { useSession, signOut, signIn } from 'next-auth/react'
 import { Drawer } from '@mui/material'
-
-const links = typeAsserted<Array<[string, string]>>()([
-  ['/', 'Home'],
-  ['/about', 'About'],
-])
-  .map(([url, name]) =>
-    ({ url, name })
-  )
 
 const Profile: React.FC = () => {
   const [profileAnchorEl, setProfileAnchorEl] = React.useState<HTMLElement | null>(null)
@@ -69,20 +59,6 @@ const Profile: React.FC = () => {
   )
 }
 
-const NavMenu: React.FC = () => {
-  return (
-    <Box>
-      {links.map((link, i) =>
-        <Button key={i} sx={{ my: 2, color: 'white' }}>
-          <Link href={link.url}>
-            <Typography className='.noselect'>{link.name}</Typography>
-          </Link>
-        </Button>
-      )}
-    </Box>
-  )
-}
-
 const SideMenu: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   return (
@@ -116,7 +92,9 @@ const Header: React.FC = () => {
               <IconButton sx={{ color: 'white' }}><CommunicationIcon /></IconButton>
             </Tooltip>
           </Link>
-          <NavMenu />
+          <Button sx={{ my: 2, color: 'white' }}>
+            Projects
+          </Button>
         </Stack>
         <Stack direction='row' spacing={3}>
           <Button
@@ -127,7 +105,7 @@ const Header: React.FC = () => {
           <Profile />
         </Stack>
       </Toolbar>
-    </AppBar >
+    </AppBar>
   )
 }
 
