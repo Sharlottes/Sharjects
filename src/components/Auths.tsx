@@ -1,58 +1,14 @@
 import React from 'react'
-import { Stack, IconButton, Divider, Box, Button, InputLabel, FormControl, InputAdornment, FormHelperText, OutlinedInput } from '@mui/material'
+
+import { Stack, Divider, Button } from '@mui/material'
 import { signIn } from 'next-auth/react'
+
 import DiscordIcon from '../assets/icons/DiscordIcon'
 import GithubIcon from '../assets/icons/GithubIcon'
 import GoogleIcon from '../assets/icons/GoogleIcon'
-import SendIcon from '@mui/icons-material/Send';
 
 import type { BuiltInProviderType } from 'next-auth/providers'
 import type { ClientSafeProvider, LiteralUnion } from 'next-auth/react'
-
-const EmailField: React.FC = () => {
-  const [email, setEmail] = React.useState('');
-  const isValid = !email || /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
-
-  return <Box
-    sx={{ display: 'flex', justifyContent: 'flex-start' }}
-  >
-    <FormControl sx={{ width: 'min(70vw, 300px)' }}>
-      <InputLabel htmlFor='email' variant='outlined' size='small'>Email</InputLabel>
-      <OutlinedInput
-        id='email'
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        error={!isValid}
-        size='small'
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              onClick={() => signIn('email', { email })}
-              disabled={email === '' || !isValid}
-              sx={{
-                transition: 'color 0.25s',
-                color: '#468440',
-                marginRight: '-10px'
-              }}
-            >
-              <SendIcon />
-            </IconButton>
-          </InputAdornment>
-        }
-        label="Email"
-        aria-describedby="error-text"
-        inputProps={{
-          'aria-label': 'weight',
-        }}
-      />
-      {!isValid && (
-        <FormHelperText id="error-text" sx={{ color: 'red' }}>
-          Invalid Format
-        </FormHelperText>
-      )}
-    </FormControl>
-  </Box>;
-}
 
 const Auths: React.FC<{
   providers?: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | undefined
@@ -74,12 +30,6 @@ const Auths: React.FC<{
 
   return (
     <Stack direction='column' spacing={1.5}>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-      }}>
-        <EmailField />
-      </div>
       {Object.values(providers ?? {}).map((provider) => {
         if (provider.name === 'Credentials') return <div style={{ display: 'none' }} key={provider.name} />;
         const { icon, colors: [base, bg, accent] } = icons[provider.name.toLowerCase()];

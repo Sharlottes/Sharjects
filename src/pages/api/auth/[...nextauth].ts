@@ -4,45 +4,28 @@ import GoogleProvider from "next-auth/providers/google"
 import DiscordProvider from "next-auth/providers/discord"
 import CredentialsProvider from 'next-auth/providers/credentials'
 
-import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
-import clientPromise from 'src/client/lib/mongodb'
+import bcrypt from 'bcrypt'
+import UserModel from 'models/User'
+
 
 export default NextAuth({
   providers: [
     CredentialsProvider({
+      name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" }
+        username: {},
+        email: {},
+        password: {}
       },
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
-        const user = { id: 1, name: "J Smith", email: "jsmith@example.com" }
-        console.log(user);
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user
-        } else {
-          // If you return null or false then the credentials will be rejected
-          return null
-          // You can also Reject this callback with an Error or with a URL:
-          // throw new Error("error message") // Redirect to error page
-          // throw "/path/to/redirect"        // Redirect to a URL
+        const { username, email, password } = { ...credentials };
+        const user = await UserModel.findOne({ email })
+        if (!user) {
+          throw new Error("You haven't registered yet")
         }
+        if (user) return signinUser({ password: password as string, user })
       }
     }),
-    /*
-    EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD
-        }
-      },
-      from: process.env.EMAIL_FROM as string
-    }),
-    */
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
@@ -67,6 +50,11 @@ export default NextAuth({
   secret: process.env.NEXTAUTH__SECRET as string,
   jwt: {
     secret: process.env.JWT_SECRET as string,
-  },
-  adapter: MongoDBAdapter(clientPromise)
+  }
 })
+
+const signinUser: (user: { password: string, user: any }) => Promise<any> = async ({ password, user }) => {
+  if (!user.password) throw new Error("Please enter password")
+  if (!(await bcrypt.compare(password, user.password))) throw new Error("Password Incorrect.");
+  return user;
+}

@@ -34,6 +34,7 @@ interface IStepCtx {
   nextStep: () => unknown
   prevStep: () => unknown
 }
+
 const StepContext = React.createContext<IStepCtx>({ activeStep: 0, maxStep: 3, nextStep: () => { }, prevStep: () => { } })
 const StepContextProvider: React.FC<{ children: JSX.Element }> = ({ children }) => {
   const nextStep = () => setState(prev => ({ ...prev, activeStep: Math.min(prev.maxStep, prev.activeStep + 1) }))
@@ -74,7 +75,7 @@ const DataInputStep: React.FC = () => {
     console.log(`id: ${id}, pw: ${password}`)
     setSubmitStatus(SubmitStatus.SUBMITTING)
     setTimeout(() => {
-      enqueueSnackbar('account is successfully created', {
+      enqueueSnackbar('User is successfully created', {
         anchorOrigin: {
           vertical: 'top',
           horizontal: 'left'
@@ -86,7 +87,7 @@ const DataInputStep: React.FC = () => {
     }, 2000)
 
     /*
-    await fetch('/api/account', {
+    await fetch('/api/User', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -96,7 +97,7 @@ const DataInputStep: React.FC = () => {
         password: password
       })
     })
-      .then(res => always<Promise<IAccount>>(res.json(), console.log(res)))
+      .then(res => always<Promise<IUser>>(res.json(), console.log(res)))
       .then(({ userId, password: resPassword }) => {
         setSubmitStatus(SubmitStatus.DONE)
         Router.push('/login')
@@ -114,27 +115,27 @@ const DataInputStep: React.FC = () => {
 
   return (
     <>
-      <Typography id='title' variant='h2' noWrap fontSize='min(6vw, 70px)' sx={{ textAlign: 'center' }}>Register Account</Typography>
+      <Typography id='title' variant='h2' noWrap fontSize='min(6vw, 70px)' sx={{ textAlign: 'center' }}>Register User</Typography>
       <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
         <Stack direction='column' spacing={1} sx={{ mt: '20px', mb: '20px', width: 'min(70vw, 300px)', justifyContent: 'center' }}>
           <CustomTextInput
             handleChange={handleChange('id')}
             value={id}
             enable={submitStatus !== SubmitStatus.SUBMITTING}
-            name='Id'
+            label='Id'
           />
           <CustomTextInput
             handleChange={handleChange('password')}
             value={password}
             enable={submitStatus !== SubmitStatus.SUBMITTING}
-            name='Password'
+            label='Password'
             privated
           />
           <CustomTextInput
             handleChange={handleChange('email')}
             value={email ?? ''}
             enable={submitStatus !== SubmitStatus.SUBMITTING}
-            name='Email'
+            label='Email'
             required={false}
             cons={[[(value: string) => !value || /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value), 'Invalid Format']]}
           />

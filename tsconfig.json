@@ -13,13 +13,10 @@
         "assets/*"
       ],
       "models/*": [
-        "src/server/models/*"
-      ],
-      "controllers/*": [
-        "src/server/controllers/*"
+        "src/models/*"
       ],
       "components/*": [
-        "src/client/components/*"
+        "src/components/*"
       ],
     },
     "lib": [

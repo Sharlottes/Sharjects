@@ -5,8 +5,8 @@ import type { AppProps } from 'next/app';
 import CssBaseline from '@mui/material/CssBaseline';
 import type { EmotionCache } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import theme from 'src/client/pages/theme';
-import createEmotionCache from 'src/client/pages/createEmotionCache';
+import theme from 'src/pages/theme';
+import createEmotionCache from 'src/pages/createEmotionCache';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
@@ -20,7 +20,8 @@ import '@fontsource/roboto/700.css';
 import 'assets/fonts/UniSans.css';
 import 'assets/styles/global.css';
 import { NextComponentType, NextPageContext } from 'next';
-
+import connectdb from '../lib/connectDB'
+connectdb()
 // Create a client
 const queryClient = new QueryClient();
 

@@ -1,23 +1,23 @@
 import { Schema, model } from 'mongoose'
 import type { Document } from 'mongoose'
 
-export interface IAccount {
+export interface IUser {
   userId: string
   password: string
   email?: string
 }
 
-export interface IAccountDocument extends IAccount, Document { }
+export interface IUserDocument extends IUser, Document { }
 
-const accountSchema = new Schema<IAccountDocument>(
+const UserSchema = new Schema<IUserDocument>(
   {
     userId: { type: String, required: true },
     password: { type: String, required: true }
   },
   {
     timestamps: true,
-    collection: 'accounts',
+    collection: 'Users',
   },
 )
 
-export default model<IAccountDocument>('Account', accountSchema)
+export default model<IUserDocument>('User', UserSchema)
