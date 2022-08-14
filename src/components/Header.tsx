@@ -92,9 +92,6 @@ const Header: React.FC = () => {
               <IconButton sx={{ color: 'white' }}><CommunicationIcon /></IconButton>
             </Tooltip>
           </Link>
-          <Button sx={{ my: 2, color: 'white' }}>
-            Projects
-          </Button>
         </Stack>
         <Stack direction='row' spacing={3}>
           <Button

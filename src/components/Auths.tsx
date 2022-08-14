@@ -57,7 +57,7 @@ const Auths: React.FC<{
                 }
               }}
               variant='outlined'
-              onClick={() => signIn(provider.id)}
+              onClick={() => signIn(provider.id).then(data => console.log('after oauth: ', data))}
             >
               {icon} <Divider orientation='vertical' sx={{ ml: 1, mr: 1 }} /> Sign in with {provider.name}
             </Button>
