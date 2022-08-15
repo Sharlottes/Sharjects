@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 
 import { Stack, Divider, Button } from '@mui/material'
 import { signIn } from 'next-auth/react'
@@ -13,6 +14,7 @@ import type { ClientSafeProvider, LiteralUnion } from 'next-auth/react'
 const Auths: React.FC<{
   providers?: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | undefined
 }> = ({ providers }) => {
+  const { query } = useRouter();
   const icons: Record<string, { icon: JSX.Element, colors: string[] }> = {
     google: {
       icon: <GoogleIcon sx={{ color: 'white' }} />,
@@ -57,7 +59,17 @@ const Auths: React.FC<{
                 }
               }}
               variant='outlined'
-              onClick={() => signIn(provider.id).then(data => console.log('after oauth: ', data))}
+              onClick={() => {
+                signIn(provider.id, {
+                  callbackUrl: `${query.callbackUrl
+                    ? decodeURIComponent(query.callbackUrl as string)
+                    : window.location.origin
+                    }`
+                }).then(
+                  data => console.log('after oauth: ', data),
+                  error => console.log("failed to signIn: ", error)
+                ).catch(error => console.log("failed to signIn in catch: ", error))
+              }}
             >
               {icon} <Divider orientation='vertical' sx={{ ml: 1, mr: 1 }} /> Sign in with {provider.name}
             </Button>
