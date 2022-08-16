@@ -29,7 +29,7 @@ interface User {
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
 //github repo api로 가져올 바에야 직접 쓰는게 더 빠르고 리밋 부담 감소
-const contributors = ['Sharlottes', 'AmateurPotion', 'younggam', 'sk7725']
+const contributors = ['Sharlottes', 'AmateurPotion', 'younggam', 'sk7725', 'Yeonpil2']
 
 let timeout: NodeJS.Timeout | undefined;
 const ContributorsHeader: React.FC = () => {

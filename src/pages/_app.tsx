@@ -3,8 +3,8 @@ import { SessionProvider, useSession } from "next-auth/react"
 import Head from 'next/head'
 
 import { QueryClient, QueryClientProvider } from 'react-query';
-import theme from 'src/pages/theme';
-import createEmotionCache from 'src/pages/createEmotionCache';
+import theme from 'src/theme';
+import createEmotionCache from 'src/createEmotionCache';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
