@@ -6,16 +6,13 @@ import Paper from '@mui/material/Paper'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-
-import { LeftArrow, RightArrow } from "components/Arrows";
 import Layout from 'components/Layout'
 import Divider from '@mui/material/Divider';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import { VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { Button } from '@mui/material'
-import { useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
+import type { Session } from 'next-auth/core/types'
 
 interface User {
   login: string,
@@ -55,33 +52,88 @@ const ContributorsHeader: React.FC = () => {
 
   return <></>
 }
-const Contributors: React.FC<{ users: User[] }> = ({ users }) => {
-  const { data: session } = useSession();
-  const onWheel = (apiObj: scrollVisibilityApiType, ev: React.WheelEvent) => {
-    const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
 
-    if (isThouchpad) {
-      ev.stopPropagation();
-      return;
-    }
+const onWheel = (apiObj: scrollVisibilityApiType, ev: React.WheelEvent) => {
+  const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
 
-    if (ev.deltaY < 0) {
-      apiObj.scrollNext();
-    } else if (ev.deltaY > 0) {
-      apiObj.scrollPrev();
-    }
+  if (isThouchpad) {
+    ev.stopPropagation();
+    return;
   }
 
-  const followUser = (username: string) => {
-    /*
-    fetch(`https://api.github.com/user/following/${username}`, {
+  if (ev.deltaY < 0) {
+    apiObj.scrollNext();
+  } else if (ev.deltaY > 0) {
+    apiObj.scrollPrev();
+  }
+}
+
+const ContributorCard: React.FC<{ user: User }> = ({ user }) => {
+  const [isFollowing, setFollowing] = React.useState(false)
+  const { data: session } = useSession();
+
+  const request = React.useCallback((method: string = 'GET') => {
+    if (!(session && session.accessToken)) return;
+
+    return fetch(`https://api.github.com/user/following/${user.login}`, {
+      method,
       headers: {
         Accept: "application/vnd.github+json",
-        //Authorization: process.env.GITHUB_REST_PAT as string
+        Authorization: `token ${session.accessToken}`
       }
     })
-    */
+  }, [session, user.login])
+
+  React.useEffect(() => {
+    if (session && session.accessToken) {
+      request()?.then(res => setFollowing(res.status === 204))
+    }
+  }, [request, session])
+
+  const fetchFollowing = () => {
+    if (session && session.accessToken) {
+      request(isFollowing ? 'DELETE' : 'PUT')?.then(async res => console.log('result: ', await res.json(), ' status: ', res.status)).catch(console.log)
+    }
+    else signIn()
   }
+  return (
+    <Paper sx={{ height: '180px', marginLeft: '10px', paddingTop: '5px' }}>
+      <div style={{ display: 'flex', marginLeft: '5px', justifyContent: 'start', alignItems: 'start' }}>
+        <Avatar src={user.avatar_url} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <div>
+            <Typography variant='subtitle1' sx={{ fontWeight: 'bold' }}>{user.login}</Typography>
+            <Typography variant='caption' sx={{ position: 'relative', top: '-10px' }}>{user.name ?? <span style={{ color: 'gray' }}>{"<Empty>"}</span>}</Typography>
+          </div>
+          <Button
+            size='small'
+            variant='outlined'
+            onClick={fetchFollowing}
+            sx={{ marginRight: 2, height: '35px' }}
+            disabled={user.name === (session?.name as string | undefined)?.trim()}
+          >
+            {isFollowing ? "UnFollow" : "Follow"}
+          </Button>
+        </div>
+      </div>
+      <Stack direction='row' spacing={2} divider={<Divider />} sx={{ display: 'flex', ml: '10px', mr: '10px' }}>
+        {[
+          [user.public_repos, 'REPOS'],
+          [user.public_gists, 'GISTS'],
+          [user.followers, 'FOLLOWERS']
+        ].map(([value, name], i) =>
+          <div key={i}>
+            <Typography sx={{ fontWeight: 'bold', textAlign: 'center' }}>{value}</Typography>
+            <Typography>{name}</Typography>
+          </div>
+        )}
+      </Stack>
+      <Typography variant='body1' sx={{ ml: '5px' }}>{user.bio}</Typography>
+    </Paper>
+  )
+}
+
+const Contributors: React.FC<{ users: User[] }> = ({ users }) => {
   return (
     <Box sx={{
       "& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar": {
@@ -94,33 +146,7 @@ const Contributors: React.FC<{ users: User[] }> = ({ users }) => {
       mr: '10px',
     }}>
       <ScrollMenu Header={<ContributorsHeader />} onWheel={onWheel}>
-        {users && users.map((user, i) =>
-          <Paper key={i} sx={{ height: '180px', marginLeft: '10px', paddingTop: '5px' }}>
-            <div style={{ display: 'flex', marginLeft: '5px', justifyContent: 'start', alignItems: 'start' }}>
-              <Avatar src={user.avatar_url} />
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                <div>
-                  <Typography variant='subtitle1' sx={{ fontWeight: 'bold' }}>{user.login}</Typography>
-                  <Typography variant='caption' sx={{ position: 'relative', top: '-10px' }}>{user.name ?? <span style={{ color: 'gray' }}>{"<Empty>"}</span>}</Typography>
-                </div>
-                <Button variant='outlined' size='small' onClick={() => { }} sx={{ marginRight: 2, height: '35px' }}>Follow</Button>
-              </div>
-            </div>
-            <Stack direction='row' spacing={2} divider={<Divider />} sx={{ display: 'flex', ml: '10px', mr: '10px' }}>
-              {[
-                [user.public_repos, 'REPOS'],
-                [user.public_gists, 'GISTS'],
-                [user.followers, 'FOLLOWERS']
-              ].map(([value, name], i) =>
-                <div key={i}>
-                  <Typography sx={{ fontWeight: 'bold', textAlign: 'center' }}>{value}</Typography>
-                  <Typography>{name}</Typography>
-                </div>
-              )}
-            </Stack>
-            <Typography variant='body1' sx={{ ml: '5px' }}>{user.bio}</Typography>
-          </Paper>
-        )}
+        {users && users.map((user, i) => <ContributorCard key={i} user={user} />)}
       </ScrollMenu>
     </Box >
   )
@@ -148,16 +174,15 @@ const CardDefensePage: React.FC<{ users: User[] }> = ({ users }) =>
 
 export async function getServerSideProps() {
   const users: User[] = [];
-  try {
-    for await (const username of contributors) {
-      users.push(await fetch(`https://api.github.com/users/${username}`, {
-        headers: {
-          Authorization: process.env.GITHUB_REST_PAT as string
-        }
-      }).then((data) => data.json(), console.log))
-    }
-  } catch (e) {
-    console.log(e)
+  for await (const username of contributors) {
+    users.push(await fetch(`https://api.github.com/users/${username}`, {
+      headers: {
+        Authorization: `token ${process.env.GITHUB_REST_PAT}`
+      }
+    }).then(
+      data => data.json(),
+      err => console.log('failed to get user data: ', err)
+    ))
   }
   return {
     props: { users },
