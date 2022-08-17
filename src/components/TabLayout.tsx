@@ -16,8 +16,8 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import Layout from './Layout';
 
-const CollapseFab = styled(Fab)<{ shown: boolean }>(({ shown }) => ({
-  ...(shown && {
+const CollapseFab = styled(Fab)<{ shown?: string }>(({ shown }) => ({
+  ...(Boolean(shown) && {
     boxShadow: 'none'
   }),
   marginRight: '5px', marginLeft: '5px',
@@ -68,7 +68,7 @@ const ScrollTop: React.FC = () => {
   );
 }
 
-const TabLayout: React.FC<PropsWithChildren> = ({ children }) => {
+const TabLayout: React.FC<PropsWithChildren & {onIndexChanged?: (index: number) => void}> = ({ children, onIndexChanged }) => {
   const [shown, setShown] = React.useState(true);
   const [index, setIndex] = React.useState(0);
 
@@ -76,14 +76,14 @@ const TabLayout: React.FC<PropsWithChildren> = ({ children }) => {
     <Layout header={<>
       <Collapse collapsedSize='5px' in={shown} sx={{ backgroundColor: '#7289DA', }}>
         <Toolbar variant='dense' sx={{ ml: '20px' }}>
-          <Tabs value={index} onChange={(_, index)=>setIndex(index)}>
+          <Tabs value={index} onChange={(_, index)=>{setIndex(index); if(onIndexChanged) onIndexChanged(index)}}>
             <StyledTab label='About' />
             <StyledTab label='Forum' />
           </Tabs>
         </Toolbar>
       </Collapse>
 
-      <CollapseFab size='small' shown={shown} onClick={()=>setShown(prev=>!prev)} >
+      <CollapseFab size='small' shown={shown.toString()} onClick={()=>setShown(prev=>!prev)} >
         {shown ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
       </CollapseFab>
     </>}>

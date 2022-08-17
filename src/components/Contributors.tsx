@@ -1,5 +1,6 @@
 import React from 'react'
 
+import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import Avatar from '@mui/material/Avatar'
@@ -8,41 +9,19 @@ import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 
-import usePreventBodyScroll from "src/hooks/usePreventBodyScroll";
-import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
+
 import { signIn, useSession } from 'next-auth/react'
 import type { GithubProfile } from 'next-auth/providers/github'
 
-type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
-
-let timeout: NodeJS.Timeout | undefined;
-const ContributorsHeader: React.FC = () => {
-  const {
-    scrollPrev,
-    scrollNext,
-    isFirstItemVisible,
-    isLastItemVisible,
-    scrollContainer
-  } = React.useContext(VisibilityContext);
-
-  React.useEffect(() => {
-    if (timeout) clearTimeout(timeout)
-    if (document.activeElement === scrollContainer.current) return
-    timeout = setTimeout(() => {
-      if (isFirstItemVisible && !isLastItemVisible) scrollNext()
-      if (!isFirstItemVisible && isLastItemVisible) scrollPrev()
-    }, 10000)
-  }, [scrollNext, scrollPrev, isFirstItemVisible, isLastItemVisible, scrollContainer])
-
-  return <></>
-}
-
-const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
-  const [isFollowing, setFollowing] = React.useState(false)
+const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user: userprop }) => {
+  const [isFollowing, setFollowing] = React.useState(false);
+  const [user,] = React.useState(userprop);
   const { data: session } = useSession();
 
   const request = React.useCallback((method: string = 'GET') => {
-    if (!(session && session.accessToken)) return;
+    if (!(session && session.accessToken) || user.name == session?.user?.name) return;
 
     return fetch(`https://api.github.com/user/following/${user.login}`, {
       method,
@@ -60,17 +39,40 @@ const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
   }, [request, session])
 
   const fetchFollowing = () => {
-    if (session && session.accessToken) {
-      request(isFollowing ? 'DELETE' : 'PUT')
-        ?.then(async res => {
-          if(res.ok) setFollowing(prev => !prev)
-        })
-        .catch(console.log)
-    }
-    else signIn()
+    if (session && session.accessToken) 
+      request(isFollowing ? 'DELETE' : 'PUT')?.then(res => res.ok&&setFollowing(prev => !prev))
+    else signIn('github')
   }
   return (
-    <Paper sx={{ height: '180px', marginLeft: '10px', paddingTop: '5px' }}>
+    <Box
+      sx={{
+        width: 270,
+        transition: 'transform 300ms ease-in-out', 
+        '&:hover': {
+          transform: 'scale(1.05)'
+        },
+        "&:hover::after": {
+          opacity: 1
+        },
+        '&::after': {
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          zIndex: -1,
+          top: 0,
+          left: 0,
+          content: '""',
+          borderRadius: '4px',
+          boxShadow: '0px 10px 48px -4px rgba(0,0,0,0.75)',
+          opacity: 0,
+          transition: 'opacity 300ms ease-in-out'
+        }
+      }}
+      component='div' 
+      onClick={(e: React.MouseEvent<HTMLDivElement>)=>{
+        if((e.target as any).id !== 'followbtn') window.open(`https://github.com/${user.login}`, "_blank")
+      }}>
+    <Paper sx={{ height: '180px', pt: '5px' }}>
       <div style={{ display: 'flex', marginLeft: '5px', justifyContent: 'start', alignItems: 'start' }}>
         <Avatar src={user.avatar_url} />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
@@ -79,6 +81,7 @@ const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
             <Typography variant='caption' sx={{ position: 'relative', top: '-10px' }}>{user.name ?? <span style={{ color: 'gray' }}>{"<Empty>"}</span>}</Typography>
           </div>
           <Button
+            id='followbtn'
             size='small'
             variant='outlined'
             onClick={fetchFollowing}
@@ -103,47 +106,50 @@ const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
       </Stack>
       <Typography variant='body1' sx={{ ml: '5px' }}>{user.bio}</Typography>
     </Paper>
+    </Box>
   )
 }
 
 const Contributors: React.FC<{ users: GithubProfile[] }> = ({ users }) => {
-  const { disableScroll, enableScroll } = usePreventBodyScroll();
-  const onWheel = (apiObj: scrollVisibilityApiType, ev: React.WheelEvent) => {
-    const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
+  const [scroll, setScroll] = React.useState(0)
+  const [scrollDirection, setScrollDirection] = React.useState<'left'|'right'|'none'>('none')
 
-    if (isThouchpad) {
-      ev.stopPropagation();
-      return;
+  React.useEffect(()=>{
+    if(scrollDirection !== 'none') {
+      setScroll(prev=>Math.max(0, Math.min(3, prev + 0.03 * (scrollDirection === 'left' ? -1 : 1))))
     }
+  }, [scroll, scrollDirection, setScroll])
 
-    if (ev.deltaY < 0) {
-      apiObj.scrollNext();
-    } else if (ev.deltaY > 0) {
-      apiObj.scrollPrev();
-    }
-  }
-
-  return (
-    <div 
-      onMouseEnter={disableScroll} 
-      onMouseLeave={enableScroll}>
-      <Box
-      sx={{
-        "& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar": {
-          display: 'none'
-        },
-        "& .react-horizontal-scrolling-menu--scroll-container": {
-          msOverflowStyle: 'none',
-          scrollbarWidth: 'none',
-        },
-        marginRight: '10px',
-      }}>
-        <ScrollMenu Header={<ContributorsHeader />} onWheel={onWheel}>
-          {users && users.map((user, i) => <ContributorCard key={i} user={user} />)}
-        </ScrollMenu>
-      </Box>
-    </div>
-  )
+  return (<>
+    <Box sx={{
+      width: '100%', height: 200, 
+      "& .scrollbtn": {
+        position: 'absolute',
+        width: 25, height: 200, zIndex: 99, 
+        backgroundColor: 'rgb(0,0,0,.3)',
+        opacity: scrollDirection !== 'none' ? 1 : 0, transition: 'opacity 200ms', 
+        "&:hover": { opacity: 1 }
+      } 
+    }}>
+      <Button 
+        className='scrollbtn'
+        sx={{float: 'left', left: -10 }} 
+        onMouseEnter={()=>setScrollDirection('left')} 
+        onMouseLeave={()=>setScrollDirection('none')}
+      > <KeyboardArrowLeftIcon /> </Button>
+      <div style={{position: 'absolute', left: -1*270*scroll, overflowX: 'clip'}}>
+        <Stack direction='row' spacing={2} alignItems='center' justifyItems='center' sx={{pl: 3, mr: 2,}}>
+          {users && users.map((user, i) => <ContributorCard key={user.login} user={user} />)}
+        </Stack>
+      </div>
+      <Button 
+        className='scrollbtn'
+        sx={{float: 'right', right: -10 }}
+        onMouseEnter={()=>setScrollDirection('right')} 
+        onMouseLeave={()=>setScrollDirection('none')}
+      > <KeyboardArrowRightIcon /> </Button>
+    </Box>
+  </>)
 }
 
 export default Contributors
