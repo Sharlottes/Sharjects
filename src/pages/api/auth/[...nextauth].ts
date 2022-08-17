@@ -16,7 +16,6 @@ export default NextAuth({
         email: {},
         password: {}
       },
-
       async authorize(credentials, req) {
         if (!credentials) throw new Error('no credentials');
         const username = credentials.username;
@@ -30,6 +29,7 @@ export default NextAuth({
       }
     }),
     GithubProvider({
+      authorization: { params: { scope: "user"} },
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
     }),
@@ -51,15 +51,13 @@ export default NextAuth({
     secret: process.env.JWT_SECRET as string,
   },
   callbacks: {
-    async jwt({ token, account, profile }) {
+    async jwt({ token, account }) {
       if (account && account.provider === 'github') {
-        console.log("OAuth to github")
         token.accessToken = account.access_token
       }
       return token
     },
-    async session({ session, token, user }) {
-      // Send properties to the client, like an access_token from a provider.
+    async session({ session, token }) {
       session.accessToken = token.accessToken
       return session
     }
