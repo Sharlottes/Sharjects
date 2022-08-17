@@ -1,17 +1,20 @@
-import React from 'react'
-
+import React, { Suspense } from 'react'
+import dynamic from 'next/dynamic'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
+import Skeleton from '@mui/material/Skeleton'
 
-import Contributors from 'components/Contributors'
-import Layout from 'components/Layout'
+import ListLayout from 'components/TabLayout'
 import type { GithubProfile } from 'next-auth/providers/github'
 
 const contributors = ['Sharlottes', 'AmateurPotion', 'younggam', 'sk7725', 'Yeonpil2']
+const DynamicContributors = dynamic(() => import('components/Contributors'), {
+  suspense: true,
+})
 
 const CardDefensePage: React.FC<{ users: GithubProfile[] }> = ({ users }) =>
-  <Layout style={{overflowY:'hidden'}}>
+  <ListLayout>
     <Stack direction='column' sx={{ display: 'flex', width: '100%' }}>
       <Paper elevation={5} sx={{ boxShadow: '5px 5px 10px' }}>
         <div style={{ marginLeft: '20px', height: '300px' }}>
@@ -23,11 +26,13 @@ const CardDefensePage: React.FC<{ users: GithubProfile[] }> = ({ users }) =>
         <div style={{ margin: '10px 10px 30px 20px' }}>
           <Typography fontSize='min(6vw, 70px)' sx={{ fontWeight: 'bold', mt: '5px' }}>Contributors</Typography>
           <Typography variant='subtitle1' sx={{ ml: '20px', mb: '20px' }}>이 프로젝트를 개발중이신 분들</Typography>
-          <Contributors users={users} />
+          <Suspense fallback={<Skeleton variant="rectangular" width={390} height={180} />}>
+            <DynamicContributors users={users} />
+          </Suspense>
         </div>
       </Paper>
     </Stack>
-  </Layout>
+  </ListLayout>
 
 
 export async function getServerSideProps() {

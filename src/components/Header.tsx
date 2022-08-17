@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { type PropsWithChildren } from 'react'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
@@ -75,7 +75,7 @@ const SideMenu: React.FC = () => {
   )
 }
 
-const Header: React.FC = () => {
+const Header: React.FC<PropsWithChildren> = ({ children }) => {
   const { status } = useSession();
 
   return (
@@ -102,6 +102,7 @@ const Header: React.FC = () => {
           <Profile />
         </Stack>
       </Toolbar>
+      {children}
     </AppBar>
   )
 }

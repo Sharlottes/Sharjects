@@ -1,5 +1,4 @@
-import { SvgIcon } from '@mui/material'
-import type { SvgIconProps } from '@mui/material'
+import { SvgIcon, type SvgIconProps } from '@mui/material'
 
 const SettingIcon: React.FC<SvgIconProps> = (props) => {
   return (

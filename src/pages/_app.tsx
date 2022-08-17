@@ -1,27 +1,26 @@
 import React from 'react';
-import { SessionProvider, useSession } from "next-auth/react"
 import Head from 'next/head'
-
-import { QueryClient, QueryClientProvider } from 'react-query';
-import theme from 'src/theme';
-import createEmotionCache from 'src/createEmotionCache';
-
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider } from '@mui/material/styles';
-import { CacheProvider } from '@emotion/react';
-import { SnackbarProvider } from 'notistack';
-import connectdb from '../lib/connectDB'
-
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import 'assets/fonts/UniSans.css';
-import 'assets/styles/global.css';
-
 import type { AppProps } from 'next/app';
-import type { EmotionCache } from '@emotion/react';
-import type { NextComponentType, NextPageContext } from 'next';
+import type { NextComponentType, NextPageContext } from 'next'
+
+import { SessionProvider, useSession } from "next-auth/react"
+
+import theme from 'src/theme'
+import connectdb from 'src/lib/connectDB'
+import createEmotionCache from 'src/createEmotionCache'
+
+import CssBaseline from '@mui/material/CssBaseline'
+import { ThemeProvider } from '@mui/material/styles'
+import { CacheProvider, type EmotionCache } from '@emotion/react'
+import { SnackbarProvider } from 'notistack'
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
+import 'assets/fonts/UniSans.css'
+import 'assets/styles/global.css'
 
 // connect to mongo db
 connectdb()

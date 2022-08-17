@@ -15,12 +15,11 @@ import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutline
 import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded'
 import AddIcon from '@mui/icons-material/Add'
 
-import { getProviders, signIn } from 'next-auth/react'
-
-import type { ClientSafeProvider, LiteralUnion } from 'next-auth/react'
-import type { BuiltInProviderType } from 'next-auth/providers'
-import type { BaseComponentType } from '../_app'
 import { useSnackbar } from 'notistack';
+import { getProviders, signIn, type ClientSafeProvider, type LiteralUnion } from 'next-auth/react'
+
+import type { BuiltInProviderType } from 'next-auth/providers'
+import type { BaseComponentType } from 'src/pages/_app'
 
 interface State {
   username: string

@@ -2,14 +2,13 @@ import React from 'react'
 import { useRouter } from 'next/router'
 
 import { Stack, Divider, Button } from '@mui/material'
-import { signIn } from 'next-auth/react'
+import { signIn, type ClientSafeProvider, type LiteralUnion } from 'next-auth/react'
+import type { BuiltInProviderType } from 'next-auth/providers'
 
 import DiscordIcon from '../assets/icons/DiscordIcon'
 import GithubIcon from '../assets/icons/GithubIcon'
 import GoogleIcon from '../assets/icons/GoogleIcon'
 
-import type { BuiltInProviderType } from 'next-auth/providers'
-import type { ClientSafeProvider, LiteralUnion } from 'next-auth/react'
 
 const Auths: React.FC<{
   providers?: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | undefined

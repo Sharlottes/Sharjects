@@ -13,10 +13,11 @@ import { useSnackbar } from 'notistack'
 import { signIn, useSession } from 'next-auth/react'
 
 interface LayoutProps extends ScriptProps {
-  muteAlart?: boolean
+  muteAlart?: boolean,
+  header?: JSX.Element
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, muteAlart = false }) => {
+const Layout: React.FC<LayoutProps> = ({ children, muteAlart = false, header }) => {
   const { status } = useSession();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
@@ -41,7 +42,7 @@ const Layout: React.FC<LayoutProps> = ({ children, muteAlart = false }) => {
 
   return (
     <>
-      <Header />
+      <Header>{header}</Header>
       <Toolbar id='back-to-top-anchor' />
       {children}
     </>
