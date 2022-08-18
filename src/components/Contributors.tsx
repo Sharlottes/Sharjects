@@ -1,6 +1,5 @@
 import React from 'react'
 
-import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import Avatar from '@mui/material/Avatar'
@@ -19,7 +18,6 @@ const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user: userprop }) 
   const [isFollowing, setFollowing] = React.useState(false);
   const [user,] = React.useState(userprop);
   const { data: session } = useSession();
-
   const request = React.useCallback((method: string = 'GET') => {
     if (!(session && session.accessToken) || user.name == session?.user?.name) return;
 
@@ -113,12 +111,18 @@ const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user: userprop }) 
 const Contributors: React.FC<{ users: GithubProfile[] }> = ({ users }) => {
   const [scroll, setScroll] = React.useState(0)
   const [scrollDirection, setScrollDirection] = React.useState<'left'|'right'|'none'>('none')
+  const interval = React.useRef<NodeJS.Timer>()
 
   React.useEffect(()=>{
-    if(scrollDirection !== 'none') {
-      setScroll(prev=>Math.max(0, Math.min(3, prev + 0.03 * (scrollDirection === 'left' ? -1 : 1))))
-    }
-  }, [scroll, scrollDirection, setScroll])
+    if(interval.current) clearInterval(interval.current)
+
+    interval.current = setInterval(()=>{
+      if(scrollDirection === 'none') return;
+      setScroll(prev=>Math.max(0, Math.min(3, prev + 0.05 * (scrollDirection === 'left' ? -1 : 1))))
+    }, 1)
+
+    return ()=>clearInterval(interval.current)
+  }, [scrollDirection])
 
   return (<>
     <Box sx={{

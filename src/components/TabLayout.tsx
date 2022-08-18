@@ -32,13 +32,6 @@ const CollapseFab = styled(Fab)<{ shown?: string }>(({ shown }) => ({
   },
 }));
 
-const StyledTab = styled(Tab)(() => ({
-  '&.Mui-selected': {
-    color: '#adb6ff',
-  },
-  transition: 'color 0.5s',
-}));
-
 const ScrollTop: React.FC = () => {
   const trigger = useScrollTrigger({
     target: global.window,
@@ -76,9 +69,23 @@ const TabLayout: React.FC<PropsWithChildren & {onIndexChanged?: (index: number) 
     <Layout header={<>
       <Collapse collapsedSize='5px' in={shown} sx={{ backgroundColor: '#7289DA', }}>
         <Toolbar variant='dense' sx={{ ml: '20px' }}>
-          <Tabs value={index} onChange={(_, index)=>{setIndex(index); if(onIndexChanged) onIndexChanged(index)}}>
-            <StyledTab label='About' />
-            <StyledTab label='Forum' />
+          <Tabs 
+            value={index} 
+            onChange={(_, index)=>{
+              setIndex(index); 
+              if(onIndexChanged) onIndexChanged(index)
+            }}
+            sx={{
+              "& .MuiTab-root": {
+                '&.Mui-selected': {
+                  color: '#adb6ff',
+                },
+                transition: 'color 0.5s',
+              }
+            }}
+          >
+            <Tab label='About' />
+            <Tab label='Forum' />
           </Tabs>
         </Toolbar>
       </Collapse>
