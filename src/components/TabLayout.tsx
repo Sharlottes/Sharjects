@@ -61,7 +61,12 @@ const ScrollTop: React.FC = () => {
   );
 }
 
-const TabLayout: React.FC<PropsWithChildren & {onIndexChanged?: (index: number) => void}> = ({ children, onIndexChanged }) => {
+const TabLayout: React.FC<PropsWithChildren & {onIndexChanged?: (index: number) => void, tabs: string[]}> = (
+  { 
+children, 
+onIndexChanged, 
+tabs 
+  }) => {
   const [shown, setShown] = React.useState(true);
   const [index, setIndex] = React.useState(0);
 
@@ -84,8 +89,7 @@ const TabLayout: React.FC<PropsWithChildren & {onIndexChanged?: (index: number) 
               }
             }}
           >
-            <Tab label='About' />
-            <Tab label='Forum' />
+            {tabs.map((tab, i) => <Tab key={i} label={tab} />)}
           </Tabs>
         </Toolbar>
       </Collapse>
@@ -100,6 +104,14 @@ const TabLayout: React.FC<PropsWithChildren & {onIndexChanged?: (index: number) 
       </>
     </Layout>
   )
+}
+
+export const withTabLayout = (...pages: JSX.Element[]) => {
+  const [page, setPage] = React.useState<JSX.Element>(pages[0])
+
+  return(<TabLayout onIndexChanged={index=>setPage(pages[index])} tabs={pages.map((page, i)=>page.key?.toString() ?? `${i}tab`)}>
+    {page}
+  </TabLayout>)
 }
 
 export default TabLayout
