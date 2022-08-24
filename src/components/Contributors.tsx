@@ -18,7 +18,7 @@ const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
   const [isFollowing, setFollowing] = React.useState(false);
   const { data: session } = useSession();
   const request = React.useCallback((method: string = 'GET') => {
-    if (!(session && session.accessToken) || user.name == session?.user?.name) return;
+    if (!(session && session.accessToken) || user.name === session?.user?.name) return;
 
     return fetch(`https://api.github.com/user/following/${user.login}`, {
       method,
@@ -27,7 +27,7 @@ const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
         Authorization: `token ${session.accessToken}`
       }
     })
-  }, [session, user.login])
+  }, [session, user.login, user.name])
 
   React.useEffect(() => {
     if (session && session.accessToken) {
@@ -83,7 +83,7 @@ const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
               variant='outlined'
               onClick={fetchFollowing}
               sx={{ marginRight: 2, height: '35px' }}
-              disabled={user.name == session?.user?.name}
+              disabled={user.name === session?.user?.name}
             >
               {isFollowing ? "UnFollow" : "Follow"}
             </Button>
@@ -118,7 +118,7 @@ const Contributors: React.FC<{ users: GithubProfile[] }> = ({ users }) => {
     interval.current = setInterval(()=>{
       if(scrollDirection === 'none') return;
       setScroll(prev=>Math.max(0, Math.min(3, prev + 0.05 * (scrollDirection === 'left' ? -1 : 1))))
-    }, 1)
+    }, 10)
 
     return () => clearInterval(interval.current)
   }, [scrollDirection])

@@ -106,12 +106,4 @@ tabs
   )
 }
 
-export const withTabLayout = (...pages: JSX.Element[]) => {
-  const [page, setPage] = React.useState<JSX.Element>(pages[0])
-
-  return(<TabLayout onIndexChanged={index=>setPage(pages[index])} tabs={pages.map((page, i)=>page.key?.toString() ?? `${i}tab`)}>
-    {page}
-  </TabLayout>)
-}
-
 export default TabLayout

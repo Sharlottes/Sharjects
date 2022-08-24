@@ -1,8 +1,7 @@
 import React from 'react'
 import Typography from '@mui/material/Typography'
-import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
-import { withTabLayout } from 'components/TabLayout'
+import TabLayout from 'components/TabLayout'
 import Contributors from 'components/Contributors'
 import type { GithubProfile } from 'next-auth/providers/github'
 
@@ -27,8 +26,13 @@ const AboutPage: React.FC<{ users: GithubProfile[] }> = ({ users }) =>
 
 const ForumPage: React.FC = () => <></>
 
-const CardDefensePage: React.FC<{ users: GithubProfile[] }> = ({ users }) => 
-  withTabLayout(<AboutPage users={users} key='About' />, <ForumPage key='Forum' />)
+const CardDefensePage: React.FC<{ users: GithubProfile[] }> = ({ users }) => {
+  const pages = [<AboutPage users={users} key='About' />, <ForumPage key='Forum' />];
+  const [page, setPage] = React.useState<JSX.Element>(pages[0])
+  return (<TabLayout onIndexChanged={index=>setPage(pages[index])} tabs={pages.map((page, i)=>page.key?.toString() ?? `${i}tab`)}>
+    {page}
+  </TabLayout>)
+};
 
 export async function getServerSideProps() {
   const users: GithubProfile[] = [];
