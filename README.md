@@ -6,10 +6,10 @@ Sharlotte의 첫 포트폴리오
 
 ## Projects 
 - [x] Informatis 
-- [x] Sharustry 
+- [x] Sharustry - [안정화 완료](https://github.com/Sharlottes/sharustry/releases/tag/v0.2)
 - [ ] ExampleMod  
 - [ ] Timer  
-- [ ] CardDefence  
+- [ ] CardDefence - [개발중](https://github.com/Gamer-Studio/CardDefense) - [페이지 완성](https://sharjects-b5mxjx99w-sharlottes.vercel.app/projects/cardDefense)
 - [ ] ProjectUnity  
 - [ ] KakaoBot    
 - [ ] KakaoBridge  
