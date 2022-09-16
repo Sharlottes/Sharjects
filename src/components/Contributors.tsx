@@ -124,7 +124,7 @@ const Contributors: React.FC<{ users: GithubProfile[] }> = ({ users }) => {
   }, [scrollDirection])
 
   return (<>
-    <Box sx={{
+    <Box component={'div'} sx={{
       width: '100%', height: 200, 
       "& .scrollbtn": {
         position: 'absolute',
