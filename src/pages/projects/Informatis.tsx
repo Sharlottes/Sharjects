@@ -1,8 +1,13 @@
-import { Box, Card, Divider, Grid, Paper, Typography } from "@mui/material";
-import { Container, Stack } from "@mui/system";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
+import type { PaperProps } from "@mui/material/Paper";
+
+import Stack from "@mui/system/Stack";
 import React from "react";
 import TabLayout from "src/components/TabLayout";
-import Image from 'next/image';
 
 const AboutPage: React.FC = () => {
     return (
@@ -84,7 +89,7 @@ const AboutPage: React.FC = () => {
             <Grid item>
                 <FeaturePaper 
                     title="전체 단계 정보" 
-                    desc="왼쪽 단계 번호를 보고 스크롤하여 몇 단계에 어떤 유닛이 오는지 확인할 수 있습니다. 정확한 방어막, 개수, 상태이상, 보스 여부 정보도 제공합니다. 외부적인 변경은 감지할 수 없습니다. 하단의 옵션으로 이전 단계 또는 빈 단계를 표시할 수 있습니다."
+                    desc="왼쪽 단계 번호를 보고 스크롤하여 몇 단계에 어떤 유닛이 오는지 확인할 수 있습니다. 정확한 방어막, 개수, 상태이상, 보스 여부 정보도 제공합니다."
                     src="/images/informatis/wave.png" 
                     width={600}
                 />
@@ -92,9 +97,16 @@ const AboutPage: React.FC = () => {
             <Grid item>
                 <FeaturePaper 
                     title="현재 남은 적 정보" 
-                    desc="현재 어떤 적이 얼마나 남았는지 하단에 표시합니다. 바닐라의 보스 등장 바에서 미쳐 나오지 못한 나머지 보스들의 수도 알 수 있습니다."
+                    desc="현재 어떤 적이 얼마나 남았는지 하단에 표시합니다. 바닐라의 보스 등장 바에서 미쳐 표시되지 못한 나머지 보스들의 수도 알 수 있습니다."
                     src="/images/informatis/currentwave.png" 
                     width={600}
+                />
+                <FeaturePaper 
+                    title="세부 설정" 
+                    desc="표시할 다음 단계 수, 이전 단계/빈 단계 표시를 설정할 수 있습니다."
+                    src="/images/informatis/wavesetting.gif" 
+                    width={600}
+                    style={{ marginTop: '20px' }}
                 />
             </Grid>
         </Grid>
@@ -102,11 +114,24 @@ const AboutPage: React.FC = () => {
     )
 }
 
-const FeaturePaper: React.FC<{title: string, desc: string, src: string|string[], width?: number}> = ({ title, desc, src, width = 300 }) => 
-<Paper sx={{width, minHeight: 300, padding: 1}}>
-    <Typography sx={{fontWeight: 'bold', fontSize: 16, marginTop: '5px', marginBottom: '5px', width: '100%', textAlign: 'center' }}>{title}</Typography>
-    <Typography sx={{ margin: 1 }}>{desc}</Typography>
-    {(Array.isArray(src) ? src : [src]).map(src => <img src={src} alt="" width='100%' style={{marginTop: '5px', marginBottom: '5px'}} />)}
+interface FeaturePaperProps extends Omit<PaperProps, 'width'> {
+    title: string, 
+    desc: string, 
+    src: string|string[],
+    width?: number
+}
+
+const FeaturePaper: React.FC<FeaturePaperProps> = ({ title, desc, src, width = 300, ...props }) => 
+<Paper sx={{ width, padding: 1, }} {...props}>
+    <Typography sx={{fontWeight: 'bold', fontSize: 16, marginTop: '5px', marginBottom: '5px', width: '100%', textAlign: 'center' }}>
+        {title}
+    </Typography>
+    <Typography sx={{ margin: 1 }}>
+        {desc}
+    </Typography>
+    {(Array.isArray(src) ? src : [src]).map((src, i) => 
+        <img key={i} src={src} alt="" width='100%' style={{marginTop: '5px', marginBottom: '5px'}} />
+    )}
 </Paper>
 
 
