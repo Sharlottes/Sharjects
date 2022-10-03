@@ -30,25 +30,25 @@ export default NextAuth({
     }),
     GithubProvider({
       authorization: { params: { scope: "user"} },
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string,
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
     }),
     DiscordProvider({
-      clientId: process.env.DISCORD_ID as string,
-      clientSecret: process.env.DISCORD_SECRET as string
+      clientId: process.env.DISCORD_ID,
+      clientSecret: process.env.DISCORD_SECRET
     })
   ],
   pages: {
     signIn: '/auth/signin',
   },
   debug: process.env.NODE_ENV !== "production",
-  secret: process.env.NEXTAUTH__SECRET as string,
+  secret: process.env.NEXTAUTH_AUTH_SECRET,
   jwt: {
-    secret: process.env.JWT_SECRET as string,
+    secret: process.env.JWT_SECRET,
   },
   callbacks: {
     async jwt({ token, account }) {
