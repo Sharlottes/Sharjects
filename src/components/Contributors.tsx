@@ -142,7 +142,7 @@ const Contributors: React.FC<{ users: GithubProfile[] }> = ({ users }) => {
       > <KeyboardArrowLeftIcon /> </Button>
       <div style={{position: 'absolute', left: -1*270*scroll, overflowX: 'clip'}}>
         <Stack direction='row' spacing={2} alignItems='center' justifyItems='center' sx={{pl: 3, mr: 2,}}>
-          {users && users.map((user, i) => <ContributorCard key={user.login} user={user} />)}
+          {users && users.map((user, i) => <ContributorCard key={i} user={user} />)}
         </Stack>
       </div>
       <Button 

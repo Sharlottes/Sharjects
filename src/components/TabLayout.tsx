@@ -61,13 +61,12 @@ const ScrollTop: React.FC = () => {
   );
 }
 
-const TabLayout: React.FC<PropsWithChildren & {onIndexChanged?: (index: number) => void, tabs: string[]}> = (
-  { 
-children, 
-onIndexChanged, 
-tabs 
-  }) => {
-  const [shown, setShown] = React.useState(true);
+export interface TabLayoutProps extends PropsWithChildren {
+  onIndexChanged?: (index: number) => void, tabs: string[]
+}
+
+const TabLayout: React.FC<TabLayoutProps> = ({ children, onIndexChanged, tabs }) => {
+  const [shown, setShown] = React.useState(false);
   const [index, setIndex] = React.useState(0);
 
   return (

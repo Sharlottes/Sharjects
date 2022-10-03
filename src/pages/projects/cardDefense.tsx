@@ -1,54 +1,58 @@
 import React from 'react'
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
-import TabLayout from 'components/TabLayout'
 import Contributors from 'components/Contributors'
 import type { GithubProfile } from 'next-auth/providers/github'
+import { Stack } from '@mui/system'
+import Layout from 'src/components/Layout'
 
-const contributors = ['Sharlottes', 'AmateurPotion', 'younggam', 'sk7725', 'Yeonpil2'];
 
-const AboutPage: React.FC<{ users: GithubProfile[] }> = ({ users }) => 
-<>
-  <Paper elevation={5} sx={{ boxShadow: '5px 5px 10px' }}>
-    <div style={{ marginLeft: '20px', height: '300px' }}>
-      <Typography fontSize='min(12vw, 140px)' sx={{ fontWeight: 'bold' }}>CardDefense</Typography>
-      <Typography variant='body1' sx={{ width: '50vw', ml: '24px', overflowWrap: 'break-word' }}>엔트로피아 / 아이푸토로 2개의 작품으로 나누어져 배포될 카드디펜스 게임시리즈로서 모험을 통해 카드를 수집하고 디펜스를 하는 게임</Typography>
-    </div>
-  </Paper>
-  <Paper elevation={5} sx={{ marginTop: '50px', backgroundColor: 'black', color: 'white' }}>
-    <div style={{ margin: '10px 10px 30px 20px' }}>
-      <Typography fontSize='min(6vw, 70px)' sx={{ fontWeight: 'bold', mt: '5px' }}>Contributors</Typography>
-      <Typography variant='subtitle1' sx={{ ml: '20px', mb: '20px' }}>이 프로젝트를 개발중이신 분들</Typography>
+const CardDefensePage: React.FC<{ users: GithubProfile[] }> = ({ users }) => 
+<Layout>
+  <Stack direction='column' spacing='50px' sx={{ 
+    "& .MuiPaper-root": {
+      boxShadow: '5px 5px 10px'
+    } 
+  }}>
+    <Paper elevation={5} sx={{ padding: '20px' }}>
+      <Typography sx={{ fontWeight: 'bold', textAlign: 'center', fontSize: 70 }}>
+        CardDefense
+      </Typography>
+      <Typography variant='body1' sx={{  ml: '24px', textAlign: 'center', overflowWrap: 'break-word' }}>
+        <span style={{ fontSize: 17, fontWeight: 600 }}>카드&타워 디펜스 모바일 게임</span> <span style={{ fontSize: 13 }}>Powered by Unity</span><br/>
+        카드를 타일에 사용하여 포탑과 벽을 건설하고, 유닛을 소환하거나 마법을 발동해서 적으로부터 코어를 수비하세요. <br/>
+        모험을 통해 다양한 카드들을 수집하고, 댁을 구성하여 곧 몰려올 강력한 적들에게서 코어를 지켜나가며 생존하세요. <br/>
+      </Typography>
+    </Paper>
+    <Paper elevation={5} sx={{ backgroundColor: 'black', color: 'white' }}>
+      <Typography fontSize='min(6vw, 70px)' sx={{ fontWeight: 400, fontSize: 40, textAlign: 'center', margin: '10px' }}>
+        Developers
+      </Typography>
       <Contributors users={users} />
-    </div>
-  </Paper>
-</>
-
-const ForumPage: React.FC = () => <></>
-
-const CardDefensePage: React.FC<{ users: GithubProfile[] }> = ({ users }) => {
-  const pages = [<AboutPage users={users} key='About' />, <ForumPage key='Forum' />];
-  const [page, setPage] = React.useState<JSX.Element>(pages[0])
-  return (<TabLayout onIndexChanged={index=>setPage(pages[index])} tabs={pages.map((page, i)=>page.key?.toString() ?? `${i}tab`)}>
-    {page}
-  </TabLayout>)
-};
+    </Paper>
+  </Stack>
+</Layout>
 
 export async function getServerSideProps() {
   const users: GithubProfile[] = [];
-  for await (const username of contributors) {
-    users.push(await fetch(`https://api.github.com/users/${username}`, {
+  const contributors = ['Sharlottes', 'AmateurPotion', 'younggam', 'sk7725', 'Yeonpil2'];
+
+  await Promise.all(contributors.map<Promise<void>>(async username => {
+    const user = await fetch(`https://api.github.com/users/${username}`, {
       headers: {
         Authorization: `token ${process.env.GITHUB_REST_PAT}`
       }
     }).then(
       data => data.json(),
       err => console.log('failed to get user data: ', err)
-    ))
-  }
+    );
+    if(user) users.push(user);
+  }));
+
   return {
-    props: { users },
+    props: { users }
   }
 }
+
 
 export default CardDefensePage
