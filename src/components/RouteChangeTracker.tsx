@@ -6,15 +6,16 @@ const RouteChangeTracter = () => {
     const router = useRouter()
 
     useEffect(() => {
-      const handleRouteChange: (...evts: any[]) => void = (url, { shallow }) => {
-        ReactGA.send({ hitType: "pageview", page: "/" });
-  
-        console.log(
-          `App is changing to ${url} ${
-            shallow ? 'with' : 'without'
-          } shallow routing`
-        )
-      }
+        ReactGA.initialize(process.env.GOOGLE_ANALYTICS_ID);
+        const handleRouteChange: (...evts: any[]) => void = (url, { shallow }) => {
+            ReactGA.send({ hitType: "pageview", page: "/" });
+    
+            console.log(
+            `App is changing to ${url} ${
+                shallow ? 'with' : 'without'
+            } shallow routing`
+            )
+        }
   
       router.events.on('routeChangeComplete', handleRouteChange)
       return () => router.events.off('routeChangeComplete', handleRouteChange)
