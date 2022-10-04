@@ -1,20 +1,24 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import ReactGA from 'react-ga'
-import initAnalytics from 'src/lib/initAnalytics';
 
 const RouteChangeTracter = () => {
-    const router = useRouter();
-    const [inited, setInited] = useState(false);
-    
-    useEffect(() => {
-        if(!window.location.href.includes('localhost')) initAnalytics();
-        setInited(true);
-    }, []);
+    const router = useRouter()
 
     useEffect(() => {
-        ReactGA.pageview(router.asPath);
-    }, [inited, router.asPath])
+      const handleRouteChange: (...evts: any[]) => void = (url, { shallow }) => {
+        ReactGA.send({ hitType: "pageview", page: "/" });
+  
+        console.log(
+          `App is changing to ${url} ${
+            shallow ? 'with' : 'without'
+          } shallow routing`
+        )
+      }
+  
+      router.events.on('routeChangeComplete', handleRouteChange)
+      return () => router.events.off('routeChangeComplete', handleRouteChange)
+    }, [])
 }
 
 export default RouteChangeTracter
