@@ -18,7 +18,7 @@ import 'public/fonts/UniSans.css'
 import 'public/styles/global.css'
 import { } from "src/@type";
 import { useRouter } from 'next/router';
-import ga from 'react-ga';
+import * as ga from 'src/lib/ga';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
