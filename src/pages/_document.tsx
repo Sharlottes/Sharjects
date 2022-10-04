@@ -6,7 +6,6 @@ import theme from 'src/theme';
 
 class MyDocument extends Document {
   render() {
-    console.log(process.env.GOOGLE_ANALYTICS_ID);
     return (
       <Html lang='en'>
         <Head>
