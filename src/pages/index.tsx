@@ -1,32 +1,62 @@
-import { Divider, Grid, GridProps, Paper, Typography } from '@mui/material';
+import { Divider, Stack, Paper, IconButton, Typography, Button, type StackProps } from '@mui/material';
 import { Container } from '@mui/system';
 import Layout from "components/Layout";
-import { } from "src/@type";
 import Link from "next/link";
 import { PropsWithChildren } from 'react';
+import { GithubIcon } from 'src/assets/icons';
 
 interface ProjectProps extends PropsWithChildren {
   name: string, 
   description: string|JSX.Element, 
-  image?: string
+  image?: string,
+  github_url?: string
 }
 
-const Project: React.FC<ProjectProps> = ({ name, description, image, children }) => {
-  return <Link href={`/projects/${name}`}>
-    <Paper sx={{ padding: '10px', width: '300px' }}>
-      <Typography sx={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>{name}</Typography>
-      {image&&<img src={image} width='250px' />}
-      <Divider sx={{ marginTop: '5px', marginBottom: '5px' }} />
-      <Typography>{description}</Typography>
-      {children}
-    </Paper>
-  </Link>
-}
-const Projects: React.FC<{ children: JSX.Element[] } & GridProps> = ({ children, ...props }) => {
+const Project: React.FC<ProjectProps> = ({ name, description, image, children, github_url = `https://github.com/sharlottes/${name}`}) => {
   return (
-    <Grid container spacing={3} {...props}>
-      {children.map((child, i) => <Grid item key={i}>{child}</Grid>)}
-    </Grid>
+    <Paper sx={{ 
+      margin: '10px', 
+      padding: '10px', 
+      width: '350px', height: '100%', 
+      display: 'flex', flexDirection: 'column', 
+      alignContent: 'space-between' 
+    }}>
+      <div>
+        <div>
+          <Link href={github_url}>
+            <IconButton style={{ display: 'flex', float: 'right' }}> 
+              <GithubIcon sx={{ transition: 'color 300ms', "&:hover": { color: 'black' }}} />
+            </IconButton>
+          </Link>
+          <Typography sx={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>{name}</Typography>
+          {image&&<img src={image} width='calc(100% - 50px)' />}
+        </div>
+        <Divider sx={{ marginTop: '5px', marginBottom: '5px' }} />
+        <div>
+          <Typography>{description}</Typography>
+          {children}
+        </div>
+      </div>
+      <Link href={`/projects/${name}`}>
+        <Button variant='contained' sx={{ margin: '5px' }}>More</Button>
+      </Link>
+    </Paper>
+  )
+}
+const Projects: React.FC<{ children: JSX.Element[] }> = ({ children }) => {
+  return (
+    <div
+    style={{ 
+      display: 'flex', 
+      justifyContent: 'flex-start', 
+      alignItems: 'stretch',
+      justifyItems: 'stretch',
+      flexFlow: 'row wrap',
+      width: '100%',
+      padding: '10px'
+    }}>
+      {children}
+    </div>
   )
 }
 
@@ -45,14 +75,14 @@ const Home: React.FC = () =>
         Projects
       </Typography>
     </Divider>
-    <Projects sx={{ padding: '10px' }}>
+    <Projects>
       <Project 
         name='Informatis' 
         description="여러가지 유용한 정보와 기능들을 추가 UI로 제공해주는 Mindustry의 Java모드"
       />
       <Project 
         name='Sharustry' 
-        description="Informatis와 달리, 다른 여러 모드들처럼 기존 게임에서 더 나아가 새로운 포탑, 새로운 유닛, 새로운 블록을 추가하여 게임을 더 풍요롭게 즐길 수 있도록 제작된 Mindustry의 Java모드"
+        description="새로운 포탑, 새로운 유닛, 새로운 블록을 추가하여 게임을 더 풍요롭게 즐길 수 있도록 제작된 Mindustry의 Java모드"
       />
       <Project
         name='KakaoBot'
@@ -81,10 +111,12 @@ const Home: React.FC = () =>
       <Project
         name='CardDefense'
         description="팀 GameStudio에서 유니티로 개발중인 디펜스 장르의 모바일 카드게임"
+        github_url='https://github.com/Gamer-Studio'
       />
       <Project
         name='ProjectUnity'
         description="팀 Avant에서 개발중인 최대 규모의 Mindustry Java모드"
+        github_url='https://github.com/AvantTeam/ProjectUnityPublic'
       />
     </Projects>
   </Layout>

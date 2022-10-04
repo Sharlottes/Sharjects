@@ -5,7 +5,11 @@ import DiscordProvider from "next-auth/providers/discord"
 import CredentialsProvider from 'next-auth/providers/credentials'
 
 import bcrypt from 'bcrypt'
-import UserModel from 'models/User'
+import UserModel from 'src/models/User'
+import connectdb from 'src/lib/connectDB'
+
+// connect to mongo db
+connectdb();
 
 export default NextAuth({
   providers: [

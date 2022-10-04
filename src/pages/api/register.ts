@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import UserModel from 'models/User'
+import UserModel from 'src/models/User'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 // 사용자 이름과 비밀번호에 맞는 유저가 없으면 새로 생성

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import IconButton from '@mui/material/IconButton'
 import Drawer from '@mui/material/Drawer'
 import Divider from '@mui/material/Divider'
+import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/system/Container'
 import Stack from '@mui/system/Stack'
@@ -15,7 +16,11 @@ import { DiscordIcon, GithubIcon } from 'src/assets/icons'
 
 const SideMenuDrawer: React.FC = () => {
     //fs는 웹브라우저가 아닌 Node.js용으로 설계되었고 다른 모듈 깔기 귀찮기도 하고 정적 리스트니 수동 기입
-    const files = ['cardDefense', 'Informatis', 'kakaoBridge'];
+    const files: Record<string, string[]> = {
+        'Sharlottes': ['Informatis', 'Sharustry', 'KakaoBot', 'kakaoBridge', 'SharBot', 'RealTimeRPG', 'KakaoNacksee', 'Timer'],
+        'Gamer-Studio': ['CardDefense'], 
+        'AvantTeam': ['ProjectUnity']
+    };
 
     return (
         <Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: '100%', width: '100%' }}>
@@ -32,16 +37,40 @@ const SideMenuDrawer: React.FC = () => {
                 <Divider />
                 
                 <div style={{ marginLeft: '10px', marginTop: '15px', width: '100%' }}>
-                    <Typography sx={{ fontWeight: 500, fontsize: 16, textAlign: 'left' }}>Projects</Typography>
-                    <Stack direction='column' spacing={2} style={{ marginLeft: '10px', marginTop: '10px' }}>
-                        {files.map<JSX.Element>(project => {
-                            return (
-                                <Link href={`/projects/${project}`} key={project}>
-                                    <Typography sx={{ fontWeight: 600, transition: 'color,marginLeft 150ms,50ms ease-in,ease-put', "&:hover": { color: '#91bdff', marginLeft: '10px' } }}>{project}</Typography>
+                    {Object.keys(files).map(owner => (
+                        <div key={owner} style={{ marginTop: '10px' }}>
+                            <Box className='highlight' sx={{ 
+                                display: 'flex', justifyItems: 'start', 
+                                "&:hover": { "& p": {
+                                    color: '#4056f7'
+                                } } 
+                            }}>
+                                <img src={`images/profile/${owner}.png`} width='20px' height='20px' style={{ borderRadius: '20px', marginRight: '5px' }} />
+                                <Link href={`https://github.com/${owner}`}>
+                                    <Typography sx={{ 
+                                        fontWeight: 500, fontsize: 16, textAlign: 'left',
+                                        transition: 'color 150ms ease-in'
+                                    }}>{owner}</Typography>
                                 </Link>
-                            )
-                        })}
-                    </Stack>
+                            </Box>
+                            {files[owner].map(project => (
+                                <Box className='highlight' key={project} sx={{ 
+                                    "&:hover": { "& p": {
+                                        color: '#91bdff', 
+                                        marginLeft: '50px' 
+                                    } } 
+                                }}>
+                                    <Link href={`/projects/${project}`}>
+                                        <Typography sx={{ 
+                                            fontWeight: 600, 
+                                            marginLeft: '35px',
+                                            transition: 'color,marginLeft 150ms,50ms ease-in,ease-put'
+                                        }}>{project}</Typography>
+                                    </Link>
+                                </Box>
+                            ))}
+                        </div>
+                    ))}
                 </div>
             </Container>
             <div style={{ width: '100%' }}>

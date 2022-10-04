@@ -9,15 +9,12 @@
       "src/*": [
         "src/*"
       ],
-      "assets/*": [
-        "assets/*"
-      ],
       "models/*": [
         "src/models/*"
       ],
       "components/*": [
         "src/components/*"
-      ],
+      ]
     },
     "lib": [
       "dom",
@@ -42,13 +39,8 @@
     "node_modules"
   ],
   "include": [
-    "next-env.d.ts",
+    "**/*.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS"
-    }
-  }
+  ]
 }

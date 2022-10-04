@@ -1,8 +1,8 @@
 import Layout from 'components/Layout'
-import type { BaseComponentType } from './_app'
+import type { AuthNextPage } from './_app'
 import { useSession } from 'next-auth/react';
 
-const MyPage: BaseComponentType = () => {
+const MyPage: AuthNextPage = () => {
   const { data: session } = useSession();
 
   return (

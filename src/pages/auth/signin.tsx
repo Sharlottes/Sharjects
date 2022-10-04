@@ -19,14 +19,14 @@ import { useSnackbar } from 'notistack';
 import { getProviders, signIn, type ClientSafeProvider, type LiteralUnion } from 'next-auth/react'
 
 import type { BuiltInProviderType } from 'next-auth/providers'
-import type { BaseComponentType } from 'src/pages/_app'
+import type { AuthNextPage } from 'src/pages/_app'
 
 interface State {
   username: string
   password: string
 }
 
-const SignIn: BaseComponentType<{
+const SignIn: AuthNextPage<{
   providers?: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>
 }> = ({ providers }) => {
   const [{ username, password }, setValues] = React.useState<State>({ username: '', password: '' })
