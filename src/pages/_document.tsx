@@ -17,6 +17,21 @@ class MyDocument extends Document {
             href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
           />
           {(this.props as any).emotionStyleTags}
+          <script async src={
+            `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`
+          }/>
+          <script
+            dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}', {
+                page_path: window.location.pathname,
+              });
+            `,
+            }}
+          />
         </Head>
         <body>
           <Main />

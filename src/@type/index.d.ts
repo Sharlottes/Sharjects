@@ -22,6 +22,9 @@ declare global {
             GOOGLE_ANALYTICS_ID: string
         }
     }
+    interface Window {
+        gtag: (param1: string, param2: string, param3: object) => void;
+    }
 }
 
 export {}

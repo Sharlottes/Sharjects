@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head'
+import Script from 'next/script'
 import type { AppProps } from 'next/app';
 import type { NextPage } from 'next'
 
@@ -16,7 +17,8 @@ import { SnackbarProvider } from 'notistack'
 import 'public/fonts/UniSans.css'
 import 'public/styles/global.css'
 import { } from "src/@type";
-import RouteChangeTracter from 'src/components/RouteChangeTracker';
+import { useRouter } from 'next/router';
+import ga from 'react-ga';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -34,9 +36,19 @@ const MyApp: React.FC<MyAppProps> = (
     emotionCache = clientSideEmotionCache,
     pageProps: { session, ...pageProps },
   }) => { 
-  RouteChangeTracter();
-
-  return (
+    const router = useRouter();
+  
+    React.useEffect(() => {
+      const handleRouteChange: 
+        (...evt: any) => void = 
+        url => ga.pageview(url);
+      router.events.on('routeChangeComplete', handleRouteChange);
+  
+      return () => {
+        router.events.off('routeChangeComplete', handleRouteChange);
+      };
+    }, [router.events]);
+  return (<>
     <CacheProvider value={emotionCache}>
       <Head>
         <title>React App</title>
@@ -58,7 +70,7 @@ const MyApp: React.FC<MyAppProps> = (
         </SessionProvider>
       </ThemeProvider>
     </CacheProvider>
-  )
+    </>)
 }
 
 const Auth: React.FC<{ children: JSX.Element }> = ({ children }) => {
