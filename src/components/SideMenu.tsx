@@ -64,8 +64,11 @@ const SideMenuDrawer: React.FC = () => {
                                         <Typography sx={{ 
                                             fontWeight: 600, 
                                             marginLeft: '35px',
+                                            marginTop: '3px', marginBottom: '3px',
                                             transition: 'color,marginLeft 150ms,50ms ease-in,ease-put'
-                                        }}>{project}</Typography>
+                                        }}>
+                                            {project}
+                                        </Typography>
                                     </Link>
                                 </Box>
                             ))}
@@ -74,7 +77,9 @@ const SideMenuDrawer: React.FC = () => {
                 </div>
             </Container>
             <div style={{ width: '100%' }}>
-                <Divider textAlign='left' sx={{ color: 'black' }}><Typography sx={{ fontWeight: 500, fontSize: 12 }}>About</Typography></Divider>
+                <Divider textAlign='left' sx={{ color: 'black' }}>
+                    <Typography sx={{ fontWeight: 500, fontSize: 12 }}>About</Typography>
+                </Divider>
                 <div style={{ display: 'flex' }}>
                     <a href='https://github.com/sharlottes'>
                         <IconButton sx={{ color: 'black' }}>
@@ -99,7 +104,9 @@ const SideMenuDrawer: React.FC = () => {
 const SideMenu: React.FC = () => {
     const [open, setOpen] = React.useState(false);
     return (<>
-        <IconButton sx={{ color: 'white' }} onClick={() => setOpen(prev => !prev)}><MenuIcon /></IconButton>
+        <IconButton sx={{ color: 'white' }} onClick={() => setOpen(prev => !prev)}>
+            <MenuIcon />
+        </IconButton>
         <Drawer
             anchor='left'
             open={open}

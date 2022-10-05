@@ -1,12 +1,10 @@
-import { Divider, Stack, Paper, IconButton, Typography, Button, type StackProps, Box } from '@mui/material';
+import { Divider, Paper, IconButton, Typography, Button, Box } from '@mui/material';
 import { Container } from '@mui/system';
 import Layout from "components/Layout";
 import Link from "next/link";
 import { PropsWithChildren } from 'react';
-import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { GithubIcon } from 'src/assets/icons';
-import { LeftArrow, RightArrow } from 'src/components/Arrows';
-import usePreventBodyScroll from 'src/hooks/usePreventBodyScroll';
+import HorizontalScrollGroup from 'src/components/HorizontalScrollGroup';
 
 interface ProjectProps extends PropsWithChildren {
   name: string, 
@@ -63,43 +61,19 @@ const GridProjects: React.FC<{ children: JSX.Element[] }> = ({ children }) => {
   )
 }
 
-function onWheel(apiObj: React.ContextType<typeof VisibilityContext>, ev: React.WheelEvent): void {
-  const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
-
-  if (isThouchpad) {
-    ev.stopPropagation();
-    return;
-  }
-
-  if (ev.deltaY < 0) {
-    apiObj.scrollNext();
-  } else if (ev.deltaY > 0) {
-    apiObj.scrollPrev();
-  }
-}
 const ScrollProjects: React.FC<{ children: JSX.Element[] }> = ({ children }) => {
-  const { disableScroll, enableScroll } = usePreventBodyScroll();
-
   return (    
-  <Box
-    sx={{ 
-      display: { xs: 'block', md: 'none' }, 
-      overflow: 'hidden',
-      "& .react-horizontal-scrolling-menu--scroll-container": {
-        '&::-webkit-scrollbar': {
-          display: 'none'
-        },
-        '-ms-overflow-style': 'none',
-        'scrollbar-width': 'none'
-      },
-      width: '100%',
-      padding: '10px'
-    }}
-    onMouseEnter={disableScroll} onMouseLeave={enableScroll}
-  >
-      <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow} onWheel={onWheel}>
+    <Box
+      sx={{ 
+        display: { xs: 'block', md: 'none' }, 
+        overflow: 'hidden',
+        width: '100%',
+        padding: '10px'
+      }}
+    >
+      <HorizontalScrollGroup>
         {children}
-      </ScrollMenu>
+      </HorizontalScrollGroup>
     </Box>
   )
 }
