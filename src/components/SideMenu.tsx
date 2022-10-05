@@ -75,7 +75,7 @@ const SideMenuDrawer: React.FC = () => {
             </Container>
             <div style={{ width: '100%' }}>
                 <Divider textAlign='left' sx={{ color: 'black' }}><Typography sx={{ fontWeight: 500, fontSize: 12 }}>About</Typography></Divider>
-                <div style={{ marginTop: '10px', display: 'flex' }}>
+                <div style={{ display: 'flex' }}>
                     <a href='https://github.com/sharlottes'>
                         <IconButton sx={{ color: 'black' }}>
                             <GithubIcon />

@@ -1,9 +1,12 @@
-import { Divider, Stack, Paper, IconButton, Typography, Button, type StackProps } from '@mui/material';
+import { Divider, Stack, Paper, IconButton, Typography, Button, type StackProps, Box } from '@mui/material';
 import { Container } from '@mui/system';
 import Layout from "components/Layout";
 import Link from "next/link";
 import { PropsWithChildren } from 'react';
+import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { GithubIcon } from 'src/assets/icons';
+import { LeftArrow, RightArrow } from 'src/components/Arrows';
+import usePreventBodyScroll from 'src/hooks/usePreventBodyScroll';
 
 interface ProjectProps extends PropsWithChildren {
   name: string, 
@@ -43,11 +46,11 @@ const Project: React.FC<ProjectProps> = ({ name, description, image, children, g
     </Paper>
   )
 }
-const Projects: React.FC<{ children: JSX.Element[] }> = ({ children }) => {
+const GridProjects: React.FC<{ children: JSX.Element[] }> = ({ children }) => {
   return (
-    <div
-    style={{ 
-      display: 'flex', 
+    <Box
+    sx={{ 
+      display: { xs: 'none', md: 'flex' }, 
       justifyContent: 'flex-start', 
       alignItems: 'stretch',
       justifyItems: 'stretch',
@@ -56,18 +59,103 @@ const Projects: React.FC<{ children: JSX.Element[] }> = ({ children }) => {
       padding: '10px'
     }}>
       {children}
-    </div>
+    </Box>
   )
 }
 
-const Home: React.FC = () =>
+function onWheel(apiObj: React.ContextType<typeof VisibilityContext>, ev: React.WheelEvent): void {
+  const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
+
+  if (isThouchpad) {
+    ev.stopPropagation();
+    return;
+  }
+
+  if (ev.deltaY < 0) {
+    apiObj.scrollNext();
+  } else if (ev.deltaY > 0) {
+    apiObj.scrollPrev();
+  }
+}
+const ScrollProjects: React.FC<{ children: JSX.Element[] }> = ({ children }) => {
+  const { disableScroll, enableScroll } = usePreventBodyScroll();
+
+  return (    
+  <Box
+    sx={{ 
+      display: { xs: 'block', md: 'none' }, 
+      overflow: 'hidden',
+      "& .react-horizontal-scrolling-menu--scroll-container": {
+        '&::-webkit-scrollbar': {
+          display: 'none'
+        },
+        '-ms-overflow-style': 'none',
+        'scrollbar-width': 'none'
+      },
+      width: '100%',
+      padding: '10px'
+    }}
+    onMouseEnter={disableScroll} onMouseLeave={enableScroll}
+  >
+      <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow} onWheel={onWheel}>
+        {children}
+      </ScrollMenu>
+    </Box>
+  )
+}
+
+const Home: React.FC = () => {
+  const projects = [
+    <Project 
+      name='Informatis' 
+      description="여러가지 유용한 정보와 기능들을 추가 UI로 제공해주는 Mindustry의 Java모드"
+    />,
+    <Project 
+      name='Sharustry' 
+      description="새로운 포탑, 새로운 유닛, 새로운 블록을 추가하여 게임을 더 풍요롭게 즐길 수 있도록 제작된 Mindustry의 Java모드"
+    />,
+    <Project
+      name='KakaoBot'
+      description="안드로이드 카카오톡 알람과 라이노 자바스크립트를 통해 카카오톡 메시지에 자동응답을 하는 봇 스크립트"
+    />,
+    <Project 
+      name='SharBot'
+      description="discord.js와 typescript로 구성된 다기능 디스코드 봇"
+    />,
+    <Project
+      name='RealTimeRPG'
+      description="SharBot의 시스템을 기반으로 제작된 간단한 RPG 장르의 디스코드 봇 게임"
+    />,
+    <Project
+      name='KakaoBridge'
+      description="remote-kakao로 카카오톡 봇과 디스코드 봇 서버간 TCP 통신을 하여 문자 메시지 쌍방향 송수신이 가능하도록 개발된 이중 봇 프로젝트"
+    />,
+    <Project
+      name='KakaoNacksee'
+      description="뿌링클 선착순 선물을 1초 차이로 놓쳐버린 분노로 만든 낚시 웹사이트"
+    />,
+    <Project
+      name='Timer'
+      description="Flutter 공부용으로 개발중인 타이머/스케쥴링 어플리케이션"
+    />,
+    <Project
+      name='CardDefense'
+      description="팀 GameStudio에서 유니티로 개발중인 디펜스 장르의 모바일 카드게임"
+      github_url='https://github.com/Gamer-Studio'
+    />,
+    <Project
+      name='ProjectUnity'
+      description="팀 Avant에서 개발중인 최대 규모의 Mindustry Java모드"
+      github_url='https://github.com/AvantTeam/ProjectUnityPublic'
+    />]
+  return (
   <Layout>
     <Container>
       <Typography variant='h1' sx={{ fontWeight: 'bold', marginTop: '60px', width: '100%', textAlign: 'center' }}>
         Sharlotte
       </Typography>
       <Typography variant='body1' sx={{width: '100%', textAlign: 'center' }}>
-        2019년부터 지금 {new Date().getFullYear()}년 까지, 웹, 앱, 게임, 봇 등 여러 분야를 개발하고 탐구하는 중인 고등학생입니다!<br/>
+        2019년부터 지금 {new Date().getFullYear()}년 까지, 웹, 앱, 게임, 봇 등 여러 분야를 개발하고 탐구하는 중인 고등학생입니다!
       </Typography>
     </Container>
     <Divider textAlign='left' sx={{ marginTop: '10px', marginBottom: '10px' }}>
@@ -75,50 +163,11 @@ const Home: React.FC = () =>
         Projects
       </Typography>
     </Divider>
-    <Projects>
-      <Project 
-        name='Informatis' 
-        description="여러가지 유용한 정보와 기능들을 추가 UI로 제공해주는 Mindustry의 Java모드"
-      />
-      <Project 
-        name='Sharustry' 
-        description="새로운 포탑, 새로운 유닛, 새로운 블록을 추가하여 게임을 더 풍요롭게 즐길 수 있도록 제작된 Mindustry의 Java모드"
-      />
-      <Project
-        name='KakaoBot'
-        description="안드로이드 카카오톡 알람과 라이노 자바스크립트를 통해 카카오톡 메시지에 자동응답을 하는 봇 스크립트"
-      />
-      <Project 
-        name='SharBot'
-        description="discord.js와 typescript로 구성된 다기능 디스코드 봇"
-      />
-      <Project
-        name='RealTimeRPG'
-        description="SharBot의 시스템을 기반으로 제작된 간단한 RPG 장르의 디스코드 봇 게임"
-      />
-      <Project
-        name='KakaoBridge'
-        description="remote-kakao로 카카오톡 봇과 디스코드 봇 서버간 TCP 통신을 하여 문자 메시지 쌍방향 송수신이 가능하도록 개발된 이중 봇 프로젝트"
-      />
-      <Project
-        name='KakaoNacksee'
-        description="뿌링클 선착순 선물을 1초 차이로 놓쳐버린 분노로 만든 낚시 웹사이트"
-      />
-      <Project
-        name='Timer'
-        description="Flutter 공부용으로 개발중인 타이머/스케쥴링 어플리케이션"
-      />
-      <Project
-        name='CardDefense'
-        description="팀 GameStudio에서 유니티로 개발중인 디펜스 장르의 모바일 카드게임"
-        github_url='https://github.com/Gamer-Studio'
-      />
-      <Project
-        name='ProjectUnity'
-        description="팀 Avant에서 개발중인 최대 규모의 Mindustry Java모드"
-        github_url='https://github.com/AvantTeam/ProjectUnityPublic'
-      />
-    </Projects>
+    <ScrollProjects>{projects}</ScrollProjects>
+    <GridProjects>{projects}</GridProjects>
   </Layout>
+  )
+}
+
 
 export default Home;
