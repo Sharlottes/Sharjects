@@ -57,7 +57,7 @@ const SideMenuDrawer: React.FC = () => {
                                 <Box className='highlight' key={project} sx={{ 
                                     "&:hover": { "& p": {
                                         color: '#91bdff', 
-                                        marginLeft: '50px' 
+                                        marginLeft: '50px'
                                     } } 
                                 }}>
                                     <Link href={`/projects/${project}`}>
@@ -76,7 +76,7 @@ const SideMenuDrawer: React.FC = () => {
                     ))}
                 </div>
             </Container>
-            <div style={{ width: '100%' }}>
+            <div style={{ width: '100%', marginBottom: '10px' }}>
                 <Divider textAlign='left' sx={{ color: 'black' }}>
                     <Typography sx={{ fontWeight: 500, fontSize: 12 }}>About</Typography>
                 </Divider>

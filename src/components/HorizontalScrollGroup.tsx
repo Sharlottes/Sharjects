@@ -12,7 +12,7 @@ import usePreventBodyScroll from "src/hooks/usePreventBodyScroll";
 const ScrollButton = styled(Button)(()=>({
   width: '20px', height: '200px',
   position: 'absolute',
-  zIndex: 999,
+  zIndex: 666,
   color: 'rgba(0, 0, 0, 0)', 
   transition: 'background-color 300ms',
   "&:hover": {
@@ -53,6 +53,7 @@ const onWheel = (apiObj: React.ContextType<typeof VisibilityContext>, ev: React.
         apiObj.scrollPrev();
     }
 }
+
 const HorizontalScrollGroup: React.FC<{ children: JSX.Element[]|JSX.Element }> = ({ children }) => {
     const { disableScroll, enableScroll } = usePreventBodyScroll();
 
@@ -62,10 +63,10 @@ const HorizontalScrollGroup: React.FC<{ children: JSX.Element[]|JSX.Element }> =
             overflow: 'hidden',
             "& .react-horizontal-scrolling-menu--scroll-container": {
                 '&::-webkit-scrollbar': {
-                display: 'none'
+                  display: 'none'
                 },
-                '-ms-overflow-style': 'none',
-                'scrollbar-width': 'none'
+                msOverflowStyle: 'none',
+                scrollbarWidth: 'none'
             },
         }}
         onMouseEnter={disableScroll} onMouseLeave={enableScroll}

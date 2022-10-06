@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Header from './Header';
 import { useSnackbar } from 'notistack'
 import { signIn, useSession } from 'next-auth/react'
+import Footer from './Footer';
 
 interface LayoutProps extends ScriptProps {
   muteAlart?: boolean,
@@ -24,7 +25,8 @@ const Layout: React.FC<LayoutProps> = ({ children, muteAlart = false, header }) 
   React.useEffect(() => {
     if (muteAlart || status !== "unauthenticated") return;
 
-    setTimeout(() => {
+    const id = setTimeout(() => {
+      if (muteAlart || status !== "unauthenticated") return;
       enqueueSnackbar('you are not logged in', {
         anchorOrigin: {
           vertical: 'top',
@@ -38,13 +40,15 @@ const Layout: React.FC<LayoutProps> = ({ children, muteAlart = false, header }) 
         autoHideDuration: 5000
       })
     }, 3000);
+    return () => clearTimeout(id);
   }, [closeSnackbar, enqueueSnackbar, muteAlart, status])
 
   return (
     <>
-      <Header>{header}</Header>
       <Toolbar id='back-to-top-anchor' />
-      {children}
+        <Header>{header}</Header>
+        {children}
+        <Footer />
     </>
   )
 }
