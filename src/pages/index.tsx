@@ -1,10 +1,65 @@
-import { Divider, Paper, IconButton, Typography, Button, Box, Tooltip, Avatar, AvatarProps, AvatarGroup, PaperProps } from '@mui/material';
-import { Container, styled } from '@mui/system';
+import { Divider, Paper, IconButton, Typography, Button, Box, Tooltip, Avatar, AvatarGroup, type PaperProps } from '@mui/material';
+import { styled } from '@mui/system';
 import Layout from "components/Layout";
+import { motion } from 'framer-motion';
 import Link from "next/link";
 import React from 'react';
 import { GithubIcon } from 'src/assets/icons';
 import HorizontalScrollGroup from 'src/components/HorizontalScrollGroup';
+import ProgressiveTypography from 'src/components/ProgressiveTypography';
+
+const Home: React.FC = () => {
+  return (
+  <Layout>
+    <TitleSection />
+    <ListSection />
+    <ProjectSection />
+  </Layout>
+  )
+}
+
+const TitleSection: React.FC = () => {
+  return (
+    <Box sx={{ marginTop: '60px', height: '500px', width: '100%' }}>
+      <ProgressiveTypography 
+        variant='h1'  
+        sx={{ fontWeight: 'bold', width: '100%', textAlign: 'center' }}
+        label="Sharlotte"  
+      />
+      <Typography 
+        variant='body1' 
+        sx={{width: '100%', textAlign: 'center' }} 
+        component={motion.div} 
+        initial={{ opacity: 0 }} 
+        animate={{ opacity: 1, marginBottom: '20px' }}
+        transition={{ delay: 1.5 }}
+      >
+        2019년부터 지금 {new Date().getFullYear()}년 까지, 웹, 앱, 게임, 봇 등 여러 분야를 개발하고 탐구하는 중인 고등학생입니다!
+      </Typography>
+    </Box>
+  )
+}
+
+const ListItem: React.FC<{
+  title: JSX.Element | string,
+  description: JSX.Element | string,
+  image: JSX.Element | string,
+  children?: JSX.Element
+}> = ({
+  title,
+  description,
+  image,
+  children
+}) => <></>
+const ListSection: React.FC = () => {
+  return (
+    <Box sx={{ height: '500px', width: '100%' }}>
+
+    </Box>
+  )
+}
+
+// ---------------------- Project Section ---------------------- //
 
 type tagType = 'javascript' | 'typescript' | 'java' | 'cs' | 'dart' | 'html' | 'css' | 'react' | 'next' | 'flutter' | 'unity' | 'libgdx'
 
@@ -88,50 +143,7 @@ const Project: React.FC<{
   )
 }
 
-const GridProjects: React.FC<{ children: JSX.Element[] }> = ({ children }) => {
-  return (
-    <Box
-    sx={{ 
-      display: { xs: 'none', md: 'flex' }, 
-      justifyContent: 'flex-start', 
-      alignItems: 'stretch',
-      justifyItems: 'stretch',
-      flexFlow: 'row wrap',
-      width: '100%',
-      padding: '10px'
-    }}>
-      {children}
-    </Box>
-  )
-}
-
-const ScrollProjects: React.FC<{ children: JSX.Element[] }> = ({ children }) => {
-  return (    
-    <Box
-      sx={{ 
-        display: { xs: 'block', md: 'none' }, 
-        overflow: 'hidden',
-        width: '100%',
-        padding: '10px'
-      }}
-    >
-      <HorizontalScrollGroup>
-        {children}
-      </HorizontalScrollGroup>
-    </Box>
-  )
-}
-
-const ParaDivider: React.FC<{ label?: string, children?: JSX.Element }> = ({ label, children }) => 
-  <Divider textAlign='left' sx={{ marginTop: '10px', marginBottom: '10px' }}>
-  <Typography sx={{ fontSize: 30, fontWeight: 600 }}>
-    {label}
-    {children}
-  </Typography>
-</Divider>
-
-const allTags: tagType[] = ['javascript', 'typescript', 'java', 'cs', 'dart', 'html', 'css', 'react', 'next', 'flutter', 'unity', 'libgdx'];
-const Home: React.FC = () => {
+const ProjectSection: React.FC = () => {
   const [tags, setTags] = React.useState<tagType[]>([])
   //TODO: how about jsonlizing?
   const projects = [
@@ -188,6 +200,7 @@ const Home: React.FC = () => {
       tags={['java', 'libgdx']}
     />
   ]
+  const allTags: tagType[] = ['javascript', 'typescript', 'java', 'cs', 'dart', 'html', 'css', 'react', 'next', 'flutter', 'unity', 'libgdx'];
   const filteredProjects = projects.filter(project => tags.some(tag => project.props.tags.includes(tag)));
   const addTag = (tag: tagType) => {
     setTags(prev => [...prev, tag]);
@@ -201,17 +214,7 @@ const Home: React.FC = () => {
   }
 
   return (
-  <Layout>
-    <Container>
-      <Typography variant='h1' sx={{ fontWeight: 'bold', marginTop: '60px', width: '100%', textAlign: 'center' }}>
-        Sharlotte
-      </Typography>
-      <Typography variant='body1' sx={{width: '100%', textAlign: 'center' }}>
-        2019년부터 지금 {new Date().getFullYear()}년 까지, 웹, 앱, 게임, 봇 등 여러 분야를 개발하고 탐구하는 중인 고등학생입니다!
-      </Typography>
-    </Container>
     <TagContext.Provider value={{ tags, setTags, addTag, removeTag }}>
-      <ParaDivider label="Projects" />
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         {allTags.map((tag, i) => 
           <Tooltip key={i} title={tag} onClick={() => tags.includes(tag) ? removeTag(tag) : addTag(tag)}>
@@ -222,9 +225,41 @@ const Home: React.FC = () => {
       <ScrollProjects>{filteredProjects}</ScrollProjects>
       <GridProjects>{filteredProjects}</GridProjects>
     </TagContext.Provider>
-  </Layout>
   )
 }
 
+const GridProjects: React.FC<{ children: JSX.Element[] }> = ({ children }) => {
+  return (
+    <Box
+    sx={{ 
+      display: { xs: 'none', md: 'flex' }, 
+      justifyContent: 'flex-start', 
+      alignItems: 'stretch',
+      justifyItems: 'stretch',
+      flexFlow: 'row wrap',
+      width: '100%',
+      padding: '10px'
+    }}>
+      {children}
+    </Box>
+  )
+}
+
+const ScrollProjects: React.FC<{ children: JSX.Element[] }> = ({ children }) => {
+  return (    
+    <Box
+      sx={{ 
+        display: { xs: 'block', md: 'none' }, 
+        overflow: 'hidden',
+        width: '100%',
+        padding: '10px'
+      }}
+    >
+      <HorizontalScrollGroup>
+        {children}
+      </HorizontalScrollGroup>
+    </Box>
+  )
+}
 
 export default Home;

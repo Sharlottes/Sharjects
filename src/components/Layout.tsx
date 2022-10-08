@@ -46,8 +46,8 @@ const Layout: React.FC<LayoutProps> = ({ children, muteAlart = false, header }) 
   return (
     <>
       <Toolbar id='back-to-top-anchor' />
-        <Header>{header}</Header>
-        {children}
+      <Header>{header}</Header>
+      {children}
     </>
   )
 }

@@ -31,42 +31,27 @@ const AboutPage: React.FC = () => {
             </Typography>
         </Box>
         <Divider textAlign="left"><Typography variant='h5'>기능 상세정보</Typography></Divider>
-        <Grid container 
-            spacing={2}   
-            direction="row"
-            justifyContent="flex-start"
-            alignItems="stretch"
-            sx={{ width: '100%', margin: 2 }}
-        >
-            <Grid item>
+        
                 <FeaturePaper 
                     title="기본 대상 정보" 
                     desc="이름에 커서를 대면 플레이어 이름, 대상 타일 좌표, 방어력 계수를 알 수 있습니다. 이름 옆 아이콘을 누르거나 Shift+R 키를 누르면 Lock 상태가 되어 커서를 때도 대상이 고정됩니다." 
                     src="/images/informatis/tooltip.gif" 
                 />
-            </Grid>
-            <Grid item>
                 <FeaturePaper 
                     title="유닛 무기 재장전" 
                     desc="유닛의 무기 재장전을 알 수 있습니다. 특히 재장전 시간이 오래걸리는 유닛이 언제 다시 발사하는지 알고 싶을 때 유용합니다." 
                     src={["/images/informatis/weapon1.gif", "/images/informatis/weapon2.gif"]}
                 />
-            </Grid>
-            <Grid item>
                 <FeaturePaper 
                     title="화물 및 상태이상" 
                     desc="유닛이 보유중인 화물과 상태이상을 확인할 수 있습니다. 상태이상에 커서를 대면 지속시간도 알 수 있습니다. 클릭하면 코어 데이터베이스의 정보를 열람합니다." 
                     src="/images/informatis/payloadstatus.png"
                 />
-            </Grid>
-            <Grid item>
                 <FeaturePaper 
                     title="다양한 데이터 바" 
                     desc="대상이 무엇인지에 따라 다양한 데이터를 제공합니다. 공장 제작 진행률, 유닛 방어막 및 체력, 화물 및 자원 보유량, 포탑 재장전, 전력 생산, 소모, 보유량, 드릴 속도 등의 데이터가 바를 통해 표시됩니다." 
                     src="/images/informatis/bar.gif"
                 />
-            </Grid>
-        </Grid>
         <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
         <Box sx={{ width: '100%', padding: 2, display: 'flex', justifyContent: 'start' }}>
             <Typography variant='h4'>
@@ -91,7 +76,6 @@ const AboutPage: React.FC = () => {
                     title="전체 단계 정보" 
                     desc="왼쪽 단계 번호를 보고 스크롤하여 몇 단계에 어떤 유닛이 오는지 확인할 수 있습니다. 정확한 방어막, 개수, 상태이상, 보스 여부 정보도 제공합니다."
                     src="/images/informatis/wave.png" 
-                    width={600}
                 />
             </Grid>
             <Grid item>
@@ -99,14 +83,11 @@ const AboutPage: React.FC = () => {
                     title="현재 남은 적 정보" 
                     desc="현재 어떤 적이 얼마나 남았는지 하단에 표시합니다. 바닐라의 보스 등장 바에서 미쳐 표시되지 못한 나머지 보스들의 수도 알 수 있습니다."
                     src="/images/informatis/currentwave.png" 
-                    width={600}
                 />
                 <FeaturePaper 
                     title="세부 설정" 
                     desc="표시할 다음 단계 수, 이전 단계/빈 단계 표시를 설정할 수 있습니다."
                     src="/images/informatis/wavesetting.gif" 
-                    width={600}
-                    style={{ marginTop: '20px' }}
                 />
             </Grid>
         </Grid>
@@ -114,25 +95,28 @@ const AboutPage: React.FC = () => {
     )
 }
 
-interface FeaturePaperProps extends Omit<PaperProps, 'width'> {
+interface FeaturePaperProps {
     title: string, 
     desc: string, 
     src: string|string[],
-    width?: number
 }
 
-const FeaturePaper: React.FC<FeaturePaperProps> = ({ title, desc, src, width = 300, ...props }) => 
-<Paper sx={{ width, padding: 1, }} {...props}>
-    <Typography sx={{fontWeight: 'bold', fontSize: 16, marginTop: '5px', marginBottom: '5px', width: '100%', textAlign: 'center' }}>
-        {title}
-    </Typography>
-    <Typography sx={{ margin: 1 }}>
-        {desc}
-    </Typography>
-    {(Array.isArray(src) ? src : [src]).map((src, i) => 
-        <img key={i} src={src} alt="" width='100%' style={{marginTop: '5px', marginBottom: '5px'}} />
-    )}
-</Paper>
+const FeaturePaper: React.FC<FeaturePaperProps> = ({ title, desc, src }) => 
+<div style={{ display: 'flex' }}>
+    <div>
+        {(Array.isArray(src) ? src : [src]).map((src, i) => 
+            <img key={i} src={src} alt="" width='100%' style={{marginTop: '5px', marginBottom: '5px'}} />
+        )}
+    </div>
+    <div>
+        <Typography sx={{fontWeight: 'bold', fontSize: 16, marginTop: '5px', marginBottom: '5px', width: '100%', textAlign: 'left' }}>
+            {title}
+        </Typography>
+        <Typography sx={{ margin: 1, textAlign: 'left' }}>
+            {desc}
+        </Typography>
+    </div>
+</div>
 
 
 const InformatisPage: React.FC = () => {
