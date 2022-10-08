@@ -11,7 +11,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import Header from './Header';
 import { useSnackbar } from 'notistack'
 import { signIn, useSession } from 'next-auth/react'
-import Footer from './Footer';
 
 interface LayoutProps extends ScriptProps {
   muteAlart?: boolean,

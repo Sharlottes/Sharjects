@@ -4,30 +4,11 @@ import Layout from "components/Layout";
 import { motion, MotionProps, useAnimationControls } from 'framer-motion';
 import Link from "next/link";
 import React from 'react';
+import { listAnimatonRefType } from 'src/@type';
 import { GithubIcon } from 'src/assets/icons';
 import HorizontalScrollGroup from 'src/components/HorizontalScrollGroup';
 import ProgressiveTypography from 'src/components/ProgressiveTypography';
-
-
-const FadeUpTypography: React.FC<{ 
-  delay?: number | undefined,
-  label?: string | undefined
-} & TypographyProps & {motion?: MotionProps}> = ({ 
-  delay = 1.5, 
-  label,
-  children, 
-  motion: motionProps,
-  ...props 
-}) => (
-  <motion.div
-    initial={{ opacity: 0 }} 
-    whileInView={{ opacity: 1, marginBottom: '20px' }}
-    transition={{ delay }}
-    {...motionProps}
-  >
-    <Typography {...props}>{label}{children}</Typography>
-  </motion.div>
-)
+import FadeUpTypography from 'src/components/FadeUpTypography';
 
 const Home: React.FC = () => {
   return (
@@ -53,6 +34,10 @@ const TitleSection: React.FC = () => {
       <FadeUpTypography 
         variant='body1' 
         sx={{width: '100%', textAlign: 'center' }} 
+        motion={{
+          whileInView: { opacity: 1, marginBottom: '20px' },
+          transition: { delay: 1.5 }
+        }}
       >
         2019년부터 지금 {new Date().getFullYear()}년 까지, 웹, 앱, 게임, 봇 등 여러 분야를 개발하고 탐구하는 중인 고등학생입니다!
       </FadeUpTypography>
@@ -63,19 +48,21 @@ const TitleSection: React.FC = () => {
 // ---------------------- List Section ---------------------- //
 
 const ListItem: React.FC<{
-  title: JSX.Element | string,
+  title: string,
   description: JSX.Element | string,
   image: JSX.Element | string,
   direction: 'left' | 'right',
   children?: JSX.Element,
-  animateRef?: React.MutableRefObject<{ start: (delay: number)=>void } | undefined> | undefined
+  titleRef?: listAnimatonRefType | undefined,
+  descriptionRef?: listAnimatonRefType | undefined,
 } & BoxProps & { motion?: MotionProps | undefined }> = ({
   title,
   description,
   image,
   direction,
   children,
-  animateRef,
+  titleRef,
+  descriptionRef,
   motion: motionProps,
   ...props
 }) => {
@@ -88,21 +75,9 @@ const ListItem: React.FC<{
         flexDirection: direction === 'left' ? 'row' : 'row-reverse'
       }}>
         {typeof image === 'string' ? <img src={image} height='100px' /> : image}
-        <div style={{ marginLeft: '20px' }}>
-          {typeof title === 'string' 
-            ? <ProgressiveTypography 
-                animateRef={animateRef}
-                variant='h3' 
-                sx={{ fontWeight: 'bold' }} 
-                label={title} 
-                motion={motionProps} 
-              /> 
-            : title
-          }
-          {typeof description === 'string' 
-            ? <FadeUpTypography variant='body2' delay={1} label={description}/> 
-            : description
-          }
+        <div style={{ marginLeft: '20px', marginRight: '20px' }}>
+          <ProgressiveTypography variant='h3' animateRef={titleRef} label={title} align={direction} sx={{ fontWeight: 'bold', textAlign: direction }} motion={motionProps}/>
+          <FadeUpTypography variant='body2' animateRef={descriptionRef}>{description}</FadeUpTypography>
         </div>
       </div>
       {children}
@@ -113,42 +88,117 @@ const ListItem: React.FC<{
 const ListSection: React.FC = () => {
   const listAnimateControl = useAnimationControls();
   const data = [
-    { title: 'React', description: '리액트!', image: 'images/langs/react.png', ref: React.useRef<{ start: (delay: number)=>void }>() },
-    { title: 'React', description: '리액트!', image: 'images/langs/react.png', ref: React.useRef<{ start: (delay: number)=>void }>()},
-    { title: 'React', description: '리액트!', image: 'images/langs/react.png', ref: React.useRef<{ start: (delay: number)=>void }>()},
-    { title: 'React', description: '리액트!', image: 'images/langs/react.png', ref: React.useRef<{ start: (delay: number)=>void }>()},
-    { title: 'React', description: '리액트!', image: 'images/langs/react.png', ref: React.useRef<{ start: (delay: number)=>void }>()}
+    { 
+      title: 'Java/libGDX',
+      description: <>
+        Java는 직접 작성하지 않고 코드 리딩을 한 시간까지 생각한다면 Javascript보다 더 앞서서 가장 처음 접한 프로그래밍 언어입니다.<br/>
+        Mindustry는 제 코딩 스타일에 거대한 영향과 높은 이해, 사고방식을 선물해주었으며 Java 코딩에 매우 큰 교본이 돼주었습니다.<br/>
+        Java는 Javascript와 달리 극단적으로 엄격하고, 정형적이며, 어찌보면 비생산적입니다. 하지만 오히려 그렇기에 자바스크립트로 부족했던 OOP 이해의 완성과 SOLID의 이해를 도와줬습니다.
+      </>,
+      image: 
+      <div style={{ display: 'flex' }}>
+        <img src='images/langs/java.png' height='50px' />
+        <img src='images/langs/libgdx.png' height='50px' />
+      </div>
+    },
+    { 
+      title: 'Javascript', 
+      description: <>
+        자바스크립트는 JSON에 이어 제가 처음으로 접하게 된 프로그래밍 언어였습니다.<br/>
+        완전한 ECMA Javascript가 아닌 Rhino Javascript로써 Mindustry의 Java 소스코드를 이해하며 스크립팅과 모딩을 해왔기에 Java 지식 또한 상승하게 되는 경험이 되었습니다.<br/>
+        또한 저는 Rhino Javascript를 넘어, KakaoBot과 DiscordBot을 위한 ECMA Javascript 프로그래밍을 하면서 ECMA의 새로운 문법을 이해했습니다.<br/>
+        자바스크립트는 약타입 언어, 비-클래스 기반 언어라는 점에서 명백한 단점과 차이점이 존재하지만 오히려 그럼으로써 저에게 프로그래밍 로직 이해를 쉽도록 만들어줬습니다.
+      </>, 
+      image: 'images/langs/javascript.png'
+    },
+    { 
+      title: 'Typescript', 
+      description: <>
+        ECMA Javascript에 관한 개발 도중 Typescript로 전향함으로써 더 강력한 타입과 함께 더 안정적인 프로젝트를 구성하는 방법을 알게 되었습니다.<br/>
+        또한 React 웹사이트를 개발하면서 매우 자유롭고 유동적인 유틸리티 타입 활용과 타입 분배에 대해 이해하면서 타입스크립트 타입 활용에 능숙해졌습니다.<br/>
+        Typescript는 저에게 Java 외에 SOLID 원칙을 부분적으로 수행할 수 있는 언어이자 Javascript의 완전한 상위호환으로 받아들여집니다.<br/>
+        타입스크립트는 다른 OOP 언어에서 절대 볼 수 없는 특별한 타입 연산을 가지고 있습니다. 이것은 저에게 타입에 대한 견해를 더 확장시켜주는 계기가 되었으며, 개인적으로 이것이 타입스크립트의 강점이라 봅니다.
+      </>, 
+      image: 'images/langs/typescript.png'
+    },
+    { 
+      title: 'React/Next', 
+      description: <>
+        리액트는 웹사이트에 관해 알아보며 html, css, js를 간단히 접한 후 발견한 첫 프론트엔드 프레임워크였습니다.<br/>
+        카운트 앱을 만들다 난해한 css 속성과 받아들이기 힘들었던 props 계층, 상태 관리가 맞물러 흥미를 잃다가 이후 발전된 프로그래밍 기술과 Next.js, MUI 프레임워크와 함께 디스코드 봇 리스트 웹사이트를 만들다가 포트폴리오로 주제를 전환했습니다.<br/>
+        개발을 거듭할수록 HOC와 hooks, FC, CC, 그리고 이것을 작성중인 지금 ref까지 리액트에 관한 여러가지 특징들을 이해하고 활용해오고 있습니다.<br/>
+        이것은 몇가지 사이드 프로젝트로 증명됩니다: KakaoNacksee와 PrincessSavior download 웹페이지. 이것들은 이 웹사이트를 개발하며 축적된 지식을 기반으로 간단히 시도한 프로젝트였고, 결과적으로 빠른 프로젝트 설정과 framer-motion의 이해에 기여했습니다.
+      </>, 
+      image: 
+      <div style={{ display: 'flex' }}>
+        <img src='images/langs/react.png' height='50px' />
+        <img src='images/langs/next.png' height='50px' />
+      </div>
+    },
+    { 
+      title: 'Unity/C#', 
+      description: <>
+        C#은 Java 다음으로 Kotlin과 함께 다음 OOP 언어 정복 대상이였습니다.<br/>
+        하지만 C# 자체의 사용은 .NET를 이용한 디스코드 봇이나 데스크톱 어플리케이션, 웹 어셈블리와 같이 생소하거나 포럼이 좁은 영역이라 진입하기 어려웠습니다.<br/>
+        그러나 Unity는 이들과 달리 적절한 조건과 "게임 제작" 이라는 명분을 주었기에 적절했습니다.<br/>
+        유니티 게임 개발의 기록은 매우 최근이며 학회 XREAL의 입회를 통해 유니티 게임 개발의 폭넓은 성장을 생각하고 있습니다.
+      </>, 
+      image: 
+        <div style={{ display: 'flex' }}>
+          <img src='images/langs/cs.png' height='50px' />
+          <img src='images/langs/unity.png' height='50px' />
+        </div>
+    },
+    {
+      title: 'Flutter/Dart',
+      description: <>
+        Flutter, Dart는 Java 안드로이드 네이티브 어플리케이션의 개발 시도가 난해하고 어려웠던 gui 편집으로 관심 밖이였던 어플리케이션 개발의 선두주자가 되었습니다.<br/>
+        이들은 React의 상태 관리를 Functional Component가 아닌 Class Component에 둠과 동시에 많았던 생명주기 메서드들을 정리했습니다.<br/>
+        또한 대부분의 스타일링이 개별 enum 또는 정적 클래스로 구성된 래퍼 클래스로 구성되어 원하는 컴포넌트에 스타일링 컴포넌트를 감싸기만 해도 스타일링이 가능할 정도로 쉬웠습니다.<br/>
+        이와 같은 Flutter 자체의 특징 뿐만이 아니라 Javascript의 문법적 상위호환을 추구하려 했던 Dart의 화살표 함수 간략화, 일부 예약어 추가 지원, 더 많은 타입, private 자체 지원 등은 언어를 특별하게 만들어주면서도 익숙한 언어와 유사하여 받아들이기 쉬웠습니다.
+      </>,
+      image: 
+      <div style={{ display: 'flex' }}>
+        <img src='images/langs/flutter.png' height='50px' />
+        <img src='images/langs/dart.png' height='50px' />
+      </div>
+    }
   ]
 
+  const titleRef: listAnimatonRefType = { list: [] };
+  const descriptionRef: listAnimatonRefType = { list: [] };
   React.useEffect(() => {
-    listAnimateControl.start(({i, ref}) => {
-      ref.current?.start(2 + i * 0.5);
-      
-      return {
-        opacity: 1, 
-        marginBottom: '20px',
-        transition: { delay: 2 + i * 0.5 }
-      }
-    });
+    setTimeout(()=>{
+      listAnimateControl.start((i: number) => {
+        titleRef.list[i](1 + i * 0.5);
+        descriptionRef.list[i](1.2 + i * 0.5);
+        
+        return {
+          opacity: 1, 
+          marginBottom: '20px',
+          transition: { delay: 1 + i * 0.5 }
+        }
+      });
+    }, 1000);
   }, []);
 
   return (
-    <Stack direction='column' spacing={2} sx={{ height: '500px', width: '100%', padding: '100px' }}>
-      {data.map(({ title, description, image, ref}, i) => (
+    <Box sx={{ height: '500px', width: '100%', padding: '100px' }}>
+      {data.map(({ title, description, image}, i) => (
         <motion.div
           key={i}
+          custom={i}
           initial={{ opacity: 0 }}
           animate={listAnimateControl}
-          custom={{i, ref}}
+          style={{ marginTop: 2 }}
         >
           <ListItem 
-            {...{title, description, image}}
+            {...{title, description, image, titleRef, descriptionRef }}
             direction={i % 2 == 0 ? 'left' : 'right'} 
-            animateRef={ref}
           />
         </motion.div>
       ))}
-    </Stack>
+    </Box>
   )
 }
 

@@ -1,38 +1,36 @@
 import { Typography, type TypographyProps } from '@mui/material';
 import { motion, MotionProps, useAnimationControls } from 'framer-motion';
 import React from 'react';
+import { listAnimatonRefType } from 'src/@type';
 
 const ProgressiveTypography: React.FC<{ 
     label: string,
     speed?: number | undefined,
-    animateRef?: React.MutableRefObject<{ start: (delay: number)=>void } | undefined> | undefined,
+    animateRef?: listAnimatonRefType | undefined,
+    align?: 'left' | 'center' | 'right'
 } & Omit<TypographyProps, 'ref'> & { motion?: MotionProps | undefined }> = ({ 
     label,
     speed = 0.1,
     motion: motionProps,
     animateRef,
+    align = 'center',
     ...props 
 }) => {
     const control = useAnimationControls();
 
-    if(animateRef) animateRef.current = {
-        start: (delay: number) => {
-            control.start((i: number) => {
-                console.log('start');
+    React.useEffect(()=>{
+        animateRef?.list.push((delay: number) => {
+            control.start((i: number) => ({
+                opacity: 1,
+                transition: {
+                    delay: delay + i * speed,
+                },
+            }));
+        })
+    }, []);
 
-                return ({
-                    opacity: 1,
-                    transition: {
-                        delay: delay + i * speed,
-                    },
-                })
-            }).then(()=>console.log('done!'));
-        }
-    }
-
-    //mui의 Typography가 내 생각보다 무겁지 않기를 빌며...
     return (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: align }}>
         {label.split('').map((char, i) => 
         <motion.div
             key={i}  
