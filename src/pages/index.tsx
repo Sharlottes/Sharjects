@@ -1,12 +1,33 @@
-import { Divider, Paper, IconButton, Typography, Button, Box, Tooltip, Avatar, AvatarGroup, type PaperProps } from '@mui/material';
+import { Divider, Paper, IconButton, Typography, Button, Box, Tooltip, Avatar, AvatarGroup, type PaperProps, Stack, BoxProps, TypographyProps } from '@mui/material';
 import { styled } from '@mui/system';
 import Layout from "components/Layout";
-import { motion } from 'framer-motion';
+import { motion, MotionProps, useAnimationControls } from 'framer-motion';
 import Link from "next/link";
 import React from 'react';
 import { GithubIcon } from 'src/assets/icons';
 import HorizontalScrollGroup from 'src/components/HorizontalScrollGroup';
 import ProgressiveTypography from 'src/components/ProgressiveTypography';
+
+
+const FadeUpTypography: React.FC<{ 
+  delay?: number | undefined,
+  label?: string | undefined
+} & TypographyProps & {motion?: MotionProps}> = ({ 
+  delay = 1.5, 
+  label,
+  children, 
+  motion: motionProps,
+  ...props 
+}) => (
+  <motion.div
+    initial={{ opacity: 0 }} 
+    whileInView={{ opacity: 1, marginBottom: '20px' }}
+    transition={{ delay }}
+    {...motionProps}
+  >
+    <Typography {...props}>{label}{children}</Typography>
+  </motion.div>
+)
 
 const Home: React.FC = () => {
   return (
@@ -18,44 +39,116 @@ const Home: React.FC = () => {
   )
 }
 
+// ---------------------- Title Section ---------------------- //
+
 const TitleSection: React.FC = () => {
   return (
-    <Box sx={{ marginTop: '60px', height: '500px', width: '100%' }}>
+    <Box sx={{ marginTop: '60px', width: '100%' }}>
       <ProgressiveTypography 
         variant='h1'  
         sx={{ fontWeight: 'bold', width: '100%', textAlign: 'center' }}
         label="Sharlotte"  
+        motion={{ animate: 'show' }}
       />
-      <Typography 
+      <FadeUpTypography 
         variant='body1' 
         sx={{width: '100%', textAlign: 'center' }} 
-        component={motion.div} 
-        initial={{ opacity: 0 }} 
-        animate={{ opacity: 1, marginBottom: '20px' }}
-        transition={{ delay: 1.5 }}
       >
         2019년부터 지금 {new Date().getFullYear()}년 까지, 웹, 앱, 게임, 봇 등 여러 분야를 개발하고 탐구하는 중인 고등학생입니다!
-      </Typography>
+      </FadeUpTypography>
     </Box>
   )
 }
+
+// ---------------------- List Section ---------------------- //
 
 const ListItem: React.FC<{
   title: JSX.Element | string,
   description: JSX.Element | string,
   image: JSX.Element | string,
-  children?: JSX.Element
-}> = ({
+  direction: 'left' | 'right',
+  children?: JSX.Element,
+  animateRef?: React.MutableRefObject<{ start: (delay: number)=>void } | undefined> | undefined
+} & BoxProps & { motion?: MotionProps | undefined }> = ({
   title,
   description,
   image,
-  children
-}) => <></>
-const ListSection: React.FC = () => {
+  direction,
+  children,
+  animateRef,
+  motion: motionProps,
+  ...props
+}) => {
   return (
-    <Box sx={{ height: '500px', width: '100%' }}>
-
+    <Box {...props}>
+      <div style={{ 
+        display: 'flex', 
+        textAlign: direction, 
+        justifyContent: 'flex-start', 
+        flexDirection: direction === 'left' ? 'row' : 'row-reverse'
+      }}>
+        {typeof image === 'string' ? <img src={image} height='100px' /> : image}
+        <div style={{ marginLeft: '20px' }}>
+          {typeof title === 'string' 
+            ? <ProgressiveTypography 
+                animateRef={animateRef}
+                variant='h3' 
+                sx={{ fontWeight: 'bold' }} 
+                label={title} 
+                motion={motionProps} 
+              /> 
+            : title
+          }
+          {typeof description === 'string' 
+            ? <FadeUpTypography variant='body2' delay={1} label={description}/> 
+            : description
+          }
+        </div>
+      </div>
+      {children}
     </Box>
+  )
+}
+
+const ListSection: React.FC = () => {
+  const listAnimateControl = useAnimationControls();
+  const data = [
+    { title: 'React', description: '리액트!', image: 'images/langs/react.png', ref: React.useRef<{ start: (delay: number)=>void }>() },
+    { title: 'React', description: '리액트!', image: 'images/langs/react.png', ref: React.useRef<{ start: (delay: number)=>void }>()},
+    { title: 'React', description: '리액트!', image: 'images/langs/react.png', ref: React.useRef<{ start: (delay: number)=>void }>()},
+    { title: 'React', description: '리액트!', image: 'images/langs/react.png', ref: React.useRef<{ start: (delay: number)=>void }>()},
+    { title: 'React', description: '리액트!', image: 'images/langs/react.png', ref: React.useRef<{ start: (delay: number)=>void }>()}
+  ]
+
+  React.useEffect(() => {
+    listAnimateControl.start(({i, ref}) => {
+      ref.current?.start(2 + i * 0.5);
+      
+      return {
+        opacity: 1, 
+        marginBottom: '20px',
+        transition: { delay: 2 + i * 0.5 }
+      }
+    });
+  }, []);
+
+  return (
+    <Stack direction='column' spacing={2} sx={{ height: '500px', width: '100%', padding: '100px' }}>
+      {data.map(({ title, description, image, ref}, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0 }}
+          animate={listAnimateControl}
+          custom={{i, ref}}
+        >
+          <ListItem 
+            {...{title, description, image}}
+            direction={i % 2 == 0 ? 'left' : 'right'} 
+            animateRef={ref}
+          />
+        </motion.div>
+      ))}
+    </Stack>
   )
 }
 
