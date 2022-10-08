@@ -1,9 +1,9 @@
-import { Divider, Paper, IconButton, Typography, Button, Box, Tooltip, Avatar, AvatarGroup, type PaperProps, Stack, BoxProps, TypographyProps } from '@mui/material';
+import { Divider, Paper, IconButton, Typography, Button, Box, Tooltip, Avatar, AvatarGroup, type PaperProps, Stack, BoxProps, TypographyProps, Drawer } from '@mui/material';
 import { styled } from '@mui/system';
 import Layout from "components/Layout";
 import { motion, MotionProps, useAnimationControls } from 'framer-motion';
 import Link from "next/link";
-import React from 'react';
+import React, { useContext } from 'react';
 import { listAnimatonRefType } from 'src/@type';
 import { GithubIcon } from 'src/assets/icons';
 import HorizontalScrollGroup from 'src/components/HorizontalScrollGroup';
@@ -70,12 +70,12 @@ const ListItem: React.FC<{
     <Box {...props}>
       <div style={{ 
         display: 'flex', 
-        textAlign: direction, 
+        textAlign: 'left', 
         justifyContent: 'flex-start', 
         flexDirection: direction === 'left' ? 'row' : 'row-reverse'
       }}>
         {typeof image === 'string' ? <img src={image} height='100px' /> : image}
-        <div style={{ marginLeft: '20px', marginRight: '20px' }}>
+        <div style={{ marginLeft: '20px', marginRight: '20px', width: '60%' }}>
           <ProgressiveTypography variant='h3' animateRef={titleRef} label={title} align={direction} sx={{ fontWeight: 'bold', textAlign: direction }} motion={motionProps}/>
           <FadeUpTypography variant='body2' animateRef={descriptionRef}>{description}</FadeUpTypography>
         </div>
@@ -170,13 +170,15 @@ const ListSection: React.FC = () => {
   React.useEffect(() => {
     setTimeout(()=>{
       listAnimateControl.start((i: number) => {
-        titleRef.list[i](1 + i * 0.5);
-        descriptionRef.list[i](1.2 + i * 0.5);
+        const func1 = titleRef.list[i];
+        if(func1) func1(1 + i);
+        const func2 = descriptionRef.list[i];
+        if(func2) func2(1.5 + i);
         
         return {
           opacity: 1, 
           marginBottom: '20px',
-          transition: { delay: 1 + i * 0.5 }
+          transition: { delay: 1 + i }
         }
       });
     }, 1000);
@@ -286,68 +288,77 @@ const Project: React.FC<{
   )
 }
 
+const allTags: tagType[] = ['javascript', 'typescript', 'java', 'cs', 'dart', 'html', 'css', 'react', 'next', 'flutter', 'unity', 'libgdx'];
+const projectData: Array<{ name: string, description: string, tags: tagType[], github_url?: string }> = [
+  {
+    name: 'Informatis',
+    description: "여러가지 유용한 정보와 기능들을 추가 UI로 제공해주는 Mindustry의 Java모드",
+    tags: ['java', 'libgdx']
+  },
+  {
+    name: 'Sharustry',
+    description: "새로운 포탑, 새로운 유닛, 새로운 블록을 추가하여 게임을 더 풍요롭게 즐길 수 있도록 제작된 Mindustry의 Java모드",
+    tags: ['java', 'libgdx']
+  },
+  {
+    name: 'KakaoBot',
+    description: "안드로이드 카카오톡 알람과 라이노 자바스크립트를 통해 카카오톡 메시지에 자동응답을 하는 봇 스크립트",
+    tags: ['java', 'javascript']
+  },
+  {
+    name: 'SharBot',
+    description: "discord.js와 typescript로 구성된 다기능 디스코드 봇",
+    tags: ['typescript']
+  },
+  {
+    name: 'RealTimeRPG',
+    description: "SharBot의 시스템을 기반으로 제작된 간단한 RPG 장르의 디스코드 봇 게임",
+    tags: ['typescript']
+  },
+  {
+    name: 'KakaoBridge',
+    description: "remote-kakao로 카카오톡 봇과 디스코드 봇 서버간 TCP 통신을 하여 문자 메시지 쌍방향 송수신이 가능하도록 개발된 이중 봇 프로젝트",
+    tags: ['java', 'javascript', 'typescript']
+  },
+  {
+    name: 'KakaoNacksee',
+    description: "뿌링클 선착순 선물을 1초 차이로 놓쳐버린 분노로 만든 낚시 웹사이트",
+    tags: ['typescript', 'react', 'next', 'html', 'css']
+  },
+  {
+    name: 'Timer',
+    description: "Flutter 공부용으로 개발중인 타이머/스케쥴링 어플리케이션",
+    tags: ['dart', 'flutter']
+  },
+  {
+    name: 'CardDefense',
+    description: "팀 GameStudio에서 유니티로 개발중인 디펜스 장르의 모바일 카드게임",
+    github_url: 'https://github.com/Gamer-Studio',
+    tags: ['cs', 'unity']
+  },
+  {
+    name: 'ProjectUnity',
+    description: "팀 Avant에서 개발중인 최대 규모의 Mindustry Java모드",
+    github_url: 'https://github.com/AvantTeam/ProjectUnityPublic',
+    tags: ['java', 'libgdx']
+  }
+]
+
+const TagsSelection: React.FC<MotionProps> = ({ ...props }) => {
+  const { tags, addTag, removeTag } = useContext(TagContext);
+  return (
+    <motion.div style={{ width: '100%', display: 'flex', position: 'fixed', bottom: '100px', justifyContent: 'center' }} {...props}>
+      {allTags.map((tag, i) => 
+        <Tooltip key={i} title={tag} onClick={() => tags.includes(tag) ? removeTag(tag) : addTag(tag)}>
+          <StyledAvatar key={i} src={`images/langs/${tag}.png`} alt='' highlighted={tags.includes(tag) ? 'asdf' : ''} />
+        </Tooltip>
+      )}
+    </motion.div>
+  )
+}
 const ProjectSection: React.FC = () => {
   const [tags, setTags] = React.useState<tagType[]>([])
-  //TODO: how about jsonlizing?
-  const projects = [
-    <Project 
-      name='Informatis' 
-      description="여러가지 유용한 정보와 기능들을 추가 UI로 제공해주는 Mindustry의 Java모드"
-      tags={['java', 'libgdx']}
-    />,
-    <Project 
-      name='Sharustry' 
-      description="새로운 포탑, 새로운 유닛, 새로운 블록을 추가하여 게임을 더 풍요롭게 즐길 수 있도록 제작된 Mindustry의 Java모드"
-      tags={['java', 'libgdx']}
-    />,
-    <Project
-      name='KakaoBot'
-      description="안드로이드 카카오톡 알람과 라이노 자바스크립트를 통해 카카오톡 메시지에 자동응답을 하는 봇 스크립트"
-      tags={['java', 'javascript']}
-    />,
-    <Project 
-      name='SharBot'
-      description="discord.js와 typescript로 구성된 다기능 디스코드 봇"
-      tags={['typescript']}
-    />,
-    <Project
-      name='RealTimeRPG'
-      description="SharBot의 시스템을 기반으로 제작된 간단한 RPG 장르의 디스코드 봇 게임"
-      tags={['typescript']}
-    />,
-    <Project
-      name='KakaoBridge'
-      description="remote-kakao로 카카오톡 봇과 디스코드 봇 서버간 TCP 통신을 하여 문자 메시지 쌍방향 송수신이 가능하도록 개발된 이중 봇 프로젝트"
-      tags={['java', 'javascript', 'typescript']}
-    />,
-    <Project
-      name='KakaoNacksee'
-      description="뿌링클 선착순 선물을 1초 차이로 놓쳐버린 분노로 만든 낚시 웹사이트"
-      tags={['typescript', 'react', 'next', 'html', 'css']}
-    />,
-    <Project
-      name='Timer'
-      description="Flutter 공부용으로 개발중인 타이머/스케쥴링 어플리케이션"
-      tags={['dart', 'flutter']}
-    />,
-    <Project
-      name='CardDefense'
-      description="팀 GameStudio에서 유니티로 개발중인 디펜스 장르의 모바일 카드게임"
-      github_url='https://github.com/Gamer-Studio'
-      tags={['cs', 'unity']}
-    />,
-    <Project
-      name='ProjectUnity'
-      description="팀 Avant에서 개발중인 최대 규모의 Mindustry Java모드"
-      github_url='https://github.com/AvantTeam/ProjectUnityPublic'
-      tags={['java', 'libgdx']}
-    />
-  ]
-  const allTags: tagType[] = ['javascript', 'typescript', 'java', 'cs', 'dart', 'html', 'css', 'react', 'next', 'flutter', 'unity', 'libgdx'];
-  const filteredProjects = projects.filter(project => tags.some(tag => project.props.tags.includes(tag)));
-  const addTag = (tag: tagType) => {
-    setTags(prev => [...prev, tag]);
-  }
+  const addTag = (tag: tagType) => setTags(prev => [...prev, tag]);
   const removeTag = (tag: tagType) => {
     setTags(prev => {
       const copied = [...prev];
@@ -355,19 +366,27 @@ const ProjectSection: React.FC = () => {
       return copied;
     });
   }
+  const projects: Array<JSX.Element> = projectData.reduce<Array<JSX.Element>>(
+    (projects, project) => tags.some(tag => project.tags.includes(tag)) 
+      ? [...projects, <Project {...project} />] 
+      : projects, 
+    [<></>]
+  );
 
   return (
-    <TagContext.Provider value={{ tags, setTags, addTag, removeTag }}>
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-        {allTags.map((tag, i) => 
-          <Tooltip key={i} title={tag} onClick={() => tags.includes(tag) ? removeTag(tag) : addTag(tag)}>
-            <StyledAvatar key={i} src={`images/langs/${tag}.png`} alt='' highlighted={tags.includes(tag) ? 'asdf' : ''} />
-          </Tooltip>
-        )}
-      </div>
-      <ScrollProjects>{filteredProjects}</ScrollProjects>
-      <GridProjects>{filteredProjects}</GridProjects>
-    </TagContext.Provider>
+      <TagContext.Provider value={{ tags, setTags, addTag, removeTag }}>
+        <TagsSelection />
+        <Drawer
+            PaperProps={{ sx: { maxHeight: '300px' } }}
+            anchor='bottom'
+            open={tags.length !== 0}
+            onClose={() => setTags([])}
+        >
+          <TagsSelection animate={{ bottom: '350px', zIndex: 999 }} />
+          <ScrollProjects>{projects}</ScrollProjects>
+          <GridProjects>{projects}</GridProjects>
+        </Drawer>
+      </TagContext.Provider>
   )
 }
 
