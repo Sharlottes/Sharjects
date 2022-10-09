@@ -172,7 +172,16 @@ const ProjectSection: React.FC = () => {
         <TagContext.Provider value={{ tags, setTags, addTag, removeTag }}>
             <TagsSelection />
             <Drawer
-                PaperProps={{ sx: { maxHeight: '300px' } }}
+                ModalProps={{ style: { padding: '10px' } }}
+                PaperProps={{ sx: { 
+                  maxHeight: '300px', 
+                  overflow: 'scroll',
+                  '&::-webkit-scrollbar': {
+                    display: 'none'
+                  },
+                  msOverflowStyle: 'none',
+                  scrollbarWidth: 'none'
+              } }}
                 anchor='bottom'
                 open={tags.length !== 0}
                 onClose={() => setTags([])}

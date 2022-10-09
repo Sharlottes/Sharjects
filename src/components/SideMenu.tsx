@@ -14,14 +14,13 @@ import EmailIcon from '@mui/icons-material/Email';
 
 import { DiscordIcon, GithubIcon } from 'src/assets/icons'
 
-const SideMenuDrawer: React.FC = () => {
-    //fs는 웹브라우저가 아닌 Node.js용으로 설계되었고 다른 모듈 깔기 귀찮기도 하고 정적 리스트니 수동 기입
-    const files: Record<string, string[]> = {
-        'Sharlottes': ['Informatis', 'Sharustry', 'KakaoBot', 'kakaoBridge', 'SharBot', 'RealTimeRPG', 'KakaoNacksee', 'Timer'],
-        'Gamer-Studio': ['CardDefense'], 
-        'AvantTeam': ['ProjectUnity']
-    };
+const files: Record<string, string[]> = {
+    'Sharlottes': ['Informatis', 'Sharustry', 'KakaoBot', 'kakaoBridge', 'SharBot', 'RealTimeRPG', 'KakaoNacksee', 'Timer'],
+    'Gamer-Studio': ['CardDefense'], 
+    'AvantTeam': ['ProjectUnity']
+};
 
+const SideMenuDrawer: React.FC = () => {
     return (
         <Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: '100%', width: '100%' }}>
             <Container sx={{ marginTop: '20px' }}>
@@ -80,7 +79,7 @@ const SideMenuDrawer: React.FC = () => {
                 <Divider textAlign='left' sx={{ color: 'black' }}>
                     <Typography sx={{ fontWeight: 500, fontSize: 12 }}>About</Typography>
                 </Divider>
-                <div style={{ display: 'flex' }}>
+                <Box sx={{ display: 'flex', alignItems: 'end', "& a": { transition: 'margin-bottom 200ms', marginBottom: '0px', "&:hover": { marginBottom: '5px' } } }}>
                     <a href='https://github.com/sharlottes'>
                         <IconButton sx={{ color: 'black' }}>
                             <GithubIcon />
@@ -96,7 +95,7 @@ const SideMenuDrawer: React.FC = () => {
                             <EmailIcon />
                         </IconButton>
                     </a>
-                </div>
+                </Box>
             </div>
         </Stack>
     )

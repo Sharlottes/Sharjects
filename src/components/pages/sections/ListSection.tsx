@@ -17,7 +17,7 @@ const ListItem: React.FC<{
     children?: JSX.Element,
     titleRef?: listAnimatonRefType | undefined,
     descriptionRef?: listAnimatonRefType | undefined,
-  } & BoxProps & { motion?: MotionProps | undefined }> = ({
+  } & BoxProps> = ({
     title,
     description,
     image,
@@ -25,32 +25,33 @@ const ListItem: React.FC<{
     children,
     titleRef,
     descriptionRef,
-    motion: motionProps,
     ...props
-  }) => {
+  }) => { 
     return (
       <Box {...props}>
-        <div style={{ 
-          display: 'flex', 
-          textAlign: 'left', 
-          justifyContent: 'flex-start', 
-          flexDirection: direction === 'left' ? 'row' : 'row-reverse'
-        }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', width: '100px', height: '100px' }}>
-                {(()=>{
-                    const images: string[] = Array.isArray(image) ? image : [image];
-                    return images.map(image => 
-                        <img src={`images/langs/${image}.png`} width={`${100/images.length}`} height={`${100/images.length}`} />
-                    )
-                })()}
-            </div>
-          <div style={{ marginLeft: '20px', marginRight: '20px', width: '60%' }}>
-            <ProgressiveTypography variant='h3' animateRef={titleRef} label={title} align={direction} sx={{ fontWeight: 'bold', textAlign: direction }} motion={motionProps}/>
-            <FadeUpTypography variant='body2' animateRef={descriptionRef}>
-                {description.map<JSX.Element>(str => <>{str}<br/></>)}
-            </FadeUpTypography>
+        <Box 
+          sx={{
+            display: { xs: 'block', md: 'flex' },  
+            textAlign: 'left', 
+            justifyContent: 'flex-start', 
+            flexDirection: direction === 'left' ? 'row' : 'row-reverse'
+          }}
+        >
+          <div style={{ display: 'flex', flexWrap: 'wrap', width: '100px', maxHeight: '100px' }}>
+              {(()=>{
+                  const images: string[] = Array.isArray(image) ? image : [image];
+                  return images.map(image => 
+                      <img src={`images/langs/${image}.png`} width={`${100/images.length}`} height={`${100/images.length}`} />
+                  )
+              })()}
           </div>
-        </div>
+          <Box sx={{ marginLeft: '20px', marginRight: '20px', width: { xs: '90%', md: '60%' } }}>
+              <ProgressiveTypography variant='h3' animateRef={titleRef} label={title} sx={{ fontWeight: 'bold', fontSize: 'min(50px, 7vw)' }} box={{ sx: { display: 'flex', justifyContent: { xs: 'left', md: direction } } }}/>
+              <FadeUpTypography variant='body2' animateRef={descriptionRef}>
+                  {description.map<JSX.Element>(str => <>{str}<br/></>)}
+              </FadeUpTypography>
+          </Box>
+        </Box>
         {children}
       </Box>
     )
@@ -78,7 +79,7 @@ const ListItem: React.FC<{
     }, []);
   
     return (
-        <Box sx={{ height: '500px', width: '100%', padding: '100px' }}>
+        <Box sx={{ height: '500px', width: '100%', padding: '5vw' }}>
             {listData.map(({ title, description, image}, i) => (
                 <motion.div
                 key={i}
