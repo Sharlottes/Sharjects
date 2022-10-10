@@ -7,7 +7,7 @@ const TitleSection: React.FC = () => {
         <Box sx={{ marginTop: '60px', width: '100%' }}>
             <ProgressiveTypography 
                 variant='h1'  
-                sx={{ fontWeight: 'bold', fontSize: 'min(150px, 15vw)', width: '100%' }}
+                sx={{ fontWeight: 'bold', fontSize: 'max(0, min(150px, 15vw))', width: '100%' }}
                 label="Sharlotte"  
                 motion={{ animate: 'show' }}
                 box={{ sx: { display: 'flex', justifyContent: 'center' } }}
