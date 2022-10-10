@@ -46,7 +46,17 @@ const ListItem: React.FC<{
               })()}
           </div>
           <Box sx={{ marginLeft: '20px', marginRight: '20px', width: { xs: '90%', md: '60%' } }}>
-              <ProgressiveTypography variant='h3' animateRef={titleRef} label={title} sx={{ fontWeight: 'bold', fontSize: 'min(50px, 7vw)' }} box={{ sx: { display: 'flex', justifyContent: { xs: 'left', md: direction } } }}/>
+              <ProgressiveTypography 
+                variant='h3' 
+                animateRef={titleRef} 
+                label={title} 
+                fontWeight='bold' 
+                fontSize='min(50px, 7vw)' 
+                box={{ sx: { 
+                  display: 'flex', 
+                  justifyContent: { xs: 'left', md: direction } } 
+                }}
+              />
               <FadeUpTypography variant='body2' animateRef={descriptionRef}>
                   {description.map<JSX.Element>(str => <>{str}<br/></>)}
               </FadeUpTypography>
