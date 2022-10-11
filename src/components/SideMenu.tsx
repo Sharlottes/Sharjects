@@ -10,15 +10,13 @@ import Container from '@mui/system/Container'
 import Stack from '@mui/system/Stack'
 
 import MenuIcon from '@mui/icons-material/Menu'
-import EmailIcon from '@mui/icons-material/Email';
+import EmailIcon from '@mui/icons-material/Email'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 
 import { DiscordIcon, GithubIcon } from 'src/assets/icons'
+import { projectDataType } from 'src/@type'
 
-const files: Record<string, string[]> = {
-    'Sharlottes': ['Informatis', 'Sharustry', 'KakaoBot', 'kakaoBridge', 'SharBot', 'RealTimeRPG', 'KakaoNacksee', 'Timer'],
-    'Gamer-Studio': ['CardDefense'], 
-    'AvantTeam': ['ProjectUnity']
-};
+const projectData: Array<projectDataType> = require('./pages/sections/projectData.json');
 
 const SideMenuDrawer: React.FC = () => {
     return (
@@ -36,9 +34,9 @@ const SideMenuDrawer: React.FC = () => {
                 <Divider />
                 
                 <div style={{ marginLeft: '10px', marginTop: '15px', width: '100%' }}>
-                    {Object.keys(files).map(owner => (
+                    {projectData.map(({owner, projects}) => 
                         <div key={owner} style={{ marginTop: '10px' }}>
-                            <Box className='highlight' sx={{ 
+                            <Box className='highlight' sx={{
                                 display: 'flex', justifyItems: 'start', 
                                 "&:hover": { "& p": {
                                     color: '#4056f7'
@@ -52,27 +50,39 @@ const SideMenuDrawer: React.FC = () => {
                                     }}>{owner}</Typography>
                                 </Link>
                             </Box>
-                            {files[owner].map(project => (
-                                <Box className='highlight' key={project} sx={{ 
-                                    "&:hover": { "& p": {
-                                        color: '#91bdff', 
-                                        marginLeft: '50px'
-                                    } } 
-                                }}>
-                                    <Link href={`/projects/${project}`}>
-                                        <Typography sx={{ 
-                                            fontWeight: 600, 
-                                            marginLeft: '35px',
-                                            marginTop: '3px', marginBottom: '3px',
-                                            transition: 'color,marginLeft 150ms,50ms ease-in,ease-put'
-                                        }}>
-                                            {project}
-                                        </Typography>
-                                    </Link>
-                                </Box>
+                            {projects.map((project, i) => (
+                                <div key={i} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <Box className='highlight' sx={{ 
+                                        "&:hover": { "& p": {
+                                            color: '#91bdff', 
+                                            marginLeft: '50px'
+                                        } } 
+                                    }}>
+                                        <Link href={`/projects/${project.name}`}>
+                                            <Typography sx={{ 
+                                                fontWeight: 600, 
+                                                marginLeft: '35px',
+                                                marginTop: '3px', marginBottom: '3px',
+                                                transition: 'color,marginLeft 150ms,50ms ease-in,ease-put'
+                                            }}>
+                                                {project.name}
+                                            </Typography>
+                                        </Link>
+                                    </Box>
+                                    <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+                                        <a href={`https://github.com/${owner}/${project.name}`}>
+                                            <GithubIcon sx={{ transform: 'scale(0.8)', color: 'lightgray', transition: 'color 300ms ease-out', "&:hover": { color: 'black' }}} />
+                                        </a>
+                                        {project.link && 
+                                            <a href={project.link}>
+                                                <OpenInNewIcon sx={{ transform: 'scale(0.8)', color: 'lightgray', transition: 'color 300ms ease-out', "&:hover": { color: 'black' }}} />
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
                             ))}
                         </div>
-                    ))}
+                    )}
                 </div>
             </Container>
             <div style={{ width: '100%', marginBottom: '10px' }}>
@@ -100,6 +110,7 @@ const SideMenuDrawer: React.FC = () => {
         </Stack>
     )
 }
+
 const SideMenu: React.FC = () => {
     const [open, setOpen] = React.useState(false);
     return (<>
