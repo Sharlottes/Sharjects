@@ -41,8 +41,8 @@ const ListItem: React.FC<{
           <div style={{ display: 'flex', flexWrap: 'wrap', width: '100px', maxHeight: '100px' }}>
               {(()=>{
                   const images: string[] = Array.isArray(image) ? image : [image];
-                  return images.map(image => 
-                      <img src={`images/langs/${image}.png`} width={`${100/images.length}`} height={`${100/images.length}`} />
+                  return images.map((image, i) => 
+                      <img key={i} src={`images/langs/${image}.png`} width={`${100/images.length}`} height={`${100/images.length}`} />
                   )
               })()}
           </div>
@@ -59,7 +59,7 @@ const ListItem: React.FC<{
                 }}
               />
               <FadeUpTypography variant='body2' animateRef={descriptionRef}>
-                  {description.map<JSX.Element>(str => <>{str}<br/></>)}
+                  {description.map<JSX.Element>((str, i) => <span key={i}>{str}<br/></span>)}
               </FadeUpTypography>
           </Box>
         </Box>

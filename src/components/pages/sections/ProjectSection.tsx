@@ -166,9 +166,9 @@ const ProjectSection: React.FC = () => {
       .map(({ owner, projects }) => projects
         .reduce<Array<JSX.Element>>(
           (elems, project) => tags.some(tag => project.tags.includes(tag)) 
-            ? [...elems, <Project {...project} github_url={`https://github.com/${owner}/${project.name}`} />] 
+            ? [...elems, <Project key={project.name} {...project} github_url={`https://github.com/${owner}/${project.name}`} />] 
             : elems
-          , [<></>]
+          , []
         )
       )
       .flat();

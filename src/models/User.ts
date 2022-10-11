@@ -16,7 +16,7 @@ const UserSchema = new Schema<IUserDocument>(
   },
   {
     timestamps: true,
-    collection: 'Users',
+    collection: 'Users', 
   },
 )
 
