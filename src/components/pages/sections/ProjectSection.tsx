@@ -18,8 +18,9 @@ import { motion, MotionProps } from 'framer-motion'
 
 import GithubIcon from 'src/assets/icons/GithubIcon'
 import HorizontalScrollGroup from 'src/components/HorizontalScrollGroup'
+import { projectDataType } from 'src/@type'
 
-const projectData: Array<{ name: string, description: string, tags: tagType[], github_url?: string }> = require('./projectData.json');
+const projectData: Array<projectDataType> = require('./projectData.json');
 
 type tagType = 'javascript' | 'typescript' | 'java' | 'cs' | 'dart' | 'html' | 'css' | 'react' | 'next' | 'flutter' | 'unity' | 'libgdx'
 const allTags: tagType[] = ['javascript', 'typescript', 'java', 'cs', 'dart', 'html', 'css', 'react', 'next', 'flutter', 'unity', 'libgdx']
@@ -161,12 +162,16 @@ const ProjectSection: React.FC = () => {
             return copied;
         });
     }
-    const projects: Array<JSX.Element> = projectData.reduce<Array<JSX.Element>>(
-        (projects, project) => tags.some(tag => project.tags.includes(tag)) 
-            ? [...projects, <Project {...project} />] 
-            : projects, 
-        [<></>]
-    );
+    const projects: Array<JSX.Element> = projectData
+      .map(({ owner, projects }) => projects
+        .reduce<Array<JSX.Element>>(
+          (elems, project) => tags.some(tag => project.tags.includes(tag)) 
+            ? [...elems, <Project {...project} github_url={`https://github.com/${owner}/${project.name}`} />] 
+            : elems
+          , [<></>]
+        )
+      )
+      .flat();
 
     return (
         <TagContext.Provider value={{ tags, setTags, addTag, removeTag }}>

@@ -1,54 +1,68 @@
 [
-    {
-        "name": "Informatis",
-        "description": "여러가지 유용한 정보와 기능들을 추가 UI로 제공해주는 Mindustry의 Java모드",
-        "tags": ["java", "libgdx"]
+    { 
+        "owner": "Sharlottes",
+        "projects": [
+            {
+                "name": "Informatis",
+                "description": "여러가지 유용한 정보와 기능들을 추가 UI로 제공해주는 Mindustry의 Java모드",
+                "tags": ["java", "libgdx"]
+            },
+            {
+                "name": "Sharustry",
+                "description": "새로운 포탑, 새로운 유닛, 새로운 블록을 추가하여 게임을 더 풍요롭게 즐길 수 있도록 제작된 Mindustry의 Java모드",
+                "tags": ["java", "libgdx"]
+            },
+            {
+                "name": "KakaoBot",
+                "description": "안드로이드 카카오톡 알람과 라이노 자바스크립트를 통해 카카오톡 메시지에 자동응답을 하는 봇 스크립트",
+                "tags": ["java", "javascript"]
+            },
+            {
+                "name": "SharBot",
+                "description": "discord.js와 typescript로 구성된 다기능 디스코드 봇",
+                "tags": ["typescript"]
+            },
+            {
+                "name": "RealTimeRPG",
+                "description": "SharBot의 시스템을 기반으로 제작된 간단한 RPG 장르의 디스코드 봇 게임",
+                "tags": ["typescript"]
+            },
+            {
+                "name": "KakaoBridge",
+                "description": "remote-kakao로 카카오톡 봇과 디스코드 봇 서버간 TCP 통신을 하여 문자 메시지 쌍방향 송수신이 가능하도록 개발된 이중 봇 프로젝트",
+                "tags": ["java", "javascript", "typescript"]
+            },
+            {
+                "name": "KakaoNacksee",
+                "description": "뿌링클 선착순 선물을 1초 차이로 놓쳐버린 분노로 만든 낚시 웹사이트",
+                "link": "https://kakao-nacksee.vercel.app",
+                "tags": ["typescript", "react", "next", "html", "css"]
+            },
+            {
+                "name": "Timer",
+                "description": "Flutter 공부용으로 개발중인 타이머/스케쥴링 어플리케이션",
+                "tags": ["dart", "flutter"]
+            }
+        ]
     },
-    {
-        "name": "Sharustry",
-        "description": "새로운 포탑, 새로운 유닛, 새로운 블록을 추가하여 게임을 더 풍요롭게 즐길 수 있도록 제작된 Mindustry의 Java모드",
-        "tags": ["java", "libgdx"]
+    { 
+        "owner": "Gamer-Studio",
+        "projects": [
+            {
+                "name": "CardDefense",
+                "description": "팀 GameStudio에서 유니티로 개발중인 디펜스 장르의 모바일 카드게임",
+                "tags": ["cs", "unity"]
+            }
+        ]
     },
-    {
-        "name": "KakaoBot",
-        "description": "안드로이드 카카오톡 알람과 라이노 자바스크립트를 통해 카카오톡 메시지에 자동응답을 하는 봇 스크립트",
-        "tags": ["java", "javascript"]
-    },
-    {
-        "name": "SharBot",
-        "description": "discord.js와 typescript로 구성된 다기능 디스코드 봇",
-        "tags": ["typescript"]
-    },
-    {
-        "name": "RealTimeRPG",
-        "description": "SharBot의 시스템을 기반으로 제작된 간단한 RPG 장르의 디스코드 봇 게임",
-        "tags": ["typescript"]
-    },
-    {
-        "name": "KakaoBridge",
-        "description": "remote-kakao로 카카오톡 봇과 디스코드 봇 서버간 TCP 통신을 하여 문자 메시지 쌍방향 송수신이 가능하도록 개발된 이중 봇 프로젝트",
-        "tags": ["java", "javascript", "typescript"]
-    },
-    {
-        "name": "KakaoNacksee",
-        "description": "뿌링클 선착순 선물을 1초 차이로 놓쳐버린 분노로 만든 낚시 웹사이트",
-        "tags": ["typescript", "react", "next", "html", "css"]
-    },
-    {
-        "name": "Timer",
-        "description": "Flutter 공부용으로 개발중인 타이머/스케쥴링 어플리케이션",
-        "tags": ["dart", "flutter"]
-    },
-    {
-        "name": "CardDefense",
-        "description": "팀 GameStudio에서 유니티로 개발중인 디펜스 장르의 모바일 카드게임",
-        "github_url": "https://github.com/Gamer-Studio",
-        "tags": ["cs", "unity"]
-    },
-    {
-        "name": "ProjectUnity",
-        "description": "팀 Avant에서 개발중인 최대 규모의 Mindustry Java모드",
-        "github_url": "https://github.com/AvantTeam/ProjectUnityPublic",
-        "tags": ["java", "libgdx"]
+    { 
+        "owner": "AvantTeam",
+        "projects": [
+            {
+                "name": "ProjectUnityPublic",
+                "description": "팀 Avant에서 개발중인 최대 규모의 Mindustry Java모드",
+                "tags": ["java", "libgdx"]
+            }
+        ]
     }
 ]

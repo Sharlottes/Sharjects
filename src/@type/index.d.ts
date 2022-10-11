@@ -31,4 +31,15 @@ declare global {
 export type listAnimatonRefType = {
   list: Array<(delay: number) => void>
 }
+
+export type projectDataType = {
+  owner: string,
+  projects: Array<{
+    name: string,
+    description: string,
+    tags: tagType[],
+    link?: string
+  }>
+}
+
 export {}

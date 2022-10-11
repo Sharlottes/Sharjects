@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Box, { type BoxProps } from '@mui/material/Box';
-import { motion, type MotionProps, useAnimationControls } from 'framer-motion';
+import { motion, useAnimationControls } from 'framer-motion';
 
 import { type listAnimatonRefType } from 'src/@type';
 import ProgressiveTypography from 'src/components/ProgressiveTypography';
@@ -34,7 +34,8 @@ const ListItem: React.FC<{
             display: { xs: 'block', md: 'flex' },  
             textAlign: 'left', 
             justifyContent: 'flex-start', 
-            flexDirection: direction === 'left' ? 'row' : 'row-reverse'
+            flexDirection: direction === 'left' ? 'row' : 'row-reverse',
+            marginTop: '30px'
           }}
         >
           <div style={{ display: 'flex', flexWrap: 'wrap', width: '100px', maxHeight: '100px' }}>
