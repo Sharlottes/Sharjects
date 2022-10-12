@@ -6,9 +6,13 @@ const AnalyticTracker = () => {
     const router = useRouter();
   
     React.useEffect(() => {
-      const handleRouteChange: 
-        (...evt: any) => void = 
-        url => ga.pageview(url);
+      const handleRouteChange = (url: any) => {
+        ga.pageview(url);
+        fetch('/api/visit', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'}
+        });
+      }
       router.events.on('routeChangeComplete', handleRouteChange);
       return () => {
         router.events.off('routeChangeComplete', handleRouteChange);

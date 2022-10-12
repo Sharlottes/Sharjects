@@ -18,6 +18,29 @@ import { projectDataType } from 'src/@type'
 
 const projectData: Array<projectDataType> = require('./pages/sections/projectData.json');
 
+const Status: React.FC = () => {
+    const [visitors, setVisitors] = React.useState(0);
+    const [total, setTotal] = React.useState(0);
+
+    React.useEffect(() => {
+        (async () => {
+            const { visitors } = await fetch('/api/visit').then(res => res.json()) as { visitors: number };
+            const { total } = await fetch('/api/visit?type=total').then(res => res.json()) as { total: number };
+            setVisitors(visitors);
+            setTotal(total);
+        })();
+    }, []);
+    return (
+        <>
+            <Divider textAlign='left' sx={{ color: 'black' }}>
+                <Typography fontSize={12} fontWeight={500}>Visitors</Typography>
+            </Divider>
+            <div style={{ marginLeft: '10px' }}>
+                <Typography fontSize={12} fontWeight={500}>이 사이트가 오늘 {visitors}번 조회되었고,<br/> 총 {total}번 조회되었어요.</Typography>   
+            </div>
+        </>
+    )
+}
 const SideMenuDrawer: React.FC = () => {
     return (
         <Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: '100%', width: '100%' }}>
@@ -86,6 +109,9 @@ const SideMenuDrawer: React.FC = () => {
                 </div>
             </Container>
             <div style={{ width: '100%', marginBottom: '10px' }}>
+                <Box sx={{ padding: '20px' }}>
+                    <Status />
+                </Box>
                 <Divider textAlign='left' sx={{ color: 'black' }}>
                     <Typography sx={{ fontWeight: 500, fontSize: 12 }}>About</Typography>
                 </Divider>
