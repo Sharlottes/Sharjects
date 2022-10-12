@@ -15,29 +15,77 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 
 import { DiscordIcon, GithubIcon } from 'src/assets/icons'
 import { projectDataType } from 'src/@type'
+import { Dialog, DialogProps, DialogTitle } from '@mui/material'
+import { Line } from 'react-chartjs-2'
+
+const monthes = ['월', '화', '수', '목', '금', '토', '일'];
+const date = new Date();
+const dateCode = `${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
+
+function parseDate(str: string): string {
+    const date = new Date(`${str.slice(0, 4)} ${str.slice(4, 6)} ${str.slice(6, 8)}`);
+    return `${date.getMonth()+1}/${date.getDate()} (${monthes[date.getUTCDay()]})`
+}
+
+const GraphDialog: React.FC<DialogProps & { data: Record<string, number> }> = ({ data: visitors, ...props }) => {
+    const entries = Object.entries(visitors);
+    const data = {
+        datasets: [
+            {
+                type: 'line' as const,
+                label: 'Dataset 1',
+                data: entries.slice(Math.max(0, entries.length - 7)).map(([date, amount]) => ({ x: parseDate(date), y: amount })),
+                borderColor: 'green',
+                borderWidth: 2,
+            }
+        ]
+    };
+
+    const options = {
+        responsive: true,
+        interaction: {
+            mode: "index" as const,
+            intersect: false,
+          },
+    }
+
+    return (
+        <Dialog {...props}>
+            <DialogTitle><Typography fontWeight={500} fontSize={15}>조회수 그래프</Typography></DialogTitle>
+            <Line data={data} options={options} style={{ padding: '20px' }} />
+        </Dialog>
+    )
+}
+
 
 const projectData: Array<projectDataType> = require('./pages/sections/projectData.json');
 
 const Status: React.FC = () => {
-    const [visitors, setVisitors] = React.useState(0);
-    const [total, setTotal] = React.useState(0);
+    const [visitors, setVisitors] = React.useState<Record<string, number>>({});
+    const [dialogOpen, setDialogOpen] = React.useState(false);
 
     React.useEffect(() => {
         (async () => {
-            const { visitors } = await fetch('/api/visit').then(res => res.json()) as { visitors: number };
-            const { total } = await fetch('/api/visit?type=total').then(res => res.json()) as { total: number };
-            setVisitors(visitors);
-            setTotal(total);
+            setVisitors(await fetch('/api/visit').then(res => res.json()));
         })();
     }, []);
+
     return (
         <>
-            <Divider textAlign='left' sx={{ color: 'black' }}>
-                <Typography fontSize={12} fontWeight={500}>Visitors</Typography>
-            </Divider>
-            <div style={{ marginLeft: '10px' }}>
-                <Typography fontSize={12} fontWeight={500}>이 사이트가 오늘 {visitors}번 조회되었고,<br/> 총 {total}번 조회되었어요.</Typography>   
+            <Divider textAlign='left' sx={{ color: 'black', fontSize: 12, fontWeight: 500 }}>Visitors</Divider>
+            <div style={{ marginLeft: '10px', fontSize: 12, fontWeight: 500 }}>
+                이 사이트는 오늘 {visitors[dateCode]||0}번 조회되었고,<br/> 
+                총 {Object.values(visitors).reduce((a, e)=>a+e, 0)}번 조회되었어요. 
+                <span style={{ display: 'inline', color: 'blue', cursor: 'pointer' }} onClick={()=>setDialogOpen(true)}>
+                    그래프 보기
+                </span>
             </div>
+            <GraphDialog
+                data={visitors}
+                maxWidth='xs' fullWidth
+                onClose={()=>setDialogOpen(false)}
+                open={dialogOpen}
+            />
         </>
     )
 }

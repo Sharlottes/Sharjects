@@ -19,6 +19,9 @@ import { } from "src/@type";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
+// for chart.js rendering
+require('src/lib/registerChartjs');
+
 export type AuthNextPage<P = {}, IP = P> = NextPage<P, IP> & { auth?: any };
 
 const MyApp: React.FC<{
