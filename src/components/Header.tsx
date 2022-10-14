@@ -8,9 +8,9 @@ import Button from '@mui/material/Button'
 
 import Profile from './Profile'
 import SideMenu from './SideMenu'
+import ThemeSelection from './ThemeSelection'
 
 const Header: React.FC<PropsWithChildren> = ({ children }) => {
-
   return (
     <header>
       <AppBar>
@@ -27,7 +27,10 @@ const Header: React.FC<PropsWithChildren> = ({ children }) => {
               </Link>
             </Tooltip>
           </div>
-          <Profile />
+          <div style={{ display: 'flex' }}>
+            <ThemeSelection />
+            <Profile />
+        </div>
         </Toolbar>
         {children}
       </AppBar>

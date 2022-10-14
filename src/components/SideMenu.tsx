@@ -15,8 +15,9 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 
 import { DiscordIcon, GithubIcon } from 'src/assets/icons'
 import { projectDataType } from 'src/@type'
-import { Dialog, DialogProps, DialogTitle } from '@mui/material'
+import { Dialog, DialogProps, DialogTitle, useTheme } from '@mui/material'
 import { Line } from 'react-chartjs-2'
+import { useThemeController } from './MainThemeProvider'
 
 const monthes = ['월', '화', '수', '목', '금', '토', '일'];
 const date = new Date();
@@ -72,7 +73,7 @@ const Status: React.FC = () => {
 
     return (
         <>
-            <Divider textAlign='left' sx={{ color: 'black', fontSize: 12, fontWeight: 500 }}>Visitors</Divider>
+            <Divider textAlign='left'><Typography fontWeight={500} fontSize={12}>Visitors</Typography></Divider>
             <div style={{ marginLeft: '10px', fontSize: 12, fontWeight: 500 }}>
                 이 사이트는 오늘 {visitors[dateCode]||0}번 조회되었고,<br/> 
                 총 {Object.values(visitors).reduce((a, e)=>a+e, 0)}번 조회되었어요. 
@@ -90,12 +91,15 @@ const Status: React.FC = () => {
     )
 }
 const SideMenuDrawer: React.FC = () => {
+    const theme = useTheme();
+    let { currentColors } = useThemeController();
+
     return (
         <Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: '100%', width: '100%' }}>
             <Container sx={{ marginTop: '20px' }}>
                 <div style={{ marginBottom: '10px', width: '100' }}>
                     <Link href='/'>
-                        <Typography sx={{ fontWeight: 800, fontSize: 20, textAlign: 'left', transition: 'color 150ms ease-in', "&:hover": { color: '#91bdff' } }}>
+                        <Typography sx={{ fontWeight: 800, fontSize: 20, textAlign: 'left', transition: 'color 150ms ease-in', "&:hover": { color: currentColors[600] } }}>
                             Sharlotte's Portfolio
                         </Typography>
                     </Link>
@@ -110,7 +114,7 @@ const SideMenuDrawer: React.FC = () => {
                             <Box className='highlight' sx={{
                                 display: 'flex', justifyItems: 'start', 
                                 "&:hover": { "& p": {
-                                    color: '#4056f7'
+                                    color: currentColors[600]
                                 } } 
                             }}>
                                 <img src={`images/profile/${owner}.png`} width='20px' height='20px' alt='' style={{ borderRadius: '20px', marginRight: '5px' }} />
@@ -125,7 +129,7 @@ const SideMenuDrawer: React.FC = () => {
                                 <div key={i} style={{ display: 'flex', justifyContent: 'space-between' }}>
                                     <Box className='highlight' sx={{ 
                                         "&:hover": { "& p": {
-                                            color: '#91bdff', 
+                                            color: currentColors[300], 
                                             marginLeft: '50px'
                                         } } 
                                     }}>
@@ -134,7 +138,7 @@ const SideMenuDrawer: React.FC = () => {
                                                 fontWeight: 600, 
                                                 marginLeft: '35px',
                                                 marginTop: '3px', marginBottom: '3px',
-                                                transition: 'color,marginLeft 150ms,50ms ease-in,ease-put'
+                                                transition: 'color,marginLeft 150ms,100ms ease-in,ease-put'
                                             }}>
                                                 {project.name}
                                             </Typography>
@@ -142,11 +146,11 @@ const SideMenuDrawer: React.FC = () => {
                                     </Box>
                                     <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
                                         <a href={`https://github.com/${owner}/${project.name}`}>
-                                            <GithubIcon sx={{ transform: 'scale(0.8)', color: 'lightgray', transition: 'color 300ms ease-out', "&:hover": { color: 'black' }}} />
+                                            <GithubIcon sx={{ transform: 'scale(0.8)', color: 'text.secondary', transition: 'color 300ms ease-out', "&:hover": { color: 'text.primary' }}} />
                                         </a>
                                         {project.link && 
                                             <a href={project.link}>
-                                                <OpenInNewIcon sx={{ transform: 'scale(0.8)', color: 'lightgray', transition: 'color 300ms ease-out', "&:hover": { color: 'black' }}} />
+                                                <OpenInNewIcon sx={{ transform: 'scale(0.8)', color: 'text.secondary', transition: 'color 300ms ease-out', "&:hover": { color: 'text.primary' }}} />
                                             </a>
                                         }
                                     </div>
@@ -160,12 +164,12 @@ const SideMenuDrawer: React.FC = () => {
                 <Box sx={{ padding: '20px' }}>
                     <Status />
                 </Box>
-                <Divider textAlign='left' sx={{ color: 'black' }}>
-                    <Typography sx={{ fontWeight: 500, fontSize: 12 }}>About</Typography>
+                <Divider textAlign='left'>
+                    <Typography fontWeight={500} fontSize={12}>About</Typography>
                 </Divider>
                 <Box sx={{ display: 'flex', alignItems: 'end', "& a": { transition: 'margin-bottom 200ms', marginBottom: '0px', "&:hover": { marginBottom: '5px' } } }}>
                     <a href='https://github.com/sharlottes'>
-                        <IconButton sx={{ color: 'black' }}>
+                        <IconButton sx={{ color: theme.palette.text.primary }}>
                             <GithubIcon />
                         </IconButton>
                     </a>

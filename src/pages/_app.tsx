@@ -4,11 +4,10 @@ import type { AppProps } from 'next/app';
 import type { NextPage } from 'next'
 import { CacheProvider, type EmotionCache } from '@emotion/react'
 import { SessionProvider, useSession } from "next-auth/react"
-import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { SnackbarProvider } from 'notistack'
 
-import theme from 'src/theme'
+import MainThemeProvider from 'src/components/MainThemeProvider'
 import createEmotionCache from 'src/createEmotionCache'
 import AnalyticTracker from 'src/components/hoc/AnalyticTracker'
 
@@ -26,7 +25,7 @@ export type AuthNextPage<P = {}, IP = P> = NextPage<P, IP> & { auth?: any };
 
 const MyApp: React.FC<{
   emotionCache?: EmotionCache;
-  Component: AuthNextPage<any, {}>;
+  Component: AuthNextPage;
   pageProps: any;
 } & AppProps<{ session: any }>> = ({
   Component,
@@ -34,14 +33,14 @@ const MyApp: React.FC<{
   pageProps: { session, ...pageProps },
 }) => { 
     AnalyticTracker();
+
     return (
       <CacheProvider value={emotionCache}>
         <Head>
           <title>React App</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <MainThemeProvider>
           <CssBaseline />
           <SessionProvider session={session}>
             <SnackbarProvider maxSnack={1}>
@@ -54,7 +53,7 @@ const MyApp: React.FC<{
               )}
             </SnackbarProvider>
           </SessionProvider>
-        </ThemeProvider>
+        </MainThemeProvider>
       </CacheProvider>
     )
 }
