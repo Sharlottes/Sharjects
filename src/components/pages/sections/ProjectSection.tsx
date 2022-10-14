@@ -39,11 +39,11 @@ const TagContext = React.createContext<{
 const StyledAvatar = styled(Avatar)<{ highlighted: string }>(({ highlighted })=>({
   width: '30px', height: '30px', 
   marginLeft: '5px', 
-  backgroundColor: 'white', 
-  transition: 'box-shadow 300ms ease-out',
+  transition: 'margin-bottom 300ms ease-out',
+  backgroundColor: 'common.white',
   zIndex: 999,
   ...(Boolean(highlighted) && {
-    boxShadow: '1px 1px 1px 1px'
+    marginBottom: '10px'
   }),
 }));
 
@@ -86,7 +86,7 @@ const Project: React.FC<{
         <div>
           <Typography>{description}</Typography>
           {children}
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
+          <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
             <AvatarGroup total={tags.length}>
               {tags.map((tag, i) => 
                 <Tooltip key={i} title={tag} onClick={() => currentTags.includes(tag) ? removeTag(tag) : addTag(tag)}>
@@ -108,7 +108,7 @@ const Project: React.FC<{
 const TagsSelection: React.FC<MotionProps> = ({ ...props }) => {
   const { tags, addTag, removeTag } = React.useContext(TagContext);
   return (
-    <motion.div style={{ width: '100%', display: 'flex', position: 'fixed', bottom: '100px', justifyContent: 'center' }} {...props}>
+    <motion.div style={{ width: '100%', display: 'flex', position: 'fixed', bottom: '100px', alignItems: 'center', justifyContent: 'center' }} {...props}>
       {allTags.map((tag, i) => 
         <Tooltip key={i} title={tag} onClick={() => tags.includes(tag) ? removeTag(tag) : addTag(tag)}>
           <StyledAvatar key={i} src={`images/langs/${tag}.png`} alt='' highlighted={tags.includes(tag) ? 'asdf' : ''} />

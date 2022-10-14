@@ -3,12 +3,32 @@ import * as Colors from '@mui/material/colors';
 import { createTheme, Theme, ThemeProvider } from '@mui/material/styles';
 import React, { type PropsWithChildren } from 'react';
 
+import type { PaletteColor, PaletteColorOptions } from '@mui/material/styles';
+
+type CustomPaletteColors = 'default' | 'nature';
+
+type CustomPalette = {
+  [Property in CustomPaletteColors]: PaletteColor;
+}
+type CustomPaletteOptions = {
+  [Property in keyof CustomPalette]?: PaletteColorOptions;
+}
+
+declare module '@mui/material/styles' {
+  interface Palette extends CustomPalette { }
+  interface PaletteOptions extends CustomPaletteOptions { }
+}
+
 type ColorPalette = Exclude<keyof typeof Colors, 'common'>;
 const getDesignTokens = (mode: PaletteMode, palette: ColorPalette) => ({
   palette: {
     mode,
     primary: {
       main: Colors[palette][300]
+    },
+    default: {
+      light: '#000',
+      dark: '#fff'
     },
     text: {
       ...(mode === 'light'

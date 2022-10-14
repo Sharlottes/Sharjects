@@ -27,7 +27,7 @@ const Header: React.FC<PropsWithChildren> = ({ children }) => {
               </Link>
             </Tooltip>
           </div>
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <ThemeSelection />
             <Profile />
         </div>
