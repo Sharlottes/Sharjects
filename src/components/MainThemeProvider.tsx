@@ -4,19 +4,23 @@ import { createTheme, Theme, ThemeProvider } from '@mui/material/styles';
 import React, { type PropsWithChildren } from 'react';
 
 import type { PaletteColor, PaletteColorOptions } from '@mui/material/styles';
+import type { Color } from '@mui/material'
 
-type CustomPaletteColors = 'default' | 'nature';
+type Partialize<T> = { 
+  [P in keyof T]?: T[P] extends Function 
+    ? T[P] 
+    : T[P] extends PaletteColor 
+      ? PaletteColorOptions 
+      : Partial<T[P]> 
+}
 
-type CustomPalette = {
-  [Property in CustomPaletteColors]: PaletteColor;
-}
-type CustomPaletteOptions = {
-  [Property in keyof CustomPalette]?: PaletteColorOptions;
-}
+type CustomPalette = 
+  Record<'default' | 'nature', PaletteColor> & 
+  Record<'accent' | 'health', Color>
 
 declare module '@mui/material/styles' {
   interface Palette extends CustomPalette { }
-  interface PaletteOptions extends CustomPaletteOptions { }
+  interface PaletteOptions extends Partialize<CustomPalette> { }
 }
 
 type ColorPalette = Exclude<keyof typeof Colors, 'common'>;
