@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { type PropsWithChildren } from 'react'
+import React from 'react'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import Toolbar from '@mui/material/Toolbar'
@@ -10,14 +10,14 @@ import Profile from './Profile'
 import SideMenu from './SideMenu'
 import ThemeSelection from './ThemeSelection'
 
-const Header: React.FC<PropsWithChildren> = ({ children }) => {
+const Header: React.FC<{ additional?: React.ReactNode | undefined }> = ({ additional }) => {
   return (
     <header>
       <AppBar>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <SideMenu />
-            <Tooltip title='back to main'> 
+            <Tooltip title='back to main'>
               <Link href='/'>
                 <Button sx={{ marginLeft: '10px', display: 'inline' }}>
                   <Typography align='center' style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>
@@ -30,9 +30,9 @@ const Header: React.FC<PropsWithChildren> = ({ children }) => {
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <ThemeSelection />
             <Profile />
-        </div>
+          </div>
         </Toolbar>
-        {children}
+        {additional}
       </AppBar>
     </header>
   )

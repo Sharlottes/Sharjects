@@ -60,7 +60,7 @@ const SignIn: AuthNextPage<{
   const isValid = username !== '' && password !== ''
 
   return (
-    <Layout muteAlart>
+    <Layout>
       <Box flexDirection='column' sx={{ display: 'flex', alignItems: 'center', pt: '100px', justifyContent: 'center', minWidth: '100%', minHeight: '100%' }}>
         <Typography id='title' variant='h2' noWrap fontSize='min(6vw, 70px)'>
           Login User

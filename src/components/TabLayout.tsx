@@ -53,9 +53,9 @@ const ScrollTop: React.FC = () => {
         onClick={handleClick}
         role='presentation'
         sx={{ position: 'fixed', bottom: 16, right: 16 }}>
-         <Fab size='small' aria-label='scroll back to top'>
-            <KeyboardArrowUpIcon />
-          </Fab>
+        <Fab size='small' aria-label='scroll back to top'>
+          <KeyboardArrowUpIcon />
+        </Fab>
       </Box>
     </Fade>
   );
@@ -70,38 +70,41 @@ const TabLayout: React.FC<TabLayoutProps> = ({ children, onIndexChanged, tabs })
   const [index, setIndex] = React.useState(0);
 
   return (
-    <Layout header={<>
-      <Collapse collapsedSize='5px' in={shown} sx={{ backgroundColor: '#7289DA', }}>
-        <Toolbar variant='dense' sx={{ ml: '20px' }}>
-          <Tabs 
-            value={index} 
-            onChange={(_, index)=>{
-              setIndex(index); 
-              if(onIndexChanged) onIndexChanged(index)
-            }}
-            sx={{
-              "& .MuiTab-root": {
-                '&.Mui-selected': {
-                  color: '#adb6ff',
-                },
-                transition: 'color 0.5s',
-              }
-            }}
-          >
-            {tabs.map((tab, i) => <Tab key={i} label={tab} />)}
-          </Tabs>
-        </Toolbar>
-      </Collapse>
+    <>
+      <Toolbar id='back-to-top-anchor' />
+      <Layout header={<>
+        <Collapse collapsedSize='5px' in={shown} sx={{ backgroundColor: '#7289DA', }}>
+          <Toolbar variant='dense' sx={{ ml: '20px' }}>
+            <Tabs
+              value={index}
+              onChange={(_, index) => {
+                setIndex(index);
+                if (onIndexChanged) onIndexChanged(index)
+              }}
+              sx={{
+                "& .MuiTab-root": {
+                  '&.Mui-selected': {
+                    color: '#adb6ff',
+                  },
+                  transition: 'color 0.5s',
+                }
+              }}
+            >
+              {tabs.map((tab, i) => <Tab key={i} label={tab} />)}
+            </Tabs>
+          </Toolbar>
+        </Collapse>
 
-      <CollapseFab size='small' shown={shown.toString()} onClick={()=>setShown(prev=>!prev)} >
-        {shown ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-      </CollapseFab>
-    </>}>
-      <>
-        <ScrollTop />
-        {children}
-      </>
-    </Layout>
+        <CollapseFab size='small' shown={shown.toString()} onClick={() => setShown(prev => !prev)} >
+          {shown ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+        </CollapseFab>
+      </>}>
+        <>
+          <ScrollTop />
+          {children}
+        </>
+      </Layout>
+    </>
   )
 }
 
