@@ -21,11 +21,11 @@ import { useThemeController } from './MainThemeProvider'
 
 const monthes = ['월', '화', '수', '목', '금', '토', '일'];
 const date = new Date();
-const dateCode = `${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
+const dateCode = `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
 
 function parseDate(str: string): string {
     const date = new Date(`${str.slice(0, 4)} ${str.slice(4, 6)} ${str.slice(6, 8)}`);
-    return `${date.getMonth()+1}/${date.getDate()} (${monthes[date.getUTCDay()]})`
+    return `${date.getMonth() + 1}/${date.getDate()} (${monthes[date.getUTCDay()]})`
 }
 
 const GraphDialog: React.FC<DialogProps & { data: Record<string, number> }> = ({ data: visitors, ...props }) => {
@@ -47,7 +47,7 @@ const GraphDialog: React.FC<DialogProps & { data: Record<string, number> }> = ({
         interaction: {
             mode: "index" as const,
             intersect: false,
-          },
+        },
     }
 
     return (
@@ -75,16 +75,16 @@ const Status: React.FC = () => {
         <>
             <Divider textAlign='left'><Typography fontWeight={500} fontSize={12}>Visitors</Typography></Divider>
             <div style={{ marginLeft: '10px', fontSize: 12, fontWeight: 500 }}>
-                이 사이트는 오늘 {visitors[dateCode]||0}번 조회되었고,<br/> 
-                총 {Object.values(visitors).reduce((a, e)=>a+e, 0)}번 조회되었어요. 
-                <span style={{ display: 'inline', color: 'blue', cursor: 'pointer' }} onClick={()=>setDialogOpen(true)}>
+                이 사이트는 오늘 {visitors[dateCode] || 0}번 조회되었고,<br />
+                총 {Object.values(visitors).reduce((a, e) => a + e, 0)}번 조회되었어요.
+                <span style={{ display: 'inline', color: 'blue', cursor: 'pointer' }} onClick={() => setDialogOpen(true)}>
                     그래프 보기
                 </span>
             </div>
             <GraphDialog
                 data={visitors}
                 maxWidth='xs' fullWidth
-                onClose={()=>setDialogOpen(false)}
+                onClose={() => setDialogOpen(false)}
                 open={dialogOpen}
             />
         </>
@@ -105,21 +105,23 @@ const SideMenuDrawer: React.FC = () => {
                     </Link>
                     <Typography variant='body2' textAlign='right' sx={{ marginLeft: '5px' }}>the first portfolio</Typography>
                 </div>
-                
+
                 <Divider />
-                
+
                 <div style={{ marginLeft: '10px', marginTop: '15px', width: '100%' }}>
-                    {projectData.map(({owner, projects}) => 
+                    {projectData.map(({ owner, projects }) =>
                         <div key={owner} style={{ marginTop: '10px' }}>
                             <Box className='highlight' sx={{
-                                display: 'flex', justifyItems: 'start', 
-                                "&:hover": { "& p": {
-                                    color: currentColors[600]
-                                } } 
+                                display: 'flex', justifyItems: 'start',
+                                "&:hover": {
+                                    "& p": {
+                                        color: currentColors[600]
+                                    }
+                                }
                             }}>
                                 <img src={`images/profile/${owner}.png`} width='20px' height='20px' alt='' style={{ borderRadius: '20px', marginRight: '5px' }} />
                                 <Link href={`https://github.com/${owner}`}>
-                                    <Typography sx={{ 
+                                    <Typography sx={{
                                         fontWeight: 500, fontsize: 16, textAlign: 'left',
                                         transition: 'color 150ms ease-in'
                                     }}>{owner}</Typography>
@@ -127,15 +129,17 @@ const SideMenuDrawer: React.FC = () => {
                             </Box>
                             {projects.map((project, i) => (
                                 <div key={i} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <Box className='highlight' sx={{ 
-                                        "&:hover": { "& p": {
-                                            color: currentColors[300], 
-                                            marginLeft: '50px'
-                                        } } 
+                                    <Box className='highlight' sx={{
+                                        "&:hover": {
+                                            "& p": {
+                                                color: currentColors[300],
+                                                marginLeft: '50px'
+                                            }
+                                        }
                                     }}>
                                         <Link href={`/projects/${project.name}`}>
-                                            <Typography sx={{ 
-                                                fontWeight: 600, 
+                                            <Typography sx={{
+                                                fontWeight: 600,
                                                 marginLeft: '35px',
                                                 marginTop: '3px', marginBottom: '3px',
                                                 transition: 'color,marginLeft 150ms,100ms ease-in,ease-put'
@@ -146,11 +150,11 @@ const SideMenuDrawer: React.FC = () => {
                                     </Box>
                                     <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
                                         <a href={`https://github.com/${owner}/${project.name}`}>
-                                            <GithubIcon sx={{ transform: 'scale(0.8)', color: 'text.secondary', transition: 'color 300ms ease-out', "&:hover": { color: 'text.primary' }}} />
+                                            <GithubIcon sx={{ transform: 'scale(0.8)', color: 'text.secondary', transition: 'color 300ms ease-out', "&:hover": { color: 'text.primary' } }} />
                                         </a>
-                                        {project.link && 
+                                        {project.link &&
                                             <a href={project.link}>
-                                                <OpenInNewIcon sx={{ transform: 'scale(0.8)', color: 'text.secondary', transition: 'color 300ms ease-out', "&:hover": { color: 'text.primary' }}} />
+                                                <OpenInNewIcon sx={{ transform: 'scale(0.8)', color: 'text.secondary', transition: 'color 300ms ease-out', "&:hover": { color: 'text.primary' } }} />
                                             </a>
                                         }
                                     </div>
