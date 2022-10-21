@@ -95,7 +95,7 @@ const SignIn: AuthNextPage<{
               const res = await signIn('credentials', { redirect: false, username, password, remember })
               if (res) {
                 if (!res.ok) {
-                  enqueueSnackbar(res.error, { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'left' } })
+                  enqueueSnackbar(res.error ?? 'unknown error', { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'left' } })
                 } else if (query.callbackUrl) {
                   Router.push(query.callbackUrl as string);
                 }
