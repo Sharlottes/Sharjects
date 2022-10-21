@@ -5,18 +5,18 @@ import FadeUpTypography from 'src/components/FadeUpTypography';
 const TitleSection: React.FC = () => {
     return (
         <Box sx={{ marginTop: '60px', width: '100%' }}>
-            <ProgressiveTypography 
-                variant='h1'  
+            <ProgressiveTypography
+                variant='h1'
                 sx={{ width: '100%' }}
                 fontWeight='bold'
-                fontSize='150px'
-                label="Sharlotte"  
+                fontSize='min(200px, 15vw)'
+                label="Sharlotte"
                 motion={{ animate: 'show' }}
-                box={{ sx: { display: 'flex', justifyContent: 'center' } }}
+                box={{ sx: { display: 'flex', justifyContent: 'center', padding: '20px' } }}
             />
-            <FadeUpTypography 
-                variant='body1' 
-                sx={{width: '100%', textAlign: 'center', paddingLeft: '30px', paddingRight: '30px' }} 
+            <FadeUpTypography
+                variant='body1'
+                sx={{ width: '100vw', textAlign: 'center', paddingLeft: '30px', paddingRight: '30px' }}
                 motion={{
                     whileInView: { opacity: 1, marginBottom: '20px' },
                     transition: { delay: 1.5 }
