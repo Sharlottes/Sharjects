@@ -62,7 +62,7 @@ const GraphDialog: React.FC<DialogProps & { data: Record<string, number> }> = ({
 const projectData: Array<projectDataType> = require('./pages/sections/projectData.json');
 
 const Status: React.FC = () => {
-    const [visitors, setVisitors] = React.useState<Record<string, number>>({});
+    const [visitors, setVisitors] = React.useState<Record<string, number>>();
     const [dialogOpen, setDialogOpen] = React.useState(false);
 
     React.useEffect(() => {
@@ -75,18 +75,40 @@ const Status: React.FC = () => {
         <>
             <Divider textAlign='left'><Typography fontWeight={500} fontSize={12}>Visitors</Typography></Divider>
             <div style={{ marginLeft: '10px', fontSize: 12, fontWeight: 500 }}>
-                이 사이트는 오늘 {visitors[dateCode] || 0}번 조회되었고,<br />
-                총 {Object.values(visitors).reduce((a, e) => a + e, 0)}번 조회되었어요.
+                {visitors
+                    ? <>
+                        이 사이트는 오늘 {visitors[dateCode] || 0}번 조회되었고,<br />
+                        총 {Object.values(visitors).reduce((a, e) => a + e, 0)}번 조회되었어요.
+                    </>
+                    : <>방문자 불러오는 중...{/* TODO-이거 애니메이팅하는 Typography 만들까 */}</>
+                }
                 <span style={{ display: 'inline', color: 'blue', cursor: 'pointer' }} onClick={() => setDialogOpen(true)}>
                     그래프 보기
                 </span>
             </div>
-            <GraphDialog
-                data={visitors}
-                maxWidth='xs' fullWidth
-                onClose={() => setDialogOpen(false)}
-                open={dialogOpen}
-            />
+            {visitors
+                ?
+                <GraphDialog
+                    data={visitors}
+                    maxWidth='xs' fullWidth
+                    onClose={() => setDialogOpen(false)}
+                    open={dialogOpen}
+                />
+                :
+                <Dialog
+                    onClose={() => setDialogOpen(false)}
+                    open={dialogOpen}
+                >
+                    <Box sx={{ padding: '15px' }}>
+                        <Typography variant='h1' noWrap fontWeight='bold' fontSize={25} textAlign='center' sx={{ margin: '5px' }}>알림!</Typography>
+                        <Divider />
+                        <Box sx={{ margin: '10px' }}>
+                            <Typography variant='h3' noWrap fontWeight={700} fontSize={15} textAlign='center'>방문자 데이터를 불러오는 중이에요!</Typography>
+                            <Typography variant='body1' noWrap fontWeight={400} textAlign='center' sx={{ marginTop: '5px' }}>잠시만 기다려주세요...</Typography>
+                        </Box>
+                    </Box>
+                </Dialog>
+            }
         </>
     )
 }
