@@ -42,6 +42,9 @@ const ProgressiveTypography: React.FC<{
                         initial={{ opacity: 0 }}
                         animate={control}
                         variants={{ show: { opacity: 1, transition: { delay: i * speed } } }}
+                        onDragEnd={() => {
+                            if (char == 'o') window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+                        }}
                         {...motionProps}
                     >  {/* 원하는 속성에 'visible' 부여*/}
                         <Typography {...props}>{char}</Typography>

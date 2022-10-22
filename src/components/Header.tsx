@@ -6,14 +6,16 @@ import Toolbar from '@mui/material/Toolbar'
 import AppBar from '@mui/material/AppBar'
 import Button from '@mui/material/Button'
 
+import { type StandardLonghandProperties } from 'csstype'
+
 import Profile from './Profile'
 import SideMenu from './SideMenu'
 import ThemeSelection from './ThemeSelection'
 
-const Header: React.FC<{ additional?: React.ReactNode | undefined }> = ({ additional }) => {
+const Header: React.FC<{ additional?: React.ReactNode | undefined, height?: StandardLonghandProperties['height'] }> = ({ additional, height = '60px' }) => {
   return (
     <header>
-      <AppBar>
+      <AppBar sx={{ height }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <SideMenu />
