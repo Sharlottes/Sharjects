@@ -7,7 +7,7 @@ import { CacheProvider, type EmotionCache } from '@emotion/react'
 import createCache from '@emotion/cache';
 
 import { SessionProvider } from "next-auth/react"
-import { SnackbarContent, type CustomContentProps, SnackbarProvider } from 'notistack'
+import { SnackbarProvider } from 'notistack'
 
 import CssBaseline from '@mui/material/CssBaseline'
 
