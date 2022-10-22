@@ -36,15 +36,15 @@ const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
   }, [request, session])
 
   const fetchFollowing = () => {
-    if (session && session.accessToken) 
-      request(isFollowing ? 'DELETE' : 'PUT')?.then(res => res.ok&&setFollowing(prev => !prev))
+    if (session && session.accessToken)
+      request(isFollowing ? 'DELETE' : 'PUT')?.then(res => res.ok && setFollowing(prev => !prev))
     else signIn('github')
   }
 
   return (
     <Box sx={{
       width: 270,
-      transition: 'transform 300ms ease-in-out', 
+      transition: 'transform 300ms ease-in-out',
       '&:hover': {
         transform: 'scale(1.05)'
       },
@@ -65,17 +65,19 @@ const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
         transition: 'opacity 300ms ease-in-out'
       }
     }}
-    component='div' 
-    onClick={(e: React.MouseEvent<HTMLDivElement>)=>{
-      if((e.target as any).id !== 'followbtn') window.open(`https://github.com/${user.login}`, "_blank")
-    }}>
+      component='div'
+      onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+        if ((e.target as any).id !== 'followbtn') window.open(`https://github.com/${user.login}`, "_blank")
+      }}>
       <Paper sx={{ height: '180px', pt: '5px' }}>
         <div style={{ display: 'flex', marginLeft: '5px', justifyContent: 'start', alignItems: 'start' }}>
           <Avatar src={user.avatar_url} />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
             <div>
               <Typography variant='subtitle1' sx={{ fontWeight: 'bold' }}>{user.login}</Typography>
-              <Typography variant='caption' sx={{ position: 'relative', top: '-10px' }}>{user.name ?? <span style={{ color: 'gray' }}>{"<Empty>"}</span>}</Typography>
+              <Typography variant='caption' sx={{ position: 'relative', top: '-10px' }}>
+                {user.name ?? <span style={{ color: 'gray' }}>{"<Empty>"}</span>}
+              </Typography>
             </div>
             <Button
               id='followbtn'
@@ -89,7 +91,12 @@ const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
             </Button>
           </div>
         </div>
-        <Stack direction='row' spacing={2} divider={<Divider sx={{color: 'gray'}} />} sx={{ display: 'flex', ml: '10px', mr: '10px' }}>
+        <Stack
+          direction='row'
+          spacing={2}
+          divider={<Divider sx={{ color: 'gray' }} />}
+          sx={{ display: 'flex', ml: '10px', mr: '10px' }}
+        >
           {[
             [user.public_repos, 'REPOS'],
             [user.public_gists, 'GISTS'],
@@ -109,15 +116,15 @@ const ContributorCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
 
 const Contributors: React.FC<{ users: GithubProfile[] }> = ({ users }) => {
   const [scroll, setScroll] = React.useState(0)
-  const [scrollDirection, setScrollDirection] = React.useState<'left'|'right'|'none'>('none')
+  const [scrollDirection, setScrollDirection] = React.useState<'left' | 'right' | 'none'>('none')
   const interval = React.useRef<NodeJS.Timer>()
 
   React.useEffect(() => {
-    if(interval.current) clearInterval(interval.current)
+    if (interval.current) clearInterval(interval.current)
 
-    interval.current = setInterval(()=>{
-      if(scrollDirection === 'none') return;
-      setScroll(prev=>Math.max(0, Math.min(3, prev + 0.05 * (scrollDirection === 'left' ? -1 : 1))))
+    interval.current = setInterval(() => {
+      if (scrollDirection === 'none') return;
+      setScroll(prev => Math.max(0, Math.min(3, prev + 0.05 * (scrollDirection === 'left' ? -1 : 1))))
     }, 10)
 
     return () => clearInterval(interval.current)
@@ -125,32 +132,36 @@ const Contributors: React.FC<{ users: GithubProfile[] }> = ({ users }) => {
 
   return (<>
     <Box component={'div'} sx={{
-      width: '100%', height: 200, 
+      width: '100%', height: 200,
       "& .scrollbtn": {
         position: 'absolute',
-        width: 25, height: 200, zIndex: 99, 
+        width: 25, height: 200, zIndex: 99,
         backgroundColor: 'rgb(0,0,0,.3)',
-        opacity: scrollDirection !== 'none' ? 1 : 0, transition: 'opacity 200ms', 
+        opacity: scrollDirection !== 'none' ? 1 : 0, transition: 'opacity 200ms',
         "&:hover": { opacity: 1 }
-      } 
+      }
     }}>
-      <Button 
+      <Button
         className='scrollbtn'
-        sx={{float: 'left', left: -10 }} 
-        onMouseEnter={()=>setScrollDirection('left')} 
-        onMouseLeave={()=>setScrollDirection('none')}
-      > <KeyboardArrowLeftIcon /> </Button>
-      <div style={{position: 'absolute', left: -1*270*scroll, overflowX: 'clip'}}>
-        <Stack direction='row' spacing={2} alignItems='center' justifyItems='center' sx={{pl: 3, mr: 2,}}>
+        sx={{ float: 'left', left: -10 }}
+        onMouseEnter={() => setScrollDirection('left')}
+        onMouseLeave={() => setScrollDirection('none')}
+      >
+        <KeyboardArrowLeftIcon />
+      </Button>
+      <div style={{ position: 'absolute', left: -270 * scroll, overflowX: 'clip' }}>
+        <Stack direction='row' spacing={2} alignItems='center' justifyItems='center' sx={{ pl: 3, mr: 2 }}>
           {users && users.map((user, i) => <ContributorCard key={i} user={user} />)}
         </Stack>
       </div>
-      <Button 
+      <Button
         className='scrollbtn'
-        sx={{float: 'right', right: -10 }}
-        onMouseEnter={()=>setScrollDirection('right')} 
-        onMouseLeave={()=>setScrollDirection('none')}
-      > <KeyboardArrowRightIcon /> </Button>
+        sx={{ float: 'right', right: -10 }}
+        onMouseEnter={() => setScrollDirection('right')}
+        onMouseLeave={() => setScrollDirection('none')}
+      >
+        <KeyboardArrowRightIcon />
+      </Button>
     </Box>
   </>)
 }

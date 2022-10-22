@@ -1,7 +1,7 @@
 import Document from 'next/document';
 import { Html, Head, Main, NextScript, type DocumentContext } from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
-import createEmotionCache from 'src/createEmotionCache';
+import createCache from '@emotion/cache';
 
 class MyDocument extends Document {
   render() {
@@ -16,10 +16,10 @@ class MyDocument extends Document {
           {(this.props as any).emotionStyleTags}
           <script async src={
             `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`
-          }/>
+          } />
           <script
             dangerouslySetInnerHTML={{
-            __html: `
+              __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
@@ -40,7 +40,7 @@ class MyDocument extends Document {
 
   static async getInitialProps(ctx: DocumentContext) {
     const originalRenderPage = ctx.renderPage;
-    const cache = createEmotionCache();
+    const cache = createCache({ key: 'css', prepend: true });
     const { extractCriticalToChunks } = createEmotionServer(cache);
 
     ctx.renderPage = () =>

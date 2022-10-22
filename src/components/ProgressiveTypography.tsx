@@ -4,15 +4,17 @@ import { AnimationControls, motion, MotionProps, useAnimationControls } from 'fr
 import React from 'react';
 import { listAnimatonRefType } from 'src/@type';
 
-const ProgressiveTypography: React.FC<{
-    label: string,
-    speed?: number | undefined,
-    animateRef?: listAnimatonRefType | undefined
+type MotionPropsGetterType = (char: string, ref: React.RefObject<HTMLDivElement>, control: (x: string | number, y: string | number) => Promise<any>) => MotionProps | undefined
+
+interface ProgressiveTypographyProps extends TypographyProps {
+    label: string
+    speed?: number | undefined
+    animateRef?: listAnimatonRefType | undefined,
+    motion?: MotionPropsGetterType,
+    box?: BoxProps | undefined
 }
-    & TypographyProps
-    & { motion?: (char: string, ref: React.RefObject<HTMLDivElement>, control: (x: string | number, y: string | number) => Promise<any>) => MotionProps | undefined }
-    & { box?: BoxProps | undefined }
-> = ({
+
+const ProgressiveTypography: React.FC<ProgressiveTypographyProps> = ({
     label,
     speed = 0.1,
     animateRef,
@@ -20,42 +22,42 @@ const ProgressiveTypography: React.FC<{
     box: boxProps,
     ...props
 }) => {
-        const control: AnimationControls[] = [];
+    const control: AnimationControls[] = [];
 
-        React.useEffect(() => {
-            animateRef?.list.push((delay: number) => {
-                control.forEach(c => c.start((i: number) => ({
-                    opacity: 1,
-                    transition: {
-                        delay: delay + i * speed,
-                    },
-                })));
-            })
-        }, []);
+    React.useEffect(() => {
+        animateRef?.list.push((delay: number) => {
+            control.forEach(c => c.start((i: number) => ({
+                opacity: 1,
+                transition: {
+                    delay: delay + i * speed,
+                },
+            })));
+        })
+    }, []);
 
-        return (
-            <Box style={{ display: 'flex' }} {...boxProps}>
-                {label.split('').map((char, i) => {
-                    const ref = React.useRef<HTMLDivElement>(null);
-                    const c = useAnimationControls();
-                    const cc = useAnimationControls();
-                    control[i] = c;
+    return (
+        <Box style={{ display: 'flex' }} {...boxProps}>
+            {label.split('').map((char, i) => {
+                const ref = React.useRef<HTMLDivElement>(null);
+                const c = useAnimationControls();
+                const cc = useAnimationControls();
+                control[i] = c;
 
-                    return <motion.div animate={cc}>
-                        <motion.div
-                            key={i}
-                            custom={i}
-                            initial={{ opacity: 0 }}
-                            animate={c}
-                            variants={{ show: { opacity: 1, transition: { delay: i * speed } } }}
-                            ref={ref}
-                            {...motionProps(char, ref, (x, y) => cc.start({ x, y }))}
-                        >
-                            <Typography {...props}>{char}</Typography>
-                        </motion.div>
+                return <motion.div animate={cc}>
+                    <motion.div
+                        key={i}
+                        custom={i}
+                        initial={{ opacity: 0 }}
+                        animate={c}
+                        variants={{ show: { opacity: 1, transition: { delay: i * speed } } }}
+                        ref={ref}
+                        {...motionProps(char, ref, (x, y) => cc.start({ x, y }))}
+                    >
+                        <Typography {...props}>{char}</Typography>
                     </motion.div>
-                })}
-            </Box>
-        );
-    }
+                </motion.div>
+            })}
+        </Box>
+    );
+}
 export default ProgressiveTypography;

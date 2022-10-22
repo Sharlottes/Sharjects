@@ -9,11 +9,11 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { VisibilityContext, ScrollMenu } from "react-horizontal-scrolling-menu";
 import usePreventBodyScroll from "src/hooks/usePreventBodyScroll";
 
-const ScrollButton = styled(Button)(()=>({
+const ScrollButton = styled(Button)(() => ({
   width: '20px', height: '200px',
   position: 'absolute',
   zIndex: 666,
-  color: 'rgba(0, 0, 0, 0)', 
+  color: 'rgba(0, 0, 0, 0)',
   transition: 'background-color 300ms',
   "&:hover": {
     backgroundColor: 'rgba(100, 100, 100, .3)',
@@ -23,59 +23,57 @@ const ScrollButton = styled(Button)(()=>({
 
 const LeftArrow: React.FC = () => {
   const { scrollPrev } = React.useContext(VisibilityContext);
+
   return (
-  <ScrollButton onClick={() => scrollPrev()}>
-    <ArrowBackIosIcon />
-  </ScrollButton>
+    <ScrollButton onClick={() => scrollPrev()}>
+      <ArrowBackIosIcon />
+    </ScrollButton>
   );
 }
 
 const RightArrow: React.FC = () => {
   const { scrollNext } = React.useContext(VisibilityContext);
+
   return (
-  <ScrollButton onClick={() => scrollNext()} sx={{ right: '15px' }}>
-    <ArrowForwardIosIcon />
-  </ScrollButton>
+    <ScrollButton onClick={() => scrollNext()} sx={{ right: '15px' }}>
+      <ArrowForwardIosIcon />
+    </ScrollButton>
   );
 }
 
 const onWheel = (apiObj: React.ContextType<typeof VisibilityContext>, ev: React.WheelEvent) => {
-    const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
-
-    if (isThouchpad) {
-        ev.stopPropagation();
-        return;
-    }
-
-    if (ev.deltaY < 0) {
-        apiObj.scrollNext();
-    } else if (ev.deltaY > 0) {
-        apiObj.scrollPrev();
-    }
+  if (Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15) {
+    ev.stopPropagation();
+  }
+  else if (ev.deltaY < 0) {
+    apiObj.scrollNext();
+  } else if (ev.deltaY > 0) {
+    apiObj.scrollPrev();
+  }
 }
 
-const HorizontalScrollGroup: React.FC<{ children: JSX.Element[]|JSX.Element }> = ({ children }) => {
-    const { disableScroll, enableScroll } = usePreventBodyScroll();
+const HorizontalScrollGroup: React.FC<{ children: JSX.Element[] | JSX.Element }> = ({ children }) => {
+  const { disableScroll, enableScroll } = usePreventBodyScroll();
 
-    return (    
+  return (
     <Box
-        sx={{ 
-            overflow: 'hidden',
-            "& .react-horizontal-scrolling-menu--scroll-container": {
-                '&::-webkit-scrollbar': {
-                  display: 'none'
-                },
-                msOverflowStyle: 'none',
-                scrollbarWidth: 'none'
-            },
-        }}
-        onMouseEnter={disableScroll} onMouseLeave={enableScroll}
+      sx={{
+        overflow: 'hidden',
+        "& .react-horizontal-scrolling-menu--scroll-container": {
+          '&::-webkit-scrollbar': {
+            display: 'none'
+          },
+          msOverflowStyle: 'none',
+          scrollbarWidth: 'none'
+        },
+      }}
+      onMouseEnter={disableScroll} onMouseLeave={enableScroll}
     >
-        <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow} onWheel={onWheel}>
-            {children}
-        </ScrollMenu>
+      <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow} onWheel={onWheel}>
+        {children}
+      </ScrollMenu>
     </Box>
-    )
+  )
 }
 
 export default HorizontalScrollGroup;

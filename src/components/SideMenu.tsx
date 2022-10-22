@@ -1,11 +1,13 @@
 import React from 'react'
 import Link from 'next/link'
 
-import IconButton from '@mui/material/IconButton'
-import Drawer from '@mui/material/Drawer'
-import Divider from '@mui/material/Divider'
-import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
+import Divider from '@mui/material/Divider'
+import Drawer from '@mui/material/Drawer'
+import Dialog from '@mui/material/Dialog'
+import Box from '@mui/material/Box'
+
 import Container from '@mui/system/Container'
 import Stack from '@mui/system/Stack'
 
@@ -15,49 +17,12 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 
 import { DiscordIcon, GithubIcon } from 'src/assets/icons'
 import { projectDataType } from 'src/@type'
-import { Dialog, DialogProps, DialogTitle, useTheme } from '@mui/material'
-import { Line } from 'react-chartjs-2'
-import { useThemeController } from './MainThemeProvider'
 
-const monthes = ['월', '화', '수', '목', '금', '토', '일'];
+import { useThemeController } from './MainThemeProvider'
+import VisitorGraphDialog from './VisitorGraphDialog'
+
 const date = new Date();
 const dateCode = `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
-
-function parseDate(str: string): string {
-    const date = new Date(`${str.slice(0, 4)} ${str.slice(4, 6)} ${str.slice(6, 8)}`);
-    return `${date.getMonth() + 1}/${date.getDate()} (${monthes[date.getUTCDay()]})`
-}
-
-const GraphDialog: React.FC<DialogProps & { data: Record<string, number> }> = ({ data: visitors, ...props }) => {
-    const entries = Object.entries(visitors);
-    const data = {
-        datasets: [
-            {
-                type: 'line' as const,
-                label: 'Dataset 1',
-                data: entries.slice(Math.max(0, entries.length - 7)).map(([date, amount]) => ({ x: parseDate(date), y: amount })),
-                borderColor: 'green',
-                borderWidth: 2,
-            }
-        ]
-    };
-
-    const options = {
-        responsive: true,
-        interaction: {
-            mode: "index" as const,
-            intersect: false,
-        },
-    }
-
-    return (
-        <Dialog {...props}>
-            <DialogTitle><Typography fontWeight={500} fontSize={15}>조회수 그래프</Typography></DialogTitle>
-            <Line data={data} options={options} style={{ padding: '20px' }} />
-        </Dialog>
-    )
-}
-
 
 const projectData: Array<projectDataType> = require('./pages/sections/projectData.json');
 
@@ -80,7 +45,7 @@ const Status: React.FC = () => {
                         이 사이트는 오늘 {visitors[dateCode] || 0}번 조회되었고,<br />
                         총 {Object.values(visitors).reduce((a, e) => a + e, 0)}번 조회되었어요.
                     </>
-                    : <>방문자 불러오는 중...{/* TODO-이거 애니메이팅하는 Typography 만들까 */}</>
+                    : <>방문자 불러오는 중...</>
                 }
                 <span style={{ display: 'inline', color: 'blue', cursor: 'pointer' }} onClick={() => setDialogOpen(true)}>
                     그래프 보기
@@ -88,7 +53,7 @@ const Status: React.FC = () => {
             </div>
             {visitors
                 ?
-                <GraphDialog
+                <VisitorGraphDialog
                     data={visitors}
                     maxWidth='xs' fullWidth
                     onClose={() => setDialogOpen(false)}
@@ -113,7 +78,6 @@ const Status: React.FC = () => {
     )
 }
 const SideMenuDrawer: React.FC = () => {
-    const theme = useTheme();
     let { currentColors } = useThemeController();
 
     return (

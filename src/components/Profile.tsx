@@ -37,11 +37,8 @@ const Profile: React.FC = () => {
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
             <MenuItem>
-                <Link href='/mypage'>
-                    <Typography sx={{ textDecoration: 'none' }}>Your Profile</Typography>
-                </Link>
+                <Button href='/mypage'>Your Profile</Button>
             </MenuItem>
-            <Divider />
         </Menu>
     </>)
 }

@@ -59,7 +59,12 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
         }
       />
       {!isValid && (
-        cons.reduce((a, [con, errmsg], i) => con(value) ? a : [...a, <Typography key={i} variant='caption' sx={{ ml: '10px', color: 'red' }}>{errmsg}</Typography>], [<div key='empty'></div>])
+        cons.reduce((a, [con, errmsg], i) => con(value) ? a : [...a,
+        <Typography key={i} variant='caption' ml='10px'>
+          <span color='red'>{errmsg}</span>
+        </Typography>],
+          [<div key='empty' />]
+        )
       )}
     </FormControl>
   )
