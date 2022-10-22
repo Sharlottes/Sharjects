@@ -6,15 +6,12 @@ import { signIn, useSession } from "next-auth/react"
 import CloseIcon from '@mui/icons-material/Close'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
-import Snackbar, { type SnackbarProps } from '@mui/material/Snackbar'
 
 import { useSnackbar } from 'notistack'
 
 declare module 'notistack' {
   interface VariantOverrides {
-    test: {
-      duration?: boolean,
-    } & Partial<Record<Exclude<keyof SnackbarProps, 'action' | 'anchorOrigin'>, boolean>>
+    test: true
   }
 }
 
@@ -27,9 +24,11 @@ const AuthWrapper: React.FC<{ children: JSX.Element, auth: any }> = ({ children,
     if (status !== "unauthenticated") return;
 
     const id = setTimeout(() => {
+      console.log('adf');
       if (status !== "unauthenticated") return;
       enqueueSnackbar('you are not logged in', {
         preventDuplicate: true,
+        variant: 'test',
         anchorOrigin: {
           vertical: 'top',
           horizontal: 'center'

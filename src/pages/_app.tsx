@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app';
 import type { NextPage } from 'next'
 import { CacheProvider, type EmotionCache } from '@emotion/react'
 import { SessionProvider } from "next-auth/react"
-import { SnackbarContent, SnackbarProvider } from 'notistack'
+import { SnackbarContent, type CustomContentProps, SnackbarProvider } from 'notistack'
 
 import CssBaseline from '@mui/material/CssBaseline'
 
@@ -24,16 +24,26 @@ require('src/lib/registerChartjs');
 const clientSideEmotionCache = createEmotionCache();
 
 // notistack require forwardRef wtfwtfwtfwtfwtf
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
 import { motion } from 'framer-motion';
-import Snackbar, { SnackbarProps } from '@mui/material/Snackbar';
-const Test: React.FC = () => {
+const Test: React.FC<CustomContentProps> = React.forwardRef<HTMLDivElement, CustomContentProps>(({ id, action, ...props }, ref) => {
   return (
-    <SnackbarContent>
-      <motion.div animate={{ width: '0%' }} initial={{ width: '100%' }} transition={{ duration: 5999 }} style={{ backgroundColor: 'white' }} />
-      dkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+    <SnackbarContent ref={ref}>
+      <Card>
+        <CardActions>
+          <Typography variant='body2' sx={{ marginRight: '10px' }}>
+            {props.message}
+          </Typography>
+          {typeof action === 'function' ? action(id) : action}
+        </CardActions>
+        <motion.div initial={{ backgroundColor: 'lightGray', height: '5px', width: '100%' }} whileInView={{ width: '0%' }} transition={{ duration: (props.autoHideDuration ?? 0) / 1000 }} />
+      </Card>
     </SnackbarContent>
   )
-}
+})
 
 export type AuthNextPage<P = {}, IP = P> = NextPage<P, IP> & { auth?: any };
 
