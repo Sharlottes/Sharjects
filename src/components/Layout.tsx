@@ -1,6 +1,7 @@
 import React from 'react';
-import Footer from './Footer';
-import Header from './Header';
+
+import Header from './Header'
+import Footer from './Footer'
 
 const Layout: React.FC<{
   header?: React.ReactNode | undefined,
@@ -9,7 +10,7 @@ const Layout: React.FC<{
 }> = ({ children, header, footer }) => (
   <>
     <Header additional={header} />
-    {children}
+    <div id='content-wrapper' style={{ minHeight: '100vh' }}>{children}</div>
     <Footer additional={footer} />
   </>
 )
