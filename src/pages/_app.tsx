@@ -7,13 +7,14 @@ import { CacheProvider, type EmotionCache } from '@emotion/react'
 import createCache from '@emotion/cache';
 
 import { SessionProvider } from "next-auth/react"
-import { SnackbarProvider } from 'notistack'
+import { SnackbarContent, type CustomContentProps, SnackbarProvider } from 'notistack'
 
 import CssBaseline from '@mui/material/CssBaseline'
 
-import AuthWrapper from 'src/components/AuthWrapper'
 import MainThemeProvider from 'src/components/MainThemeProvider'
 import AnalyticTracker from 'src/components/hoc/AnalyticTracker'
+import LifebarSnackbar from 'src/components/LifebarSnackbar'
+import AuthWrapper from 'src/components/AuthWrapper'
 
 import 'public/fonts/UniSans.css'
 import 'public/styles/global.css'
@@ -21,6 +22,7 @@ import { } from "src/@type";
 
 // for chart.js rendering
 require('src/lib/registerChartjs');
+
 
 export type AuthNextPage<P = {}, IP = P> = NextPage<P, IP> & { auth?: any };
 
@@ -44,7 +46,7 @@ const MyApp: React.FC<{
         <MainThemeProvider>
           <CssBaseline />
           <SessionProvider session={session}>
-            <SnackbarProvider maxSnack={3}>
+            <SnackbarProvider maxSnack={3} Components={{ lifebar: LifebarSnackbar }}>
               <AuthWrapper auth={Component.auth}>
                 <Component {...pageProps} />
               </AuthWrapper>

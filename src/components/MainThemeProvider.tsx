@@ -6,16 +6,16 @@ import React, { type PropsWithChildren } from 'react';
 import type { PaletteColor, PaletteColorOptions } from '@mui/material/styles';
 import type { Color } from '@mui/material'
 
-type Partialize<T> = { 
-  [P in keyof T]?: T[P] extends Function 
-    ? T[P] 
-    : T[P] extends PaletteColor 
-      ? PaletteColorOptions 
-      : Partial<T[P]> 
+type Partialize<T> = {
+  [P in keyof T]?: T[P] extends Function
+  ? T[P]
+  : T[P] extends PaletteColor
+  ? PaletteColorOptions
+  : Partial<T[P]>
 }
 
-type CustomPalette = 
-  Record<'default' | 'nature', PaletteColor> & 
+type CustomPalette =
+  Record<'themedWhite' | 'themedBlack', PaletteColor> &
   Record<'accent' | 'health', Color>
 
 declare module '@mui/material/styles' {
@@ -30,20 +30,26 @@ const getDesignTokens = (mode: PaletteMode, palette: ColorPalette) => ({
     primary: {
       main: Colors[palette][300]
     },
-    default: {
+    themedBlack: {
       light: '#000',
+      main: '#000',
       dark: '#fff'
+    },
+    themedWhite: {
+      light: '#fff',
+      main: '#fff',
+      dark: '#000',
     },
     text: {
       ...(mode === 'light'
         ? {
-            primary: Colors.grey[900],
-            secondary: Colors.grey[500],
-          }
+          primary: Colors.grey[900],
+          secondary: Colors.grey[500],
+        }
         : {
-            primary: '#fff',
-            secondary: Colors.grey[500],
-          }
+          primary: '#fff',
+          secondary: Colors.grey[500],
+        }
       ),
     },
   }
@@ -71,10 +77,10 @@ const MainThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
     currentColors: Colors[palette],
     palette
   };
-  
+
   // Update the theme only if the mode changes
   const theme = React.useMemo(() => createTheme(getDesignTokens(mode, palette)), [mode, palette])
-  
+
   return (
     <ControllerContext.Provider value={defaultControllerContext}>
       <ThemeProvider theme={theme}>
