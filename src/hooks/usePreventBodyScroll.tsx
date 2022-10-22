@@ -1,33 +1,20 @@
 import React from "react";
 
-const preventDefault = (ev: Event) => {
-  if (ev.preventDefault) {
-    ev.preventDefault();
-  }
-  ev.returnValue = false;
-};
-
-const enableBodyScroll = () => {
-  document && document.removeEventListener("wheel", preventDefault, false);
-};
-const disableBodyScroll = () => {
-  document &&
-    document.addEventListener("wheel", preventDefault, {
-      passive: false
-    });
-};
+const preventDefault = (ev: Event) => ev.preventDefault();
 
 function usePreventBodyScroll() {
   const [hidden, setHidden] = React.useState(false);
 
   React.useEffect(() => {
-    hidden ? disableBodyScroll() : enableBodyScroll();
+    if (hidden) document?.addEventListener("wheel", preventDefault, { passive: false });
+    else document?.removeEventListener("wheel", preventDefault, false);
 
-    return enableBodyScroll;
+    return () => document?.addEventListener("wheel", preventDefault, { passive: false });
   }, [hidden]);
 
   const disableScroll = React.useCallback(() => setHidden(true), []);
   const enableScroll = React.useCallback(() => setHidden(false), []);
+
   return { disableScroll, enableScroll };
 }
 
