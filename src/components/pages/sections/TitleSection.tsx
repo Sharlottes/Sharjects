@@ -17,7 +17,31 @@ const TitleSection: React.FC = () => {
                 fontWeight='bold'
                 fontSize='min(200px, 15vw)'
                 label="Sharlotte"
-                motion={{ animate: 'show', drag: true }}
+                motion={(char, ref, start) => ({
+                    animate: 'show',
+                    drag: true,
+                    dragTransition: { power: 0.2, timeConstant: 200 },
+                    onDragTransitionEnd: () => {
+                        const check = () => {
+                            const rect = ref.current?.getBoundingClientRect();
+                            if (!ref.current || !rect) return;
+                            const isInOfViewPoint =
+                                rect.top >= 0 &&
+                                rect.left >= 0 &&
+                                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                                rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+                            if (isInOfViewPoint) return;
+                            const reverse = (str: string) => str.includes('-') ? str.replace('-', '') : '-' + str;
+                            const [x, y] = ref.current.style.transform.replace(/translate[X|Y]\((-?\d*.\d*)px\)/g, '$1').split(/\s/).slice(0, 2).map((str) => parseFloat(reverse(str)));
+
+                            console.log(`${x}, ${y}`);
+                            start(x, y).then(() => {
+                                if (char == 'o') window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+                            });
+                        }
+                        check();
+                    }
+                })}
                 box={{ sx: { display: 'flex', justifyContent: 'center', padding: '20px' } }}
             />
             <FadeUpTypography
