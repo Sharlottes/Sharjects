@@ -3,14 +3,13 @@ import Typography, { type TypographyProps } from '@mui/material/Typography';
 import { AnimationControls, motion, MotionProps, useAnimationControls } from 'framer-motion';
 import React from 'react';
 import { listAnimatonRefType } from 'src/@type';
-import createEmotionCache from '../createEmotionCache';
 
 const ProgressiveTypography: React.FC<{
     label: string,
     speed?: number | undefined,
     animateRef?: listAnimatonRefType | undefined
 }
-    & Omit<TypographyProps, 'ref'>
+    & TypographyProps
     & { motion?: (char: string, ref: React.RefObject<HTMLDivElement>, control: (x: string | number, y: string | number) => Promise<any>) => MotionProps | undefined }
     & { box?: BoxProps | undefined }
 > = ({
@@ -42,9 +41,7 @@ const ProgressiveTypography: React.FC<{
                     const cc = useAnimationControls();
                     control[i] = c;
 
-                    return <motion.div
-                        animate={cc}
-                    >
+                    return <motion.div animate={cc}>
                         <motion.div
                             key={i}
                             custom={i}
