@@ -32,35 +32,6 @@ const CollapseFab = styled(Fab)<{ shown?: string }>(({ shown }) => ({
   },
 }));
 
-const ScrollTop: React.FC = () => {
-  const trigger = useScrollTrigger({
-    target: global.window,
-    disableHysteresis: true,
-    threshold: 100,
-  });
-
-  const handleClick = (evt: React.MouseEvent<HTMLDivElement>) => {
-    const anchor = evt.currentTarget.ownerDocument.querySelector('#back-to-top-anchor');
-
-    anchor?.scrollIntoView({
-      block: 'center',
-    });
-  };
-
-  return (
-    <Fade in={trigger}>
-      <Box
-        onClick={handleClick}
-        role='presentation'
-        sx={{ position: 'fixed', bottom: 16, right: 16 }}>
-        <Fab size='small' aria-label='scroll back to top'>
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </Box>
-    </Fade>
-  );
-}
-
 export interface TabLayoutProps extends PropsWithChildren {
   onIndexChanged?: (index: number) => void, tabs: string[]
 }
@@ -71,7 +42,6 @@ const TabLayout: React.FC<TabLayoutProps> = ({ children, onIndexChanged, tabs })
 
   return (
     <>
-      <Toolbar id='back-to-top-anchor' />
       <Layout header={<>
         <Collapse collapsedSize='5px' in={shown} sx={{ backgroundColor: '#7289DA', }}>
           <Toolbar variant='dense' sx={{ ml: '20px' }}>
@@ -100,7 +70,6 @@ const TabLayout: React.FC<TabLayoutProps> = ({ children, onIndexChanged, tabs })
         </CollapseFab>
       </>}>
         <>
-          <ScrollTop />
           {children}
         </>
       </Layout>

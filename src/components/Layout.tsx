@@ -1,7 +1,11 @@
-import React from 'react';
+import React from 'react'
+
+import Toolbar from '@mui/material/Toolbar'
 
 import Header from './Header'
 import Footer from './Footer'
+import ScrollTop from './ScrollTop'
+
 
 interface LayoutProps {
   header?: React.ReactNode
@@ -19,6 +23,8 @@ const Layout: React.FC<LayoutProps> = ({
   <>
     <Header additional={header} height={HEADER_HEIGHT} />
     <div id='content-wrapper' style={{ minHeight: '100vh', marginTop: HEADER_HEIGHT }}>
+      <Toolbar id='back-to-top-anchor' />
+      <ScrollTop />
       {children}
     </div>
     <Footer additional={footer} />
