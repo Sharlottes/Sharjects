@@ -16,7 +16,7 @@ declare global {
       MONGODB_URI: string,
 
       // GITHUB REST
-      GITHUB_REST_PAT: string,
+      NEXT_PUBLIC_GITHUB_REST_PAT: string,
 
       // GOOGLE ANALYTICS
       GOOGLE_ANALYTICS_ID: string

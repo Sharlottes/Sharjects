@@ -1,9 +1,12 @@
-import { Divider, Step, StepContent, StepLabel, Stepper, Typography } from '@mui/material';
+import { Box, Divider, Step, StepContent, StepLabel, Stepper, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import React from 'react';
 import { Layout, TitleSection } from 'src/components';
 import { toFit } from '../utils/toFit';
 import { useSpring } from "framer-motion";
+import ScrollTop from 'src/components/ScrollTop';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import GithubUserCardFetcher from 'src/components/GithubUserCard'
 
 const ScrollContainer = styled('div')({
   overflow: 'scroll',
@@ -40,12 +43,16 @@ const monthes: Record<monthType, JSX.Element> = {
 const events: Record<dateType, JSX.Element> = {
   '2020.02.08': (
     <>
-      <Typography>깃허브 계정 생성</Typography>
+      깃허브 계정 생성
+      <div style={{ margin: '10px' }}>
+        <GithubUserCardFetcher username='Sharlottes' />
+      </div>
     </>
   ),
   '2020.08.08': (
     <>
       <Typography>깃허브 첫 Repository 생성</Typography>
+
     </>
   ),
   '2020.09.26': (
@@ -66,53 +73,25 @@ const dates = Array.from(
   )
 )
 
-
-
-interface TimelineMonthItemProps {
-  title: monthType
+interface TimelineItemProps {
+  title: string,
+  children?: JSX.Element | undefined
 }
 
-const TimelineMonthItem: React.FC<TimelineMonthItemProps> = ({
-  title
+const TimelineDateItem: React.FC<TimelineItemProps> = ({
+  title,
+  children
 }) => {
-  const content = monthes[title];
-
   return (
     <Step expanded>
       <StepLabel>
-        {content
+        {children
           ? <Typography fontFamily='bold' fontSize={35} color='black' className="has-content">{title}</Typography>
           : <Typography fontSize={5}>{title}</Typography>
         }
       </StepLabel>
       <StepContent TransitionProps={{ unmountOnExit: false }}>
-        {content}
-      </StepContent>
-    </Step>
-  )
-}
-
-
-
-interface TimelineDateItemProps {
-  title: dateType
-}
-
-const TimelineDateItem: React.FC<TimelineDateItemProps> = ({
-  title
-}) => {
-  const content = events[title];
-
-  return (
-    <Step expanded>
-      <StepLabel>
-        {content
-          ? <Typography fontFamily='bold' fontSize={35} color='black' className="has-content">{title}</Typography>
-          : <Typography fontSize={5}>{title}</Typography>
-        }
-      </StepLabel>
-      <StepContent TransitionProps={{ unmountOnExit: false }}>
-        {content}
+        {children}
       </StepContent>
     </Step>
   )
@@ -155,25 +134,44 @@ const TimelineSection: React.FC = () => {
     }, [y, stepper]
   );
 
-
   return (
     <div ref={stepper} className='scroll-snap-item' onScroll={handleScroll} style={{ padding: '100px 50px', overflowY: 'scroll' }}>
-      <Typography variant='h3' fontFamily='700'>Timeline</Typography>
+      <div id='back-to-top-anchor' />
+      <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+        <Typography variant='h3' fontFamily='700'>
+          Timeline
+        </Typography>
+        <div
+          onClick={() => stepper.current?.scrollTo({
+            top: document.querySelector<HTMLDivElement>("div #stepper-scroll-bottom-anchor")?.offsetTop ?? 0
+          })}
+          style={{ color: 'blue', marginLeft: '20px', cursor: 'pointer' }}
+        >
+          <Box sx={{ display: { md: 'block', sm: 'none' } }}>아래로 내려가기</Box>
+          <ArrowDropDownIcon sx={{ display: { md: 'none', sm: 'block' } }} />
+        </div>
+      </div>
       <Divider />
       <Stepper orientation="vertical" sx={{ marginLeft: '30px' }}>
+        <ScrollTop target={stepper.current ?? undefined} />
         {dates.map((years, i) =>
-          years.map((monthes, ii) => (
-            <div key={monthes[0]}>
-              <TimelineMonthItem title={monthes[0].slice(0, 7) as monthType} />
+          years.map((months, ii) => (
+            <div key={months[0]}>
+              <TimelineDateItem title={months[0].slice(0, 7)}>
+                {monthes[months[0].slice(0, 7) as monthType]}
+              </TimelineDateItem>
               <div style={{ marginLeft: '30px' }}>
-                {monthes.map((date, iii) =>
-                  <TimelineDateItem key={`${i}${ii}${iii}`} title={date} />
+                {months.map((date, iii) =>
+                  <TimelineDateItem key={`${i}${ii}${iii}`} title={date}>
+                    {events[date]}
+                  </TimelineDateItem>
                 )}
               </div>
               <Divider />
             </div>
           ))
         ).flat()}
+        <div id='stepper-scroll-bottom-anchor' />
       </Stepper>
     </div>
   )
