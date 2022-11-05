@@ -23,7 +23,7 @@ const Layout: React.FC<LayoutProps> = ({
   <>
     <Header additional={header} height={HEADER_HEIGHT} />
     <div id='content-wrapper' style={{ minHeight: '100vh', marginTop: HEADER_HEIGHT }}>
-      <Toolbar id='back-to-top-anchor' />
+      <Toolbar id='back-to-top-anchor' sx={{ position: 'fixed' }} />
       <ScrollTop />
       {children}
     </div>

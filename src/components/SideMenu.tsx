@@ -159,8 +159,8 @@ const SideMenuDrawer: React.FC = () => {
                 </Divider>
                 <Box sx={{ display: 'flex', alignItems: 'end', "& a": { transition: 'margin-bottom 200ms', marginBottom: '0px', "&:hover": { marginBottom: '5px' } } }}>
                     <a href='https://github.com/sharlottes'>
-                        <IconButton sx={{ color: 'default' }}>
-                            <GithubIcon />
+                        <IconButton>
+                            <GithubIcon sx={{ color: 'themedBlack' }} />
                         </IconButton>
                     </a>
                     <a href='https://discordapp.com/users/473072758629203980'>

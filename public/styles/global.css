@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -12,5 +8,5 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 body {
-  overflow-x: hidden;
+  overflow: hidden;
 }

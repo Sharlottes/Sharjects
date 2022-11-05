@@ -1,13 +1,12 @@
-import React from 'react';
+import React from 'react'
 
-import Box, { type BoxProps } from '@mui/material/Box';
-import { motion, useAnimationControls } from 'framer-motion';
+import Box, { type BoxProps } from '@mui/material/Box'
+import { motion, useAnimationControls } from 'framer-motion'
 
-import { type listAnimatonRefType } from 'src/@type';
-import ProgressiveTypography from 'src/components/ProgressiveTypography';
-import FadeUpTypography from 'src/components/FadeUpTypography';
-
-import listData from './listData.json';
+import { type listAnimatonRefType } from 'src/@type'
+import ProgressiveTypography from 'src/components/ProgressiveTypography'
+import FadeUpTypography from 'src/components/FadeUpTypography'
+import listData from './listData.json'
 
 const ListItem: React.FC<{
   title: string,
@@ -70,7 +69,7 @@ const ListItem: React.FC<{
     )
   }
 
-const ListSection: React.FC = () => {
+const ListSection: React.FC<BoxProps> = ({ ...props }) => {
   const listAnimateControl = useAnimationControls();
 
   const titleRef: listAnimatonRefType = { list: [] };
@@ -92,7 +91,7 @@ const ListSection: React.FC = () => {
   }, []);
 
   return (
-    <Box sx={{ width: '100%', padding: '5vw' }}>
+    <Box sx={{ width: '100%', height: '300px', overflowY: 'hidden', padding: '5vw' }} {...props}>
       {listData.map(({ title, description, image }, i) => (
         <motion.div
           key={i}
@@ -102,6 +101,8 @@ const ListSection: React.FC = () => {
           style={{ marginTop: 2 }}
         >
           <ListItem
+            component={motion.div}
+
             {...{ title, description, image, titleRef, descriptionRef }}
             direction={i % 2 == 0 ? 'left' : 'right'}
           />
