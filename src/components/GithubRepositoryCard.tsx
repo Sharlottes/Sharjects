@@ -11,32 +11,41 @@ import Box from '@mui/material/Box'
 import { signIn, useSession } from 'next-auth/react'
 import type { GithubProfile } from 'next-auth/providers/github'
 
-const fetchGithubUser = (username: string) => {
-  let user: GithubProfile | null = null;
-  const suspender = fetch(`https://api.github.com/users/${username}`, {
+interface GithubRepositry {
+  name: string,
+  full_name: string,
+  avatar_url: string,
+  owner: {
+    login: string
+  }
+}
+
+const fetchGithubRepository = (repositoryName: string, author = 'Sharlottes') => {
+  let repository: GithubProfile | null = null;
+  const suspender = fetch(`https://api.github.com/repos/${author}/${repositoryName}`, {
     headers: {
       Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_REST_PAT}`
     }
   }).then(
-    data => data.json().then<GithubProfile>(u => user = u),
-    err => console.log('failed to get user data: ', err)
+    data => data.json().then<GithubProfile>(r => repository = r),
+    err => console.log('failed to get repository data: ', repository)
   )
   return () => {
-    if (user) return user;
+    if (repository) return repository;
     else throw suspender;
   }
 };
 
-const GithubUserCardFetcher: React.FC<{ username: string }> = ({ username }) => {
+const GithubRepositoryCardFetcher: React.FC<{ repository: string }> = ({ repository }) => {
 
   return (
     <React.Suspense fallback={<>loading...</>}>
-      <GithubUserCard fetcher={fetchGithubUser(username)} />
+      <GithubRepositoryCard fetcher={fetchGithubRepository(repository)} />
     </React.Suspense>
   )
 }
 
-const GithubUserCard: React.FC<{ fetcher: () => GithubProfile }> = ({ fetcher }) => {
+const GithubRepositoryCard: React.FC<{ fetcher: () => GithubProfile }> = ({ fetcher }) => {
   const user = fetcher();
 
   const [isFollowing, setFollowing] = React.useState(false);
@@ -138,4 +147,4 @@ const GithubUserCard: React.FC<{ fetcher: () => GithubProfile }> = ({ fetcher })
   )
 }
 
-export default GithubUserCardFetcher;
+export default GithubRepositoryCardFetcher;
