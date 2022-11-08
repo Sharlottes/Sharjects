@@ -9,11 +9,7 @@ import Button from '@mui/material/Button'
 
 import { useSnackbar } from 'notistack'
 
-declare module 'notistack' {
-  interface VariantOverrides {
-    lifebar: true
-  }
-}
+import type {} from 'src/@type'
 
 const AuthWrapper: React.FC<{ children: JSX.Element, auth: any }> = ({ children, auth }) => {
   const { status } = useSession({ required: Boolean(auth) })

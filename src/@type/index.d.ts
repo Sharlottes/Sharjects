@@ -28,6 +28,12 @@ declare global {
   }
 }
 
+declare module 'notistack' {
+  interface VariantOverrides {
+    lifebar: true
+  }
+}
+
 export type listAnimatonRefType = {
   list: Array<(delay: number) => void>
 }

@@ -198,8 +198,9 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
     });
   }, [spring]);
 
-  const handleScroll = React.useCallback<React.UIEventHandler<HTMLDivElement>>(
-    (ev: React.UIEvent<HTMLDivElement, UIEvent>) => {
+  const handleScroll = React.useCallback<React.KeyboardEventHandler<HTMLDivElement>>(
+    (ev: React.KeyboardEvent<HTMLDivElement>) => {
+      ev.key;
       const target = ev.currentTarget;
       const getDist = (element: HTMLDivElement) => element.offsetTop - target.scrollTop;
       toFit(() => {
@@ -225,7 +226,7 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
   );
 
   return (
-    <div ref={stepper} onScroll={handleScroll} style={{ padding: '100px 50px', overflowY: 'scroll' }} {...props}>
+    <div ref={stepper} onKeyDown={handleScroll} style={{ padding: '100px 50px', overflowY: 'scroll' }} {...props}>
       <div id='back-to-top-anchor' />
       <div style={{ display: 'flex', alignItems: 'flex-end' }}>
         <Typography variant='h3' fontFamily='700'>
