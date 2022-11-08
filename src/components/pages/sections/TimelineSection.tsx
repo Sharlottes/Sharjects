@@ -6,6 +6,8 @@ import ScrollTop from 'src/components/ScrollTop';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import GithubUserCardFetcher from 'src/components/GithubUserCard'
 import RepoCard, { RepoCardProps } from "react-repo-card";
+import { onSlide } from 'src/utils/onSlide';
+import { SlideEventHandler } from '../../../utils/onSlide';
 
 interface StyledRepoCard extends Omit<RepoCardProps, 'username'> {
   username?: string | undefined
@@ -198,35 +200,53 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
     });
   }, [spring]);
 
-  const handleScroll = React.useCallback<React.KeyboardEventHandler<HTMLDivElement>>(
-    (ev: React.KeyboardEvent<HTMLDivElement>) => {
-      ev.key;
-      const target = ev.currentTarget;
-      const getDist = (element: HTMLDivElement) => element.offsetTop - target.scrollTop;
-      toFit(() => {
-        const diff = y - target.scrollTop;
-        const isScrollDown = diff < 0;
-        y = target.scrollTop;
+  React.useEffect(() => {
+    window.addEventListener('keydown', handleKeydown);
+    stepper.current?.addEventListener('wheel', handleWheel, { passive: false });
 
-        if (diff == 0 || !stepper.current) return;
-        const contents = Array.from<HTMLDivElement>(stepper.current.querySelectorAll("div .has-content"));
-        const exist = contents.find(element => element.offsetTop == target.scrollTop);
-        if (exist) {
-          spring.set(exist.offsetTop, false);
-          return;
-        }
+    return () => {
+      window.removeEventListener('keydown', handleKeydown);
+      stepper.current?.removeEventListener('wheel', handleWheel);
+    }
+  }, []);
 
-        const list = contents
-          .filter(element => isScrollDown ? getDist(element) > 0 : getDist(element) < 0)
-          .sort(element => getDist(element));
+  const handleWheel = (ev: WheelEvent) => {
+    if (!(ev.currentTarget instanceof Element)) return;
+    ev.preventDefault();
+    tryScroll(ev.deltaY > 0 ? 'down' : 'up');
+  }
+  const handleSlide: SlideEventHandler = ({ y }) => {
+    if (y !== 'none') tryScroll(y)
+  }
+  const handleKeydown = (event: KeyboardEvent) => {
+    event.preventDefault();
+    const direction = (event.key === 'w' || event.key === 'ArrowUp') ? 'up'
+      : (event.key === 's' || event.key === 'ArrowDown') ? 'down' : 'none';
 
-        spring.set(list.shift()?.offsetTop ?? (isScrollDown ? list.pop()?.offsetTop : 0), false);
-      })()
-    }, [y, stepper]
-  );
+    if (direction !== 'none') tryScroll(direction)
+  }
+
+  const tryScroll = (direction: 'up' | 'down') => {
+    if (!stepper.current) return;
+    const { scrollTop } = stepper.current;
+
+    const getDist = (element: HTMLDivElement) => scrollTop - element.offsetTop;
+
+    const item = Array
+      .from<HTMLDivElement>(stepper.current.querySelectorAll("div .has-content"))
+      .filter(element => direction === 'down' ? getDist(element) < 0 : getDist(element) > 0)
+      .sort(element => getDist(element))
+      .pop();
+
+    spring.set(item?.offsetTop
+      ?? (direction === 'up' ? 0
+        : stepper.current?.querySelector<HTMLDivElement>('div #stepper-scroll-bottom-anchor')?.offsetTop
+      ), false
+    );
+  }
 
   return (
-    <div ref={stepper} onKeyDown={handleScroll} style={{ padding: '100px 50px', overflowY: 'scroll' }} {...props}>
+    <div ref={stepper} {...onSlide<HTMLDivElement>(handleSlide)} style={{ padding: '100px 50px', overflowY: 'scroll' }} {...props}>
       <div id='back-to-top-anchor' />
       <div style={{ display: 'flex', alignItems: 'flex-end' }}>
         <Typography variant='h3' fontFamily='700'>
