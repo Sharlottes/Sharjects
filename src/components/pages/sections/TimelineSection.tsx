@@ -227,7 +227,7 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
     if (direction !== 'none') tryScroll(direction)
   }
 
-  const margin = window.innerHeight * 0.25;
+  const margin = window.innerHeight * 0.1;
   const getDist = (element: HTMLDivElement) => (stepper.current?.scrollTop ?? 0) - element.offsetTop;
   const tryScroll = (direction: 'up' | 'down') => {
     if (!stepper.current) return;
