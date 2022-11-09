@@ -13,11 +13,7 @@ import type { GithubProfile } from 'next-auth/providers/github'
 
 const fetchGithubUser = (username: string) => {
   let user: GithubProfile | null = null;
-  const suspender = fetch(`https://api.github.com/users/${username}`, {
-    headers: {
-      Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_REST_PAT}`
-    }
-  }).then(
+  const suspender = fetch(`/api/github/users/${username}`).then(
     data => data.json().then<GithubProfile>(u => user = u),
     err => console.log('failed to get user data: ', err)
   )
