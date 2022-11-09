@@ -189,7 +189,6 @@ const TimelineRoadMap: React.FC = () => {
   )
 }
 
-let y = 0;
 const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = ({ ...props }) => {
   const stepper = React.useRef<HTMLDivElement>(null);
   const spring = useSpring(0, { damping: 300, stiffness: 200 });
@@ -201,12 +200,15 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
   }, [spring]);
 
   React.useEffect(() => {
+    const preventScroll = (e: any) => e.preventDefault();
     window.addEventListener('keydown', handleKeydown);
     stepper.current?.addEventListener('wheel', handleWheel, { passive: false });
+    stepper.current?.addEventListener('scroll', preventScroll);
 
     return () => {
       window.removeEventListener('keydown', handleKeydown);
       stepper.current?.removeEventListener('wheel', handleWheel);
+      stepper.current?.removeEventListener('scroll', preventScroll);
     }
   }, []);
 
@@ -219,34 +221,37 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
     if (y !== 'none') tryScroll(y)
   }
   const handleKeydown = (event: KeyboardEvent) => {
-    event.preventDefault();
     const direction = (event.key === 'w' || event.key === 'ArrowUp') ? 'up'
       : (event.key === 's' || event.key === 'ArrowDown') ? 'down' : 'none';
 
     if (direction !== 'none') tryScroll(direction)
   }
 
+  const margin = window.innerHeight * 0.25;
+  const getDist = (element: HTMLDivElement) => (stepper.current?.scrollTop ?? 0) - element.offsetTop;
   const tryScroll = (direction: 'up' | 'down') => {
     if (!stepper.current) return;
-    const { scrollTop } = stepper.current;
+    
+    const item = ([
+      stepper.current?.querySelector<HTMLDivElement>('div #back-to-top-anchor')!,
+      ...stepper.current.querySelectorAll("div .has-content"), 
+      stepper.current?.querySelector<HTMLDivElement>('div #stepper-scroll-bottom-anchor')!
+    ] as HTMLDivElement[])
+    .filter(element => direction === 'down' ? getDist(element) < -(margin + 20) : getDist(element) > (margin + 20))
+    .sort(element => getDist(element))
+    .pop()
 
-    const getDist = (element: HTMLDivElement) => scrollTop - element.offsetTop;
-
-    const item = Array
-      .from<HTMLDivElement>(stepper.current.querySelectorAll("div .has-content"))
-      .filter(element => direction === 'down' ? getDist(element) < 0 : getDist(element) > 0)
-      .sort(element => getDist(element))
-      .pop();
-
-    spring.set(item?.offsetTop
-      ?? (direction === 'up' ? 0
-        : stepper.current?.querySelector<HTMLDivElement>('div #stepper-scroll-bottom-anchor')?.offsetTop
-      ), false
-    );
+    console.log(item)
+    
+    if(direction === 'up' && !item) {
+      window.focus()
+      document.getElementById('#root')?.scrollTo(0, 0)
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    } else spring.set((item?.offsetTop ?? 0) - margin, false);
   }
 
   return (
-    <div ref={stepper} {...onSlide<HTMLDivElement>(handleSlide)} style={{ padding: '100px 50px', overflowY: 'scroll' }} {...props}>
+    <div ref={stepper} style={{ padding: '100px 50px', overflowY: 'scroll' }} {...onSlide<HTMLDivElement>(handleSlide)} {...props}>
       <div id='back-to-top-anchor' />
       <div style={{ display: 'flex', alignItems: 'flex-end' }}>
         <Typography variant='h3' fontFamily='700'>

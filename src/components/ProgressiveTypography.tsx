@@ -43,9 +43,8 @@ const ProgressiveTypography: React.FC<ProgressiveTypographyProps> = ({
                 const cc = useAnimationControls();
                 control[i] = c;
 
-                return <motion.div animate={cc}>
+                return <motion.div key={i} animate={cc}>
                     <motion.div
-                        key={i}
                         custom={i}
                         initial={{ opacity: 0 }}
                         animate={c}

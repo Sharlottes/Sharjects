@@ -51,7 +51,7 @@ const ThemeSelection: React.FC = () => {
               margin: '5px'
             } 
           }}>
-            {colors.map(color => <div style={{ backgroundColor: Colors[color][300] }} onClick={()=>setColorPalette(color)} />)}
+            {colors.map((color, i) => <div key={i} style={{ backgroundColor: Colors[color][300] }} onClick={()=>setColorPalette(color)} />)}
           </Box>
         </div>
       </Menu>
