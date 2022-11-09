@@ -28,6 +28,12 @@ declare global {
   }
 }
 
+declare module "next-auth" {
+  interface Session {
+    accessToken: any
+  }
+}
+
 declare module 'notistack' {
   interface VariantOverrides {
     lifebar: true
