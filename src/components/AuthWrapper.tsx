@@ -16,11 +16,9 @@ const AuthWrapper: React.FC<{ children: JSX.Element, auth: any }> = ({ children,
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
   React.useEffect(() => {
-    console.log(status);
     if (status !== "unauthenticated") return;
 
     const id = setTimeout(() => {
-      console.log('adf');
       if (status !== "unauthenticated") return;
       enqueueSnackbar('you are not logged in', {
         preventDuplicate: true,
