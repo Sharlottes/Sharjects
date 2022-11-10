@@ -63,8 +63,9 @@ const events: Record<dateType | monthType, JSX.Element> = {
     <>
       <TimelineContentTitle>World War 2 모드 개발 시작</TimelineContentTitle>
       <TimelineContent>
-        제작한 모딩 위키와 실험 단계에 있던 ExampleMod 개발 경험을 토대로 JSON으로 팀 모드를 개발하고자 했습니다. <br />
-        하지만 팀 내분으로 인해 9일만에 개발이 중단되었습니다.
+        World War 2는 기획, 일러스트 담당이 있는 팀에서 개발자로 활동하며 만든 Mindustry JSON 모드입니다. <br/>
+        저는 이전에 제작한 모딩 위키와 실험 단계에 있던 ExampleMod 개발 경험을 토대로 개발하고자 했습니다. <br />
+        하지만 기획팀의 내분으로 인해 9일만에 개발이 중단되었습니다.
         <StyledRepoCard repository="WorldWar2" />
       </TimelineContent>
     </>
@@ -73,7 +74,8 @@ const events: Record<dateType | monthType, JSX.Element> = {
     <>
       <TimelineContentTitle>한국어 모딩 위키 제작</TimelineContentTitle>
       <TimelineContent>
-        완벽한 것은 아니나 클래스와 인터페이스에 관한 기본 개념을 이해하고 접근 지정자, final, static같은 여러가지 특별한 키워드를 정리하고 습득하는 일종의 복습 시간이 돼주었습니다.
+        한국어 모딩 위키는 JSON 모드를 만들기 전에 각 속성들의 설명과 타입, 기본값을 명시한 일종의 JSONDOC입니다. <br/>
+        이 위키는 완벽한 것은 아니지만 만드는 과정에서 클래스와 인터페이스에 관한 기본 개념을 이해하고 접근 지정자, final, static같은 여러가지 특별한 키워드를 정리하고 습득하는 일종의 복습 시간을 겪게 해줬습니다.
         <StyledRepoCard repository="Korean-modding-wiki" />
       </TimelineContent>
     </>
@@ -82,8 +84,8 @@ const events: Record<dateType | monthType, JSX.Element> = {
     <>
       <TimelineContentTitle>ExampleMod 개발</TimelineContentTitle>
       <TimelineContent>
-        ExampleMod는 모딩 위키로 쌓은 지식들을 실험하고 실제로 배포까지 한 제 첫번째 모드입니다.<br />
-        직접 제작을 해봄으로써 부족한 지식들을 매꿀 수 있었으나 JSON에만 국한되어 부족함이 많았습니다.
+        ExampleMod는 모딩 위키로 쌓은 지식들을 실험하고 실제로 배포까지 한 첫번째 모드입니다.<br />
+        직접 제작을 해봄으로써 부족한 지식들을 매꿀 수 있었으나 JSON에만 국한되어 모드 게임성에 부족함이 많았습니다.
         <StyledRepoCard repository="exampleMod" />
       </TimelineContent>
     </>
@@ -93,7 +95,7 @@ const events: Record<dateType | monthType, JSX.Element> = {
       <TimelineContentTitle>ExampleMod Javascript 개발</TimelineContentTitle>
       <TimelineContent>
         기존 JSON 모딩은 콘텐츠를 추가하여 JSON 속성 대응하는 값만 수정하는 방식으로, 매우 제한적인 개발 환경을 갖추고 있었습니다.<br />
-        이때문에 저는 Javascript를 통해 모드를 개발함으로써 더 넓은 개발 환경을 가지고자 했고, 특이하게 Rhino Javascript로 언어를 시작한 사람이 되었습니다.
+        이 때문에 저는 Javascript를 통해 모드를 개발함으로써 더 넓은 개발 환경을 가지고자 했고, 특이하게 Rhino Javascript로 언어를 시작한 사람이 되었습니다.
         <StyledRepoCard repository="exampleMod" />
       </TimelineContent>
     </>
@@ -113,10 +115,10 @@ const events: Record<dateType | monthType, JSX.Element> = {
     <>
       <TimelineContentTitle>첫 Mindustry JAVA 모드, Sharustry 개발 시작</TimelineContentTitle>
       <TimelineContent>
-        <span style={{ fontFamily: 'bold' }}>Sharustry</span>는 제 첫번째 Mindustry 자바 모드입니다.<br />
-        Sharustry는 다중 포탑에 초점을 둔 모드였습니다. 지금은 Progress material이 다중 포탑 기술의 종주 위치를 되찾았지만 이 모드도 약 50개의 stars가 보여주듯이 어느정도 괜찮은 콘텐츠 모드입니다.<br />
-        git workflow, gradle, Java 등 여러가지 개념의 이해 및 성장을 1년동안 빠지지 않고 동반자로써 같이 해왔습니다.<br />
-        이 레포지토리에 있는 200개의 커밋은 코드 리딩으로만 보던 자바 코드를 직접 구현해온 경험의 증거입니다.
+        Sharustry는 제 첫번째 Mindustry 자바 모드입니다.<br />
+        이 모드에선 ExampleMod보다 더 창의적이고 폭넓은 콘텐츠, 예를 들어 다중 포탑, 스킬 포탑, 다중 드릴, 보호막 벽, 프로세서 가속기 등을 만들었습니다. <br/>
+        이 모드는 git workflow, gradle, Java 등 여러가지 개념의 이해 및 성장을 저와 1년동안 빠지지 않고 동반자로써 같이 해왔습니다.<br />
+        레포지토리에 있는 200개의 커밋은 코드 리딩으로만 보던 자바 코드를 직접 구현해온 경험의 증거입니다.
         <StyledRepoCard repository="sharustry" />
       </TimelineContent>
     </>
@@ -125,7 +127,8 @@ const events: Record<dateType | monthType, JSX.Element> = {
     <>
       <TimelineContentTitle>ExampleMod 개발 중단</TimelineContentTitle>
       <TimelineContent>
-        Sharustry와 ProjectUnity 개발에 집중하다보니 ExampleMod에 소홀해져 1.4.9v를 릴리즈하고 개발을 중단했습니다.
+        Sharustry와 ProjectUnity 개발에 집중하다보니 ExampleMod에 소홀해져 1.4.9v를 릴리즈하고 개발을 중단했습니다. <br/>
+        이후에도 여러번 게임 패치를 겪으며 ExampleMod는 전반적인 재작성에 직면한 상태라 계속 업데이트를 미루고 있는 상태입니다.
         <StyledRepoCard repository="exampleMod" />
       </TimelineContent>
     </>
@@ -134,10 +137,31 @@ const events: Record<dateType | monthType, JSX.Element> = {
     <>
       <TimelineContentTitle>두번째 Mindustry JAVA 모드, Informatis 개발 시작</TimelineContentTitle>
       <TimelineContent>
-        Informatis는 콘텐츠 모드였던 Sharustry와 달리 유틸리티 모드로써 모드가 없는 유저나 서버에 접속할 수 있는 호환성을 가진 모드였습니다.<br />
+        Informatis는 콘텐츠 모드였던 Sharustry와 달리 유틸리티 모드로써 버전 호환성을 가진 모드입니다.<br />
         기본 바닐라 기능으론 절대 알 수 없는 정보부터, 압도적 편의성 및 유틸리티 기능 제공... 즉 UX 향상을 목적으로 둔 모드였습니다.<br />
-        libGDX의 UI 구조는 Unity와 매우 달랐습니다. 런타임에 UI를 생성하고 삭제하는 이 엔진에선 레이아웃 구조가 웹과 같은 박스 모델이였습니다! 그땐 몰랐지만 align, padding, margin같은 레이아웃 구성요소들을 익힘으로써 웹 개발에 아주 큰 도움이 되었습니다.
+        libGDX의 UI 구조는 Unity와 매우 달랐습니다. 런타임에 UI를 생성하고 삭제하는 이 엔진에선 레이아웃 구조가 웹과 같은 박스 모델이였습니다!<br/> 
+        그땐 몰랐지만 align, padding, margin같은 레이아웃 구성요소들을 익힘으로써 웹 개발에 아주 큰 도움이 되었습니다.
         <StyledRepoCard repository="informatis" />
+      </TimelineContent>
+    </>
+  ),
+  '2021.08.11': (
+    <>
+      <TimelineContentTitle>첫 안드로이드 앱, Timer 개발 시작</TimelineContentTitle>
+      <TimelineContent>
+        Timer는 간단한 알람 & 스톱워치 안드로이드 네이티브 어플리케이션입니다.<br />
+        Informatis로 박스 모델링을 경험해본 저는 자신있게 안드로이드 xml 레이아웃에 도전했습니다.<br />
+        결과적으로 저는 안드로이드 개발을 하면서 머터리얼 디자인과 GUI 레이아웃 편집을 알게 되었습니다.
+      </TimelineContent>
+    </>
+  ),
+  '2021.08.28': (
+    <>
+      <TimelineContentTitle>Timer 개발 중단</TimelineContentTitle>
+      <TimelineContent>
+        안드로이드 개발은 더 전문적이고 메이저한 분야로 나아가잔 욕망에서 비롯된 시도 중 하나였습니다. <br />
+        자신있게 안드로이드 개발에 도전한 저는 더 심오하고 GUI 편집이 가중된 박스 모델링을 직면한 저는 당황스러움과 난해함을 겪었습니다.<br/>
+        결국 예상보다 큰 어려움에 직면하여 개발 시작일부터 17일 뒤인 8월 28일에 개발을 중단했습니다.
       </TimelineContent>
     </>
   ),
