@@ -1,27 +1,31 @@
-import { Box, Card, Divider, Step, StepContent, StepLabel, Stepper, styled, Typography } from '@mui/material';
+import { Box, Card, Divider, Step, StepContent, StepLabel, Stepper, Typography, useTheme } from '@mui/material';
 import React, { PropsWithChildren } from 'react';
-import { toFit } from 'src/utils/toFit';
 import { useSpring } from "framer-motion";
 import ScrollTop from 'src/components/ScrollTop';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import GithubUserCardFetcher from 'src/components/GithubUserCard'
-import RepoCard, { RepoCardProps } from "react-repo-card";
 import { onSlide } from 'src/utils/onSlide';
 import { SlideEventHandler } from '../../../utils/onSlide';
+import GithubRepoCard, { type GithubRepoCardProps } from 'src/components/GithubRepoCard';
 
-interface StyledRepoCard extends Omit<RepoCardProps, 'username'> {
+interface StyledRepoCardProps extends Omit<GithubRepoCardProps, 'username'> {
   username?: string | undefined
 }
-const StyledRepoCard: React.FC<StyledRepoCard> = ({
+const StyledRepoCard: React.FC<StyledRepoCardProps> = ({
   username = 'sharlottes',
   ...props
-}) =>
-  <div style={{
-    margin: '10px',
-    width: 'min(50vw, 400px)'
-  }}>
-    <RepoCard username={username} {...props} />
-  </div>
+}) => {
+  const theme = useTheme();
+
+  return (
+    <div style={{
+      margin: '10px',
+      width: 'min(50vw, 400px)'
+    }}>
+      <GithubRepoCard username={username} dark={theme.palette.mode === 'dark'} {...props} />
+    </div>
+  )
+}
 
 const TimelineContentTitle: React.FC<PropsWithChildren> = ({ children }) =>
   <div style={{ marginBottom: '5px' }}>
@@ -139,6 +143,14 @@ const events: Record<dateType | monthType, JSX.Element> = {
         <StyledRepoCard repository="informatis" />
       </TimelineContent>
     </>
+  ),
+  [(()=>{
+    const date = new Date();
+    return `${date.getFullYear()}.${date.getMonth().toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`
+  })()]: (
+    <>
+      <TimelineContentTitle>지금!</TimelineContentTitle>
+    </>
   )
 }
 
@@ -233,9 +245,9 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
     if (!stepper.current) return;
     
     const item = ([
-      stepper.current?.querySelector<HTMLDivElement>('div #back-to-top-anchor')!,
+      stepper.current?.querySelector<HTMLDivElement>('div #top-anchor')!,
       ...stepper.current.querySelectorAll("div .has-content"), 
-      stepper.current?.querySelector<HTMLDivElement>('div #stepper-scroll-bottom-anchor')!
+      stepper.current?.querySelector<HTMLDivElement>('div #bottom-anchor')!
     ] as HTMLDivElement[])
     .filter(element => direction === 'down' ? getDist(element) < -(margin + 20) : getDist(element) > (margin + 20))
     .sort(element => getDist(element))
@@ -252,14 +264,14 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
 
   return (
     <div ref={stepper} style={{ padding: '100px 50px', overflowY: 'scroll' }} {...onSlide<HTMLDivElement>(handleSlide)} {...props}>
-      <div id='back-to-top-anchor' />
+      <div id='top-anchor' />
       <div style={{ display: 'flex', alignItems: 'flex-end' }}>
         <Typography variant='h3' fontFamily='700'>
           Timeline
         </Typography>
         <div
           onClick={() => stepper.current?.scrollTo({
-            top: document.querySelector<HTMLDivElement>("div #stepper-scroll-bottom-anchor")?.offsetTop ?? 0
+            top: document.querySelector<HTMLDivElement>("div #bottom-anchor")?.offsetTop ?? 0
           })}
           style={{ color: 'blue', marginLeft: '20px', cursor: 'pointer' }}
         >
@@ -287,7 +299,7 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
             </div>
           ))
         ).flat()}
-        <div id='stepper-scroll-bottom-anchor' />
+        <div id='bottom-anchor' />
       </Stepper>
     </div>
   )
