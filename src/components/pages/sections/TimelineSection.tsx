@@ -200,15 +200,6 @@ const TimelineRoadMap: React.FC = () => {
   )
 }
 
-const fetchStaticData = <T extends {}>(url = 'api/github/emojis'): (() => T | undefined) => {
-  let data: T | undefined;
-  fetch(url)
-      .then(res => res.json())
-      .then(d  => data = d)
-
-  return () => data;
-}
-
 const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = ({ ...props }) => {
   const stepper = React.useRef<HTMLDivElement>(null);
   const spring = useSpring(0, { damping: 300, stiffness: 200 });
@@ -261,9 +252,8 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
     .sort(element => getDist(element))
     .pop()
     
-    if(direction === 'up' && !item) {
-      document.getElementById('back-to-top-anchor')?.scrollIntoView({ block: 'start', behavior: 'smooth' })
-    } else spring.set((item?.offsetTop ?? 0) - margin, false);
+    if(direction === 'up' && !item) document.querySelector("#scroll-snapper")?.scrollTo({ top: 0, behavior: 'smooth' })
+    else spring.set((item?.offsetTop ?? 0) - margin, false);
   }
 
   return (

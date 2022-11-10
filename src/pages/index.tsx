@@ -18,8 +18,8 @@ const Home: React.FC = () => {
   return (
     <Layout>
       <div className="support-scrollsnap"></div>
-      <ScrollContainer>
-        <TitleSection className='scroll-snap-item' />
+      <ScrollContainer id='scroll-snapper'>
+        <TitleSection className='scroll-snap-item' id='title-section' />
         <TimelineSection className='scroll-snap-item' />
       </ScrollContainer>
     </Layout >
