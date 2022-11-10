@@ -1,5 +1,9 @@
+import useTheme from '@mui/system/useTheme'
 import React from 'react'
 import replaceStringToArray from 'string-replace-to-array'
+
+import type { GithubAPIRepoData } from 'src/@type'
+import { useGithubData } from './GithubStaticDataContext'
 
 const getPalette = (dark: boolean) => dark
 ? {
@@ -15,135 +19,10 @@ const getPalette = (dark: boolean) => dark
     iconColor: '#57606a',
   }
 
-export interface GithubRepoCardProps {
-    username: string
-    repository: string
-    dark?: boolean
-    fallback?: React.ReactNode
-}
 
-interface GithubAPIUserData {
-    login: string,
-    id: number,
-    node_id: string,
-    avatar_url: string,
-    gravatar_id: string,
-    url: string,
-    html_url: string,
-    followers_url: string,
-    following_url: string,
-    gists_url: string,
-    starred_url: string,
-    subscriptions_url: string,
-    organizations_url: string,
-    repos_url: string,
-    events_url: string,
-    received_events_url: string,
-    type: string,
-    site_admin: boolean
-}
-
-interface GithubAPIRepoData {
-    id: number,
-    node_id: string,
-    name: string,
-    full_name: string,
-    private: boolean,
-    owner: GithubAPIUserData,
-    html_url: string,
-    description: string | null,
-    fork: boolean,
-    url: string,
-    forks_url: string,
-    keys_url: string,
-    collaborators_url: string,
-    teams_url: string,
-    hooks_url: string,
-    issue_events_url: string,
-    events_url: string,
-    assignees_url: string,
-    branches_url: string,
-    tags_url: string,
-    blobs_url: string,
-    git_tags_url: string,
-    git_refs_url: string,
-    trees_url: string,
-    statuses_url: string,
-    languages_url: string,
-    stargazers_url: string,
-    contributors_url: string,
-    subscribers_url: string,
-    subscription_url: string,
-    commits_url: string,
-    git_commits_url: string,
-    comments_url: string,
-    issue_comment_url: string,
-    contents_url: string,
-    compare_url: string,
-    merges_url: string,
-    archive_url: string,
-    downloads_url: string,
-    issues_url: string,
-    pulls_url: string,
-    milestones_url: string,
-    notifications_url: string,
-    labels_url: string,
-    releases_url: string,
-    deployments_url: string,
-    created_at: string,
-    updated_at: string,
-    pushed_at: string,
-    git_url: string,
-    ssh_url: string,
-    clone_url: string,
-    svn_url: string,
-    homepage: string,
-    size: number,
-    stargazers_count: number,
-    watchers_count: number,
-    language: string,
-    has_issues: boolean,
-    has_projects: boolean,
-    has_downloads: boolean,
-    has_wiki: boolean,
-    has_pages: boolean,
-    has_discussions: boolean,
-    forks_count: number,
-    mirror_url: string | null,
-    archived: boolean,
-    disabled: boolean,
-    open_issues_count: number,
-    license: {
-      key: string,
-      name: string,
-      spdx_id: string,
-      url: string,
-      node_id: string
-    },
-    allow_forking: true,
-    is_template: false,
-    web_commit_signoff_required: false,
-    topics: string[],
-    visibility: string,
-    forks: number,
-    open_issues: number,
-    watchers: number,
-    default_branch: string,
-    temp_clone_token: null,
-    network_count: number,
-    subscribers_count: number,
-    source: GithubAPIRepoData,
-    parent: GithubAPIRepoData
-}
 
 const RepoDescription: React.FC<{ description: string | null, iconColor: string }> = ({ description, iconColor }) => {
-    const [emojis, setEmojis] = React.useState<Record<string, string>>({});
-
-    React.useEffect(() => {
-        fetch('api/github/emojis')
-            .then(res => res.json())
-            .then(emojis => setEmojis(emojis))
-    }, []);
+    const { emojis } = useGithubData();
 
     let desc = <>{description}</>
     if (description) {
@@ -153,7 +32,7 @@ const RepoDescription: React.FC<{ description: string | null, iconColor: string 
               <span key={offset}>
                 <img
                   alt={name}
-                  src={emojis[name]}
+                  src={emojis ? emojis[name] : ''}
                   style={{ width: '1rem', height: '1rem', verticalAlign: '-0.2rem' }}
                 />
               </span>
@@ -175,13 +54,7 @@ const RepoDescription: React.FC<{ description: string | null, iconColor: string 
 }
 
 const LanguageDoat: React.FC<{ language: string }> = ({ language }) => {
-    const [colors, setColors] = React.useState<Record<string, { color: string }>>();
-
-    React.useEffect(() => {
-        fetch('https://raw.githubusercontent.com/ozh/github-colors/master/colors.json')
-            .then(res => res.json())
-            .then(colors => setColors(colors))
-    })
+    const { colors } = useGithubData();
 
     return <span style={{
         width: '12px',
@@ -194,19 +67,27 @@ const LanguageDoat: React.FC<{ language: string }> = ({ language }) => {
     }} /> 
 }
 
-const GithubRepoCard: React.FC<GithubRepoCardProps> = ({ username, repository, dark = false, fallback }) => {
-    const palette = getPalette(dark);
-    const [data, setData] = React.useState<GithubAPIRepoData>();
-    
-    React.useEffect(() => {
-        fetch(`/api/github/repos/${username}/${repository}`)
-            .then(res => res.json())
-            .then(data => setData(data));
-    }, []);
+const fetchGithubRepo = (username: string, repository: string) => {
+    let repo: GithubAPIRepoData | null = null;
+    const suspender = fetch(`/api/github/repos/${username}/${repository}`).then(
+      data => data.json().then<GithubAPIRepoData>(r => repo = r),
+      err => console.log('failed to get repo data: ', err)
+    )
+    return () => {
+      if (repo) return repo;
+      else throw suspender;
+    }
+}
 
-    if(!data) return <></>;
+export interface GithubRepoCardProps {
+    username: string
+    repository: string
+}
 
-    
+const GithubRepoCardFetcher: React.FC<GithubRepoCardProps> = ({ username, repository }) => {
+    const theme = useTheme();
+    const palette = getPalette(theme.palette.mode === 'dark');
+
     return (
         <div style={{
             fontFamily:
@@ -220,6 +101,19 @@ const GithubRepoCard: React.FC<GithubRepoCardProps> = ({ username, repository, d
             lineHeight: '1.5',
             color: '#24292e',
         }}>
+      <React.Suspense fallback={<>loading...</>}>
+        <GithubRepoCard fetcher={fetchGithubRepo(username, repository)} palette={palette} />
+      </React.Suspense>
+      </div>
+    )
+  }
+  
+
+const GithubRepoCard: React.FC<{ fetcher: () => GithubAPIRepoData, palette: Record<string, any> }> = ({ fetcher, palette }) => {
+    const data = fetcher();
+
+    return (
+        <>
             <div style={{ display: 'flex', alignItems: 'center' }}>
             <svg
                 style={{ fill: palette.iconColor, marginRight: '8px' }}
@@ -323,7 +217,7 @@ const GithubRepoCard: React.FC<GithubRepoCardProps> = ({ username, repository, d
                     </div>
                 </a>
             </div>
-        </div>
+        </>
     )
 }
-export default GithubRepoCard;
+export default GithubRepoCardFetcher;

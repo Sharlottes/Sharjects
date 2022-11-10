@@ -7,6 +7,7 @@ import GithubUserCardFetcher from 'src/components/GithubUserCard'
 import { onSlide } from 'src/utils/onSlide';
 import { SlideEventHandler } from '../../../utils/onSlide';
 import GithubRepoCard, { type GithubRepoCardProps } from 'src/components/GithubRepoCard';
+import GithubStaticDataContext from 'src/components/GithubStaticDataContext';
 
 interface StyledRepoCardProps extends Omit<GithubRepoCardProps, 'username'> {
   username?: string | undefined
@@ -14,18 +15,14 @@ interface StyledRepoCardProps extends Omit<GithubRepoCardProps, 'username'> {
 const StyledRepoCard: React.FC<StyledRepoCardProps> = ({
   username = 'sharlottes',
   ...props
-}) => {
-  const theme = useTheme();
-
-  return (
-    <div style={{
-      margin: '10px',
-      width: 'min(50vw, 400px)'
-    }}>
-      <GithubRepoCard username={username} dark={theme.palette.mode === 'dark'} {...props} />
-    </div>
-  )
-}
+}) => (
+  <div style={{
+    margin: '10px',
+    width: 'min(50vw, 400px)'
+  }}>
+    <GithubRepoCard username={username} {...props} />
+  </div>
+)
 
 const TimelineContentTitle: React.FC<PropsWithChildren> = ({ children }) =>
   <div style={{ marginBottom: '5px' }}>
@@ -167,15 +164,17 @@ const dates = Array.from(
 
 interface TimelineItemProps {
   title: string,
-  children?: JSX.Element | undefined
+  children?: JSX.Element | undefined,
+  last?: boolean
 }
 
 const TimelineItem: React.FC<TimelineItemProps> = ({
   title,
-  children
+  children,
+  last = false
 }) => {
   return (
-    <Step expanded>
+    <Step expanded last={last}>
       <StepLabel>
         {children
           ? <Typography fontFamily='bold' fontSize={35} color='black' className="has-content">{title}</Typography>
@@ -199,6 +198,15 @@ const TimelineRoadMap: React.FC = () => {
       힣
     </Card>
   )
+}
+
+const fetchStaticData = <T extends {}>(url = 'api/github/emojis'): (() => T | undefined) => {
+  let data: T | undefined;
+  fetch(url)
+      .then(res => res.json())
+      .then(d  => data = d)
+
+  return () => data;
 }
 
 const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = ({ ...props }) => {
@@ -252,56 +260,55 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
     .filter(element => direction === 'down' ? getDist(element) < -(margin + 20) : getDist(element) > (margin + 20))
     .sort(element => getDist(element))
     .pop()
-
-    console.log(item)
     
     if(direction === 'up' && !item) {
-      window.focus()
-      document.getElementById('#root')?.scrollTo(0, 0)
-      window.scrollTo({ top: 0, behavior: 'auto' });
+      document.getElementById('back-to-top-anchor')?.scrollIntoView({ block: 'start', behavior: 'smooth' })
     } else spring.set((item?.offsetTop ?? 0) - margin, false);
   }
 
   return (
-    <div ref={stepper} style={{ padding: '100px 50px', overflowY: 'scroll' }} {...onSlide<HTMLDivElement>(handleSlide)} {...props}>
-      <div id='top-anchor' />
-      <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-        <Typography variant='h3' fontFamily='700'>
-          Timeline
-        </Typography>
-        <div
-          onClick={() => stepper.current?.scrollTo({
-            top: document.querySelector<HTMLDivElement>("div #bottom-anchor")?.offsetTop ?? 0
-          })}
-          style={{ color: 'blue', marginLeft: '20px', cursor: 'pointer' }}
-        >
-          <Box sx={{ display: { md: 'block', sm: 'none', xs: 'none' } }}>아래로 내려가기</Box>
-          <ArrowDropDownIcon sx={{ display: { md: 'none', sm: 'block' } }} />
+    <GithubStaticDataContext>
+      <div ref={stepper} style={{ padding: '100px 50px', overflowY: 'scroll' }} {...onSlide<HTMLDivElement>(handleSlide)} {...props}>
+        <div id='top-anchor' />
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          <Typography variant='h3' fontFamily='700'>
+            Timeline
+          </Typography>
+          <div
+            onClick={() => stepper.current?.scrollTo({
+              top: document.querySelector<HTMLDivElement>("div #bottom-anchor")?.offsetTop ?? 0,
+              behavior: 'smooth'
+            })}
+            style={{ color: 'blue', marginLeft: '20px', cursor: 'pointer' }}
+          >
+            <Box sx={{ display: { md: 'block', sm: 'none', xs: 'none' } }}>아래로 내려가기</Box>
+            <ArrowDropDownIcon sx={{ display: { md: 'none', sm: 'block' } }} />
+          </div>
         </div>
-      </div>
-      <Divider />
-      <Stepper orientation="vertical" sx={{ marginLeft: '3%' }}>
-        <ScrollTop target={stepper.current ?? undefined} />
-        {dates.map((years, i) =>
-          years.map((monthes, ii) => (
-            <div key={monthes[0]}>
-              <TimelineItem title={monthes[0].slice(0, 7)}>
-                {events[monthes[0].slice(0, 7) as monthType]}
-              </TimelineItem>
-              <div style={{ marginLeft: '4%' }}>
-                {monthes.map((date, iii) =>
-                  <TimelineItem key={`${i}${ii}${iii}`} title={date}>
-                    {events[date]}
-                  </TimelineItem>
-                )}
+        <Divider />
+        <Stepper orientation="vertical" sx={{ marginLeft: '3%' }}>
+          <ScrollTop target={stepper.current ?? undefined} />
+          {dates.map((years, i) =>
+            years.map((monthes, ii) => (
+              <div key={monthes[0]}>
+                <TimelineItem title={monthes[0].slice(0, 7)} last={i === dates.length - 1 && ii === years.length - 1}>
+                  {events[monthes[0].slice(0, 7) as monthType]}
+                </TimelineItem>
+                <div style={{ marginLeft: '4%' }}>
+                  {monthes.map((date, iii) =>
+                    <TimelineItem key={`${i}${ii}${iii}`} title={date} last={i === dates.length - 1 && ii === years.length - 1 && iii === monthes.length - 1}>
+                      {events[date]}
+                    </TimelineItem>
+                  )}
+                </div>
+                <Divider />
               </div>
-              <Divider />
-            </div>
-          ))
-        ).flat()}
-        <div id='bottom-anchor' />
-      </Stepper>
-    </div>
+            ))
+          ).flat()}
+          <div id='bottom-anchor' />
+        </Stepper>
+      </div>
+    </GithubStaticDataContext>
   )
 }
 
