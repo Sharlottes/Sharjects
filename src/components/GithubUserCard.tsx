@@ -8,12 +8,14 @@ import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 
+import { getOwnDomain } from 'src/utils/getOwnDomain'
+
 import { signIn, useSession } from 'next-auth/react'
 import type { GithubProfile } from 'next-auth/providers/github'
 
 const fetchGithubUser = (username: string) => {
   let user: GithubProfile | null = null;
-  const suspender = fetch(`/api/github/users/${username}`).then(
+  const suspender = fetch(`${getOwnDomain()}/api/github/users/${username}`).then(
     data => data.json().then<GithubProfile>(u => user = u),
     err => console.log('failed to get user data: ', err)
   )

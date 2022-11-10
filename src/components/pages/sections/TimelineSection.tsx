@@ -174,7 +174,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
   last = false
 }) => {
   return (
-    <Step expanded last={last}>
+    <Step expanded last={last.toString() as any}>
       <StepLabel>
         {children
           ? <Typography fontFamily='bold' fontSize={35} color='black' className="has-content">{title}</Typography>
@@ -204,7 +204,7 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
   const stepper = React.useRef<HTMLDivElement>(null);
   const spring = useSpring(0, { damping: 300, stiffness: 200 });
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     spring.onChange(latest => {
       stepper.current?.scrollTo({ top: latest, behavior: 'smooth' });
     });
@@ -238,7 +238,7 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
     if (direction !== 'none') tryScroll(direction)
   }
 
-  const margin = window.innerHeight * 0.1;
+  const margin = 50;
   const getDist = (element: HTMLDivElement) => (stepper.current?.scrollTop ?? 0) - element.offsetTop;
   const tryScroll = (direction: 'up' | 'down') => {
     if (!stepper.current) return;

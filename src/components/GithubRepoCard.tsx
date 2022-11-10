@@ -4,6 +4,7 @@ import replaceStringToArray from 'string-replace-to-array'
 
 import type { GithubAPIRepoData } from 'src/@type'
 import { useGithubData } from './GithubStaticDataContext'
+import { getOwnDomain } from 'src/utils/getOwnDomain'
 
 const getPalette = (dark: boolean) => dark
 ? {
@@ -69,7 +70,7 @@ const LanguageDoat: React.FC<{ language: string }> = ({ language }) => {
 
 const fetchGithubRepo = (username: string, repository: string) => {
     let repo: GithubAPIRepoData | null = null;
-    const suspender = fetch(`/api/github/repos/${username}/${repository}`).then(
+    const suspender = fetch(`${getOwnDomain()}/api/github/repos/${username}/${repository}`).then(
       data => data.json().then<GithubAPIRepoData>(r => repo = r),
       err => console.log('failed to get repo data: ', err)
     )
