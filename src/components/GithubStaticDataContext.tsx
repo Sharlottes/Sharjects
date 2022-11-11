@@ -26,7 +26,6 @@ const fetchData = (endpoint: string, queries: string[] = []) =>
 const caches: Map<string, any> = new Map();
 const GithubStaticDataContext: React.FC<{ children: JSX.Element }> = ({ children }) => {
   const getData = <DT extends object>(dataName: string, endpoint: string = dataName, queries: string[] = []): DT | Promise<DT> => {
-
     if (caches.has(dataName)) return caches.get(dataName);
     else {
       const promise = fetchData(endpoint, queries).then<DT>(json => {

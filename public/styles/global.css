@@ -8,5 +8,5 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 body {
-  overflow: hidden;
+  overflow-x: hidden;
 }

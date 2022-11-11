@@ -1,7 +1,7 @@
 import { styled } from '@mui/system';
 import dynamic from 'next/dynamic';
 import React from 'react';
-import { Layout, TitleSection } from 'src/components';
+import { Footer, Layout, TitleSection } from 'src/components';
 
 const TimelineSection = dynamic(() => import('src/components/pages/sections/TimelineSection'), {
   suspense: true
@@ -12,6 +12,11 @@ const ScrollContainer = styled('div')({
   overflow: 'scroll',
   scrollSnapType: 'y mandatory',
   height: '100vh',
+  msOverflowStyle: 'none',
+  scrollbarWidth: 'none',
+  "&::-webkit-scrollbar": {
+    display: 'none'
+  },
   "& .scroll-snap-item": {
     scrollSnapAlign: 'start',
     position: 'relative',
@@ -29,7 +34,7 @@ const Home: React.FC = () => {
           <TimelineSection className='scroll-snap-item' />
         </React.Suspense>
       </ScrollContainer>
-    </Layout >
+    </Layout>
   )
 }
 

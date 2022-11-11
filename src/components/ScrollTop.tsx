@@ -8,6 +8,8 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const ScrollTop: React.FC<{ target?: HTMLDivElement | undefined, anchor?: HTMLDivElement | undefined }> = ({ target = global.window, anchor }) => {
+  const ref = React.useRef(null);
+
   const trigger = useScrollTrigger({
     target,
     disableHysteresis: true,
@@ -15,13 +17,13 @@ const ScrollTop: React.FC<{ target?: HTMLDivElement | undefined, anchor?: HTMLDi
   });
 
   const handleClick = (evt: React.MouseEvent<HTMLDivElement>) => {
-    const anch = anchor ?? evt.currentTarget.ownerDocument.querySelector<HTMLDivElement>('div #back-to-top-anchor');
-    target.scrollTo({ top: anch?.offsetTop ?? 0, behavior: 'smooth' });
+    target.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <Fade in={trigger}>
       <Box
+        ref={ref}
         onClick={handleClick}
         role='presentation'
         sx={{ position: 'fixed', bottom: 16, right: 16 }}>

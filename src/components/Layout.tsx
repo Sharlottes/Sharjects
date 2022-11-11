@@ -1,11 +1,8 @@
 import React from 'react'
 
-import Toolbar from '@mui/material/Toolbar'
-
 import Header from './Header'
 import Footer from './Footer'
 import ScrollTop from './ScrollTop'
-
 
 interface LayoutProps {
   header?: React.ReactNode
@@ -23,7 +20,6 @@ const Layout: React.FC<LayoutProps> = ({
   <>
     <Header additional={header} height={HEADER_HEIGHT} />
     <div style={{ minHeight: '100vh', marginTop: HEADER_HEIGHT }}>
-      <div id='back-to-top-anchor' />
       <ScrollTop />
       {children}
     </div>
