@@ -20,7 +20,7 @@ const Profile: React.FC = () => {
                 {status === 'unauthenticated' ? "Sign In" : "Sign Out"}
             </Button>
             <IconButton onClick={handleProfileOpen} sx={{ padding: 0 }}>
-                {session?.user?.image && <Avatar src={session.user.image} sx={{ padding: '8px', width: '22px' }} />}
+                {session?.user?.image && <Avatar src={session.user.image} sx={{ padding: '4px', width: '35px', height: '35px' }} />}
             </IconButton>
         </div>
 
