@@ -64,10 +64,7 @@ const Auths: React.FC<{
                     ? decodeURIComponent(query.callbackUrl as string)
                     : window.location.origin
                     }`
-                }).then(
-                  data => console.log('after oauth: ', data),
-                  error => console.log("failed to signIn: ", error)
-                ).catch(error => console.log("failed to signIn in catch: ", error))
+                })
               }}
             >
               {icon} <Divider orientation='vertical' sx={{ ml: 1, mr: 1 }} /> Sign in with {provider.name}

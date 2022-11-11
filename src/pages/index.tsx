@@ -1,7 +1,12 @@
 import { styled } from '@mui/system';
+import dynamic from 'next/dynamic';
 import React from 'react';
 import { Layout, TitleSection } from 'src/components';
-import TimelineSection from 'src/components/pages/sections/TimelineSection';
+
+const TimelineSection = dynamic(() => import('src/components/pages/sections/TimelineSection'), {
+  suspense: true
+})
+
 
 const ScrollContainer = styled('div')({
   overflow: 'scroll',
@@ -20,7 +25,9 @@ const Home: React.FC = () => {
       <div className="support-scrollsnap"></div>
       <ScrollContainer id='scroll-snapper'>
         <TitleSection className='scroll-snap-item' id='title-section' />
-        <TimelineSection className='scroll-snap-item' />
+        <React.Suspense fallback={'loading...'}>
+          <TimelineSection className='scroll-snap-item' />
+        </React.Suspense>
       </ScrollContainer>
     </Layout >
   )

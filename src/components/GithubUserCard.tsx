@@ -8,35 +8,23 @@ import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 
-import { getOwnDomain } from 'src/utils/getOwnDomain'
-
 import { signIn, useSession } from 'next-auth/react'
 import type { GithubProfile } from 'next-auth/providers/github'
-
-const fetchGithubUser = (username: string) => {
-  let user: GithubProfile | null = null;
-  const suspender = fetch(`${getOwnDomain()}/api/github/users/${username}`).then(
-    data => data.json().then<GithubProfile>(u => user = u),
-    err => console.log('failed to get user data: ', err)
-  )
-  return () => {
-    if (user) return user;
-    else throw suspender;
-  }
-};
+import { useGithubData } from './GithubStaticDataContext'
+import FetchSuspenseWrapper from './FetchSuspenseWrapper'
 
 const GithubUserCardFetcher: React.FC<{ username: string }> = ({ username }) => {
-
+  const { getData } = useGithubData();
   return (
-    <React.Suspense fallback={<>loading...</>}>
-      <GithubUserCard fetcher={fetchGithubUser(username)} />
-    </React.Suspense>
+    <FetchSuspenseWrapper
+      fetcher={() => getData<GithubProfile>(username, `users/${username}`)}
+      Component={GithubUserCard}
+      fetchedPropName='user'
+    />
   )
 }
 
-const GithubUserCard: React.FC<{ fetcher: () => GithubProfile }> = ({ fetcher }) => {
-  const user = fetcher();
-
+const GithubUserCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
   const [isFollowing, setFollowing] = React.useState(false);
   const { data: session } = useSession();
   const request = React.useCallback((method: string = 'GET') => {

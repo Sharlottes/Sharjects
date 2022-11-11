@@ -1,46 +1,54 @@
-import useTheme from '@mui/system/useTheme'
 import React from 'react'
+
 import replaceStringToArray from 'string-replace-to-array'
+
+import useTheme from '@mui/system/useTheme'
 
 import type { GithubAPIRepoData } from 'src/@type'
 import { useGithubData } from './GithubStaticDataContext'
-import { getOwnDomain } from 'src/utils/getOwnDomain'
+import FetchSuspenseWrapper from './FetchSuspenseWrapper'
 
 const getPalette = (dark: boolean) => dark
-? {
-    background: '#0d1117',
-    textColor: '#58a6ff',
-    borderColor: '#30363d',
-    iconColor: '#8b949e',
-  }
-: {
-    background: 'white',
-    textColor: '#0969da',
-    borderColor: '#d0d7de',
-    iconColor: '#57606a',
-  }
+    ? {
+        background: '#0d1117',
+        textColor: '#58a6ff',
+        borderColor: '#30363d',
+        iconColor: '#8b949e',
+    }
+    : {
+        background: 'white',
+        textColor: '#0969da',
+        borderColor: '#d0d7de',
+        iconColor: '#57606a',
+    }
 
-
+const EmojisComponent: React.FC<{
+    description: string,
+    emojis: Record<string, string>
+}> = ({ description, emojis }) => <>
+    {replaceStringToArray(description, /:(\w+):/g, (_, name, offset) => (
+        <span key={offset}>
+            <img
+                alt={name}
+                src={emojis ? emojis[name] : ''}
+                style={{ width: '1rem', height: '1rem', verticalAlign: '-0.2rem' }}
+            />
+        </span>
+    ))}
+</>
 
 const RepoDescription: React.FC<{ description: string | null, iconColor: string }> = ({ description, iconColor }) => {
-    const { emojis } = useGithubData();
+    const { getData } = useGithubData();
 
     let desc = <>{description}</>
     if (description) {
-        desc = (
-          <>
-            {replaceStringToArray(description, /:(\w+):/g, (_, name, offset) => (
-              <span key={offset}>
-                <img
-                  alt={name}
-                  src={emojis ? emojis[name] : ''}
-                  style={{ width: '1rem', height: '1rem', verticalAlign: '-0.2rem' }}
-                />
-              </span>
-            ))}
-          </>
-        )
-      }
+        desc = <FetchSuspenseWrapper<'emojis', typeof EmojisComponent, Record<string, string>>
+            fetcher={() => getData('emojis')}
+            Component={EmojisComponent}
+            fetchedPropName='emojis'
+            description={description}
+        />
+    }
 
     return (
         <div style={{
@@ -54,10 +62,8 @@ const RepoDescription: React.FC<{ description: string | null, iconColor: string 
     )
 }
 
-const LanguageDoat: React.FC<{ language: string }> = ({ language }) => {
-    const { colors } = useGithubData();
-
-    return <span style={{
+const ColoredDoat: React.FC<{ colors: Record<string, { color: string }>, language: string }> = ({ colors, language }) => (
+    <span style={{
         width: '12px',
         height: '12px',
         borderRadius: '100%',
@@ -65,19 +71,20 @@ const LanguageDoat: React.FC<{ language: string }> = ({ language }) => {
         display: 'inline-block',
         top: '1px',
         position: 'relative',
-    }} /> 
-}
+    }} />
+)
 
-const fetchGithubRepo = (username: string, repository: string) => {
-    let repo: GithubAPIRepoData | null = null;
-    const suspender = fetch(`${getOwnDomain()}/api/github/repos/${username}/${repository}`).then(
-      data => data.json().then<GithubAPIRepoData>(r => repo = r),
-      err => console.log('failed to get repo data: ', err)
+const LanguageDoat: React.FC<{ language: string }> = ({ language }) => {
+    const { getData } = useGithubData();
+
+    return (
+        <FetchSuspenseWrapper<'colors', typeof ColoredDoat, Record<string, { color: string }>>
+            fetcher={() => getData('colors', 'https://raw.githubusercontent.com/ozh/github-colors/master/colors.json')}
+            Component={ColoredDoat}
+            fetchedPropName='colors'
+            language={language}
+        />
     )
-    return () => {
-      if (repo) return repo;
-      else throw suspender;
-    }
 }
 
 export interface GithubRepoCardProps {
@@ -86,6 +93,18 @@ export interface GithubRepoCardProps {
 }
 
 const GithubRepoCardFetcher: React.FC<GithubRepoCardProps> = ({ username, repository }) => {
+    const { getData } = useGithubData();
+
+    return (
+        <FetchSuspenseWrapper
+            fetcher={() => getData<GithubAPIRepoData>(repository, `repos/${username}/${repository}`)}
+            Component={GithubRepoCard}
+            fetchedPropName='data'
+        />
+    )
+}
+
+const GithubRepoCard: React.FC<{ data: GithubAPIRepoData }> = ({ data }) => {
     const theme = useTheme();
     const palette = getPalette(theme.palette.mode === 'dark');
 
@@ -102,43 +121,30 @@ const GithubRepoCardFetcher: React.FC<GithubRepoCardProps> = ({ username, reposi
             lineHeight: '1.5',
             color: '#24292e',
         }}>
-      <React.Suspense fallback={<>loading...</>}>
-        <GithubRepoCard fetcher={fetchGithubRepo(username, repository)} palette={palette} />
-      </React.Suspense>
-      </div>
-    )
-  }
-  
-
-const GithubRepoCard: React.FC<{ fetcher: () => GithubAPIRepoData, palette: Record<string, any> }> = ({ fetcher, palette }) => {
-    const data = fetcher();
-
-    return (
-        <>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-            <svg
-                style={{ fill: palette.iconColor, marginRight: '8px' }}
-                viewBox="0 0 16 16"
-                version="1.1"
-                width={16}
-                height={16}
-                aria-hidden="true"
-            >
-                <path
-                    fillRule="evenodd"
-                    d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"
-                />
-            </svg>
-            <span style={{ fontWeight: 600, color: palette.textColor }}>
-                <a
-                    style={{ textDecoration: 'none', color: 'inherit' }}
-                    href={data.html_url}
-                    target="_blank"
-                    rel="noreferrer"
+                <svg
+                    style={{ fill: palette.iconColor, marginRight: '8px' }}
+                    viewBox="0 0 16 16"
+                    version="1.1"
+                    width={16}
+                    height={16}
+                    aria-hidden="true"
                 >
-                    {data.name}
-                </a>
-            </span>
+                    <path
+                        fillRule="evenodd"
+                        d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"
+                    />
+                </svg>
+                <span style={{ fontWeight: 600, color: palette.textColor }}>
+                    <a
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        href={data.html_url}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        {data.name}
+                    </a>
+                </span>
             </div>
             <div style={{
                 display: data.fork ? 'block' : 'none',
@@ -210,15 +216,15 @@ const GithubRepoCard: React.FC<{ fetcher: () => GithubAPIRepoData, palette: Reco
                             role="img"
                         >
                             <path
-                            fillRule="evenodd"
-                            d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                                fillRule="evenodd"
+                                d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z"
                             />
                         </svg>
                         &nbsp; <span>{data.forks_count}</span>
                     </div>
                 </a>
             </div>
-        </>
+        </div>
     )
 }
 export default GithubRepoCardFetcher;

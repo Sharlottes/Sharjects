@@ -4,7 +4,6 @@ import Layout from "src/components/Layout";
 const SharustryPage: NextPage = () => {
     return (
         <Layout>
-            
         </Layout>
     )
 }

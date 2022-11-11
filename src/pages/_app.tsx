@@ -19,6 +19,7 @@ import AuthWrapper from 'src/components/AuthWrapper'
 import 'public/fonts/UniSans.css'
 import 'public/styles/global.css'
 import { } from "src/@type";
+import GithubStaticDataContext from '../components/GithubStaticDataContext';
 
 // for chart.js rendering
 require('src/lib/registerChartjs');
@@ -48,7 +49,9 @@ const MyApp: React.FC<{
           <SessionProvider session={session}>
             <SnackbarProvider maxSnack={3} Components={{ lifebar: LifebarSnackbar }}>
               <AuthWrapper auth={Component.auth}>
-                <Component {...pageProps} />
+                <GithubStaticDataContext>
+                  <Component {...pageProps} />
+                </GithubStaticDataContext>
               </AuthWrapper>
             </SnackbarProvider>
           </SessionProvider>
