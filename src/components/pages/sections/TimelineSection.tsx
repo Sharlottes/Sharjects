@@ -16,7 +16,7 @@ const TimelineItems = dynamic(() => import('./TimelineItems'), {
 });
 
 const StyledSectionDiv = styled('div')({
-  padding: '100px 50px',
+  padding: '100px min(10px, 3vw)',
   overflowX: 'hidden',
   msOverflowStyle: 'none',
   scrollbarWidth: 'none',

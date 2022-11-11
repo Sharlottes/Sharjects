@@ -1,9 +1,6 @@
-import Link from 'next/link'
 import React from 'react'
-import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
-import Divider from '@mui/material/Divider'
 import Avatar from '@mui/material/Avatar'
 import Menu from '@mui/material/Menu'
 import Button from '@mui/material/Button'
@@ -22,8 +19,8 @@ const Profile: React.FC = () => {
             <Button sx={{ color: 'white' }} onClick={() => status === 'unauthenticated' ? signIn() : signOut()}>
                 {status === 'unauthenticated' ? "Sign In" : "Sign Out"}
             </Button>
-            <IconButton onClick={handleProfileOpen}>
-                {session?.user?.image && <Avatar src={session.user.image} sx={{ marginLeft: 2 }} />}
+            <IconButton onClick={handleProfileOpen} sx={{ padding: 0 }}>
+                {session?.user?.image && <Avatar src={session.user.image} sx={{ padding: 8 }} />}
             </IconButton>
         </div>
 

@@ -9,6 +9,7 @@ import StepLabel from '@mui/material/StepLabel'
 
 import GithubUserCard from 'src/components/GithubUserCard'
 import GithubRepoCard, { type GithubRepoCardProps } from 'src/components/GithubRepoCard';
+import { styled } from '@mui/material';
 
 interface StyledRepoCardProps extends Omit<GithubRepoCardProps, 'username'> {
   username?: string | undefined
@@ -18,15 +19,20 @@ const StyledRepoCard: React.FC<StyledRepoCardProps> = ({
   ...props
 }) => (
   <div style={{
-    margin: '10px',
-    width: 'min(50vw, 400px)'
+    margin: 'min(2vw, 10px)',
+    width: 'min(100%, 400px)'
   }}>
     <GithubRepoCard username={username} {...props} />
   </div>
 )
 
+const StyledUserCard = styled(GithubUserCard)({
+  margin: 'min(2vw, 10px)',
+  width: 'min(100%, 400px)'
+})
+
 const TimelineContentTitle: React.FC<PropsWithChildren> = ({ children }) =>
-  <div style={{ marginBottom: '5px' }}>
+  <div style={{ marginBottom: 'min(1vw, 5px)' }}>
     <Typography variant='h5'>
       {children}
     </Typography>
@@ -34,7 +40,7 @@ const TimelineContentTitle: React.FC<PropsWithChildren> = ({ children }) =>
   </div>
 
 const TimelineContent: React.FC<PropsWithChildren> = ({ children }) =>
-  <div style={{ marginLeft: '10px' }}>
+  <div style={{ marginLeft: 'min(3vw, 20px)' }}>
     {children}
   </div>
 
@@ -50,7 +56,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
   last = false
 }) => {
   return (
-    <Step expanded last={last}>
+    <Step expanded last={last} sx={{ padding: 'auto 1vw' }}>
       <StepLabel>
         {children
           ? <Typography fontFamily='bold' fontSize={35} color='black' className="has-content">{title}</Typography>
@@ -71,9 +77,7 @@ const events: Record<dateType | monthType, JSX.Element> = {
     <>
       <TimelineContentTitle>깃허브 계정 생성</TimelineContentTitle>
       <TimelineContent>
-        <div style={{ margin: '10px' }}>
-          <GithubUserCard username='Sharlottes' />
-        </div>
+        <StyledUserCard username='Sharlottes' />
       </TimelineContent>
     </>
   ),
@@ -214,7 +218,7 @@ const dates = Array.from(
 
 const TimelineItems: React.FC = () => {
   return (
-    <Stepper orientation="vertical" sx={{ marginLeft: '3%' }}>
+    <Stepper orientation="vertical" sx={{ marginLeft: 'min(1vw, 10px)' }}>
       {dates.map((years, i) =>
         years.map((monthes, ii) => (
           <div key={monthes[0]}>
