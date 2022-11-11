@@ -5,12 +5,18 @@ import React, { startTransition } from 'react'
  * @param fetcher 데이터를 가져올 getter 함수
  * @returns 
  */
-const mapFetcher = function <T>(fetcher: T | Promise<T>): () => T {
+const mapFetcher = function <T>(fetcher: T | Promise<T>): () => T | undefined {
   if (fetcher instanceof Promise) {
-    let data: T | null = null
-    const promise = fetcher.then(d => data = d, err => console.log('failed to get data: ', err));
+    let data: T | null | undefined = null
+    const promise = fetcher.then(
+      d => data = d,
+      err => {
+        console.log('failed to get data: ', err);
+        data = undefined;
+      });
     return () => {
-      if (data) return data;
+      if (data === undefined) return data;
+      else if (data) return data;
       throw promise;
     }
   } else {
@@ -43,7 +49,7 @@ const FetchSuspenseWrapper = <PN extends keyof React.ComponentProps<T>, T extend
 }
 
 type ChildrenWithFetcherProps<PN extends keyof React.ComponentProps<T>, T extends React.ComponentType<any>, DT> = {
-  fetcher: () => DT
+  fetcher: () => DT | undefined
   fetchedPropName: keyof React.ComponentProps<T>
   Component: T
 } & Omit<React.ComponentProps<T>, PN>
@@ -55,7 +61,9 @@ const ChildrenWithFetcher = <PN extends keyof React.ComponentProps<T>, T extends
   ...others
 }: ChildrenWithFetcherProps<PN, T, DT>) => {
   const data = fetcher();
-  return <Component {...{ [fetchedPropName]: data, ...others } as React.ComponentProps<T>} />
+  return <>
+    {data && <Component {...{ [fetchedPropName]: data, ...others } as React.ComponentProps<T>} />}
+  </>
 }
 
 export default FetchSuspenseWrapper;
