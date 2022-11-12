@@ -2,35 +2,30 @@ import React from 'react'
 
 import Fab from '@mui/material/Fab'
 import Fade from '@mui/material/Fade'
-import Box from '@mui/material/Box'
 
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-const ScrollTop: React.FC<{ target?: HTMLDivElement | undefined, anchor?: HTMLDivElement | undefined }> = ({ target = global.window, anchor }) => {
-  const ref = React.useRef(null);
-
+const ScrollTop: React.FC<{ target?: HTMLDivElement | undefined }> = ({ target = global.window }) => {
   const trigger = useScrollTrigger({
     target,
     disableHysteresis: true,
     threshold: 100,
   });
 
-  const handleClick = (evt: React.MouseEvent<HTMLDivElement>) => {
+  const handleClick = (evt: React.MouseEvent<HTMLButtonElement>) => {
     target.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <Fade in={trigger}>
-      <Box
-        ref={ref}
+      <Fab
+        size='small'
         onClick={handleClick}
-        role='presentation'
-        sx={{ position: 'fixed', bottom: 16, right: 16 }}>
-        <Fab size='small' aria-label='scroll back to top'>
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </Box>
+        sx={{ position: 'fixed', bottom: 16, right: 16 }}
+      >
+        <KeyboardArrowUpIcon />
+      </Fab>
     </Fade>
   );
 }

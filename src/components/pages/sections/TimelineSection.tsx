@@ -16,7 +16,7 @@ const TimelineItems = dynamic(() => import('./TimelineItems'), {
 });
 
 const StyledSectionDiv = styled('div')({
-  padding: '100px min(10px, 3vw)',
+  padding: '0px min(10px, 3vw)',
   overflowX: 'hidden',
   msOverflowStyle: 'none',
   scrollbarWidth: 'none',
@@ -77,13 +77,12 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
     //TODO - timeline을 메인 페이지에서 분리시키기
     window.scrollTo({ top: 0, behavior: 'smooth' })
     if (item && item.id === 'bottom-anchor' && direction === 'down') window.scrollTo({ top: stepper.current?.offsetTop + 10, behavior: 'smooth' })
-    if (!item && direction === 'up') document.querySelector("#scroll-snapper")?.scrollTo({ top: 0, behavior: 'smooth' })
+    if (!item && direction === 'up' && stepper.current.scrollTop === 0) document.querySelector("#scroll-snapper")?.scrollTo({ top: 0, behavior: 'smooth' })
     else spring.set((item?.offsetTop ?? 0) - margin, false);
   }
 
   return (
     <StyledSectionDiv ref={stepper} {...onSlide<HTMLDivElement>(handleSlide)} {...props}>
-      <ScrollTop target={stepper.current ?? undefined} />
       <div id='top-anchor' />
       <div style={{ display: 'flex', alignItems: 'flex-end' }}>
         <Typography variant='h3' fontFamily='700'>
@@ -101,6 +100,7 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
         </div>
       </div>
       <Divider />
+      <ScrollTop target={stepper.current ?? undefined} />
       <React.Suspense fallback={'loading...'}>
         <TimelineItems />
       </React.Suspense>
