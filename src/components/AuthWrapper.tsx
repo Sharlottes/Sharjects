@@ -14,7 +14,7 @@ const AuthWrapper: React.FC<{ children: JSX.Element, auth: any }> = ({ children,
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
   React.useEffect(() => {
-    if (status !== "unauthenticated") return;
+    if (!auth || status !== "unauthenticated") return;
 
     const id = setTimeout(() => {
       if (status !== "unauthenticated") return;
