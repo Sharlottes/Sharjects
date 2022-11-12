@@ -15,8 +15,9 @@ import MenuIcon from '@mui/icons-material/Menu'
 import EmailIcon from '@mui/icons-material/Email'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 
-import { DiscordIcon, GithubIcon } from 'src/assets/icons'
-import { projectDataType } from 'src/@type'
+import GithubIcon from 'src/assets/icons/GithubIcon'
+import DiscordIcon from 'src/assets/icons/DiscordIcon'
+import type { projectDataType } from 'src/@type'
 
 import { useThemeController } from './MainThemeProvider'
 import VisitorGraphDialog from './VisitorGraphDialog'

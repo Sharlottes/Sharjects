@@ -1,5 +1,3 @@
-import React from 'react'
-
 import Fab from '@mui/material/Fab'
 import Fade from '@mui/material/Fade'
 
@@ -13,7 +11,7 @@ const ScrollTop: React.FC<{ target?: HTMLDivElement | undefined }> = ({ target =
     threshold: 100,
   });
 
-  const handleClick = (evt: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = () => {
     target.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

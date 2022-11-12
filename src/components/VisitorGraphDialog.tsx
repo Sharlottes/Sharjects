@@ -1,8 +1,8 @@
 import Dialog, { type DialogProps } from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
-import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography'
 
-import { Line } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2'
 
 const monthes = ['월', '화', '수', '목', '금', '토', '일'];
 function parseDate(str: string): string {

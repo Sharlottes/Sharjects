@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 import Head from 'next/head'
-import type { AppProps } from 'next/app';
+import type { AppProps } from 'next/app'
 import type { NextPage } from 'next'
 
 import { CacheProvider, type EmotionCache } from '@emotion/react'
-import createCache from '@emotion/cache';
+import createCache from '@emotion/cache'
 
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider } from 'next-auth/react'
 import { SnackbarProvider } from 'notistack'
 
 import CssBaseline from '@mui/material/CssBaseline'
@@ -18,8 +18,8 @@ import AuthWrapper from 'src/components/AuthWrapper'
 
 import 'public/fonts/UniSans.css'
 import 'public/styles/global.css'
-import { } from "src/@type";
-import GithubStaticDataContext from '../components/GithubStaticDataContext';
+import { } from "src/@type"
+import GithubStaticDataContext from '../components/GithubStaticDataContext'
 
 // for chart.js rendering
 require('src/lib/registerChartjs');

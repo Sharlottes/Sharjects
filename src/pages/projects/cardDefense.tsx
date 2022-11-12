@@ -1,8 +1,10 @@
 import React from 'react'
+
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
-import Contributors from 'components/Contributors'
-import { Stack } from '@mui/system'
+import Stack from '@mui/system/Stack'
+
+import Contributors from 'src/components/Contributors'
 import Layout from 'src/components/Layout'
 
 

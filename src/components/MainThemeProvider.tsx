@@ -1,9 +1,11 @@
-import { PaletteMode } from '@mui/material';
-import * as Colors from '@mui/material/colors';
-import { createTheme, Theme, ThemeProvider } from '@mui/material/styles';
-import React, { type PropsWithChildren } from 'react';
+import React, { type PropsWithChildren } from 'react'
 
-import type { PaletteColor, PaletteColorOptions } from '@mui/material/styles';
+import * as Colors from '@mui/material/colors'
+import createTheme, { Theme } from '@mui/material/styles/createTheme'
+import ThemeProvider from '@mui/material/styles/ThemeProvider'
+
+import type { PaletteMode } from '@mui/material'
+import type { PaletteColor, PaletteColorOptions } from '@mui/material/styles'
 import type { Color } from '@mui/material'
 
 type Partialize<T> = {

@@ -1,12 +1,13 @@
-import Link from 'next/link'
 import React from 'react'
+import Link from 'next/link'
+
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import Toolbar from '@mui/material/Toolbar'
 import AppBar from '@mui/material/AppBar'
 import Button from '@mui/material/Button'
 
-import { type StandardLonghandProperties } from 'csstype'
+import type { StandardLonghandProperties } from 'csstype'
 
 import Profile from './Profile'
 import SideMenu from './SideMenu'

@@ -1,4 +1,4 @@
-import React, { startTransition } from 'react'
+import React from 'react'
 
 /**
  * fetcher 함수를 받아 suspense가 수용할 데이터로 매핑합니다.

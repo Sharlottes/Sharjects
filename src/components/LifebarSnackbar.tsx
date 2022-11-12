@@ -1,11 +1,13 @@
 
 import React from 'react';
+
 import { SnackbarContent, type CustomContentProps } from 'notistack'
 
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import { motion } from 'framer-motion';
+import Card from '@mui/material/Card'
+import Typography from '@mui/material/Typography'
+import CardActions from '@mui/material/CardActions'
+
+import { motion } from 'framer-motion'
 
 const LifebarSnackbar: React.FC<CustomContentProps> = React.forwardRef<HTMLDivElement, CustomContentProps>(({ id, action, ...props }, ref) => {
   return (

@@ -4,17 +4,14 @@ import Collapse from '@mui/material/Collapse'
 import Toolbar from '@mui/material/Toolbar'
 import Fab from '@mui/material/Fab'
 import Tabs from '@mui/material/Tabs'
-import Fade from '@mui/material/Fade'
 import Tab from '@mui/material/Tab'
-import Box from '@mui/material/Box'
 
-import useScrollTrigger from '@mui/material/useScrollTrigger';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles'
 
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 
-import Layout from './Layout';
+import Layout from './Layout'
 
 const CollapseFab = styled(Fab)<{ shown?: string }>(({ shown }) => ({
   ...(Boolean(shown) && {

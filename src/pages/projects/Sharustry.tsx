@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import Layout from "src/components/Layout";
 
 const SharustryPage: NextPage = () => {
