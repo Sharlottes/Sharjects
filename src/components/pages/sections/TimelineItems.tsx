@@ -369,28 +369,26 @@ const dates = Array.from(
   )
 )
 
-const TimelineItems: React.FC = () => {
-  return (
-    <Stepper orientation="vertical" sx={{ marginLeft: 'min(1vw, 10px)' }}>
-      {dates.map((years, i) =>
-        years.map((monthes, ii) => (
-          <div key={monthes[0]}>
-            <TimelineItem title={monthes[0].slice(0, 7)} last={i === dates.length - 1 && ii === years.length - 1}>
-              {events[monthes[0].slice(0, 7) as monthType]}
-            </TimelineItem>
-            <div style={{ marginLeft: '4%' }}>
-              {monthes.map((date, iii) =>
-                <TimelineItem key={`${i}${ii}${iii}`} title={date} last={i === dates.length - 1 && ii === years.length - 1 && iii === monthes.length - 1}>
-                  {events[date]}
-                </TimelineItem>
-              )}
-            </div>
-            <Divider />
+const TimelineItems: React.FC = () => (
+  <Stepper orientation="vertical" sx={{ marginLeft: 'min(1vw, 10px)' }}>
+    {dates.map((years, i) =>
+      years.map((monthes, ii) => (
+        <div key={monthes[0]}>
+          <TimelineItem title={monthes[0].slice(0, 7)} last={i === dates.length - 1 && ii === years.length - 1}>
+            {events[monthes[0].slice(0, 7) as monthType]}
+          </TimelineItem>
+          <div style={{ marginLeft: '4%' }}>
+            {monthes.map((date, iii) =>
+              <TimelineItem key={`${i}${ii}${iii}`} title={date} last={i === dates.length - 1 && ii === years.length - 1 && iii === monthes.length - 1}>
+                {events[date]}
+              </TimelineItem>
+            )}
           </div>
-        ))
-      ).flat()}
-    </Stepper>
-  )
-}
+          <Divider />
+        </div>
+      ))
+    ).flat()}
+  </Stepper>
+)
 
 export default TimelineItems;

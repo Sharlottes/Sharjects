@@ -84,6 +84,7 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
   return (
     <StyledSectionDiv ref={stepper} {...onSlide<HTMLDivElement>(handleSlide)} {...props}>
       <div id='top-anchor' />
+      <ScrollTop target={stepper.current ?? undefined} />
       <div style={{ display: 'flex', alignItems: 'flex-end' }}>
         <Typography variant='h3' fontFamily='700'>
           Timeline
@@ -100,7 +101,6 @@ const TimelineSection: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTM
         </div>
       </div>
       <Divider />
-      <ScrollTop target={stepper.current ?? undefined} />
       <React.Suspense fallback={'loading...'}>
         <TimelineItems />
       </React.Suspense>
