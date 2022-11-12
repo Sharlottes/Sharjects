@@ -5,11 +5,9 @@ import Typography from '@mui/material/Typography'
 import Step from '@mui/material/Step'
 import StepContent from '@mui/material/StepContent'
 import Stepper from '@mui/material/Stepper'
-import StepLabel from '@mui/material/StepLabel'
 
-import GithubUserCard from 'src/components/GithubUserCard'
+import GithubUserCard, { type GithubUserCardProps } from 'src/components/GithubUserCard'
 import GithubRepoCard, { type GithubRepoCardProps } from 'src/components/GithubRepoCard';
-import { styled } from '@mui/material';
 
 interface StyledRepoCardProps extends Omit<GithubRepoCardProps, 'username'> {
   username?: string | undefined
@@ -26,10 +24,14 @@ const StyledRepoCard: React.FC<StyledRepoCardProps> = ({
   </div>
 )
 
-const StyledUserCard = styled(GithubUserCard)({
-  margin: 'min(2vw, 10px)',
-  width: 'min(100%, 400px)'
-})
+const StyledUserCard: React.FC<GithubUserCardProps> = (props) => (
+  <div style={{
+    margin: 'min(2vw, 10px)',
+    width: 'min(100%, 400px)'
+  }}>
+    <GithubUserCard {...props} />
+  </div>
+)
 
 const TimelineContentTitle: React.FC<PropsWithChildren> = ({ children }) =>
   <div style={{ marginBottom: 'min(1vw, 5px)' }}>

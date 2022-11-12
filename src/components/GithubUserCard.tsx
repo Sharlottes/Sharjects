@@ -31,18 +31,23 @@ const getPalette = (dark: boolean) => dark
     iconColor: '#57606a',
   }
 
-const GithubUserCardFetcher: React.FC<{ username: string }> = ({ username }) => {
+const GithubUserCardFetcher: React.FC<GithubUserCardProps & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = ({ username, ...props }) => {
   const { getData } = useGithubData();
   return (
     <FetchSuspenseWrapper
       fetcher={() => getData<GithubProfile>(username, `users/${username}`)}
       Component={GithubUserCard}
       fetchedPropName='user'
+      {...props}
     />
   )
 }
 
-const GithubUserCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
+export interface GithubUserCardProps {
+  username: string
+}
+
+const GithubUserCard: React.FC<{ user: GithubProfile } & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = ({ user, style, ...props }) => {
   const [isFollowing, setFollowing] = React.useState(false);
   const { data: session } = useSession();
 
@@ -85,7 +90,9 @@ const GithubUserCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
       fontSize: '14px',
       lineHeight: '1.5',
       color: 'themedBlack',
-    }}>
+      ...style
+    }}
+      {...props}>
       <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }}>
         <Avatar src={user.avatar_url} />
         <div style={{ display: 'flex', marginLeft: '5px', justifyContent: 'space-between', alignItems: 'center', minWidth: '40%' }}>

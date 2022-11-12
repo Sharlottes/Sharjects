@@ -49,7 +49,7 @@ const TitleSection: React.FC<BoxProps> = ({ ...props }) => {
             />
             <FadeUpTypography
                 variant='body1'
-                sx={{ width: '100vw', textAlign: 'center', padding: 'auto 30px' }}
+                sx={{ width: '100vw', textAlign: 'center', margin: '30px' }}
                 motion={{
                     animate: { opacity: 1, y: 0 },
                     transition: { delay: 1.5 },

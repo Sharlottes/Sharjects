@@ -1,5 +1,4 @@
 export { default as Auths } from './Auths';
-export { default as Contributors } from './Contributors';
 export { default as CustomTextInput } from './CustomTextInput';
 export { default as FadeUpTypography } from './FadeUpTypography';
 export { default as Footer } from './Footer';

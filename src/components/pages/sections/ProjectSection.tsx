@@ -19,7 +19,6 @@ import { motion, MotionProps } from 'framer-motion'
 import GithubIcon from 'src/assets/icons/GithubIcon'
 import HorizontalScrollGroup from 'src/components/HorizontalScrollGroup'
 import { projectDataType } from 'src/@type'
-import Container from '@mui/system/Container';
 
 const projectData: Array<projectDataType> = require('./projectData.json');
 

@@ -95,7 +95,7 @@ export interface GithubRepoCardProps {
     repository: string
 }
 
-const GithubRepoCardFetcher: React.FC<GithubRepoCardProps> = ({ username, repository }) => {
+const GithubRepoCardFetcher: React.FC<GithubRepoCardProps & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = ({ username, repository, ...props }) => {
     const { getData } = useGithubData();
 
     return (
@@ -103,11 +103,12 @@ const GithubRepoCardFetcher: React.FC<GithubRepoCardProps> = ({ username, reposi
             fetcher={() => getData<GithubAPIRepoData>(repository, `repos/${username}/${repository}`)}
             Component={GithubRepoCard}
             fetchedPropName='data'
+            {...props}
         />
     )
 }
 
-const GithubRepoCard: React.FC<{ data: GithubAPIRepoData }> = ({ data }) => {
+const GithubRepoCard: React.FC<{ data: GithubAPIRepoData } & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = ({ data, style, ...props }) => {
     const theme = useTheme();
     const palette = getPalette(theme.palette.mode === 'dark');
 
@@ -123,7 +124,9 @@ const GithubRepoCard: React.FC<{ data: GithubAPIRepoData }> = ({ data }) => {
             fontSize: '14px',
             lineHeight: '1.5',
             color: '#24292e',
-        }}>
+            ...style
+        }}
+            {...props}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <RepoIcon sx={{ fill: palette.iconColor, marginRight: '8px' }} fontSize='small' />
                 <span style={{ fontWeight: 600, color: palette.textColor }}>
