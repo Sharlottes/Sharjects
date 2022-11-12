@@ -84,7 +84,7 @@ const GithubUserCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
       padding: '16px',
       fontSize: '14px',
       lineHeight: '1.5',
-      color: '#24292e',
+      color: 'themedBlack',
     }}>
       <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }}>
         <Avatar src={user.avatar_url} />
@@ -120,18 +120,20 @@ const GithubUserCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
         <Typography variant='body1' sx={{ ml: '5px' }}>{user.bio}</Typography>
         <div style={{ display: 'flex', margin: '10px auto' }}>
           {[
-            [user.public_repos, <RepoIcon sx={{ fill: palette.iconColor, marginRight: '8px' }} fontSize='small' />],
-            [user.public_gists, <GistIcon sx={{ fill: palette.iconColor, marginRight: '8px' }} fontSize='small' />],
-            [user.followers, <FollowerIcon sx={{ fill: palette.iconColor, marginRight: '8px' }} fontSize='small' />]
-          ].map(([value, icon], i) =>
-            <div key={i} style={{
-              margin: 'auto 5px',
-              display: value === 0 ? 'none' : 'flex',
-              alignItems: 'center'
-            }}>
-              {icon}
-              {value}
-            </div>
+            [user.public_repos, `https://github.com/${user.login}/?tab=repositories`, <RepoIcon sx={{ fill: palette.iconColor, marginRight: '8px' }} fontSize='small' />],
+            [user.public_gists, '`https://gist.github.com/${user.login}', <GistIcon sx={{ fill: palette.iconColor, marginRight: '8px' }} fontSize='small' />],
+            [user.followers, `https://github.com/${user.login}/?tab=followers`, <FollowerIcon sx={{ fill: palette.iconColor, marginRight: '8px' }} fontSize='small' />]
+          ].map(([value, url, icon], i) =>
+            <a key={i} href={url.toString()} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div style={{
+                margin: 'auto 5px',
+                display: value === 0 ? 'none' : 'flex',
+                alignItems: 'center'
+              }}>
+                {icon}
+                {value}
+              </div>
+            </a>
           )}
         </div>
       </div>

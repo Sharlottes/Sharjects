@@ -57,12 +57,12 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
 }) => {
   return (
     <Step expanded last={last} sx={{ padding: 'auto 1vw' }}>
-      <StepLabel>
+      <div>
         {children
-          ? <Typography fontFamily='bold' fontSize={35} color='black' className="has-content">{title}</Typography>
-          : <Typography fontSize={5}>{title}</Typography>
+          ? <span style={{ color: 'themedBlack', fontFamily: 'bold', fontSize: 35 }} className="has-content">{title}</span>
+          : <span style={{ fontSize: 5, color: '#9e9e9e' }}>{title}</span>
         }
-      </StepLabel>
+      </div>
       <StepContent>
         {children}
       </StepContent>
