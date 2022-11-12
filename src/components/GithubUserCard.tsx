@@ -12,21 +12,38 @@ import { signIn, useSession } from 'next-auth/react'
 import type { GithubProfile } from 'next-auth/providers/github'
 import { useGithubData } from './GithubStaticDataContext'
 import FetchSuspenseWrapper from './FetchSuspenseWrapper'
+import useTheme from '@mui/material/styles/useTheme'
+import { GithubAPIUserData } from '../@type/index';
+
+const getPalette = (dark: boolean) => dark
+  ? {
+    background: '#0d1117',
+    textColor: '#58a6ff',
+    borderColor: '#30363d',
+    iconColor: '#8b949e',
+  }
+  : {
+    background: 'white',
+    textColor: '#0969da',
+    borderColor: '#d0d7de',
+    iconColor: '#57606a',
+  }
 
 const GithubUserCardFetcher: React.FC<{ username: string }> = ({ username }) => {
   const { getData } = useGithubData();
   return (
     <FetchSuspenseWrapper
-      fetcher={() => getData<GithubProfile>(username, `users/${username}`)}
+      fetcher={() => getData<GithubAPIUserData>(username, `users/${username}`)}
       Component={GithubUserCard}
       fetchedPropName='user'
     />
   )
 }
 
-const GithubUserCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
+const GithubUserCard: React.FC<{ user: GithubAPIUserData }> = ({ user }) => {
   const [isFollowing, setFollowing] = React.useState(false);
   const { data: session } = useSession();
+
   const request = React.useCallback((method: string = 'GET') => {
     if (!(session && session.accessToken) || user.name === session?.user?.name) return;
 
@@ -51,76 +68,73 @@ const GithubUserCard: React.FC<{ user: GithubProfile }> = ({ user }) => {
     else signIn('github')
   }
 
+  const theme = useTheme();
+  const palette = getPalette(theme.palette.mode === 'dark');
+
   return (
-    <Box sx={{
-      width: 270,
-      transition: 'transform 300ms ease-in-out',
-      '&:hover': {
-        transform: 'scale(1.05)'
-      },
-      "&:hover::after": {
-        opacity: 1
-      },
-      '&::after': {
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        zIndex: -1,
-        top: 0,
-        left: 0,
-        content: '""',
-        borderRadius: '4px',
-        boxShadow: '0px 10px 48px -4px rgba(0,0,0,0.75)',
-        opacity: 0,
-        transition: 'opacity 300ms ease-in-out'
-      }
-    }}
-      component='div'
-      onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-        if ((e.target as any).id !== 'followbtn') window.open(`https://github.com/${user.login}`, "_blank")
-      }}>
-      <Paper sx={{ minHeight: '180px', padding: '10px' }}>
-        <div style={{ display: 'flex', marginLeft: '5px', justifyContent: 'start', alignItems: 'start' }}>
-          <Avatar src={user.avatar_url} />
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-            <div>
-              <Typography variant='subtitle1' sx={{ fontWeight: 'bold' }}>{user.login}</Typography>
-              <Typography variant='caption' sx={{ position: 'relative', top: '-10px' }}>
-                {user.name ?? <span style={{ color: 'gray' }}>{"<Empty>"}</span>}
-              </Typography>
-            </div>
-            <Button
-              id='followbtn'
-              size='small'
-              variant='outlined'
-              onClick={fetchFollowing}
-              sx={{ marginRight: 2, height: '35px' }}
-              disabled={user.name === session?.user?.name}
-            >
-              {isFollowing ? "UnFollow" : "Follow"}
-            </Button>
+    <div style={{
+      fontFamily:
+        '-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji',
+      border: '1px solid',
+      borderColor: palette.borderColor,
+      borderRadius: '6px',
+      background: palette.background,
+      padding: '16px',
+      fontSize: '14px',
+      lineHeight: '1.5',
+      color: '#24292e',
+    }}>
+      <div style={{ display: 'flex', marginLeft: '5px', justifyContent: 'start', alignItems: 'start' }}>
+        <Avatar src={user.avatar_url} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <div>
+            <Typography variant='subtitle1' sx={{ fontWeight: 'bold' }}>{user.login}</Typography>
+            <Typography variant='caption' sx={{ position: 'relative', top: '-10px' }}>
+
+              <span style={{ fontWeight: 600, color: palette.textColor }}>
+                <a
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                  href={user.html_url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {user.name}
+                </a>
+              </span>
+              {user.name ?? <span style={{ color: 'gray' }}>{"<Empty>"}</span>}
+            </Typography>
           </div>
+          <Button
+            id='followbtn'
+            size='small'
+            variant='outlined'
+            onClick={fetchFollowing}
+            sx={{ marginRight: 2, height: '35px' }}
+            disabled={user.name === session?.user?.name}
+          >
+            {isFollowing ? "UnFollow" : "Follow"}
+          </Button>
         </div>
-        <Stack
-          direction='row'
-          spacing={2}
-          divider={<Divider sx={{ color: 'gray' }} />}
-          sx={{ display: 'flex', margin: '10px auto' }}
-        >
-          {[
-            [user.public_repos, 'REPOS'],
-            [user.public_gists, 'GISTS'],
-            [user.followers, 'FOLLOWERS']
-          ].map(([value, name], i) =>
-            <div key={i}>
-              <Typography sx={{ fontWeight: 'bold', textAlign: 'center' }}>{value}</Typography>
-              <Typography>{name}</Typography>
-            </div>
-          )}
-        </Stack>
-        <Typography variant='body1' sx={{ ml: '5px' }}>{user.bio}</Typography>
-      </Paper>
-    </Box>
+      </div>
+      <Stack
+        direction='row'
+        spacing={2}
+        divider={<Divider sx={{ color: 'gray' }} />}
+        sx={{ display: 'flex', margin: '10px auto' }}
+      >
+        {[
+          [user.public_repos, 'REPOS'],
+          [user.public_gists, 'GISTS'],
+          [user.followers, 'FOLLOWERS']
+        ].map(([value, name], i) =>
+          <div key={i}>
+            <Typography sx={{ fontWeight: 'bold', textAlign: 'center' }}>{value}</Typography>
+            <Typography>{name}</Typography>
+          </div>
+        )}
+      </Stack>
+      <Typography variant='body1' sx={{ ml: '5px' }}>{user.bio}</Typography>
+    </div>
   )
 }
 

@@ -55,6 +55,7 @@ export type projectDataType = {
 }
 
 export interface GithubAPIUserData {
+  name: string,
   login: string,
   id: number,
   node_id: string,
@@ -72,7 +73,11 @@ export interface GithubAPIUserData {
   events_url: string,
   received_events_url: string,
   type: string,
-  site_admin: boolean
+  site_admin: boolean,
+  public_repos: string,
+  public_gists: string,
+  followers: string,
+  bio: string
 }
 
 export interface GithubAPIRepoData {

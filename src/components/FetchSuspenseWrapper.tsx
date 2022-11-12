@@ -1,9 +1,9 @@
 import React from 'react'
 
 /**
- * fetcher 함수를 받아 suspense가 수용할 데이터로 매핑합니다.
- * @param fetcher 데이터를 가져올 getter 함수
- * @returns 
+ * fetcher 함수를 받아 suspense의 fetch로 매핑합니다.
+ * @param fetcher 데이터 getter 함수
+ * @returns suspense fetcher 함수 
  */
 const mapFetcher = function <T>(fetcher: T | Promise<T>): () => T | undefined {
   if (fetcher instanceof Promise) {
@@ -13,57 +13,62 @@ const mapFetcher = function <T>(fetcher: T | Promise<T>): () => T | undefined {
       err => {
         console.log('failed to get data: ', err);
         data = undefined;
-      });
+      }
+    );
     return () => {
-      if (data === undefined) return data;
-      else if (data) return data;
-      throw promise;
+      if (data === null) throw promise;
+      return data;
     }
   } else {
     return () => fetcher
   }
 }
 
-export type FSWProps<PN extends keyof React.ComponentProps<T>, T extends React.ComponentType<any>, DT> =
-  {
-    fetcher: () => DT | Promise<DT>
-    fallback?: JSX.Element
-    fetchedPropName: keyof React.ComponentProps<T>
-    Component: T
-  } & Omit<React.ComponentProps<T>, PN>
-
-const FetchSuspenseWrapper = <PN extends keyof React.ComponentProps<T>, T extends React.ComponentType<any>, DT>({
-  fetcher: fetch,
-  Component,
-  fetchedPropName,
-  fallback = <>loading...</>,
-  ...others
-}: FSWProps<PN, T, DT>) => {
-  const fetcher = mapFetcher(fetch());
-
-  return (
-    <React.Suspense fallback={fallback}>
-      <ChildrenWithFetcher {...{ fetcher, fetchedPropName, Component, ...others }} />
-    </React.Suspense>
-  )
-}
-
-type ChildrenWithFetcherProps<PN extends keyof React.ComponentProps<T>, T extends React.ComponentType<any>, DT> = {
-  fetcher: () => DT | undefined
+type ChildrenComponentProps<PN extends keyof React.ComponentProps<T>, T extends React.ComponentType<any>> = {
   fetchedPropName: keyof React.ComponentProps<T>
   Component: T
 } & Omit<React.ComponentProps<T>, PN>
 
+export interface FSWProps<DT> {
+  fetcher: () => DT | Promise<DT>
+  fallback?: JSX.Element
+}
+
+const FetchSuspenseWrapper = <PN extends keyof React.ComponentProps<T>, T extends React.ComponentType<any>, DT>({
+  fetcher: fetch,
+  fallback = <>loading...</>,
+  ...others
+}: FSWProps<DT> & ChildrenComponentProps<PN, T>) => {
+  const [data, setData] = React.useState<DT>();
+  const [isPending, startTransition] = React.useTransition();
+
+  React.useEffect(() => {
+    startTransition(() => {
+      setData(mapFetcher(fetch()))
+    });
+  }, [])
+
+  return (
+    <>
+      {isPending ? " Loading..." : null}
+      <React.Suspense fallback={fallback}>
+        {data && <ChildrenWithFetcher {...others} data={data} />}
+      </React.Suspense>
+    </>
+  )
+}
+
+interface ChildrenWithFetcherProps<DT> {
+  data: DT
+}
+
 const ChildrenWithFetcher = <PN extends keyof React.ComponentProps<T>, T extends React.ComponentType<any>, DT>({
-  fetcher,
+  data,
   Component,
   fetchedPropName,
   ...others
-}: ChildrenWithFetcherProps<PN, T, DT>) => {
-  const data = fetcher();
-  return <>
-    {data && <Component {...{ [fetchedPropName]: data, ...others } as React.ComponentProps<T>} />}
-  </>
+}: ChildrenWithFetcherProps<DT> & ChildrenComponentProps<PN, T>) => {
+  return <Component {...{ [fetchedPropName]: data, ...others } as React.ComponentProps<T>} />
 }
 
 export default FetchSuspenseWrapper;
