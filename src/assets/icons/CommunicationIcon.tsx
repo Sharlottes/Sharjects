@@ -1,9 +1,19 @@
-import { SvgIcon, type SvgIconProps } from '@mui/material'
-
+import SvgIcon, { type SvgIconProps } from '@mui/material/SvgIcon'
 
 const CommunicationIcon: React.FC<SvgIconProps> = (props) => {
   return (
-    <SvgIcon {...props} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 416 416" sx={{ enableBackground: 'new 0 0 416 416' }} xmlSpace="preserve">
+    <SvgIcon
+      {...props}
+      version="1.1"
+      id="Layer_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      x="0px"
+      y="0px"
+      viewBox="0 0 416 416"
+      sx={{ enableBackground: 'new 0 0 416 416' }}
+      xmlSpace="preserve"
+    >
       <g>
         <path d="M256,160h-12c-4.4,0-8,3.6-8,8c0,4.4,3.6,8,8,8h12c4.4,0,8-3.6,8-8C264,163.6,260.4,160,256,160z" />
         <path d="M208,160h-60c-4.4,0-8,3.6-8,8c0,4.4,3.6,8,8,8h60c4.4,0,8-3.6,8-8C216,163.6,212.4,160,208,160z" />
