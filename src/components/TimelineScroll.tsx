@@ -1,19 +1,18 @@
 import React from 'react';
 
-import Stepper from '@mui/material/Stepper'
-
-import { onSlide, type SlideEventHandler } from 'src/utils/onSlide'
-
 import dynamic from 'next/dynamic'
+
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 
-import IconButton from '@mui/material/IconButton';
+import Divider from '@mui/material/Divider'
+import Stepper from '@mui/material/Stepper'
+import IconButton from '@mui/material/IconButton'
+
 import { motion, useAnimationControls } from 'framer-motion';
-import Divider from '@mui/material/Divider';
 
 const TimelineItems = dynamic(() => import('src/components/TimelineItems'), {
   suspense: true
@@ -53,7 +52,6 @@ const TimelineScroll: React.FC = () => {
     ev.preventDefault();
     tryScroll(ev.deltaY > 0 ? 'down' : ev.deltaY < 0 ? 'up' : 'none');
   }
-  const handleSlide: SlideEventHandler = ({ y }) => tryScroll(y)
   const handleKeydown = (event: KeyboardEvent) => {
     const direction = (event.key === 'w' || event.key === 'ArrowUp') ? 'up'
       : (event.key === 's' || event.key === 'ArrowDown') ? 'down' : 'none';
@@ -71,7 +69,7 @@ const TimelineScroll: React.FC = () => {
   const ref = React.useRef<TimelineNavRefType>(null);
 
   return (
-    <Stepper orientation="vertical" sx={{ marginLeft: 'min(1vw, 10px)' }} component='div' {...onSlide<HTMLDivElement>(handleSlide)}>
+    <Stepper orientation="vertical" sx={{ marginLeft: 'min(1vw, 10px)' }}>
       <TimelineNav ref={ref} scroll={(d) => tryScroll(d)} />
       <React.Suspense fallback={'loading...'}>
         <TimelineItems />
@@ -153,7 +151,7 @@ const TimelineNav = React.forwardRef<TimelineNavRefType, { scroll: (direction: '
           width: '100%', height: '100%',
           backgroundColor: 'white',
           borderRadius: '10px',
-          fontSize: '10%',
+          fontSize: 'max(12, 10%)',
         }}>
           <motion.div layout style={{
             height: '100%',

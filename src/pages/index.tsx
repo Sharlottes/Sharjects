@@ -162,15 +162,15 @@ const Home: React.FC = () => {
               transition={{
                 delay: (keywords.length + 2) + 4
               }}
-              style={{ marginTop: '200px', display: 'flex', justifyContent: 'space-between', width: '50%' }}
+              style={{ marginTop: '200px', display: 'flex', justifyContent: 'center', width: '50%' }}
             >
               <Link href='/timeline'>
-                <Button variant='contained'>
+                <Button variant='contained' sx={{ margin: '20px' }}>
                   Timeline 보기
                 </Button>
               </Link>
               <Link href='https://github.com/sharlottes'>
-                <Button startIcon={<GithubIcon />} style={{ backgroundColor: 'black', color: 'white' }} variant='contained'>
+                <Button startIcon={<GithubIcon />} sx={{ margin: '20px', backgroundColor: 'black', color: 'white' }} variant='contained'>
                   Github Profile 보기
                 </Button>
               </Link>
