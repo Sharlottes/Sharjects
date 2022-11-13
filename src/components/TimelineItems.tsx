@@ -1,10 +1,9 @@
-import React, { type PropsWithChildren } from 'react';
+import React from 'react';
 
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
 import Step from '@mui/material/Step'
 import StepContent from '@mui/material/StepContent'
-import Stepper from '@mui/material/Stepper'
 
 import GithubUserCard, { type GithubUserCardProps } from 'src/components/GithubUserCard'
 import GithubRepoCard, { type GithubRepoCardProps } from 'src/components/GithubRepoCard';
@@ -33,7 +32,7 @@ const StyledUserCard: React.FC<GithubUserCardProps> = (props) => (
   </div>
 )
 
-const TimelineContentTitle: React.FC<PropsWithChildren> = ({ children }) =>
+const TimelineContentTitle: React.FC<React.PropsWithChildren> = ({ children }) =>
   <div style={{ marginBottom: 'min(1vw, 5px)' }}>
     <Typography variant='h5'>
       {children}
@@ -41,7 +40,7 @@ const TimelineContentTitle: React.FC<PropsWithChildren> = ({ children }) =>
     <Divider sx={{ transform: 'translateX(-20px)', width: '50vw', margin: '5px 0px' }} />
   </div>
 
-const TimelineContent: React.FC<PropsWithChildren> = ({ children }) =>
+const TimelineContent: React.FC<React.PropsWithChildren> = ({ children }) =>
   <div style={{ marginLeft: 'min(3vw, 20px)' }}>
     {children}
   </div>
@@ -372,7 +371,7 @@ const dates = Array.from(
 )
 
 const TimelineItems: React.FC = () => (
-  <Stepper orientation="vertical" sx={{ marginLeft: 'min(1vw, 10px)' }}>
+  <>
     {dates.map((years, i) =>
       years.map((monthes, ii) => (
         <div key={monthes[0]}>
@@ -390,7 +389,7 @@ const TimelineItems: React.FC = () => (
         </div>
       ))
     ).flat()}
-  </Stepper>
+  </>
 )
 
 export default TimelineItems;

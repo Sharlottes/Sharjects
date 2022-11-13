@@ -1,3 +1,5 @@
+import React from 'react'
+
 export type slideDirectionType<T = Element> = {
   x: 'left' | 'right' | 'none',
   y: 'up' | 'down' | 'none',

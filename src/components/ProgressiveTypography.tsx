@@ -9,13 +9,15 @@ type MotionPropsGetterType = (char: string, ref: React.RefObject<HTMLDivElement>
 interface ProgressiveTypographyProps extends TypographyProps {
     label: string
     speed?: number | undefined
-    animateRef?: listAnimatonRefType | undefined,
-    motion?: MotionPropsGetterType,
+    delay?: number
+    animateRef?: listAnimatonRefType | undefined
+    motion?: MotionPropsGetterType
     box?: BoxProps | undefined
 }
 
 const ProgressiveTypography: React.FC<ProgressiveTypographyProps> = ({
     label,
+    delay = 0,
     speed = 0.1,
     animateRef,
     motion: motionProps = () => { },
@@ -48,7 +50,7 @@ const ProgressiveTypography: React.FC<ProgressiveTypographyProps> = ({
                         custom={i}
                         initial={{ opacity: 0 }}
                         animate={c}
-                        variants={{ show: { opacity: 1, transition: { delay: i * speed } } }}
+                        variants={{ show: { opacity: 1, transition: { delay: i * speed + delay } } }}
                         ref={ref}
                         {...motionProps(char, ref, (x, y) => cc.start({ x, y }))}
                     >

@@ -3,6 +3,7 @@
 /**
  * @type {import('next').NextConfig}
  */
+//TODO - 대소문자 rewrite route
 const nextConfig = {
   reactStrictMode: true,
   distDir: 'dist',
