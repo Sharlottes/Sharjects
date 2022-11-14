@@ -24,7 +24,7 @@ const avatarVariants = {
     }
   },
   sizeup: {
-    width: 200, height: 200,
+    width: 'min(20vw, 200px)', height: 'min(20vw, 200px)',
     transition: {
       ease: 'circOut',
       delay: (keywords.length + 2) * 1.15 + 1
@@ -43,7 +43,7 @@ const Description: React.FC = () => {
       animate={{ y: 0, opacity: 1 }}
       initial={{ y: -50, opacity: 0 }}
       transition={{ delay: 1 }}
-      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '4vw', width: '100vw' }}
+      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 'max(17px, 4vw)', width: '100vw' }}
     >
       <span>안녕하세요! 저는</span>
       <KeywordShower animate={controller} drag style={{ height: '1em', display: 'inline', width: '5em', textAlign: 'center' }} />
@@ -141,41 +141,37 @@ const Home: React.FC = () => {
           <div style={{ display: 'flex', marginBottom: '50px', justifyContent: 'center', alignItems: 'center' }}>
             <motion.div variants={avatarVariants} animate={['show', 'sizeup']} initial={{ opacity: 0, y: -20, width: 40, height: 40 }}>
               <Avatar style={{ width: 'inherit', height: 'inherit' }}>
-                <img src='images/profile/Sharlottes.png' style={{ maxWidth: '200px', maxHeight: 'auto' }} />
+                <img src='images/profile/Sharlottes.png' style={{ maxWidth: 'min(20vw, 200px)', maxHeight: 'auto' }} />
               </Avatar>
             </motion.div>
             <MainTitle />
           </div>
           <Description />
-          <div style={{
-            display: 'flex',
-            width: '100%',
-            justifyContent: 'center'
-          }}>
-            <motion.div
-              animate={{
-                y: 0, opacity: 1,
-              }}
-              initial={{
-                y: -50, opacity: 0
-              }}
-              transition={{
-                delay: (keywords.length + 2) + 4
-              }}
-              style={{ marginTop: '200px', display: 'flex', justifyContent: 'center', width: '50%' }}
-            >
-              <Link href='/timeline'>
-                <Button variant='contained' sx={{ margin: '20px' }}>
-                  Timeline 보기
-                </Button>
-              </Link>
-              <Link href='https://github.com/sharlottes'>
-                <Button startIcon={<GithubIcon />} sx={{ margin: '20px', backgroundColor: 'black', color: 'white' }} variant='contained'>
-                  Github Profile 보기
-                </Button>
-              </Link>
-            </motion.div>
-          </div>
+          <motion.div
+            animate={{
+              y: 0, opacity: 1,
+            }}
+            initial={{
+              y: -50, opacity: 0
+            }}
+            transition={{
+              delay: (keywords.length + 2) + 4
+            }}
+            style={{
+              marginTop: '200px', display: 'flex', justifyContent: 'center', width: '100%'
+            }}
+          >
+            <Link href='/timeline'>
+              <Button variant='contained' sx={{ margin: '0 max(10px, 5vw)' }}>
+                Timeline
+              </Button>
+            </Link>
+            <Link href='https://github.com/sharlottes'>
+              <Button variant='contained' sx={{ margin: '0 max(10px, 5vw)', backgroundColor: 'black', color: 'white' }} startIcon={<GithubIcon />}>
+                Github Profile
+              </Button>
+            </Link>
+          </motion.div>
         </div>
       </div>
     </Layout>
