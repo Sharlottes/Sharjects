@@ -11,3 +11,9 @@
 body {
   overflow-x: hidden;
 }
+
+/* hyperlink style is awful */
+a {
+  text-decoration: none;
+  color: inherit;
+}

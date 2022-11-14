@@ -1,24 +1,24 @@
 import React from 'react'
-import Link from 'next/link'
 
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import Divider from '@mui/material/Divider'
-import Drawer from '@mui/material/Drawer'
+import Drawer, { type DrawerProps } from '@mui/material/Drawer'
 import Dialog from '@mui/material/Dialog'
+import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 
-import Container from '@mui/system/Container'
-import Stack from '@mui/system/Stack'
-
-import MenuIcon from '@mui/icons-material/Menu'
-import EmailIcon from '@mui/icons-material/Email'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import HistoryIcon from '@mui/icons-material/History'
+import SourceIcon from '@mui/icons-material/Source'
+import EmailIcon from '@mui/icons-material/Email'
+import MenuIcon from '@mui/icons-material/Menu'
 
-import GithubIcon from 'src/assets/icons/GithubIcon'
+import KakaoTalkIcon from 'src/assets/icons/KakaoTalkIcon'
 import DiscordIcon from 'src/assets/icons/DiscordIcon'
+import GithubIcon from 'src/assets/icons/GithubIcon'
+import VelogIcon from 'src/assets/icons/VelogIcon'
 import type { projectDataType } from 'src/@type'
-
 import { useThemeController } from './MainThemeProvider'
 import VisitorGraphDialog from './VisitorGraphDialog'
 
@@ -32,13 +32,13 @@ const Status: React.FC = () => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
 
     React.useEffect(() => {
-        (async () => {
-            setVisitors(await fetch('/api/visit').then(res => res.json()));
-        })();
+        fetch('/api/visit')
+            .then(res => res.json())
+            .then(data => setVisitors(data));
     }, []);
 
     return (
-        <>
+        <div style={{ marginBottom: '10px' }}>
             <Divider textAlign='left'><Typography fontWeight={500} fontSize={12}>Visitors</Typography></Divider>
             <div style={{ marginLeft: '10px', fontSize: 12, fontWeight: 500 }}>
                 {visitors
@@ -75,25 +75,45 @@ const Status: React.FC = () => {
                     </Box>
                 </Dialog>
             }
-        </>
+        </div>
     )
 }
-const SideMenuDrawer: React.FC = () => {
+
+const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
     let { currentColors } = useThemeController();
 
     return (
-        <Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: '100%', width: '100%' }}>
-            <Container sx={{ marginTop: '20px' }}>
+        <Drawer {...props} PaperProps={{
+            sx: {
+                display: 'flex', flexDirection: 'column', justifyContent: "space-between", overflowX: 'hidden'
+            }
+        }}>
+            <div style={{ padding: '0 24px', marginTop: '20px' }}>
                 <div style={{ marginBottom: '10px', width: '100' }}>
-                    <Link href='/'>
+                    <a href='/'>
                         <Typography sx={{ fontWeight: 800, fontSize: 20, textAlign: 'left', transition: 'color 150ms ease-in', "&:hover": { color: currentColors[600] } }}>
                             Sharlotte's Portfolio
                         </Typography>
-                    </Link>
-                    <Typography variant='body2' textAlign='right' sx={{ marginLeft: '5px' }}>the first portfolio</Typography>
+                    </a>
+                    <Typography variant='body2' sx={{ marginLeft: '5px', position: 'relative', left: '100px' }}>the first portfolio</Typography>
                 </div>
 
                 <Divider />
+
+                <div>
+                    <a href='/timeline'>
+                        <Button startIcon={<HistoryIcon />} variant='contained' size='small' sx={{ borderRadius: '20px', margin: '10px' }}>
+                            Timeline
+                        </Button>
+                    </a>
+                    <a href='/projects'>
+                        <Button startIcon={<SourceIcon />} variant='contained' size='small' sx={{ borderRadius: '20px', margin: '10px' }}>
+                            Projects
+                        </Button>
+                    </a>
+                </div>
+
+                <Divider textAlign='left'><Typography fontWeight={500} fontSize={12}>Projects</Typography></Divider>
 
                 <div style={{ marginLeft: '10px', marginTop: '15px', width: '100%' }}>
                     {projectData.map(({ owner, projects }) =>
@@ -107,12 +127,12 @@ const SideMenuDrawer: React.FC = () => {
                                 }
                             }}>
                                 <img src={`images/profile/${owner}.png`} width='20px' height='20px' alt='' style={{ borderRadius: '20px', marginRight: '5px' }} />
-                                <Link href={`https://github.com/${owner}`}>
+                                <a href={`https://github.com/${owner}`}>
                                     <Typography sx={{
                                         fontWeight: 500, fontsize: 16, textAlign: 'left',
                                         transition: 'color 150ms ease-in'
                                     }}>{owner}</Typography>
-                                </Link>
+                                </a>
                             </Box>
                             {projects.map((project, i) => (
                                 <div key={i} style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -124,7 +144,7 @@ const SideMenuDrawer: React.FC = () => {
                                             }
                                         }
                                     }}>
-                                        <Link href={`/projects/${project.name}`}>
+                                        <a href={`/projects/${project.name}`}>
                                             <Typography sx={{
                                                 fontWeight: 600,
                                                 marginLeft: '35px',
@@ -133,7 +153,7 @@ const SideMenuDrawer: React.FC = () => {
                                             }}>
                                                 {project.name}
                                             </Typography>
-                                        </Link>
+                                        </a>
                                     </Box>
                                     <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
                                         <a href={`https://github.com/${owner}/${project.name}`}>
@@ -150,33 +170,57 @@ const SideMenuDrawer: React.FC = () => {
                         </div>
                     )}
                 </div>
-            </Container>
-            <div style={{ width: '100%', marginBottom: '10px' }}>
-                <Box sx={{ padding: '20px' }}>
-                    <Status />
-                </Box>
+            </div>
+            <div style={{ width: '100%' }}>
                 <Divider textAlign='left'>
                     <Typography fontWeight={500} fontSize={12}>About</Typography>
                 </Divider>
-                <Box sx={{ display: 'flex', alignItems: 'end', "& a": { transition: 'margin-bottom 200ms', marginBottom: '0px', "&:hover": { marginBottom: '5px' } } }}>
-                    <a href='https://github.com/sharlottes'>
-                        <IconButton>
-                            <GithubIcon sx={{ color: 'themedBlack' }} />
-                        </IconButton>
-                    </a>
-                    <a href='https://discordapp.com/users/473072758629203980'>
-                        <IconButton>
-                            <DiscordIcon />
-                        </IconButton>
-                    </a>
-                    <a href='mailto:aaa9810321@gmail.com'>
-                        <IconButton sx={{ color: '#c5221f' }}>
-                            <EmailIcon />
-                        </IconButton>
-                    </a>
-                </Box>
+
+                <div style={{ margin: '20px' }}>
+                    <Status />
+                    <div>
+                        <Divider textAlign='left'><Typography fontWeight={500} fontSize={12}>Links</Typography></Divider>
+
+                        <Box sx={{
+                            display: 'flex',
+                            alignItems: 'end',
+                            "& a": {
+                                transition: 'margin-bottom 200ms',
+                                marginBottom: '0px',
+                                "&:hover": { marginBottom: '5px' },
+                                "& button": { color: 'inherit' }
+                            }
+                        }}>
+                            <a href='https://github.com/sharlottes'>
+                                <IconButton>
+                                    <GithubIcon sx={{ color: 'themedBlack' }} />
+                                </IconButton>
+                            </a>
+                            <a href='https://discordapp.com/users/473072758629203980'>
+                                <IconButton>
+                                    <DiscordIcon />
+                                </IconButton>
+                            </a>
+                            <a href='mailto:aaa9810321@gmail.com'>
+                                <IconButton>
+                                    <EmailIcon sx={{ color: '#c5221f' }} />
+                                </IconButton>
+                            </a>
+                            <a href='https://velog.io/@sharlotte_04'>
+                                <IconButton>
+                                    <VelogIcon />
+                                </IconButton>
+                            </a>
+                            <a href='https://open.kakao.com/o/sJxW8TUb'>
+                                <IconButton>
+                                    <KakaoTalkIcon sx={{ color: 'black' }} />
+                                </IconButton>
+                            </a>
+                        </Box>
+                    </div>
+                </div>
             </div>
-        </Stack>
+        </Drawer>
     )
 }
 
@@ -186,13 +230,11 @@ const SideMenu: React.FC = () => {
         <IconButton sx={{ color: 'white' }} onClick={() => setOpen(prev => !prev)}>
             <MenuIcon />
         </IconButton>
-        <Drawer
+        <SideMenuDrawer
             anchor='left'
             open={open}
             onClose={() => setOpen(prev => !prev)}
-        >
-            <SideMenuDrawer />
-        </Drawer>
+        />
     </>)
 }
 

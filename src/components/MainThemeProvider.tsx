@@ -32,8 +32,8 @@ const getDesignTokens = (mode: PaletteMode, palette: ColorPalette) => ({
     primary: {
       main: Colors[palette][300]
     },
-    themedBlack: { main: mode === 'light' ? '#000' : '#fff' },
-    themedWhite: { main: mode === 'light' ? '#fff' : '#000' },
+    themedBlack: { main: mode === 'light' ? 'black' : 'white' },
+    themedWhite: { main: mode === 'light' ? 'white' : 'black' },
     text: {
       ...(mode === 'light'
         ? {

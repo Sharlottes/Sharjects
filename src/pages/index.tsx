@@ -9,7 +9,7 @@ import { motion, useAnimationControls, MotionProps } from 'framer-motion';
 
 import { delay } from 'src/utils/delay';
 import ProgressiveTypography from 'src/components/ProgressiveTypography';
-import { GithubIcon } from 'src/assets/icons';
+import GithubIcon from 'src/assets/icons/GithubIcon';
 import Link from 'next/link';
 
 const keywords = ['19세 고등학생', '잡다한 개발자', '최적화와 성능의 낭만을 쫒는', 'Sharlottes']
