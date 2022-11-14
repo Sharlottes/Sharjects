@@ -92,7 +92,7 @@ const TimelineNav = React.forwardRef<TimelineNavRefType, { scroll: (direction: '
       x: 0
     },
     hide: {
-      x: -90
+      x: -110
     }
   }
 
@@ -101,7 +101,7 @@ const TimelineNav = React.forwardRef<TimelineNavRefType, { scroll: (direction: '
 
   const handleClick = () => {
     setSizedUp(prev => {
-      controls.start({ height: prev ? '200px' : '50vh' });
+      controls.start({ height: prev ? '200px' : '60vh' });
       return !prev;
     });
   }
@@ -112,11 +112,12 @@ const TimelineNav = React.forwardRef<TimelineNavRefType, { scroll: (direction: '
       top: 0,
       height: '100vh',
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
+      zIndex: 10
     }}>
       <motion.div
         style={{
-          width: '75px', height: '200px',
+          width: '100px', height: '200px',
           boxShadow: '0 0 10px black',
           borderRadius: '10px',
         }}
@@ -153,7 +154,7 @@ const TimelineNav = React.forwardRef<TimelineNavRefType, { scroll: (direction: '
           borderRadius: '10px',
           fontSize: 'max(12, 10%)',
         }}>
-          <motion.div layout style={{
+          <motion.div style={{
             height: '100%',
             display: sizedUp ? 'none' : 'flex',
             flexDirection: 'column',
@@ -166,7 +167,7 @@ const TimelineNav = React.forwardRef<TimelineNavRefType, { scroll: (direction: '
             <IconButton onClick={() => scroll('down')}><KeyboardArrowDownIcon /></IconButton>
             <IconButton onClick={() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' })}><KeyboardDoubleArrowDownIcon /></IconButton>
           </motion.div>
-          <motion.div layout style={{
+          <motion.div style={{
             height: '100%',
             display: sizedUp ? 'block' : 'none'
           }}>
@@ -185,7 +186,7 @@ const TimelineNav = React.forwardRef<TimelineNavRefType, { scroll: (direction: '
                   .sort((e1, e2) => getDist(e1, latestItem?.offsetTop) - getDist(e2, latestItem?.offsetTop))
                   .reverse()
                   .map((elem, i, arr) =>
-                    <div>
+                    elem.innerText && (<div>
                       <span
                         style={{ margin: '5px 2px', color: elem.innerText === latestItem?.innerText ? 'red' : 'inherit', cursor: 'pointer' }}
                         onClick={() => {
@@ -206,7 +207,7 @@ const TimelineNav = React.forwardRef<TimelineNavRefType, { scroll: (direction: '
                         </div>
                       }
                     </div>
-                  )}
+                    ))}
               </div>
             </div>
           </motion.div>
