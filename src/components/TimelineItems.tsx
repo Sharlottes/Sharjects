@@ -48,13 +48,15 @@ const TimelineContent: React.FC<React.PropsWithChildren> = ({ children }) =>
 interface TimelineItemProps {
   title: string,
   children?: JSX.Element | undefined,
-  last?: boolean
+  last?: boolean,
+  scroll: (direction: 'up' | 'down') => void
 }
 
 const TimelineItem: React.FC<TimelineItemProps> = ({
   title,
   children,
-  last = false
+  last = false,
+  scroll
 }) => {
   return (
     <Step expanded last={last} sx={{ padding: 'auto 1vw' }}>
@@ -66,6 +68,11 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
       </div>
       <StepContent>
         {children}
+        {children && (
+          <span onClick={() => scroll('down')} style={{ position: 'absolute', right: '10px', color: 'blue', margin: '5px' }}>
+            next
+          </span>
+        )}
       </StepContent>
     </Step>
   )
@@ -370,17 +377,17 @@ const dates = Array.from(
   )
 )
 
-const TimelineItems: React.FC = () => (
+const TimelineItems: React.FC<{ scroll: (direction: 'up' | 'down') => void }> = ({ scroll }) => (
   <>
     {dates.map((years, i) =>
       years.map((monthes, ii) => (
         <div key={monthes[0]}>
-          <TimelineItem title={monthes[0].slice(0, 7)} last={i === dates.length - 1 && ii === years.length - 1}>
+          <TimelineItem scroll={scroll} title={monthes[0].slice(0, 7)} last={i === dates.length - 1 && ii === years.length - 1}>
             {events[monthes[0].slice(0, 7) as monthType]}
           </TimelineItem>
           <div style={{ marginLeft: '4%' }}>
             {monthes.map((date, iii) =>
-              <TimelineItem key={`${i}${ii}${iii}`} title={date} last={i === dates.length - 1 && ii === years.length - 1 && iii === monthes.length - 1}>
+              <TimelineItem scroll={scroll} key={`${i}${ii}${iii}`} title={date} last={i === dates.length - 1 && ii === years.length - 1 && iii === monthes.length - 1}>
                 {events[date]}
               </TimelineItem>
             )}

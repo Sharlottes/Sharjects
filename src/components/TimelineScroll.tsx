@@ -18,7 +18,7 @@ const TimelineItems = dynamic(() => import('src/components/TimelineItems'), {
   suspense: true
 });
 
-const margin = 50;
+const margin = 150;
 const getDist = (element: HTMLDivElement, targetPos = window.scrollY) => (targetPos ?? 0) - element.offsetTop;
 const getTimelineItems = () => {
   return ([
@@ -72,7 +72,7 @@ const TimelineScroll: React.FC = () => {
     <Stepper orientation="vertical" sx={{ marginLeft: 'min(1vw, 10px)' }}>
       <TimelineNav ref={ref} scroll={(d) => tryScroll(d)} />
       <React.Suspense fallback={'loading...'}>
-        <TimelineItems />
+        <TimelineItems scroll={(d) => tryScroll(d)} />
       </React.Suspense>
     </Stepper>
   )
