@@ -126,7 +126,7 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
                                     }
                                 }
                             }}>
-                                <img src={`images/profile/${owner}.png`} width='20px' height='20px' alt='' style={{ borderRadius: '20px', marginRight: '5px' }} />
+                                <img src={`/images/profile/${owner}.png`} width='20px' height='20px' alt='' style={{ borderRadius: '20px', marginRight: '5px' }} />
                                 <a href={`https://github.com/${owner}`}>
                                     <Typography sx={{
                                         fontWeight: 500, fontsize: 16, textAlign: 'left',
