@@ -1,17 +1,26 @@
 import React from 'react'
 import Link from 'next/link'
 
+import { signIn, signOut, useSession } from 'next-auth/react'
+
+import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import Toolbar from '@mui/material/Toolbar'
 import AppBar from '@mui/material/AppBar'
 import Button from '@mui/material/Button'
+import Menu from '@mui/material/Menu'
+import IconButton from '@mui/material/IconButton'
+
+import MenuIcon from '@mui/icons-material/Menu'
+import LoginIcon from '@mui/icons-material/Login'
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import type { StandardLonghandProperties } from 'csstype'
 
-import Profile from './Profile'
 import SideMenu from './SideMenu'
 import ThemeSelection from './ThemeSelection'
+import Divider from '@mui/material/Divider';
 
 interface HeaderProps {
   additional?: React.ReactNode | undefined
@@ -37,14 +46,56 @@ const Header: React.FC<HeaderProps> = ({
             </Link>
           </Tooltip>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <ThemeSelection />
-          <Profile />
-        </div>
+        <HeaderMenu />
       </Toolbar>
       {additional}
     </AppBar>
   </header>
 )
+
+const HeaderMenu: React.FC = () => {
+  const [anchor, setAnchor] = React.useState<Element | null>(null);
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <IconButton sx={{ color: 'white' }} onClick={e => e.currentTarget && setAnchor(e.currentTarget)}>
+        <MenuIcon />
+      </IconButton>
+      <Menu
+        open={Boolean(anchor)}
+        anchorEl={anchor}
+        onClose={() => setAnchor(null)}
+        PaperProps={{
+          sx: {
+            padding: '0 10px',
+            borderRadius: '10px'
+          }
+        }}
+      >
+        <Profile />
+        <Divider />
+        <ThemeSelection />
+      </Menu>
+    </div>
+  )
+}
+
+const Profile: React.FC = () => {
+  const { data: session, status } = useSession();
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 10px', width: '100%' }}>
+      <a href='/mypage' style={{ display: 'flex', alignItems: 'center' }}>
+        <Avatar src={session?.user?.image ?? ''} sx={{ padding: '4px', width: '35px', height: '35px' }} />
+        <span>{session?.user?.name}</span>
+      </a>
+      {
+        status === 'authenticated'
+          ? <IconButton disableRipple onClick={() => signOut()}><LogoutIcon /></IconButton>
+          : <IconButton disableRipple onClick={() => signIn()}><LoginIcon /></IconButton>
+      }
+    </div>
+  )
+}
 
 export default Header

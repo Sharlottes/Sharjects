@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from 'src/components';
+import Link from 'next/link';
 
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
@@ -8,9 +8,9 @@ import Button from '@mui/material/Button';
 import { motion, useAnimationControls, MotionProps } from 'framer-motion';
 
 import { delay } from 'src/utils/delay';
+import Layout from 'src/components/Layout'
 import ProgressiveTypography from 'src/components/ProgressiveTypography';
 import GithubIcon from 'src/assets/icons/GithubIcon';
-import Link from 'next/link';
 
 const keywords = ['19세 고등학생', '잡다한 개발자', '최적화와 성능의 낭만을 쫒는', 'Sharlottes']
 const avatarVariants = {
