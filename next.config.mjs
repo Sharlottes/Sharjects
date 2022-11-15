@@ -7,7 +7,7 @@
 const nextConfig = {
   reactStrictMode: true,
   distDir: 'dist',
-  webpack: (config) => {
+  webpack(config) {
     config.resolve.fallback = { fs: false };
     config.module.rules.push({
       test: /\.tsx?$/,
