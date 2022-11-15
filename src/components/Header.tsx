@@ -67,6 +67,7 @@ const HeaderMenu: React.FC = () => {
         onClose={() => setAnchor(null)}
         PaperProps={{
           sx: {
+            minWidth: '180px',
             padding: '0 10px',
             borderRadius: '10px'
           }
@@ -86,8 +87,8 @@ const Profile: React.FC = () => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 10px', width: '100%' }}>
       <a href='/mypage' style={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar src={session?.user?.image ?? ''} sx={{ padding: '4px', width: '35px', height: '35px' }} />
-        <span>{session?.user?.name}</span>
+        <Avatar src={session?.user?.image ?? ''} sx={{ padding: '4px', margin: '4px', width: '35px', height: '35px', backgroundColor: 'rgba(0,0,0,0)' }} ><></></Avatar>
+        <span>{session?.user?.name ?? 'not logged in!'}</span>
       </a>
       {
         status === 'authenticated'

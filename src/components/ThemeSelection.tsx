@@ -127,7 +127,7 @@ const ThemeSelection: React.FC = () => {
           onClick={({ currentTarget }) => setAnchorEL(currentTarget)}
           color={theme.palette.primary.main}
         />
-        <ThemeSwitch onClick={toggleColorMode} checked={theme.palette.mode === 'dark'} sx={{ margin: '5px 5px 0 0' }} />
+        <ThemeSwitch onClick={toggleColorMode} checked={theme.palette.mode === 'dark'} sx={{ margin: '5px' }} />
       </div>
 
       <Menu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={() => setAnchorEL(null)}>
