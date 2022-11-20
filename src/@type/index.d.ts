@@ -22,8 +22,8 @@ declare global {
       GOOGLE_ANALYTICS_ID: string,
 
       // Naver API Headers
-      "X-Naver-Client-Id": string,
-      "X-Naver-Client-Secret": string
+      XNaverClientId: string,
+      XNaverClientSecret: string
     }
   }
   interface Window {
