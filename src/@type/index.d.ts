@@ -19,7 +19,11 @@ declare global {
       GITHUB_REST_PAT: string,
 
       // GOOGLE ANALYTICS
-      GOOGLE_ANALYTICS_ID: string
+      GOOGLE_ANALYTICS_ID: string,
+
+      // Naver API Headers
+      "X-Naver-Client-Id": string,
+      "X-Naver-Client-Secret": string
     }
   }
   interface Window {
