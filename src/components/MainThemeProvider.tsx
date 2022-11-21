@@ -55,17 +55,31 @@ interface ThemeController {
   currentColors: (typeof Colors)[ColorPalette],
   palette: ColorPalette
 }
-const ControllerContext = React.createContext<ThemeController>(undefined as any);
+const ControllerContext = React.createContext<ThemeController>({
+  toggleColorMode: () => { throw new Error("subscribed out of provider!") },
+  setColorPalette: () => { throw new Error("subscribed out of provider!") },
+  currentColors: Colors.blue,
+  palette: 'blue'
+});
 
 const MainThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [mode, setMode] = React.useState<PaletteMode>('light');
   const [palette, setPalette] = React.useState<ColorPalette>('blue');
 
+  React.useEffect(() => {
+    const mode = localStorage.getItem('themeMode') as PaletteMode | null;
+    const palette = localStorage.getItem('themeColor') as ColorPalette | null;
+    if (mode) setMode(mode);
+    if (palette) setPalette(palette);
+  }, []);
+
   const defaultControllerContext: ThemeController = {
     toggleColorMode() {
+      localStorage.setItem('themeMode', mode === 'light' ? 'dark' : 'light');
       setMode(prev => prev === 'light' ? 'dark' : 'light');
     },
     setColorPalette(value: ColorPalette) {
+      localStorage.setItem('themeColor', value);
       setPalette(value);
     },
     currentColors: Colors[palette],

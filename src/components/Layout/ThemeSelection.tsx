@@ -6,7 +6,7 @@ import Menu from '@mui/material/Menu'
 import Switch, { type SwitchProps } from '@mui/material/Switch'
 import styled from '@mui/system/styled'
 
-import { useThemeController } from './MainThemeProvider'
+import { useThemeController } from '../MainThemeProvider'
 import useTheme from '@mui/material/styles/useTheme'
 
 import * as Colors from '@mui/material/colors'

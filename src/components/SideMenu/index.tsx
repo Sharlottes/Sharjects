@@ -12,20 +12,20 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import HistoryIcon from '@mui/icons-material/History'
 import SourceIcon from '@mui/icons-material/Source'
 import EmailIcon from '@mui/icons-material/Email'
-import MenuIcon from '@mui/icons-material/Menu'
 
 import KakaoTalkIcon from 'src/assets/icons/KakaoTalkIcon'
 import DiscordIcon from 'src/assets/icons/DiscordIcon'
 import GithubIcon from 'src/assets/icons/GithubIcon'
 import VelogIcon from 'src/assets/icons/VelogIcon'
 import type { projectDataType } from 'src/@type'
-import { useThemeController } from './MainThemeProvider'
+import { useThemeController } from '../MainThemeProvider'
+
 import VisitorGraphDialog from './VisitorGraphDialog'
 
 const date = new Date();
 const dateCode = `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
 
-const projectData: Array<projectDataType> = require('./pages/sections/projectData.json');
+const projectData: Array<projectDataType> = require('components/pages/projectData.json');
 
 const Status: React.FC = () => {
     const [visitors, setVisitors] = React.useState<Record<string, number>>();
@@ -228,18 +228,4 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
     )
 }
 
-const SideMenu: React.FC = () => {
-    const [open, setOpen] = React.useState(false);
-    return (<>
-        <IconButton sx={{ color: 'white' }} onClick={() => setOpen(prev => !prev)}>
-            <MenuIcon />
-        </IconButton>
-        <SideMenuDrawer
-            anchor='left'
-            open={open}
-            onClose={() => setOpen(prev => !prev)}
-        />
-    </>)
-}
-
-export default SideMenu;
+export default SideMenuDrawer;

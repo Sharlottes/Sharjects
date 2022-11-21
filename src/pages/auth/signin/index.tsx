@@ -1,9 +1,9 @@
 import React from 'react'
 import Router, { useRouter } from 'next/router'
 
-import CustomTextInput from 'components/CustomTextInput'
+import CustomTextInput from 'src/pages/auth/signin/CustomTextInput'
 import Layout from 'components/Layout'
-import Auths from 'components/Auths'
+import Auths from 'src/pages/auth/signin/Auths'
 
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
@@ -19,14 +19,14 @@ import { useSnackbar } from 'notistack';
 import { getProviders, signIn, type ClientSafeProvider, type LiteralUnion } from 'next-auth/react'
 
 import type { BuiltInProviderType } from 'next-auth/providers'
-import type { AuthNextPage } from 'src/pages/_app'
+import type { CustomNextPage } from 'src/pages/_app'
 
 interface State {
   username: string
   password: string
 }
 
-const SignIn: AuthNextPage<{
+const SignIn: CustomNextPage<{
   providers?: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>
 }> = ({ providers }) => {
   const [{ username, password }, setValues] = React.useState<State>({ username: '', password: '' })

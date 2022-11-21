@@ -1,86 +1,12 @@
-import React from 'react';
-
-import Divider from '@mui/material/Divider'
-import Typography from '@mui/material/Typography'
-import Step from '@mui/material/Step'
-import StepContent from '@mui/material/StepContent'
-
-import GithubUserCard, { type GithubUserCardProps } from 'src/components/GithubUserCard'
-import GithubRepoCard, { type GithubRepoCardProps } from 'src/components/GithubRepoCard';
-
-interface StyledRepoCardProps extends Omit<GithubRepoCardProps, 'username'> {
-  username?: string | undefined
-}
-const StyledRepoCard: React.FC<StyledRepoCardProps> = ({
-  username = 'sharlottes',
-  ...props
-}) => (
-  <div style={{
-    margin: 'min(2vw, 10px)',
-    width: 'min(100%, 400px)'
-  }}>
-    <GithubRepoCard username={username} {...props} />
-  </div>
-)
-
-const StyledUserCard: React.FC<GithubUserCardProps> = (props) => (
-  <div style={{
-    margin: 'min(2vw, 10px)',
-    width: 'min(100%, 400px)'
-  }}>
-    <GithubUserCard {...props} />
-  </div>
-)
-
-const TimelineContentTitle: React.FC<React.PropsWithChildren> = ({ children }) =>
-  <div style={{ marginBottom: 'min(1vw, 5px)' }}>
-    <Typography variant='h5'>
-      {children}
-    </Typography>
-    <Divider sx={{ transform: 'translateX(-20px)', width: '50vw', margin: '5px 0px' }} />
-  </div>
-
-const TimelineContent: React.FC<React.PropsWithChildren> = ({ children }) =>
-  <div style={{ marginLeft: 'min(3vw, 20px)' }}>
-    {children}
-  </div>
-
-interface TimelineItemProps {
-  title: string,
-  children?: JSX.Element | undefined,
-  last?: boolean,
-  scroll: (direction: 'up' | 'down') => void
-}
-
-const TimelineItem: React.FC<TimelineItemProps> = ({
-  title,
-  children,
-  last = false,
-  scroll
-}) => {
-  return (
-    <Step expanded last={last} sx={{ padding: 'auto 1vw' }}>
-      <div>
-        {children
-          ? <span style={{ color: 'themedBlack', fontFamily: 'bold', fontSize: 35 }} className="has-content">{title}</span>
-          : <span style={{ fontSize: 5, color: '#9e9e9e' }}>{title}</span>
-        }
-      </div>
-      <StepContent>
-        {children}
-        {children && (
-          <span onClick={() => scroll('down')} style={{ position: 'absolute', right: '10px', color: 'blue', margin: '5px' }}>
-            next
-          </span>
-        )}
-      </StepContent>
-    </Step>
-  )
-}
+import { CustomNextPage } from '../_app';
+import { StyledUserCard, StyledRepoCard } from './styled';
+import TimelineContent from './TimelineContent';
+import TimelineContentTitle from './TimelineContentTitle';
 
 type monthType = `${2020 | 2021 | 2022}.${string}`;
 type dateType = `${monthType}.${string}`;
-const events: Record<dateType | monthType, JSX.Element> = {
+
+export const events: Record<dateType | monthType, JSX.Element> = {
   '2020.01': (
     <>
       <TimelineContentTitle>개발 제 1분기, 프로그래밍의 입문</TimelineContentTitle>
@@ -366,37 +292,6 @@ const events: Record<dateType | monthType, JSX.Element> = {
     )
 }
 
-const dates = Array.from(
-  [2020, 2021, 2022],
-  (year) => Array.from(
-    { length: 12 },
-    (_, month) => Array.from(
-      { length: 31 },
-      (__, day) => `${year}.${(month + 1).toString().padStart(2, '0')}.${(day + 1).toString().padStart(2, '0')}` as dateType
-    )
-  )
-)
-
-const TimelineItems: React.FC<{ scroll: (direction: 'up' | 'down') => void }> = ({ scroll }) => (
-  <>
-    {dates.map((years, i) =>
-      years.map((monthes, ii) => (
-        <div key={monthes[0]}>
-          <TimelineItem scroll={scroll} title={monthes[0].slice(0, 7)} last={i === dates.length - 1 && ii === years.length - 1}>
-            {events[monthes[0].slice(0, 7) as monthType]}
-          </TimelineItem>
-          <div style={{ marginLeft: '4%' }}>
-            {monthes.map((date, iii) =>
-              <TimelineItem scroll={scroll} key={`${i}${ii}${iii}`} title={date} last={i === dates.length - 1 && ii === years.length - 1 && iii === monthes.length - 1}>
-                {events[date]}
-              </TimelineItem>
-            )}
-          </div>
-          <Divider />
-        </div>
-      ))
-    ).flat()}
-  </>
-)
-
-export default TimelineItems;
+const dummyPage: CustomNextPage = () => <></>
+dummyPage.notPage = true;
+export default dummyPage;

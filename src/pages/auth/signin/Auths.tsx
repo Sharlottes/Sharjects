@@ -5,16 +5,17 @@ import Stack from '@mui/material/Stack'
 import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
 
-import { signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react'
 import type { ClientSafeProvider, LiteralUnion } from 'next-auth/react'
 import type { BuiltInProviderType } from 'next-auth/providers'
 
-import DiscordIcon from '../assets/icons/DiscordIcon'
-import GithubIcon from '../assets/icons/GithubIcon'
-import GoogleIcon from '../assets/icons/GoogleIcon'
+import DiscordIcon from '../../../assets/icons/DiscordIcon'
+import GithubIcon from '../../../assets/icons/GithubIcon'
+import GoogleIcon from '../../../assets/icons/GoogleIcon'
 
+import type { CustomNextPage } from 'src/pages/_app'
 
-const Auths: React.FC<{
+const Auths: CustomNextPage<{
   providers?: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | undefined
 }> = ({ providers }) => {
   const { query } = useRouter();
@@ -79,5 +80,7 @@ const Auths: React.FC<{
     </Stack>
   );
 }
+
+Auths.notPage = true;
 
 export default Auths;

@@ -10,6 +10,8 @@ interface LayoutProps {
   children?: React.ReactNode
 }
 
+
+// TODO - remove marginTop
 const HEADER_HEIGHT = '60px';
 
 const Layout: React.FC<LayoutProps> = ({

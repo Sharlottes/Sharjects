@@ -9,8 +9,9 @@ import Input from '@mui/material/Input'
 
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import VisibilityIcon from '@mui/icons-material/Visibility'
+import type { CustomNextPage } from 'src/pages/_app';
 
-interface CustomTextInputProps {
+export interface CustomTextInputProps {
   handleChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
   enable?: boolean; //default enable
   value: string; //default value
@@ -20,7 +21,7 @@ interface CustomTextInputProps {
   required?: boolean; //whether input required
 }
 
-const CustomTextInput: React.FC<CustomTextInputProps> = ({
+const CustomTextInput: CustomNextPage<CustomTextInputProps> = ({
   handleChange,
   value, label,
   enable = true,
@@ -69,5 +70,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
     </FormControl>
   )
 }
+
+CustomTextInput.notPage = true;
 
 export default CustomTextInput;

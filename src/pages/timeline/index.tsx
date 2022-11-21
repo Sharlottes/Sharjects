@@ -7,7 +7,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import dynamic from 'next/dynamic';
 import Layout from 'components/Layout';
 
-const TimelineScroll = dynamic(() => import('src/components/TimelineScroll'), {
+const TimelineScroll = dynamic(() => import('./TimelineScroll'), {
   suspense: true
 });
 

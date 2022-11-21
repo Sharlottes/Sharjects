@@ -18,7 +18,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import type { StandardLonghandProperties } from 'csstype'
 
-import SideMenu from './SideMenu'
+import SideMenu from '../SideMenu'
 import ThemeSelection from './ThemeSelection'
 import Divider from '@mui/material/Divider';
 
@@ -30,28 +30,42 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({
   additional,
   height = '60px'
-}) => (
-  <header>
-    <AppBar sx={{ height }}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <SideMenu />
-          <Tooltip title='back to main'>
-            <Link href='/'>
-              <Button sx={{ marginLeft: '10px', display: 'inline' }}>
-                <Typography align='center' style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>
-                  Sharlotte
-                </Typography>
-              </Button>
-            </Link>
-          </Tooltip>
-        </div>
-        <HeaderMenu />
-      </Toolbar>
-      {additional}
-    </AppBar>
-  </header>
-)
+}) => {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <>
+      <header>
+        <AppBar sx={{ height }}>
+          <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <IconButton sx={{ color: 'white' }} onClick={() => setOpen(prev => !prev)}>
+                <MenuIcon />
+              </IconButton>
+              <Tooltip title='back to main'>
+                <Link href='/'>
+                  <Button sx={{ marginLeft: '10px', display: 'inline' }}>
+                    <Typography align='center' style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>
+                      Sharlotte
+                    </Typography>
+                  </Button>
+                </Link>
+              </Tooltip>
+            </div>
+            <HeaderMenu />
+          </Toolbar>
+          {additional}
+        </AppBar>
+      </header>
+      <SideMenu
+        anchor='left'
+        variant="temporary"
+        open={open}
+        onClose={() => setOpen(prev => !prev)}
+      />
+    </>
+  )
+}
 
 const HeaderMenu: React.FC = () => {
   const [anchor, setAnchor] = React.useState<Element | null>(null);
