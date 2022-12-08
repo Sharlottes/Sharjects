@@ -59,7 +59,7 @@
         "owner": "AvantTeam",
         "projects": [
             {
-                "name": "ProjectUnityPublic",
+                "name": "ProjectUnity",
                 "description": "팀 Avant에서 개발중인 최대 규모의 Mindustry Java모드",
                 "tags": ["java", "libgdx"]
             }

@@ -112,11 +112,7 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
                         </Button>
                     </a>
                 </div>
-
-                <div>
-                    <iframe src="https://jinh.kr/SAT_kr/page/SAT23.html" style={{ height: '88px', border: 0 }} />
-                </div>
-
+                
                 <Divider textAlign='left'><Typography fontWeight={500} fontSize={12}>Projects</Typography></Divider>
 
                 <div style={{ marginLeft: '10px', marginTop: '15px', width: '100%' }}>
