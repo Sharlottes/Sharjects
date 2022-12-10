@@ -112,7 +112,7 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
                         </Button>
                     </a>
                 </div>
-                
+
                 <Divider textAlign='left'><Typography fontWeight={500} fontSize={12}>Projects</Typography></Divider>
 
                 <div style={{ marginLeft: '10px', marginTop: '15px', width: '100%' }}>
@@ -156,9 +156,11 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
                                         </a>
                                     </Box>
                                     <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-                                        <a href={`https://github.com/${owner}/${project.name}`}>
-                                            <GithubIcon sx={{ transform: 'scale(0.8)', color: 'text.secondary', transition: 'color 300ms ease-out', "&:hover": { color: 'text.primary' } }} />
-                                        </a>
+                                        {!project.noGithub &&
+                                            <a href={`https://github.com/${owner}/${project.name}`}>
+                                                <GithubIcon sx={{ transform: 'scale(0.8)', color: 'text.secondary', transition: 'color 300ms ease-out', "&:hover": { color: 'text.primary' } }} />
+                                            </a>
+                                        }
                                         {project.link &&
                                             <a href={project.link}>
                                                 <OpenInNewIcon sx={{ transform: 'scale(0.8)', color: 'text.secondary', transition: 'color 300ms ease-out', "&:hover": { color: 'text.primary' } }} />

@@ -51,7 +51,8 @@
             {
                 "name": "CardDefense",
                 "description": "팀 GameStudio에서 유니티로 개발중인 디펜스 장르의 모바일 카드게임",
-                "tags": ["cs", "unity"]
+                "tags": ["cs", "unity"],
+                "noGithub": true
             }
         ]
     },
@@ -61,7 +62,8 @@
             {
                 "name": "ProjectUnity",
                 "description": "팀 Avant에서 개발중인 최대 규모의 Mindustry Java모드",
-                "tags": ["java", "libgdx"]
+                "tags": ["java", "libgdx"],
+                "noGithub": true
             }
         ]
     }

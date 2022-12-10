@@ -54,7 +54,8 @@ export type projectDataType = {
     name: string,
     description: string,
     tags: tagType[],
-    link?: string
+    link?: string,
+    noGithub?: boolean
   }>
 }
 

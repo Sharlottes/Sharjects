@@ -93,6 +93,7 @@ const LanguageDoat: React.FC<{ language: string }> = ({ language }) => {
 export interface GithubRepoCardProps {
     username: string
     repository: string
+    dark?: boolean
 }
 
 const GithubRepoCardFetcher: React.FC<GithubRepoCardProps & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = ({ username, repository, ...props }) => {
@@ -108,9 +109,9 @@ const GithubRepoCardFetcher: React.FC<GithubRepoCardProps & React.DetailedHTMLPr
     )
 }
 
-const GithubRepoCard: React.FC<{ data: GithubAPIRepoData } & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = ({ data, style, ...props }) => {
+const GithubRepoCard: React.FC<{ data: GithubAPIRepoData, dark?: boolean } & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = ({ data, style, dark, ...props }) => {
     const theme = useTheme();
-    const palette = getPalette(theme.palette.mode === 'dark');
+    const palette = getPalette(dark ?? theme.palette.mode === 'dark');
 
     return (
         <div style={{
