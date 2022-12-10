@@ -18,6 +18,7 @@ import GithubRepoCardFetcher from 'src/components/GithubRepoCard';
 
 import { motion } from 'framer-motion'
 import { styled } from '@mui/system';
+import { Box } from '@mui/material';
 
 const ProjectsContainer = styled(motion.div)(({ theme }) => ({
   display: 'grid',
@@ -192,18 +193,34 @@ const CollapseBar: React.FC<{ projectName: string }> = ({ projectName }) => {
         <KeyboardDoubleArrowUpIcon sx={{ transition: 'all 250ms ease 100ms', transform: `rotate(${opened ? '180deg' : 0})` }} />
       </IconButton>
       <Slide direction="up" in={opened} unmountOnExit mountOnEnter>
-        <div className='collapse-body' style={{ backgroundColor: 'black', padding: '15px 10px 10px 10px', boxShadow: 'inset 0 7px 7px #777777' }}>
-          <div style={{ display: 'flex' }}>
+        <Box className='collapse-body' sx={{
+          backgroundColor: 'black',
+          padding: '15px 10px 10px 10px',
+          boxShadow: 'inset 0 7px 7px #777777',
+          width: '100%',
+          height: 'calc(100% - 35px)',
+          pointerEvents: 'fill',
+          "& .title": {
+            display: 'flex'
+          },
+          "& .repo-card": {
+            display: 'none'
+          },
+          "&:hover": {
+            "& .title": {
+              display: 'none'
+            },
+            "& .repo-card": {
+              display: 'block'
+            }
+          }
+        }}>
+          <div className='title' style={{ textAlign: 'left', fontSize: '0.75rem', color: 'white' }}>
             <GithubIcon sx={{ margin: '10px' }} />
-            <span style={{ textAlign: 'left' }}>
-              이 프로젝트는 깃허브 레포지토리가 있습니다!<br />
-              <strong>한번 둘러보시고 좋으면 Star를 눌러주세요!</strong>
-            </span>
+            이 프로젝트는 깃허브 레포지토리가 있습니다!
           </div>
-          <div style={{ marginTop: '20px', display: opened ? 'block' : 'none' }}>
-            <GithubRepoCardFetcher username='sharlottes' repository={projectName} dark />
-          </div>
-        </div>
+          <GithubRepoCardFetcher className='repo-card' username='sharlottes' repository={projectName} style={{ width: 'inherit', height: 'inherit' }} dark />
+        </Box>
       </Slide>
     </div>
   )
