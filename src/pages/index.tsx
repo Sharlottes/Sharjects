@@ -12,7 +12,7 @@ import Layout from 'src/components/Layout'
 import ProgressiveTypography from 'src/components/ProgressiveTypography';
 import GithubIcon from 'src/assets/icons/GithubIcon';
 
-const keywords = ['19세 고등학생', '잡다한 개발자', '최적화와 성능의 낭만을 쫒는', 'Sharlottes']
+const keywords = ['19세 고등학생', '잡다한 개발자', '최적화와 성능의 낭만을 쫒고', '누군가의 노예인', 'Sharlottes']
 const avatarVariants = {
   show: {
     opacity: 1,
@@ -20,14 +20,14 @@ const avatarVariants = {
     width: 40, height: 40,
     transition: {
       ease: 'circInOut',
-      delay: (keywords.length + 2) * 1.15
+      delay: keywords.length * 0.8
     }
   },
   sizeup: {
     width: 'min(20vw, 200px)', height: 'min(20vw, 200px)',
     transition: {
       ease: 'circOut',
-      delay: (keywords.length + 2) * 1.15 + 1
+      delay: keywords.length * 0.8
     }
   }
 }
@@ -56,8 +56,6 @@ const KeywordShower: React.FC<Omit<React.DetailedHTMLProps<React.HTMLAttributes<
   const controller = useAnimationControls();
 
   const startAnimation = React.useCallback(async () => {
-    await delay(2000);
-
     for (let i = 0; i < keywords.length; i++) {
       await controller.start((id) => {
         if (id === i - 1) {
@@ -68,14 +66,12 @@ const KeywordShower: React.FC<Omit<React.DetailedHTMLProps<React.HTMLAttributes<
           return {}
         }
       });
-      await delay(1000);
+      await delay(500);
     }
   }, [controller]);
 
   React.useEffect(() => {
-    startAnimation().then(() => {
-
-    });
+    startAnimation();
   }, []);
 
   return (
@@ -126,7 +122,7 @@ const MainTitle: React.FC = () => {
       fontWeight='bold'
       fontSize='min(200px, 15vw)'
       label="Sharlotte"
-      delay={(keywords.length + 2) * 1.15 + 1.5}
+      delay={keywords.length * 0.8 + 0.5}
       motion={motionPropsGenerator}
       box={{ sx: { display: 'flex', justifyContent: 'center', padding: '20px' } }}
     />
@@ -155,19 +151,24 @@ const Home: React.FC = () => {
               y: -50, opacity: 0
             }}
             transition={{
-              delay: (keywords.length + 2) + 4
+              delay: (keywords.length * 0.8 + 1)
             }}
             style={{
-              marginTop: '200px', display: 'flex', justifyContent: 'center', width: '100%'
+              marginTop: '50px', display: 'flex', justifyContent: 'center', width: '100%'
             }}
           >
             <Link href='/timeline'>
-              <Button variant='contained' sx={{ margin: '0 max(10px, 5vw)' }}>
+              <Button variant='contained' sx={{ margin: '0 10px' }}>
                 Timeline
               </Button>
             </Link>
+            <Link href='/projects'>
+              <Button variant='contained' sx={{ margin: '0 10px' }}>
+                Projects
+              </Button>
+            </Link>
             <Link href='https://github.com/sharlottes'>
-              <Button variant='contained' sx={{ margin: '0 max(10px, 5vw)', backgroundColor: 'black', color: 'white' }} startIcon={<GithubIcon />}>
+              <Button variant='contained' sx={{ margin: '0 10px', backgroundColor: 'black', color: 'white' }} startIcon={<GithubIcon />}>
                 Github Profile
               </Button>
             </Link>
