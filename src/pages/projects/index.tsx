@@ -89,7 +89,7 @@ const ProjectCard = styled(Card)(({ theme }) => ({
     },
     "& .collapse-bar": {
       opacity: 1,
-      transform: 'translateY(0%)'
+      transform: 'translateY(80%)'
     }
   }
 }))
@@ -183,13 +183,14 @@ const CollapseBar: React.FC<{ projectName: string }> = ({ projectName }) => {
 
   return (
     <div className="collapse-bar" style={{
-      width: '100%',
+      width: '100%', height: '100%',
       textAlign: 'center',
       color: '#777777',
       gridColumnStart: 1, gridRowStart: 1, alignSelf: 'flex-end',
-      pointerEvents: 'none'
+      transition: 'all 250ms ease',
+      transform: `translateY(${opened ? '0%' : '80%'})`
     }}>
-      <IconButton onClick={handleClick} sx={{ pointerEvents: 'fill', transition: 'all 250ms ease', transform: `translateY(${opened ? '-15%' : 'auto'})` }} >
+      <IconButton onClick={handleClick} sx={{ pointerEvents: 'fill', }} >
         <KeyboardDoubleArrowUpIcon sx={{ transition: 'all 250ms ease 100ms', transform: `rotate(${opened ? '180deg' : 0})` }} />
       </IconButton>
       <Slide direction="up" in={opened} unmountOnExit mountOnEnter>
@@ -197,8 +198,7 @@ const CollapseBar: React.FC<{ projectName: string }> = ({ projectName }) => {
           backgroundColor: 'black',
           padding: '15px 10px 10px 10px',
           boxShadow: 'inset 0 7px 7px #777777',
-          width: '100%',
-          height: 'calc(100% - 35px)',
+          height: '100%',
           pointerEvents: 'fill',
           "& .title": {
             display: 'flex'
@@ -215,11 +215,11 @@ const CollapseBar: React.FC<{ projectName: string }> = ({ projectName }) => {
             }
           }
         }}>
-          <div className='title' style={{ textAlign: 'left', fontSize: '0.75rem', color: 'white' }}>
+          <div className='title' style={{ height: '100%', textAlign: 'left', fontSize: '0.75rem', color: 'white' }}>
             <GithubIcon sx={{ margin: '10px' }} />
             이 프로젝트는 깃허브 레포지토리가 있습니다!
           </div>
-          <GithubRepoCardFetcher className='repo-card' username='sharlottes' repository={projectName} style={{ width: 'inherit', height: 'inherit' }} dark />
+          <GithubRepoCardFetcher className='repo-card' username='sharlottes' repository={projectName} style={{ height: '100%' }} dark />
         </Box>
       </Slide>
     </div>
