@@ -187,6 +187,7 @@ const CollapseBar: React.FC<{ projectName: string }> = ({ projectName }) => {
       textAlign: 'center',
       color: '#777777',
       gridColumnStart: 1, gridRowStart: 1, alignSelf: 'flex-end',
+      pointerEvents: 'none',
       transition: 'all 250ms ease',
       transform: `translateY(${opened ? '0%' : '80%'})`
     }}>
