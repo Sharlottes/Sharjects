@@ -94,7 +94,7 @@ const ProjectCard = styled(Card)(({ theme }) => ({
   }
 }))
 
-const projectData: projectDataType['projects'] = (require('components/pages/projectData.json') as projectDataType[]).map(data => data.projects).flat();
+const projectData: projectDataType['projects'] = (require('public/data/projectData.json') as projectDataType[]).map(data => data.projects).flat();
 
 const Projects: React.FC = () => (
   <Layout>
@@ -115,23 +115,26 @@ const Projects: React.FC = () => (
               gridColumnStart: 1, gridRowStart: 1
             }}>
               <div style={{ height: 'calc(100% - 30px)' }}>
-                <div style={{ display: 'flex' }}>
-                  <Typography variant='h5'>{data.name}</Typography>
-                  {data.link &&
-                    <a href={data.link}>
-                      <Tooltip title={
-                        <div style={{ display: 'flex' }}>
-                          <InfoIcon fontSize='small' sx={{ margin: '2px' }} />
-                          <span>
-                            이 프로젝트는 배포가 완료되었어요.<br />
-                            <strong>지금 확인해보세요!</strong>
-                          </span>
-                        </div>
-                      } leaveDelay={300}>
-                        <OpenInNewIcon sx={{ transform: 'scale(0.8)', color: 'text.secondary', transition: 'color 300ms ease-out', "&:hover": { color: 'text.primary' } }} />
-                      </Tooltip>
-                    </a>
-                  }
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  {data.icon && <img src={`/images/icon/${data.icon}.png`} alt="" style={{ height: '1.5rem', width: '1.5rem', marginRight: '5px' }} />}
+                  <div style={{ display: 'flex' }}>
+                    <Typography variant='h5'>{data.name}</Typography>
+                    {data.link &&
+                      <a href={data.link}>
+                        <Tooltip title={
+                          <div style={{ display: 'flex' }}>
+                            <InfoIcon fontSize='small' sx={{ margin: '2px' }} />
+                            <span>
+                              이 프로젝트는 배포가 완료되었어요.<br />
+                              <strong>지금 확인해보세요!</strong>
+                            </span>
+                          </div>
+                        } leaveDelay={300}>
+                          <OpenInNewIcon sx={{ transform: 'scale(0.8)', color: 'text.secondary', transition: 'color 300ms ease-out', "&:hover": { color: 'text.primary' } }} />
+                        </Tooltip>
+                      </a>
+                    }
+                  </div>
                 </div>
                 <Divider sx={{ margin: '5px 0' }} />
                 <Typography variant='body1'>{data.description}</Typography>

@@ -25,7 +25,7 @@ import VisitorGraphDialog from './VisitorGraphDialog'
 const date = new Date();
 const dateCode = `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
 
-const projectData: Array<projectDataType> = require('components/pages/projectData.json');
+const projectData: Array<projectDataType> = require('public/data/projectData.json');
 
 const Status: React.FC = () => {
     const [visitors, setVisitors] = React.useState<Record<string, number>>();
@@ -140,16 +140,19 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
                                         "&:hover": {
                                             "& p": {
                                                 color: currentColors[300],
-                                                marginLeft: '50px'
-                                            }
-                                        }
+                                            },
+                                            marginLeft: '50px'
+                                        },
+                                        transition: 'all 100ms ease',
+                                        marginLeft: '35px',
+                                        marginTop: '3px', marginBottom: '3px',
+                                        display: 'flex', alignItems: 'center'
                                     }}>
+                                        <img src={`/images/icon/${project.icon}.png`} alt="" style={{ height: '1rem', width: '1rem', marginRight: '5px' }} />
                                         <a href={`/projects/${project.name}`}>
                                             <Typography sx={{
                                                 fontWeight: 600,
-                                                marginLeft: '35px',
-                                                marginTop: '3px', marginBottom: '3px',
-                                                transition: 'color,marginLeft 150ms,100ms ease-in,ease-put'
+                                                transition: 'all 100ms ease'
                                             }}>
                                                 {project.name}
                                             </Typography>
