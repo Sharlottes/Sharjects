@@ -81,7 +81,7 @@ const ProjectCard = styled(Card)(({ theme }) => ({
       padding: '2px 10px',
       transition: 'opacity,color 500ms,500ms',
       transitionDuration: '500ms',
-      color: 'black',
+      color: 'themedBlack',
       whiteSpace: 'nowrap',
       [theme.breakpoints.down('md')]: {
         "&:nth-child(2)": {
