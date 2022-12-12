@@ -23,7 +23,8 @@
             {
                 "name": "SharBot",
                 "description": "discord.js와 typescript로 구성된 다기능 디스코드 봇",
-                "tags": ["typescript"]
+                "tags": ["typescript"],
+                "icon": "sharbotIcon"
             },
             {
                 "name": "RealTimeRPG",
@@ -33,7 +34,8 @@
             {
                 "name": "KakaoBridge",
                 "description": "remote-kakao로 카카오톡 봇과 디스코드 봇 서버간 TCP 통신을 하여 문자 메시지 쌍방향 송수신이 가능하도록 개발된 이중 봇 프로젝트",
-                "tags": ["java", "javascript", "typescript"]
+                "tags": ["java", "javascript", "typescript"],
+                "icon": "kakaobridgeIcon"
             },
             {
                 "name": "KakaoNacksee",
@@ -66,6 +68,7 @@
                 "name": "ProjectUnity",
                 "description": "팀 Avant에서 개발중인 최대 규모의 Mindustry Java모드",
                 "tags": ["java", "libgdx"],
+                "icon": "projectunityIcon",
                 "noGithub": true
             }
         ]
