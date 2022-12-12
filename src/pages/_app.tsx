@@ -19,7 +19,6 @@ import LifebarSnackbar from 'src/components/LifebarSnackbar'
 import AuthWrapper from 'src/components/AuthWrapper'
 import useAnalyticTracker from 'src/hooks/useAnalyticTracker'
 
-import 'public/fonts/UniSans.css'
 import 'public/styles/global.css'
 import { } from "src/@type"
 
