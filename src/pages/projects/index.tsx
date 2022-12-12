@@ -17,8 +17,16 @@ import GithubIcon from 'src/assets/icons/GithubIcon';
 import GithubRepoCardFetcher from 'src/components/GithubRepoCard';
 
 import { motion } from 'framer-motion'
-import { styled } from '@mui/system';
-import { Box } from '@mui/material';
+import { styled } from '@mui/system'
+
+const StyledOpenInNewIcon = styled(OpenInNewIcon)({
+  transform: 'scale(0.8)', 
+  color: 'text.secondary', 
+  transition: 'color 300ms ease-out', 
+  "&:hover": { 
+    color: 'text.primary' 
+  }
+})
 
 const ProjectsContainer = styled(motion.div)(({ theme }) => ({
   display: 'grid',
@@ -57,26 +65,74 @@ const ProjectCard = styled(Card)(({ theme }) => ({
     backgroundColor: 'gray'
   },
   "& .link-btn": {
-    opacity: 0,
-    transition: 'opacity,color',
-    transitionDuration: '500ms',
-    "&:hover": {
-      color: 'white',
+    display: 'flex', gap: '10px', alignItems: 'center',
+    float: 'right',
+    "& div": { 
+      transition: 'opacity 500ms',
+      opacity: 0,
     },
-    [theme.breakpoints.down('md')]: {
-      color: 'white',
-      "&::before": {
+    "& :nth-child(1)": {
+      width: 24, height: 24
+    },
+    "& :nth-child(2)": {
+      width: '60px', height: '30px',
+      borderRadius: '20px',
+      border: '1px solid #dcdcdc',
+      padding: '2px 10px',
+      transition: 'opacity,color 500ms,500ms',
+      transitionDuration: '500ms',
+      color: 'black',
+      whiteSpace: 'nowrap',
+      [theme.breakpoints.down('md')]: {
+        "&:nth-child(2)": {
+          color: 'white',
+          "&::before": {
+            opacity: 1
+          }
+        }
+      },
+      "& a": {
+        position: 'absolute',
+      },
+      "&:hover": {
+        color: 'white',
+        "&::before": {
         opacity: 1
+        }
+      },
+      "&::before": {
+        content: "''",
+        position: 'absolute',
+        width: 'inherit', height: 'inherit',
+        borderRadius: '20px',
+        backgroundImage: 'linear-gradient(30deg, #50d4d9, #b662c4)',
+        transition: 'opacity 500ms',
+        opacity: 0,
+        transform: 'translateX(-10px) translateY(-2px)'
       }
-    },
+    }
   },
   "& .collapse-bar": {
+    width: '100%', height: '100%',
+    textAlign: 'center',
+    color: '#777777',
+    gridColumnStart: 1, gridRowStart: 1, alignSelf: 'flex-end',
+    pointerEvents: 'none',
     opacity: 0,
-    transform: 'translateY(100%)',
     transition: 'opacity,transform',
-    transitionDuration: '100ms,500ms',
+    transitionDuration: '100ms,250ms',
     transitionDelay: '125ms',
     transitionTimingFunction: 'ease,cubic-bezier(.01,1.76,.67,.79)',
+    "&>div": {
+      backgroundColor: 'black',
+      padding: '15px 10px 10px 10px',
+      boxShadow: 'inset 0 7px 7px #777777',
+      height: '100%',
+      pointerEvents: 'fill',
+      "&>div": {
+        height: '100%'
+      }
+    }
   },
   "&:hover": {
     boxShadow: '0 0 10px black',
@@ -85,7 +141,9 @@ const ProjectCard = styled(Card)(({ theme }) => ({
       backgroundColor: '#a9d8ff'
     },
     "& .link-btn": {
-      opacity: 1,
+      "& >div": {
+        opacity: 1,
+      }
     },
     "& .collapse-bar": {
       opacity: 1,
@@ -94,7 +152,10 @@ const ProjectCard = styled(Card)(({ theme }) => ({
   }
 }))
 
-const projectData: projectDataType['projects'] = (require('public/data/projectData.json') as projectDataType[]).map(data => data.projects).flat();
+const projectData: Array<projectDataType['projects'][0] & { owner: string }>
+  = (require('public/data/projectData.json') as projectDataType[])
+    .map(({ owner, projects }) => projects.map(proj => ({ ...proj, owner })))
+    .flat();
 
 const Projects: React.FC = () => (
   <Layout>
@@ -121,7 +182,7 @@ const Projects: React.FC = () => (
                     <Typography variant='h5'>{data.name}</Typography>
                     {data.link &&
                       <a href={data.link}>
-                        <Tooltip title={
+                        <Tooltip leaveDelay={300} title={
                           <div style={{ display: 'flex' }}>
                             <InfoIcon fontSize='small' sx={{ margin: '2px' }} />
                             <span>
@@ -129,8 +190,8 @@ const Projects: React.FC = () => (
                               <strong>지금 확인해보세요!</strong>
                             </span>
                           </div>
-                        } leaveDelay={300}>
-                          <OpenInNewIcon sx={{ transform: 'scale(0.8)', color: 'text.secondary', transition: 'color 300ms ease-out', "&:hover": { color: 'text.primary' } }} />
+                        }>
+                          <StyledOpenInNewIcon />
                         </Tooltip>
                       </a>
                     }
@@ -139,37 +200,22 @@ const Projects: React.FC = () => (
                 <Divider sx={{ margin: '5px 0' }} />
                 <Typography variant='body1'>{data.description}</Typography>
               </div>
-              <div>
-                <Typography className="link-btn" sx={{
-                  display: 'block',
-                  width: '60px', height: '30px',
-                  borderRadius: '20px',
-                  border: '1px solid #dcdcdc',
-                  padding: '2px 10px',
-                  float: 'right',
-                  color: 'black',
-                  "& a": {
-                    position: 'absolute',
-                  },
-                  "&::before": {
-                    content: "''",
-                    position: 'absolute',
-                    width: '60px', height: '30px',
-                    backgroundImage: 'linear-gradient(30deg, #50d4d9, #b662c4)',
-                    borderRadius: '20px',
-                    transition: 'opacity 500ms',
-                    opacity: 0,
-                    transform: 'translateX(-10px) translateY(-2px)'
-                  },
-                  "&:hover::before": {
-                    opacity: 1
+              <div className="link-btn">
+                <div>
+                  {!data.noGithub && 
+                    <a href={`https://github.com/${data.owner}/${data.name}`}>
+                      <GithubIcon />
+                    </a>
                   }
-                }}>
-                  <a href={`/projects/${data.name.toLowerCase()}`}>&gt; go!</a>
-                </Typography>
+                </div>
+                <div>
+                  <a href={`/projects/${data.name.toLowerCase()}`}>
+                    &gt; go!
+                  </a>
+                </div>
               </div>
             </div>
-            {!data.noGithub && <CollapseBar projectName={data.name} />}
+            {!data.noGithub && <CollapseBar author={data.owner} name={data.name} />}
           </ProjectCard>
         ))}
       </ProjectsContainer>
@@ -177,54 +223,18 @@ const Projects: React.FC = () => (
   </Layout >
 )
 
-const CollapseBar: React.FC<{ projectName: string }> = ({ projectName }) => {
+const CollapseBar: React.FC<{ author: string, name: string }> = ({ author, name }) => {
   const [opened, setOpened] = React.useState(false);
 
-  const handleClick = () => {
-    setOpened(prev => !prev);
-  }
-
   return (
-    <div className="collapse-bar" style={{
-      width: '100%', height: '100%',
-      textAlign: 'center',
-      color: '#777777',
-      gridColumnStart: 1, gridRowStart: 1, alignSelf: 'flex-end',
-      pointerEvents: 'none',
-      transition: 'all 250ms ease',
-      transform: `translateY(${opened ? '0%' : '80%'})`
-    }}>
-      <IconButton onClick={handleClick} sx={{ pointerEvents: 'fill', }} >
-        <KeyboardDoubleArrowUpIcon sx={{ transition: 'all 250ms ease 100ms', transform: `rotate(${opened ? '180deg' : 0})` }} />
+    <div className="collapse-bar" style={{ transform: `translateY(${opened ? '0%' : '80%'})` }}>
+      <IconButton onClick={() => setOpened(prev => !prev)} sx={{ pointerEvents: 'fill', }} >
+        <KeyboardDoubleArrowUpIcon sx={{ transition: 'transform 250ms ease 100ms', transform: `rotate(${opened ? '180deg' : 0})` }} />
       </IconButton>
       <Slide direction="up" in={opened} unmountOnExit mountOnEnter>
-        <Box className='collapse-body' sx={{
-          backgroundColor: 'black',
-          padding: '15px 10px 10px 10px',
-          boxShadow: 'inset 0 7px 7px #777777',
-          height: '100%',
-          pointerEvents: 'fill',
-          "& .title": {
-            display: 'flex'
-          },
-          "& .repo-card": {
-            display: 'none'
-          },
-          "&:hover": {
-            "& .title": {
-              display: 'none'
-            },
-            "& .repo-card": {
-              display: 'block'
-            }
-          }
-        }}>
-          <div className='title' style={{ height: '100%', textAlign: 'left', fontSize: '0.75rem', color: 'white' }}>
-            <GithubIcon sx={{ margin: '10px' }} />
-            이 프로젝트는 깃허브 레포지토리가 있습니다!
-          </div>
-          <GithubRepoCardFetcher className='repo-card' username='sharlottes' repository={projectName} style={{ height: '100%' }} dark />
-        </Box>
+        <div>
+          <GithubRepoCardFetcher username={author} repository={name} dark />
+        </div>
       </Slide>
     </div>
   )
