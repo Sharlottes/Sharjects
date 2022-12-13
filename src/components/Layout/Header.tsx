@@ -3,14 +3,14 @@ import Link from 'next/link'
 
 import { signIn, signOut, useSession } from 'next-auth/react'
 
-import Avatar from '@mui/material/Avatar'
-import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import Toolbar from '@mui/material/Toolbar'
+import Divider from '@mui/material/Divider'
+import Avatar from '@mui/material/Avatar'
 import AppBar from '@mui/material/AppBar'
 import Button from '@mui/material/Button'
 import Menu from '@mui/material/Menu'
-import IconButton from '@mui/material/IconButton'
 
 import MenuIcon from '@mui/icons-material/Menu'
 import LoginIcon from '@mui/icons-material/Login'
@@ -20,11 +20,34 @@ import type { StandardLonghandProperties } from 'csstype'
 
 import SideMenu from '../SideMenu'
 import ThemeSelection from './ThemeSelection'
-import Divider from '@mui/material/Divider';
+import { motion, useScroll, useAnimationControls, Variants } from 'framer-motion'
 
 interface HeaderProps {
   additional?: React.ReactNode | undefined
   height?: StandardLonghandProperties['height']
+}
+
+const headerAnimateVaraints: Variants = {
+  blur: prog => ({
+    margin: '10px min(calc(100% - 400px), 15%)',
+    width: 'calc(100% - min(calc(100% - 400px), 15%))',
+    left: 'calc(-1 * min(calc((100% - 400px) / 2), 7.5%))',
+    borderRadius: '20px',
+    opacity: 0.5,
+    transition: {
+      duration: 1
+    },
+  }),
+  init: {
+    margin: '0px',
+    width: '100%',
+    left: 0,
+    opacity: 1,
+    borderRadius: '0px',
+    transition: {
+      duration: 1
+    },
+  }
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -32,31 +55,43 @@ const Header: React.FC<HeaderProps> = ({
   height = '60px'
 }) => {
   const [open, setOpen] = React.useState(false);
+  const controller = useAnimationControls();
+  const { scrollY, scrollYProgress } = useScroll();
+
+  React.useEffect(() => {
+    controller.set('init')
+    return scrollY.onChange((latest) => {
+      controller.start(latest === 0 ? 'init' : 'blur'); 
+    })
+  }, [])
 
   return (
     <>
-      <header>
-        <AppBar sx={{ height }}>
-          <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <IconButton sx={{ color: 'white' }} onClick={() => setOpen(prev => !prev)}>
-                <MenuIcon />
-              </IconButton>
-              <Tooltip title='back to main'>
-                <Link href='/'>
-                  <Button sx={{ marginLeft: '10px', display: 'inline' }}>
-                    <Typography align='center' style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>
-                      Sharlotte
-                    </Typography>
-                  </Button>
-                </Link>
-              </Tooltip>
-            </div>
-            <HeaderMenu />
-          </Toolbar>
-          {additional}
-        </AppBar>
-      </header>
+      <AppBar 
+        custom={scrollYProgress.get()}
+        component={motion.div} 
+        animate={controller} 
+        variants={headerAnimateVaraints} 
+        initial={scrollYProgress.get() !== 0 ? 'blur' : 'init'} 
+        whileHover={{ opacity: 1 }}
+      >
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <IconButton sx={{ color: 'white' }} onClick={() => setOpen(prev => !prev)}>
+              <MenuIcon />
+            </IconButton>
+            <Tooltip title='back to main'>
+              <Link href='/'>
+                <Button sx={{ marginLeft: '10px', color: 'white', fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>
+                    Sharlotte
+                </Button>
+              </Link>
+            </Tooltip>
+          </div>
+          <HeaderMenu />
+        </Toolbar>
+        {additional}
+      </AppBar>
       <SideMenu
         anchor='left'
         variant="temporary"
