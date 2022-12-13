@@ -16,7 +16,7 @@ import { projectDataType } from 'src/@type'
 import GithubIcon from 'src/assets/icons/GithubIcon';
 import GithubRepoCardFetcher from 'src/components/GithubRepoCard';
 
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import { styled } from '@mui/system'
 
 const StyledOpenInNewIcon = styled(OpenInNewIcon)({
@@ -30,6 +30,9 @@ const StyledOpenInNewIcon = styled(OpenInNewIcon)({
 
 const ProjectsContainer = styled(motion.div)(({ theme }) => ({
   display: 'grid',
+  alignItems: 'stretch',
+  gap: '10px',
+  padding: '0 20px',
   [theme.breakpoints.between('xs', 'sm')]: {
     gridTemplateColumns: 'repeat(1, 1fr)'
   },
@@ -42,10 +45,10 @@ const ProjectsContainer = styled(motion.div)(({ theme }) => ({
   [theme.breakpoints.between('lg', 1400)]: {
     gridTemplateColumns: 'repeat(4, 1fr)'
   },
-  [theme.breakpoints.between(1400, 'xl')]: {
+  [theme.breakpoints.between(1400, 1650)]: {
     gridTemplateColumns: 'repeat(5, 1fr)'
   },
-  [theme.breakpoints.up('xl')]: {
+  [theme.breakpoints.up(1650)]: {
     gridTemplateColumns: 'repeat(6, 1fr)'
   },
 }))
@@ -53,8 +56,7 @@ const ProjectsContainer = styled(motion.div)(({ theme }) => ({
 const ProjectCard = styled(Card)(({ theme }) => ({
   borderRadius: '20px',
   border: '1px solid #dcdcdc',
-  minWidth: '250px',
-  margin: '10px',
+  minWidth: '250px', height: '100%',
   transition: 'all 250ms ease-in',
   display: 'grid', flexDirection: 'column', justifyContent: 'space-between', gridTemplateColumns: '1fr',
   "& .MuiDivider-root": {
@@ -157,6 +159,16 @@ const projectData: Array<projectDataType['projects'][0] & { owner: string }>
     .map(({ owner, projects }) => projects.map(proj => ({ ...proj, owner })))
     .flat();
 
+const projectVariants: Variants = {
+  visible: i => ({
+    opacity: 1,
+    transition: {
+      delay: i * 0.15,
+    },
+  }),
+  hidden: { opacity: 0 },
+}
+
 const Projects: React.FC = () => (
   <Layout>
     <div>
@@ -169,54 +181,56 @@ const Projects: React.FC = () => (
     </div>
     <div style={{ margin: '50px 0' }}>
       <ProjectsContainer layout>
-        {projectData.map(data => (
-          <ProjectCard key={data.name}>
-            <div style={{
-              padding: '10px',
-              gridColumnStart: 1, gridRowStart: 1
-            }}>
-              <div style={{ height: 'calc(100% - 30px)' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  {data.icon && <img src={`/images/icon/${data.icon}.png`} alt="" style={{ height: '1.5rem', width: '1.5rem', marginRight: '5px' }} />}
-                  <div style={{ display: 'flex' }}>
-                    <Typography variant='h5'>{data.name}</Typography>
-                    {data.link &&
-                      <a href={data.link}>
-                        <Tooltip leaveDelay={300} title={
-                          <div style={{ display: 'flex' }}>
-                            <InfoIcon fontSize='small' sx={{ margin: '2px' }} />
-                            <span>
-                              이 프로젝트는 배포가 완료되었어요.<br />
-                              <strong>지금 확인해보세요!</strong>
-                            </span>
-                          </div>
-                        }>
-                          <StyledOpenInNewIcon />
-                        </Tooltip>
+        {projectData.map((data, i) => (
+          <motion.div custom={i} initial='hidden' animate='visible' variants={projectVariants}>
+            <ProjectCard key={data.name}>
+              <div style={{
+                padding: '10px',
+                gridColumnStart: 1, gridRowStart: 1
+              }}>
+                <div style={{ height: 'calc(100% - 30px)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    {data.icon && <img src={`/images/icon/${data.icon}.png`} alt="" style={{ height: '1.5rem', width: '1.5rem', marginRight: '5px' }} />}
+                    <div style={{ display: 'flex' }}>
+                      <Typography variant='h5'>{data.name}</Typography>
+                      {data.link &&
+                        <a href={data.link}>
+                          <Tooltip leaveDelay={300} title={
+                            <div style={{ display: 'flex' }}>
+                              <InfoIcon fontSize='small' sx={{ margin: '2px' }} />
+                              <span>
+                                이 프로젝트는 배포가 완료되었어요.<br />
+                                <strong>지금 확인해보세요!</strong>
+                              </span>
+                            </div>
+                          }>
+                            <StyledOpenInNewIcon />
+                          </Tooltip>
+                        </a>
+                      }
+                    </div>
+                  </div>
+                  <Divider sx={{ margin: '5px 0' }} />
+                  <Typography variant='body1'>{data.description}</Typography>
+                </div>
+                <div className="link-btn">
+                  <div>
+                    {!data.noGithub && 
+                      <a href={`https://github.com/${data.owner}/${data.name}`}>
+                        <GithubIcon />
                       </a>
                     }
                   </div>
-                </div>
-                <Divider sx={{ margin: '5px 0' }} />
-                <Typography variant='body1'>{data.description}</Typography>
-              </div>
-              <div className="link-btn">
-                <div>
-                  {!data.noGithub && 
-                    <a href={`https://github.com/${data.owner}/${data.name}`}>
-                      <GithubIcon />
+                  <div>
+                    <a href={`/projects/${data.name.toLowerCase()}`}>
+                      &gt; go!
                     </a>
-                  }
-                </div>
-                <div>
-                  <a href={`/projects/${data.name.toLowerCase()}`}>
-                    &gt; go!
-                  </a>
+                  </div>
                 </div>
               </div>
-            </div>
-            {!data.noGithub && <CollapseBar author={data.owner} name={data.name} />}
-          </ProjectCard>
+              {!data.noGithub && <CollapseBar author={data.owner} name={data.name} />}
+            </ProjectCard>
+          </motion.div>
         ))}
       </ProjectsContainer>
     </div>
