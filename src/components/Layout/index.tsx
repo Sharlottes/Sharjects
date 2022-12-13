@@ -2,7 +2,7 @@ import React from 'react'
 
 import Header from './Header'
 import Footer from './Footer'
-import ScrollTop from './ScrollTop'
+import ScrollFab from './ScrollFab'
 
 interface LayoutProps {
   header?: React.ReactNode
@@ -10,19 +10,15 @@ interface LayoutProps {
   children?: React.ReactNode
 }
 
-
-// TODO - remove marginTop
-const HEADER_HEIGHT = '60px';
-
 const Layout: React.FC<LayoutProps> = ({
   children,
   header,
   footer
 }) => (
   <>
-    <Header additional={header} height={HEADER_HEIGHT} />
-    <div style={{ minHeight: '100vh', marginTop: HEADER_HEIGHT }}>
-      <ScrollTop />
+    <Header additional={header} />
+    <div style={{ minHeight: '100vh', marginTop: '60px' }}>
+      <ScrollFab />
       {children}
     </div>
     <Footer additional={footer} />

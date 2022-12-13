@@ -1,8 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 
-import { signIn, signOut, useSession } from 'next-auth/react'
-
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import Toolbar from '@mui/material/Toolbar'
@@ -14,84 +12,81 @@ import Menu from '@mui/material/Menu'
 
 import MenuIcon from '@mui/icons-material/Menu'
 import LoginIcon from '@mui/icons-material/Login'
-import LogoutIcon from '@mui/icons-material/Logout';
-
-import type { StandardLonghandProperties } from 'csstype'
+import LogoutIcon from '@mui/icons-material/Logout'
+import SettingsIcon from '@mui/icons-material/Settings'
 
 import SideMenu from '../SideMenu'
 import ThemeSelection from './ThemeSelection'
+import { dispatch } from 'src/utils/dispatch'
+
+import { signIn, signOut, useSession } from 'next-auth/react'
 import { motion, useScroll, useAnimationControls, Variants } from 'framer-motion'
 
 interface HeaderProps {
   additional?: React.ReactNode | undefined
-  height?: StandardLonghandProperties['height']
 }
 
 const headerAnimateVaraints: Variants = {
-  blur: prog => ({
+  blur: {
     margin: '10px min(calc(100% - 400px), 15%)',
     width: 'calc(100% - min(calc(100% - 400px), 15%))',
     left: 'calc(-1 * min(calc((100% - 400px) / 2), 7.5%))',
-    borderRadius: '20px',
     opacity: 0.5,
-    transition: {
-      duration: 1
-    },
-  }),
+    borderRadius: '20px',
+  },
   init: {
     margin: '0px',
     width: '100%',
     left: 0,
     opacity: 1,
     borderRadius: '0px',
-    transition: {
-      duration: 1
-    },
   }
 }
 
-const Header: React.FC<HeaderProps> = ({
-  additional,
-  height = '60px'
-}) => {
+const Header: React.FC<HeaderProps> = ({ additional }) => {
   const [open, setOpen] = React.useState(false);
   const controller = useAnimationControls();
-  const { scrollY, scrollYProgress } = useScroll();
+  const { scrollY } = useScroll();
 
   React.useEffect(() => {
     controller.set('init')
+    const animate = dispatch((latest: number) => controller.start(latest === 0 ? 'init' : 'blur'), 0.3 * 1000);
+    animate('init', 0);
     return scrollY.onChange((latest) => {
-      controller.start(latest === 0 ? 'init' : 'blur'); 
+      animate(latest === 0 ? 'init' : 'blur', latest);
     })
   }, [])
 
   return (
     <>
-      <AppBar 
-        custom={scrollYProgress.get()}
-        component={motion.div} 
-        animate={controller} 
-        variants={headerAnimateVaraints} 
-        initial={scrollYProgress.get() !== 0 ? 'blur' : 'init'} 
-        whileHover={{ opacity: 1 }}
-      >
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <IconButton sx={{ color: 'white' }} onClick={() => setOpen(prev => !prev)}>
-              <MenuIcon />
-            </IconButton>
-            <Tooltip title='back to main'>
-              <Link href='/'>
-                <Button sx={{ marginLeft: '10px', color: 'white', fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>
+      <motion.div
+        onHoverStart={() => controller.start({ opacity: 1 })}
+        onHoverEnd={() => controller.start({ opacity: scrollY.get() < 1 ? 1 : 0.5 })}>
+        <AppBar
+          component={motion.div}
+          animate={controller}
+          transition={{ duration: 0.3 }}
+          variants={headerAnimateVaraints}
+        >
+          <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <IconButton sx={{ color: 'white' }} onClick={() => setOpen(prev => !prev)}>
+                <MenuIcon />
+              </IconButton>
+              <Tooltip title='back to main'>
+                <Link href='/'>
+                  <Button sx={{ marginLeft: '10px', color: 'white', fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>
                     Sharlotte
-                </Button>
-              </Link>
-            </Tooltip>
-          </div>
-          <HeaderMenu />
-        </Toolbar>
-        {additional}
-      </AppBar>
+                  </Button>
+                </Link>
+              </Tooltip>
+            </div>
+            <HeaderMenu />
+          </Toolbar>
+          {additional}
+        </AppBar>
+      </motion.div>
+
       <SideMenu
         anchor='left'
         variant="temporary"
@@ -108,7 +103,7 @@ const HeaderMenu: React.FC = () => {
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <IconButton sx={{ color: 'white' }} onClick={e => e.currentTarget && setAnchor(e.currentTarget)}>
-        <MenuIcon />
+        <SettingsIcon />
       </IconButton>
       <Menu
         open={Boolean(anchor)}
