@@ -1,4 +1,4 @@
-import Fab, { FabProps } from '@mui/material/Fab'
+import Fab from '@mui/material/Fab'
 import SwapVerticalCircleIcon from '@mui/icons-material/SwapVerticalCircle';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -29,6 +29,7 @@ const ScrollFab: React.FC<{ target?: HTMLDivElement | undefined }> = ({ target =
           "&:nth-child(1)": {
             opacity: 0,
             zIndex: 9998,
+            pointerEvents: 'none'
           },
           "&:nth-child(2)": {
             opacity: 1,
@@ -41,7 +42,7 @@ const ScrollFab: React.FC<{ target?: HTMLDivElement | undefined }> = ({ target =
         }
       }
     }}>
-      <Fab size='small' onClick={() => console.log("wtf")}>
+      <Fab size='small'>
         <SwapVerticalCircleIcon />
       </Fab>
       <Fab size='small' onClick={scrollToTop}>

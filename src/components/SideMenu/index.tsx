@@ -118,7 +118,7 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
                 <DivTypography title='Links' />
                 <LinksContainer>
                     {links.map(([link, Component, color]) => (
-                        <a href={link}>
+                        <a href={link} key={link}>
                             <Component sx={{ color }} />
                         </a>
                     ))}
