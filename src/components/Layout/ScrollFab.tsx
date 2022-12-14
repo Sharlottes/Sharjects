@@ -2,46 +2,55 @@ import Fab, { FabProps } from '@mui/material/Fab'
 import SwapVerticalCircleIcon from '@mui/icons-material/SwapVerticalCircle';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-const StyledFab: React.FC<FabProps> = (props) => (
-  <Fab size='small' sx={{ position: 'fixed', right: 16, bottom: 16 }} {...props} />
-)
+import { Box } from '@mui/material';
 
 const ScrollFab: React.FC<{ target?: HTMLDivElement | undefined }> = ({ target = global.window }) => {
   const scrollToTop = () => target.scrollTo({ top: 0, behavior: 'smooth' });
   const scrollToBottom = () => target.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 
   return (
-    <StyledFab sx={{
-      position: 'fixed', right: 16, bottom: 16,
-      "&>svg": {
+    <Box sx={{
+      position: 'fixed', right: 16, bottom: 48,
+      width: 40, height: 40,
+      zIndex: 9999,
+      "& button": {
+        position: 'fixed', right: 16, bottom: 48,
         transition: 'all 500ms',
-        opacity: 1,
-      },
-      "&>button": {
-        transition: 'all 500ms',
-        opacity: 0,
-      },
-      "&:hover": {
-        "&>svg": {
+        "&:not(:nth-child(1))": {
           opacity: 0,
         },
-        "&>button": {
-          "&:nth-child(2)": {
-            bottom: '40px'
+        "&:nth-child(1)": {
+          zIndex: 9998,
+          opacity: 1,
+        }
+      },
+      "&:hover": {
+        "& button": {
+          "&:nth-child(1)": {
+            opacity: 0,
+            zIndex: 9998,
           },
-          opacity: 1
+          "&:nth-child(2)": {
+            opacity: 1,
+            transform: 'translateY(-24px)',
+          },
+          "&:nth-child(3)": {
+            opacity: 1,
+            transform: 'translateY(24px)',
+          },
         }
       }
     }}>
-      <SwapVerticalCircleIcon />
-      <StyledFab onClick={scrollToTop}>
+      <Fab size='small' onClick={() => console.log("wtf")}>
+        <SwapVerticalCircleIcon />
+      </Fab>
+      <Fab size='small' onClick={scrollToTop}>
         <KeyboardArrowUpIcon />
-      </StyledFab>
-      <StyledFab onClick={scrollToBottom}>
+      </Fab>
+      <Fab size='small' onClick={scrollToBottom}>
         <KeyboardArrowDownIcon />
-      </StyledFab>
-    </StyledFab>
+      </Fab>
+    </Box>
   );
 }
 

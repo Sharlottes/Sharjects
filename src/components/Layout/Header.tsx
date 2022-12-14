@@ -28,9 +28,9 @@ interface HeaderProps {
 
 const headerAnimateVaraints: Variants = {
   blur: {
-    margin: '10px min(calc(100% - 400px), 15%)',
-    width: 'calc(100% - min(calc(100% - 400px), 15%))',
-    left: 'calc(-1 * min(calc((100% - 400px) / 2), 7.5%))',
+    margin: '10px min(calc(100% - min(70%, 400px)), 15%)',
+    width: 'calc(100% - min(calc(100% - min(70%, 400px)), 15%))',
+    left: 'calc(-1 * min(calc((100% - min(70%, 400px)) / 2), 7.5%))',
     opacity: 0.5,
     borderRadius: '20px',
   },
@@ -130,9 +130,16 @@ const Profile: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 10px', width: '100%' }}>
-      <a href='/mypage' style={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar src={session?.user?.image ?? ''} sx={{ padding: '4px', margin: '4px', width: '35px', height: '35px', backgroundColor: 'rgba(0,0,0,0)' }} ><></></Avatar>
-        <span>{session?.user?.name ?? 'not logged in!'}</span>
+      <a href='/mypage' style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}>
+        <Avatar 
+          src={session?.user?.image ?? ''} 
+          sx={{ 
+            padding: '4px', margin: '4px', 
+            width: '35px', height: '35px', 
+            backgroundColor: 'rgba(0,0,0,0)' 
+          }}
+        />
+        {session?.user?.name ?? 'not logged in!'}
       </a>
       {
         status === 'authenticated'

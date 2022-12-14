@@ -21,7 +21,7 @@ import { styled } from '@mui/system'
 
 const StyledOpenInNewIcon = styled(OpenInNewIcon)({
   transform: 'scale(0.8)', 
-  color: 'text.secondary', 
+  color: 'lightgray',
   transition: 'color 300ms ease-out', 
   "&:hover": { 
     color: 'text.primary' 

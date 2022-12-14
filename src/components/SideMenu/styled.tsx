@@ -44,7 +44,7 @@ export const ProjectRow = styled('div')<{ color: string }>(({ color }) => (
       display: 'flex', flexDirection: 'row-reverse',
       "& .MuiSvgIcon-root": {
         transform: 'scale(0.8)',
-        color: 'text.secondary',
+        color: 'lightgray',
         transition: 'color 300ms ease-out',
         "&:hover": {
           color: 'text.primary'

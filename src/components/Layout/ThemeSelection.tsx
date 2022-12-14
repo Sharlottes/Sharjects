@@ -116,7 +116,7 @@ const ColoredDoat = styled('div')<{ color: string }>(({ color }) => ({
 }))
 
 const ThemeSelection: React.FC = () => {
-  const { toggleColorMode, setColorPalette } = useThemeController();
+  const { toggleColorMode, setColorPalette, currentColors } = useThemeController();
   const theme = useTheme();
   const [anchorEl, setAnchorEL] = React.useState<Element | null>(null);
 
@@ -140,7 +140,17 @@ const ThemeSelection: React.FC = () => {
             width: '300px',
           }}>
             {colors.map(color =>
-              <ColoredDoat key={color} color={Colors[color][300]} onClick={() => setColorPalette(color)} />
+              <ColoredDoat key={color} color={Colors[color][300]} onClick={() => setColorPalette(color)} sx={[
+                currentColors[300] === Colors[color][300] && {
+                  "&:before": {
+                    content: "''",
+                    position: 'absolute',
+                    width: '30px', height: '5px',
+                    backgroundColor: '#ffd37f',
+                    transform: 'translateX(-5px) translateY(20px)'
+                  }
+                }
+              ]} />
             )}
           </div>
         </div>
