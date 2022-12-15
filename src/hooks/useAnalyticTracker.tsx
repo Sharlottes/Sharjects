@@ -1,11 +1,11 @@
 import React from 'react';
 import { type NextRouter } from 'next/router';
-import * as ga from 'src/lib/ga';
+import { pageview } from 'src/lib/ga';
 
 const useAnalyticTracker = (router: NextRouter) => {
   React.useEffect(() => {
     const handleRouteChange = (url: any) => {
-      ga.pageview(url);
+      pageview(url);
       fetch('/api/visit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
