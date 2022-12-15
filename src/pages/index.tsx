@@ -56,7 +56,9 @@ const KeywordShower: React.FC<Omit<React.DetailedHTMLProps<React.HTMLAttributes<
   const controller = useAnimationControls();
 
   const startAnimation = React.useCallback(async () => {
+    await delay(500);
     for (let i = 0; i < keywords.length; i++) {
+      await delay(500);
       await controller.start((id) => {
         if (id === i - 1) {
           return { y: 20, opacity: 0 }
@@ -66,7 +68,6 @@ const KeywordShower: React.FC<Omit<React.DetailedHTMLProps<React.HTMLAttributes<
           return {}
         }
       });
-      await delay(500);
     }
   }, [controller]);
 
