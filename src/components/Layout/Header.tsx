@@ -21,6 +21,7 @@ import { dispatch } from 'src/utils/dispatch'
 
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { motion, useScroll, useAnimationControls, Variants } from 'framer-motion'
+import { ClickAwayListener, Paper, Popper, Zoom } from '@mui/material'
 
 interface HeaderProps {
   additional?: React.ReactNode | undefined
@@ -105,22 +106,25 @@ const HeaderMenu: React.FC = () => {
       <IconButton sx={{ color: 'white' }} onClick={e => e.currentTarget && setAnchor(e.currentTarget)}>
         <SettingsIcon />
       </IconButton>
-      <Menu
+      <Popper
         open={Boolean(anchor)}
         anchorEl={anchor}
-        onClose={() => setAnchor(null)}
-        PaperProps={{
-          sx: {
-            minWidth: '180px',
-            padding: '0 10px',
-            borderRadius: '10px'
-          }
+        sx={{
+          zIndex: 9999
         }}
       >
-        <Profile />
-        <Divider />
-        <ThemeSelection />
-      </Menu>
+        <ClickAwayListener onClickAway={() => setAnchor(null)}>
+            <Paper sx={{
+              minWidth: '180px',
+              padding: '0 10px', marginRight: '20px',
+              borderRadius: '10px',
+            }}>
+              <Profile />
+              <Divider />
+              <ThemeSelection />
+            </Paper>
+        </ClickAwayListener>
+      </Popper>
     </div>
   )
 }
