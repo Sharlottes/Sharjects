@@ -43,9 +43,16 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
     return (
         <Drawer {...props} PaperProps={{
             sx: {
-                display: 'flex', flexDirection: 'column', 
-                overflow: 'hidden',
-                padding: '0 24px',
+                display: 'flex', flexDirection: 'column',
+                overflow: 'hidden scroll',
+                padding: '10px 24px', marginTop: '60px',
+                boxShadow: '5px 0px 10px black',
+                height: 'calc(100vh - 60px)',
+                msOverflowStyle: 'none',
+                scrollbarWidth: 'none',
+                "&::-webkit-scrollbar": {
+                    display: 'none'
+                },
                 "& >div": {
                     width: '100%'
                 }

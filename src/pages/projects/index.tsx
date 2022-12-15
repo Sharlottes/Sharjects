@@ -20,18 +20,18 @@ import { motion, Variants } from 'framer-motion'
 import { styled } from '@mui/system'
 
 const StyledOpenInNewIcon = styled(OpenInNewIcon)({
-  transform: 'scale(0.8)', 
+  transform: 'scale(0.8)',
   color: 'lightgray',
-  transition: 'color 300ms ease-out', 
-  "&:hover": { 
-    color: 'text.primary' 
+  transition: 'color 300ms ease-out',
+  "&:hover": {
+    color: 'text.primary'
   }
 })
 
 const ProjectsContainer = styled(motion.div)(({ theme }) => ({
   display: 'grid',
   alignItems: 'stretch',
-  gap: '10px',
+  gap: '20px',
   padding: '0 20px',
   [theme.breakpoints.between('xs', 'sm')]: {
     gridTemplateColumns: 'repeat(1, 1fr)'
@@ -69,7 +69,7 @@ const ProjectCard = styled(Card)(({ theme }) => ({
   "& .link-btn": {
     display: 'flex', gap: '10px', alignItems: 'center',
     float: 'right',
-    "& div": { 
+    "& div": {
       transition: 'opacity 500ms',
       opacity: 0,
     },
@@ -99,7 +99,7 @@ const ProjectCard = styled(Card)(({ theme }) => ({
       "&:hover": {
         color: 'white',
         "&::before": {
-        opacity: 1
+          opacity: 1
         }
       },
       "&::before": {
@@ -185,7 +185,7 @@ const Projects: React.FC = () => (
           <motion.div custom={i} initial='hidden' animate='visible' variants={projectVariants}>
             <ProjectCard key={data.name}>
               <div style={{
-                padding: '10px',
+                padding: '10px 15px',
                 gridColumnStart: 1, gridRowStart: 1
               }}>
                 <div style={{ height: 'calc(100% - 30px)' }}>
@@ -211,11 +211,11 @@ const Projects: React.FC = () => (
                     </div>
                   </div>
                   <Divider sx={{ margin: '5px 0' }} />
-                  <Typography variant='body1'>{data.description}</Typography>
+                  <Typography variant='body1' sx={{ padding: '0 10px' }}>{data.description}</Typography>
                 </div>
                 <div className="link-btn">
                   <div>
-                    {!data.noGithub && 
+                    {!data.noGithub &&
                       <a href={`https://github.com/${data.owner}/${data.name}`}>
                         <GithubIcon />
                       </a>

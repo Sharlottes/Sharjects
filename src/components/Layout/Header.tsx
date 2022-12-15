@@ -1,14 +1,16 @@
 import React from 'react'
 import Link from 'next/link'
 
+import ClickAwayListener from '@mui/material/ClickAwayListener'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import Toolbar from '@mui/material/Toolbar'
 import Divider from '@mui/material/Divider'
+import Popper from '@mui/material/Popper'
 import Avatar from '@mui/material/Avatar'
 import AppBar from '@mui/material/AppBar'
 import Button from '@mui/material/Button'
-import Menu from '@mui/material/Menu'
+import Paper from '@mui/material/Paper'
 
 import MenuIcon from '@mui/icons-material/Menu'
 import LoginIcon from '@mui/icons-material/Login'
@@ -21,59 +23,87 @@ import { dispatch } from 'src/utils/dispatch'
 
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { motion, useScroll, useAnimationControls, Variants } from 'framer-motion'
-import { ClickAwayListener, Paper, Popper, Slide, Slider, Zoom } from '@mui/material'
+import { useWindowDimensions } from '../../hooks/useWindowDimensions';
 
 interface HeaderProps {
   additional?: React.ReactNode | undefined
 }
 
-const headerAnimateVaraints: Variants = {
-  blur: {
-    margin: '10px min(calc(100% - min(70%, 400px)), 15%)',
-    width: 'calc(100% - min(calc(100% - min(70%, 400px)), 15%))',
-    left: 'calc(-1 * min(calc((100% - min(70%, 400px)) / 2), 7.5%))',
-    opacity: 0.5,
-    borderRadius: '20px',
-  },
-  init: {
-    margin: '0px',
-    width: '100%',
-    left: 0,
-    opacity: 1,
-    borderRadius: '0px',
-  }
-}
-
 const Header: React.FC<HeaderProps> = ({ additional }) => {
   const [open, setOpen] = React.useState(false);
   const controller = useAnimationControls();
+  const { width } = useWindowDimensions();
   const { scrollY } = useScroll();
 
+  const decideAnimation = (y: number, open?: boolean) => y >= 1 ? open ? 'sidebar' : 'blur' : 'init';
+
+  const headerAnimateVaraints = React.useMemo<Variants>(() => {
+    const headerWidth = width - Math.min(400, width * 0.15);
+    const widthWithSidebar = width / 2 + headerWidth / 2 + 20;
+    const leftAmount = (width - headerWidth) / 2;
+    const headerAnimateVaraints = {
+      sidebar: {
+        width: widthWithSidebar,
+        left: `-20px`,
+        margin: `10px 0`,
+        opacity: 1,
+        borderRadius: '20px'
+      },
+      blur: {
+        width: headerWidth,
+        left: leftAmount,
+        margin: `10px 0`,
+        opacity: 0.5,
+        borderRadius: '20px',
+      },
+      init: {
+        width: '100%',
+        left: 0,
+        margin: 0,
+        opacity: 1,
+        borderRadius: '0px',
+      }
+    }
+
+    controller.start(headerAnimateVaraints[decideAnimation(typeof window !== 'undefined' ? window.scrollY : 0, open)]);
+
+    return headerAnimateVaraints;
+  }, [width]);
+
   React.useEffect(() => {
-    controller.set('init')
-    const animate = dispatch((latest: number) => controller.start(latest === 0 ? 'init' : 'blur'), 0.3 * 1000);
-    animate('init', 0);
-    return scrollY.onChange((latest) => {
-      animate(latest === 0 ? 'init' : 'blur', latest);
+    const animate = dispatch((id: string) => {
+      controller.start(id);
+    }, 0.3 * 1000);
+    animate('init', decideAnimation(typeof window !== 'undefined' ? window.scrollY : 0, open));
+    return scrollY.onChange(() => {
+      const key = decideAnimation(window.scrollY, open);
+      animate(key, key);
     })
-  }, [])
+  }, [open])
+
+  const handleSidebarButton = () => {
+    setOpen(opened => !opened);
+  }
 
   return (
     <>
       <motion.div
         onHoverStart={() => controller.start({ opacity: 1 })}
-        onHoverEnd={() => controller.start({ opacity: scrollY.get() < 1 ? 1 : 0.5 })}>
+        onHoverEnd={() => controller.start({ opacity: scrollY.get() < 1 || open ? 1 : 0.5 })}
+      >
         <AppBar
           component={motion.div}
           animate={controller}
           transition={{ duration: 0.3 }}
           variants={headerAnimateVaraints}
           position="fixed"
-          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          sx={{
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+          }}
         >
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
-              <IconButton sx={{ color: 'white' }} onClick={() => setOpen(prev => !prev)}>
+              <IconButton sx={{ color: 'white' }} onClick={handleSidebarButton}>
                 <MenuIcon />
               </IconButton>
               <Tooltip title='back to main'>
@@ -89,7 +119,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
           {additional}
         </AppBar>
       </motion.div>
-      <SideMenu variant="permanent" open={open} />
+      <SideMenu variant="persistent" open={open} />
     </>
   )
 }
@@ -110,15 +140,15 @@ const HeaderMenu: React.FC = () => {
         }}
       >
         <ClickAwayListener onClickAway={() => setAnchor(null)}>
-            <Paper sx={{
-              minWidth: '180px',
-              padding: '0 10px', marginRight: '20px',
-              borderRadius: '10px',
-            }}>
-              <Profile />
-              <Divider />
-              <ThemeSelection />
-            </Paper>
+          <Paper sx={{
+            minWidth: '180px',
+            padding: '0 10px', marginRight: '20px',
+            borderRadius: '10px',
+          }}>
+            <Profile />
+            <Divider />
+            <ThemeSelection />
+          </Paper>
         </ClickAwayListener>
       </Popper>
     </div>
@@ -131,12 +161,12 @@ const Profile: React.FC = () => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 10px', width: '100%' }}>
       <a href='/mypage' style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}>
-        <Avatar 
-          src={session?.user?.image ?? ''} 
-          sx={{ 
-            padding: '4px', margin: '4px', 
-            width: '35px', height: '35px', 
-            backgroundColor: 'rgba(0,0,0,0)' 
+        <Avatar
+          src={session?.user?.image ?? ''}
+          sx={{
+            padding: '4px', margin: '4px',
+            width: '35px', height: '35px',
+            backgroundColor: 'rgba(0,0,0,0)'
           }}
         />
         {session?.user?.name ?? 'not logged in!'}

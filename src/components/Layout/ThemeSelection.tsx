@@ -2,7 +2,6 @@ import React from 'react'
 
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
-import Menu from '@mui/material/Menu'
 import Switch, { type SwitchProps } from '@mui/material/Switch'
 import styled from '@mui/system/styled'
 
@@ -10,6 +9,7 @@ import { useThemeController } from '../MainThemeProvider'
 import useTheme from '@mui/material/styles/useTheme'
 
 import * as Colors from '@mui/material/colors'
+import { Popper, ClickAwayListener, Paper } from '@mui/material';
 
 /** 
  * from @see https://mui.com/material-ui/react-switch/#customization 
@@ -130,31 +130,33 @@ const ThemeSelection: React.FC = () => {
         <ThemeSwitch onClick={toggleColorMode} checked={theme.palette.mode === 'dark'} sx={{ margin: '5px' }} />
       </div>
 
-      <Menu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={() => setAnchorEL(null)}>
-        <div style={{ margin: '8px' }}>
-          <Typography fontSize={15} fontWeight={500}>Theme Selection</Typography>
-          <Divider />
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            width: '300px',
-          }}>
-            {colors.map(color =>
-              <ColoredDoat key={color} color={Colors[color][300]} onClick={() => setColorPalette(color)} sx={[
-                currentColors[300] === Colors[color][300] && {
-                  "&:before": {
-                    content: "''",
-                    position: 'absolute',
-                    width: '30px', height: '5px',
-                    backgroundColor: '#ffd37f',
-                    transform: 'translateX(-5px) translateY(20px)'
+      <Popper open={Boolean(anchorEl)} anchorEl={anchorEl}>
+        <ClickAwayListener onClickAway={() => setAnchorEL(null)}>
+          <Paper sx={{ padding: '8px' }}>
+            <Typography fontSize={15} fontWeight={500}>Theme Selection</Typography>
+            <Divider />
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              width: '300px',
+            }}>
+              {colors.map(color =>
+                <ColoredDoat key={color} color={Colors[color][300]} onClick={() => setColorPalette(color)} sx={[
+                  currentColors[300] === Colors[color][300] && {
+                    "&:before": {
+                      content: "''",
+                      position: 'absolute',
+                      width: '30px', height: '5px',
+                      backgroundColor: '#ffd37f',
+                      transform: 'translateX(-5px) translateY(20px)'
+                    }
                   }
-                }
-              ]} />
-            )}
-          </div>
-        </div>
-      </Menu>
+                ]} />
+              )}
+            </div>
+          </Paper>
+        </ClickAwayListener>
+      </Popper>
     </>
   )
 }
