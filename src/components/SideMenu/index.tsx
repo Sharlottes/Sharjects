@@ -32,7 +32,7 @@ const links: Array<[string, React.FC<SvgIconProps>] | [string, React.FC<SvgIconP
 ]
 
 const DivTypography: React.FC<{ title?: string }> = ({ title }) => (
-    <Divider textAlign='left' sx={{ margin: '10px 0' }}>
+    <Divider textAlign='left' sx={{ margin: '10px 0', "&::before": { top: 0 }, "&::after": { top: 0 } }}>
         {title && <Typography fontWeight={500} fontSize={12}>{title}</Typography>}
     </Divider>
 )
@@ -43,7 +43,8 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
     return (
         <Drawer {...props} PaperProps={{
             sx: {
-                display: 'flex', flexDirection: 'column', overflowX: 'hidden',
+                display: 'flex', flexDirection: 'column', 
+                overflow: 'hidden',
                 padding: '0 24px',
                 "& >div": {
                     width: '100%'
@@ -75,6 +76,7 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
             </div>
 
             <DivTypography title='Projects' />
+
             <div style={{ margin: '15px 0 0 10px', gap: '10px' }}>
                 {projectData.map(({ owner, projects }) =>
                     <div key={owner}>

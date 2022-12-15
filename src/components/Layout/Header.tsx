@@ -21,7 +21,7 @@ import { dispatch } from 'src/utils/dispatch'
 
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { motion, useScroll, useAnimationControls, Variants } from 'framer-motion'
-import { ClickAwayListener, Paper, Popper, Zoom } from '@mui/material'
+import { ClickAwayListener, Paper, Popper, Slide, Slider, Zoom } from '@mui/material'
 
 interface HeaderProps {
   additional?: React.ReactNode | undefined
@@ -68,6 +68,8 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
           animate={controller}
           transition={{ duration: 0.3 }}
           variants={headerAnimateVaraints}
+          position="fixed"
+          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
         >
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
@@ -87,13 +89,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
           {additional}
         </AppBar>
       </motion.div>
-
-      <SideMenu
-        anchor='left'
-        variant="temporary"
-        open={open}
-        onClose={() => setOpen(prev => !prev)}
-      />
+      <SideMenu variant="permanent" open={open} />
     </>
   )
 }
