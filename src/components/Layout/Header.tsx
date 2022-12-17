@@ -74,11 +74,12 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
     const animate = dispatch((id: string) => {
       controller.start(id);
     }, 0.3 * 1000);
-    animate('init', decideAnimation(typeof window !== 'undefined' ? window.scrollY : 0, open));
-    return scrollY.onChange(() => {
-      const key = decideAnimation(window.scrollY, open);
+    const onChangeHandler = () => {
+      const key = decideAnimation(typeof window !== 'undefined' ? window.scrollY : 0, open);
       animate(key, key);
-    })
+    }
+    onChangeHandler();
+    return scrollY.onChange(onChangeHandler);
   }, [open])
 
   const handleSidebarButton = () => {
@@ -87,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
 
   return (
     <>
-      <motion.div
+      <motion.header
         onHoverStart={() => controller.start({ opacity: 1 })}
         onHoverEnd={() => controller.start({ opacity: scrollY.get() < 1 || open ? 1 : 0.5 })}
       >
@@ -101,7 +102,9 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
             zIndex: (theme) => theme.zIndex.drawer + 1,
           }}
         >
-          <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Toolbar sx={{
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+          }}>
             <div>
               <IconButton sx={{ color: 'white' }} onClick={handleSidebarButton}>
                 <MenuIcon />
@@ -118,7 +121,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
           </Toolbar>
           {additional}
         </AppBar>
-      </motion.div>
+      </motion.header>
       <SideMenu variant="persistent" open={open} />
     </>
   )

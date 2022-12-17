@@ -1,12 +1,7 @@
-import React from 'react'
+import { styled } from '@mui/system'
 
-import Typography from '@mui/material/Typography'
-import Divider from '@mui/material/Divider'
-
-import { experimental_sx, styled } from '@mui/system'
-
-export const OwnerRow = styled('div')<{ color: string }>(({ color }) => (
-  experimental_sx({
+export const OwnerRow = styled('div')<{ color: string }>(({ color, theme }) => (
+  theme.unstable_sx({
     display: 'flex',
     "& .highlight": {
       fontSize: 16,
@@ -24,8 +19,8 @@ export const OwnerRow = styled('div')<{ color: string }>(({ color }) => (
   })
 ))
 
-export const ProjectRow = styled('div')<{ color: string }>(({ color }) => (
-  experimental_sx({
+export const ProjectRow = styled('div')<{ color: string }>(({ color, theme }) => (
+  theme.unstable_sx({
     margin: '3px 0',
     display: 'flex', justifyContent: 'space-between',
     "& .highlight": {
@@ -60,8 +55,8 @@ export const ProjectRow = styled('div')<{ color: string }>(({ color }) => (
   })
 ))
 
-export const LinksContainer = styled('div')(
-  experimental_sx({
+export const LinksContainer = styled('div')(({ theme }) => (
+  theme.unstable_sx({
     display: 'flex', justifyContent: 'space-evenly',
     "& a": {
       transition: 'transform 200ms',
@@ -70,4 +65,4 @@ export const LinksContainer = styled('div')(
       "&:hover": { transform: 'translateY(-5px)' }
     }
   })
-)
+))

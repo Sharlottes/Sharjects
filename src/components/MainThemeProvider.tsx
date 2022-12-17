@@ -1,8 +1,8 @@
 import React, { type PropsWithChildren } from 'react'
 
 import * as Colors from '@mui/material/colors'
-import createTheme, { Theme } from '@mui/material/styles/createTheme'
-import ThemeProvider from '@mui/material/styles/ThemeProvider'
+import { createTheme, type Theme } from '@mui/material/styles'
+import { ThemeProvider } from '@mui/material/styles'
 
 import type { PaletteMode } from '@mui/material'
 import type { PaletteColor, PaletteColorOptions } from '@mui/material/styles'

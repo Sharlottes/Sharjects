@@ -3,6 +3,7 @@ import React from 'react'
 import Header from './Header'
 import Footer from './Footer'
 import ScrollFab from './ScrollFab'
+import Box from '@mui/material/Box';
 
 interface LayoutProps {
   header?: React.ReactNode
@@ -17,10 +18,16 @@ const Layout: React.FC<LayoutProps> = ({
 }) => (
   <>
     <Header additional={header} />
-    <div style={{ minHeight: '100vh', marginTop: '60px' }}>
-      <ScrollFab />
+    <ScrollFab />
+    <Box
+      component='main'
+      sx={{
+        minHeight: '100vh',
+        marginTop: '60px',
+      }}
+    >
       {children}
-    </div>
+    </Box>
     <Footer additional={footer} />
   </>
 )

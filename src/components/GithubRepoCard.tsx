@@ -2,7 +2,7 @@ import React from 'react'
 
 import replaceStringToArray from 'string-replace-to-array'
 
-import useTheme from '@mui/system/useTheme'
+import { useTheme } from '@mui/material/styles'
 
 import type { GithubAPIRepoData } from 'src/@type'
 import { useGithubData } from './GithubStaticDataContext'

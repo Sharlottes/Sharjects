@@ -6,7 +6,7 @@ import Switch, { type SwitchProps } from '@mui/material/Switch'
 import styled from '@mui/system/styled'
 
 import { useThemeController } from '../MainThemeProvider'
-import useTheme from '@mui/material/styles/useTheme'
+import { useTheme } from '@mui/material/styles'
 
 import * as Colors from '@mui/material/colors'
 import { Popper, ClickAwayListener, Paper } from '@mui/material';

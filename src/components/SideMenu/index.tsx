@@ -5,7 +5,6 @@ import type { SvgIconProps } from '@mui/material/SvgIcon'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
 
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import HistoryIcon from '@mui/icons-material/History'
@@ -41,23 +40,31 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
     const { currentColors } = useThemeController();
 
     return (
-        <Drawer {...props} PaperProps={{
-            sx: {
-                display: 'flex', flexDirection: 'column',
-                overflow: 'hidden scroll',
-                padding: '10px 24px', marginTop: '60px',
-                boxShadow: '5px 0px 10px black',
-                height: 'calc(100vh - 60px)',
-                msOverflowStyle: 'none',
-                scrollbarWidth: 'none',
-                "&::-webkit-scrollbar": {
-                    display: 'none'
-                },
-                "& >div": {
-                    width: '100%'
+        <Drawer
+            components={{
+                Root: 'aside'
+            }}
+            PaperProps={{
+
+                ...({ component: 'aside' } as any),
+                sx: {
+                    display: 'flex', flexDirection: 'column',
+                    overflow: 'hidden scroll',
+                    padding: '10px 24px', marginTop: '60px',
+                    boxShadow: '5px 0px 10px black',
+                    height: 'calc(100vh - 60px)',
+                    msOverflowStyle: 'none',
+                    scrollbarWidth: 'none',
+                    "&::-webkit-scrollbar": {
+                        display: 'none'
+                    },
+                    "& >div": {
+                        width: '100%'
+                    }
                 }
-            }
-        }}>
+            }}
+            {...props}
+        >
             <div>
                 <a href='/'>
                     <Typography sx={{ fontWeight: 800, fontSize: 20, transition: 'color 150ms ease-in', "&:hover": { color: currentColors[600] } }}>

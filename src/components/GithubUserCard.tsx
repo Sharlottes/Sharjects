@@ -1,11 +1,9 @@
 import React from 'react'
 
-import useTheme from '@mui/material/styles/useTheme'
+import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
-import Divider from '@mui/material/Divider'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
-import Stack from '@mui/material/Stack'
 
 import { signIn, useSession } from 'next-auth/react'
 import type { GithubProfile } from 'next-auth/providers/github'

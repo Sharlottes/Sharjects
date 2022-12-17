@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 import { motion, useAnimationControls, MotionProps } from 'framer-motion';
 
@@ -144,7 +145,8 @@ const Home: React.FC = () => {
             <MainTitle />
           </div>
           <Description />
-          <motion.div
+          <Box
+            component={motion.div}
             animate={{
               y: 0, opacity: 1,
             }}
@@ -154,26 +156,29 @@ const Home: React.FC = () => {
             transition={{
               delay: (keywords.length * 0.8 + 1)
             }}
-            style={{
-              marginTop: '50px', display: 'flex', justifyContent: 'center', width: '100%'
+            sx={{
+              marginTop: '50px',
+              display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '10px',
+              width: '100%',
+              whiteSpace: 'nowrap'
             }}
           >
             <Link href='/timeline'>
-              <Button variant='contained' sx={{ margin: '0 10px' }}>
+              <Button variant='contained'>
                 Timeline
               </Button>
             </Link>
             <Link href='/projects'>
-              <Button variant='contained' sx={{ margin: '0 10px' }}>
+              <Button variant='contained'>
                 Projects
               </Button>
             </Link>
             <Link href='https://github.com/sharlottes'>
-              <Button variant='contained' sx={{ margin: '0 10px', backgroundColor: 'black', color: 'white' }} startIcon={<GithubIcon />}>
+              <Button variant='contained' sx={{ backgroundColor: 'black', color: 'white' }} startIcon={<GithubIcon />}>
                 Github Profile
               </Button>
             </Link>
-          </motion.div>
+          </Box>
         </div>
       </div>
     </Layout>
