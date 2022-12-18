@@ -1,4 +1,6 @@
 body {
+  width: 100vw;
+  height: 100vh;
   overflow-x: hidden;
   --header-width: calc(100vw - min(400px, 15vw));
   --slider-mode-header-width: calc(50vw + var(--header-width) / 2 + 20px);

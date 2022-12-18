@@ -79,7 +79,7 @@ const KeywordShower: React.FC<Omit<React.DetailedHTMLProps<React.HTMLAttributes<
   return (
     <motion.div {...props}>
       {keywords.map((keyword, i) => (
-        <motion.div key={i} custom={i} animate={controller} initial={{ y: -50, opacity: 0 }}>
+        <motion.div key={i} custom={i} animate={controller} transition={{duration: 0.5, type: "spring"}} initial={{ y: -50, opacity: 0 }}>
           <Typography color='primary' sx={{ fontFamily: 'Nanum Pen Script', fontSize: '1.1em', width: '100%', position: 'fixed' }} >
             {keyword}
           </Typography>
@@ -154,7 +154,8 @@ const Home: React.FC = () => {
               y: -50, opacity: 0
             }}
             transition={{
-              delay: (keywords.length * 0.8 + 1)
+              delay: (keywords.length * 0.8 + 1),
+              duration: 0.3
             }}
             sx={{
               marginTop: '50px',

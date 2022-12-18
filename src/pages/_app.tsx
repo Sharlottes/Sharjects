@@ -23,6 +23,7 @@ import 'public/styles/global.css'
 import { } from "src/@type"
 
 import type { Session } from 'next-auth/core/types'
+import { AnimatePresence } from 'framer-motion'
 
 // for chart.js rendering
 require('src/lib/registerChartjs');
@@ -64,7 +65,9 @@ const MyApp: React.FC<MyAppProps> = ({
           <SnackbarProvider maxSnack={3} Components={{ lifebar: LifebarSnackbar }}>
             <AuthWrapper auth={Component.auth}>
               <GithubStaticDataContext>
-                <Component {...pageProps} />
+                <AnimatePresence>
+                  <Component {...pageProps} />
+                </AnimatePresence>
               </GithubStaticDataContext>
             </AuthWrapper>
           </SnackbarProvider>
