@@ -50,7 +50,7 @@ const ProgressiveTypography: React.FC<ProgressiveTypographyProps> = ({
                         custom={i}
                         initial={{ opacity: 0 }}
                         animate={c}
-                        variants={{ show: { opacity: 1, transition: { delay: i * speed + delay } } }}
+                        variants={{ show: { opacity: 1, transition: { delay: i * speed + delay, duration: 0.3 } } }}
                         ref={ref}
                         {...motionProps(char, ref, (x, y) => cc.start({ x, y }))}
                     >
