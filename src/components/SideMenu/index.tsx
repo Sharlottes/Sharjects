@@ -50,19 +50,18 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
 
   return (
     <Drawer
-      components={{
-        Root: "aside",
-      }}
+      {...({ component: "aside" } as any)}
+      disableScrollLock
       PaperProps={{
-        ...({ component: "aside" } as any),
         sx: {
           display: "flex",
           flexDirection: "column",
           overflow: "hidden scroll",
           padding: "10px 24px",
-          marginTop: "60px",
+          marginTop: "50px",
+          paddingTop: "30px",
           boxShadow: "5px 0px 10px black",
-          height: "calc(100vh - 60px)",
+          height: "calc(100vh - 50px)",
           msOverflowStyle: "none",
           scrollbarWidth: "none",
           "&::-webkit-scrollbar": {

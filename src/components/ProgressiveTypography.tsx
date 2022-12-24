@@ -1,13 +1,13 @@
 import Box, { type BoxProps } from "@mui/material/Box";
 import Typography, { type TypographyProps } from "@mui/material/Typography";
 import {
-  AnimationControls,
+  type AnimationControls,
   motion,
-  MotionProps,
+  type MotionProps,
   useAnimationControls,
 } from "framer-motion";
 import React from "react";
-import { listAnimatonRefType } from "src/@type";
+import type { listAnimatonRefType } from "src/@type";
 
 type MotionPropsGetterType = (
   char: string,

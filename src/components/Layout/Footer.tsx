@@ -1,9 +1,22 @@
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import { getComplementaryColor } from "src/utils/getComplementaryColor";
 
 const Footer: React.FC<{ additional?: React.ReactNode | undefined }> = ({
   additional,
 }) => (
-  <footer>
+  <Box
+    component="footer"
+    sx={{
+      width: "100%",
+      minHeight: "100px",
+      borderTop: "solid 1px #6666667f",
+      backgroundColor: (theme) =>
+        theme.palette.mode === "dark"
+          ? getComplementaryColor("#e6e6e6")
+          : "#e6e6e6",
+    }}
+  >
     <Typography
       variant="body2"
       sx={{
@@ -24,7 +37,7 @@ const Footer: React.FC<{ additional?: React.ReactNode | undefined }> = ({
       </span>
     </Typography>
     {additional}
-  </footer>
+  </Box>
 );
 
 export default Footer;

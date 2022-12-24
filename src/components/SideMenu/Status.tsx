@@ -1,6 +1,6 @@
 import React from "react";
-import Box from "@mui/material/Box";
 import VisitorGraphDialog from "./VisitorGraphDialog";
+import Box from "@mui/material/Box";
 
 const dateCode = (() => {
   const date = new Date();
@@ -20,16 +20,11 @@ const Status: React.FC = () => {
   }, []);
 
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         marginLeft: "10px",
         fontSize: 12,
         fontWeight: 500,
-        "& span": {
-          display: "inline",
-          color: "blue",
-          cursor: "pointer",
-        },
       }}
     >
       {!visitors ? (
@@ -39,7 +34,17 @@ const Status: React.FC = () => {
           이 사이트는 오늘 {visitors[dateCode] || 0}번 조회되었고,
           <br />총 {Object.values(visitors).reduce((a, e) => a + e, 0)}번
           조회되었어요.
-          <span onClick={() => setDialogOpen(true)}>그래프 보기</span>
+          <Box
+            component="span"
+            onClick={() => setDialogOpen(true)}
+            sx={{
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "skyblue" : "blue",
+              cursor: "pointer",
+            }}
+          >
+            그래프 보기
+          </Box>
           <VisitorGraphDialog
             data={visitors}
             maxWidth="xs"
@@ -49,7 +54,7 @@ const Status: React.FC = () => {
           />
         </>
       )}
-    </Box>
+    </div>
   );
 };
 export default Status;

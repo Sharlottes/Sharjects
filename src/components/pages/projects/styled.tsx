@@ -111,7 +111,6 @@ export const ProjectCard = styled(Card)(({ theme }) =>
     "& .collapse-bar": {
       width: "100%",
       height: "100%",
-      textAlign: "center",
       color: "#777777",
       gridColumnStart: 1,
       gridRowStart: 1,
@@ -137,7 +136,7 @@ export const ProjectCard = styled(Card)(({ theme }) =>
       boxShadow: "0 0 10px black",
       "& .MuiDivider-root": {
         width: "100%",
-        backgroundColor: "#a9d8ff",
+        backgroundColor: (themes) => themes.palette.primary.main,
       },
       "& .link-btn": {
         "& >div": {
