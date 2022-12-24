@@ -1,8 +1,7 @@
-import Layout from "src/components/Layout"
+import Layout from "src/components/Layout";
 
 const KakaoBotPage: React.FC = () => {
-    return <Layout>
-    </Layout>
-}
+  return <Layout></Layout>;
+};
 
-export default KakaoBotPage
+export default KakaoBotPage;

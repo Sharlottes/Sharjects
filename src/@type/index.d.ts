@@ -2,28 +2,28 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       // NEXT AUTH
-      NEXTAUTH_AUTH_SECRET: string,
-      JWT_SECRET: string,
+      NEXTAUTH_AUTH_SECRET: string;
+      JWT_SECRET: string;
 
-      GOOGLE_ID: string,
-      GOOGLE_SECRET: string,
-      GITHUB_ID: string,
-      GITHUB_SECRET: string,
-      DISCORD_ID: string,
-      DISCORD_SECRET: string,
+      GOOGLE_ID: string;
+      GOOGLE_SECRET: string;
+      GITHUB_ID: string;
+      GITHUB_SECRET: string;
+      DISCORD_ID: string;
+      DISCORD_SECRET: string;
 
       // MONGO DB
-      MONGODB_URI: string,
+      MONGODB_URI: string;
 
       // GITHUB REST
-      GITHUB_REST_PAT: string,
+      GITHUB_REST_PAT: string;
 
       // GOOGLE ANALYTICS
-      GOOGLE_ANALYTICS_ID: string,
+      GOOGLE_ANALYTICS_ID: string;
 
       // Naver API Headers
-      XNaverClientId: string,
-      XNaverClientSecret: string
+      XNaverClientId: string;
+      XNaverClientSecret: string;
     }
   }
   interface Window {
@@ -34,149 +34,149 @@ declare global {
 
 declare module "next-auth" {
   interface Session {
-    accessToken: any
+    accessToken: any;
   }
 }
 
-declare module 'notistack' {
+declare module "notistack" {
   interface VariantOverrides {
-    lifebar: true
+    lifebar: true;
   }
 }
 
 export type listAnimatonRefType = {
-  list: Array<(delay: number) => void>
-}
+  list: Array<(delay: number) => void>;
+};
 
 export type projectDataType = {
-  owner: string,
+  owner: string;
   projects: Array<{
-    name: string,
-    description: string,
-    tags: tagType[],
-    link?: string,
-    icon?: string,
-    noGithub?: boolean
-  }>
-}
+    name: string;
+    description: string;
+    tags: tagType[];
+    link?: string;
+    icon?: string;
+    noGithub?: boolean;
+  }>;
+};
 
 export interface GithubAPIUserData {
-  name: string,
-  login: string,
-  id: number,
-  node_id: string,
-  avatar_url: string,
-  gravatar_id: string,
-  url: string,
-  html_url: string,
-  followers_url: string,
-  following_url: string,
-  gists_url: string,
-  starred_url: string,
-  subscriptions_url: string,
-  organizations_url: string,
-  repos_url: string,
-  events_url: string,
-  received_events_url: string,
-  type: string,
-  site_admin: boolean,
-  public_repos: string,
-  public_gists: string,
-  followers: string,
-  bio: string
+  name: string;
+  login: string;
+  id: number;
+  node_id: string;
+  avatar_url: string;
+  gravatar_id: string;
+  url: string;
+  html_url: string;
+  followers_url: string;
+  following_url: string;
+  gists_url: string;
+  starred_url: string;
+  subscriptions_url: string;
+  organizations_url: string;
+  repos_url: string;
+  events_url: string;
+  received_events_url: string;
+  type: string;
+  site_admin: boolean;
+  public_repos: string;
+  public_gists: string;
+  followers: string;
+  bio: string;
 }
 
 export interface GithubAPIRepoData {
-  id: number,
-  node_id: string,
-  name: string,
-  full_name: string,
-  private: boolean,
-  owner: GithubAPIUserData,
-  html_url: string,
-  description: string | null,
-  fork: boolean,
-  url: string,
-  forks_url: string,
-  keys_url: string,
-  collaborators_url: string,
-  teams_url: string,
-  hooks_url: string,
-  issue_events_url: string,
-  events_url: string,
-  assignees_url: string,
-  branches_url: string,
-  tags_url: string,
-  blobs_url: string,
-  git_tags_url: string,
-  git_refs_url: string,
-  trees_url: string,
-  statuses_url: string,
-  languages_url: string,
-  stargazers_url: string,
-  contributors_url: string,
-  subscribers_url: string,
-  subscription_url: string,
-  commits_url: string,
-  git_commits_url: string,
-  comments_url: string,
-  issue_comment_url: string,
-  contents_url: string,
-  compare_url: string,
-  merges_url: string,
-  archive_url: string,
-  downloads_url: string,
-  issues_url: string,
-  pulls_url: string,
-  milestones_url: string,
-  notifications_url: string,
-  labels_url: string,
-  releases_url: string,
-  deployments_url: string,
-  created_at: string,
-  updated_at: string,
-  pushed_at: string,
-  git_url: string,
-  ssh_url: string,
-  clone_url: string,
-  svn_url: string,
-  homepage: string,
-  size: number,
-  stargazers_count: number,
-  watchers_count: number,
-  language: string,
-  has_issues: boolean,
-  has_projects: boolean,
-  has_downloads: boolean,
-  has_wiki: boolean,
-  has_pages: boolean,
-  has_discussions: boolean,
-  forks_count: number,
-  mirror_url: string | null,
-  archived: boolean,
-  disabled: boolean,
-  open_issues_count: number,
+  id: number;
+  node_id: string;
+  name: string;
+  full_name: string;
+  private: boolean;
+  owner: GithubAPIUserData;
+  html_url: string;
+  description: string | null;
+  fork: boolean;
+  url: string;
+  forks_url: string;
+  keys_url: string;
+  collaborators_url: string;
+  teams_url: string;
+  hooks_url: string;
+  issue_events_url: string;
+  events_url: string;
+  assignees_url: string;
+  branches_url: string;
+  tags_url: string;
+  blobs_url: string;
+  git_tags_url: string;
+  git_refs_url: string;
+  trees_url: string;
+  statuses_url: string;
+  languages_url: string;
+  stargazers_url: string;
+  contributors_url: string;
+  subscribers_url: string;
+  subscription_url: string;
+  commits_url: string;
+  git_commits_url: string;
+  comments_url: string;
+  issue_comment_url: string;
+  contents_url: string;
+  compare_url: string;
+  merges_url: string;
+  archive_url: string;
+  downloads_url: string;
+  issues_url: string;
+  pulls_url: string;
+  milestones_url: string;
+  notifications_url: string;
+  labels_url: string;
+  releases_url: string;
+  deployments_url: string;
+  created_at: string;
+  updated_at: string;
+  pushed_at: string;
+  git_url: string;
+  ssh_url: string;
+  clone_url: string;
+  svn_url: string;
+  homepage: string;
+  size: number;
+  stargazers_count: number;
+  watchers_count: number;
+  language: string;
+  has_issues: boolean;
+  has_projects: boolean;
+  has_downloads: boolean;
+  has_wiki: boolean;
+  has_pages: boolean;
+  has_discussions: boolean;
+  forks_count: number;
+  mirror_url: string | null;
+  archived: boolean;
+  disabled: boolean;
+  open_issues_count: number;
   license: {
-    key: string,
-    name: string,
-    spdx_id: string,
-    url: string,
-    node_id: string
-  },
-  allow_forking: true,
-  is_template: false,
-  web_commit_signoff_required: false,
-  topics: string[],
-  visibility: string,
-  forks: number,
-  open_issues: number,
-  watchers: number,
-  default_branch: string,
-  temp_clone_token: null,
-  network_count: number,
-  subscribers_count: number,
-  source: GithubAPIRepoData,
-  parent: GithubAPIRepoData
+    key: string;
+    name: string;
+    spdx_id: string;
+    url: string;
+    node_id: string;
+  };
+  allow_forking: true;
+  is_template: false;
+  web_commit_signoff_required: false;
+  topics: string[];
+  visibility: string;
+  forks: number;
+  open_issues: number;
+  watchers: number;
+  default_branch: string;
+  temp_clone_token: null;
+  network_count: number;
+  subscribers_count: number;
+  source: GithubAPIRepoData;
+  parent: GithubAPIRepoData;
 }
 
-export { }
+export {};

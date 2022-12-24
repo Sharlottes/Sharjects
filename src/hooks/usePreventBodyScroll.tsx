@@ -6,10 +6,12 @@ function usePreventBodyScroll() {
   const [hidden, setHidden] = React.useState(false);
 
   React.useEffect(() => {
-    if (hidden) document?.addEventListener("wheel", preventDefault, { passive: false });
+    if (hidden)
+      document?.addEventListener("wheel", preventDefault, { passive: false });
     else document?.removeEventListener("wheel", preventDefault, false);
 
-    return () => document?.addEventListener("wheel", preventDefault, { passive: false });
+    return () =>
+      document?.addEventListener("wheel", preventDefault, { passive: false });
   }, [hidden]);
 
   const disableScroll = React.useCallback(() => setHidden(true), []);

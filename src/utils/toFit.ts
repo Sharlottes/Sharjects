@@ -1,4 +1,4 @@
-export const toFit = (runner: ((...params: any) => any)) => {
+export const toFit = (runner: (...params: any) => any) => {
   let tick = false;
 
   return () => {
@@ -7,6 +7,6 @@ export const toFit = (runner: ((...params: any) => any)) => {
     return requestAnimationFrame(() => {
       tick = false;
       return runner();
-    })
-  }
-}
+    });
+  };
+};

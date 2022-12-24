@@ -1,8 +1,5 @@
-import Layout from "src/components/Layout"
+import Layout from "src/components/Layout";
 
-const SharBotPage: React.FC = () => (
-    <Layout>
-    </Layout>
-)
+const SharBotPage: React.FC = () => <Layout></Layout>;
 
-export default SharBotPage
+export default SharBotPage;

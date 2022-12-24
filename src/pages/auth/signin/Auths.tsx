@@ -1,50 +1,59 @@
-import React from 'react'
-import { useRouter } from 'next/router'
+import React from "react";
+import { useRouter } from "next/router";
 
-import Stack from '@mui/material/Stack'
-import Divider from '@mui/material/Divider'
-import Button from '@mui/material/Button'
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
+import Button from "@mui/material/Button";
 
-import { signIn } from 'next-auth/react'
-import type { ClientSafeProvider, LiteralUnion } from 'next-auth/react'
-import type { BuiltInProviderType } from 'next-auth/providers'
+import { signIn } from "next-auth/react";
+import type { ClientSafeProvider, LiteralUnion } from "next-auth/react";
+import type { BuiltInProviderType } from "next-auth/providers";
 
-import DiscordIcon from '../../../assets/icons/DiscordIcon'
-import GithubIcon from '../../../assets/icons/GithubIcon'
-import GoogleIcon from '../../../assets/icons/GoogleIcon'
+import DiscordIcon from "../../../assets/icons/DiscordIcon";
+import GithubIcon from "../../../assets/icons/GithubIcon";
+import GoogleIcon from "../../../assets/icons/GoogleIcon";
 
-import type { CustomNextPage } from 'src/pages/_app'
+import type { CustomNextPage } from "src/pages/_app";
 
 const Auths: CustomNextPage<{
-  providers?: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | undefined
+  providers?:
+    | Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>
+    | undefined;
 }> = ({ providers }) => {
   const { query } = useRouter();
-  const icons: Record<string, { icon: JSX.Element, colors: string[] }> = {
+  const icons: Record<string, { icon: JSX.Element; colors: string[] }> = {
     google: {
-      icon: <GoogleIcon sx={{ color: 'white' }} />,
-      colors: ['#679df6', '#5491f5', 'white']
+      icon: <GoogleIcon sx={{ color: "white" }} />,
+      colors: ["#679df6", "#5491f5", "white"],
     },
     github: {
-      icon: <GithubIcon sx={{ color: 'black' }} className='githubIcon' />,
-      colors: ['#8b76a9', 'black', 'white']
+      icon: <GithubIcon sx={{ color: "black" }} className="githubIcon" />,
+      colors: ["#8b76a9", "black", "white"],
     },
     discord: {
-      icon: <DiscordIcon sx={{ color: 'white' }} />,
-      colors: ['#8ea0e1', '#8094dd', 'white']
-    }
-  }
+      icon: <DiscordIcon sx={{ color: "white" }} />,
+      colors: ["#8ea0e1", "#8094dd", "white"],
+    },
+  };
 
   return (
-    <Stack direction='column' spacing={1.5}>
+    <Stack direction="column" spacing={1.5}>
       {Object.values(providers ?? {}).map((provider) => {
-        if (provider.name === 'Credentials') return <div style={{ display: 'none' }} key={provider.name} />;
-        const { icon, colors: [base, bg, accent] } = icons[provider.name.toLowerCase()];
+        if (provider.name === "Credentials")
+          return <div style={{ display: "none" }} key={provider.name} />;
+        const {
+          icon,
+          colors: [base, bg, accent],
+        } = icons[provider.name.toLowerCase()];
 
         return (
-          <div key={provider.name} style={{ display: 'flex', justifyContent: 'center' }}>
+          <div
+            key={provider.name}
+            style={{ display: "flex", justifyContent: "center" }}
+          >
             <Button
               sx={{
-                width: 'min(70vw, 300px)',
+                width: "min(70vw, 300px)",
                 transitionProperty: "background-color, color",
                 transitionDuration: "0.3s",
                 borderColor: base,
@@ -53,33 +62,35 @@ const Auths: CustomNextPage<{
                   backgroundColor: bg,
                   color: accent,
                   "& .githubIcon": {
-                    color: 'white'
-                  }
+                    color: "white",
+                  },
                 },
                 "& .githubIcon": {
                   transitionProperty: "color",
                   transitionDuration: "0.3s",
-                  color: 'black'
-                }
+                  color: "black",
+                },
               }}
-              variant='outlined'
+              variant="outlined"
               onClick={() => {
                 signIn(provider.id, {
-                  callbackUrl: `${query.callbackUrl
-                    ? decodeURIComponent(query.callbackUrl as string)
-                    : window.location.origin
-                    }`
-                })
+                  callbackUrl: `${
+                    query.callbackUrl
+                      ? decodeURIComponent(query.callbackUrl as string)
+                      : window.location.origin
+                  }`,
+                });
               }}
             >
-              {icon} <Divider orientation='vertical' sx={{ ml: 1, mr: 1 }} /> Sign in with {provider.name}
+              {icon} <Divider orientation="vertical" sx={{ ml: 1, mr: 1 }} />{" "}
+              Sign in with {provider.name}
             </Button>
           </div>
-        )
+        );
       })}
     </Stack>
   );
-}
+};
 
 Auths.notPage = true;
 

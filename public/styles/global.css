@@ -1,10 +1,7 @@
 body {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow-x: hidden;
-  --header-width: calc(100vw - min(400px, 15vw));
-  --slider-mode-header-width: calc(50vw + var(--header-width) / 2 + 20px);
-  --blur-mode-left-amount: calc(50vw - var(--header-width) / 2);
 }
 
 /* hyperlink style is awful */

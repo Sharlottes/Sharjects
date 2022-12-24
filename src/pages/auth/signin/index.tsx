@@ -1,101 +1,175 @@
-import React from 'react'
-import Router, { useRouter } from 'next/router'
+import React from "react";
+import Router, { useRouter } from "next/router";
 
-import CustomTextInput from 'src/pages/auth/signin/CustomTextInput'
-import Layout from 'components/Layout'
-import Auths from 'src/pages/auth/signin/Auths'
+import CustomTextInput from "src/pages/auth/signin/CustomTextInput";
+import Layout from "components/Layout";
+import Auths from "src/pages/auth/signin/Auths";
 
-import Typography from '@mui/material/Typography'
-import Divider from '@mui/material/Divider'
-import Button from '@mui/material/Button'
-import Stack from '@mui/material/Stack'
-import Box from '@mui/material/Box'
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
 
-import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutlineBlankRounded'
-import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded'
-import AddIcon from '@mui/icons-material/Add'
+import CheckBoxOutlineBlankRoundedIcon from "@mui/icons-material/CheckBoxOutlineBlankRounded";
+import CheckBoxRoundedIcon from "@mui/icons-material/CheckBoxRounded";
+import AddIcon from "@mui/icons-material/Add";
 
-import { useSnackbar } from 'notistack';
-import { getProviders, signIn, type ClientSafeProvider, type LiteralUnion } from 'next-auth/react'
+import { useSnackbar } from "notistack";
+import {
+  getProviders,
+  signIn,
+  type ClientSafeProvider,
+  type LiteralUnion,
+} from "next-auth/react";
 
-import type { BuiltInProviderType } from 'next-auth/providers'
-import type { CustomNextPage } from 'src/pages/_app'
+import type { BuiltInProviderType } from "next-auth/providers";
+import type { CustomNextPage } from "src/pages/_app";
 
 interface State {
-  username: string
-  password: string
+  username: string;
+  password: string;
 }
 
 const SignIn: CustomNextPage<{
-  providers?: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>
+  providers?: Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  >;
 }> = ({ providers }) => {
-  const [{ username, password }, setValues] = React.useState<State>({ username: '', password: '' })
+  const [{ username, password }, setValues] = React.useState<State>({
+    username: "",
+    password: "",
+  });
   const [asEmail, setAsEmail] = React.useState(false);
   const [remember, setRemember] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const { query } = useRouter();
 
-  const handleChange = (prop: keyof State) => (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setValues(prev => ({ ...prev, [prop]: evt.target.value }))
-  }
+  const handleChange =
+    (prop: keyof State) => (evt: React.ChangeEvent<HTMLInputElement>) => {
+      setValues((prev) => ({ ...prev, [prop]: evt.target.value }));
+    };
 
-  const registerUser = async (username: string, password: string, e: React.MouseEvent) => {
-    e.preventDefault()
-    const res = await fetch('/api/register', {
-      method: 'POST',
+  const registerUser = async (
+    username: string,
+    password: string,
+    e: React.MouseEvent
+  ) => {
+    e.preventDefault();
+    const res = await fetch("/api/register", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ username, password }),
-    })
-    let data = await res.json()
+    });
+    let data = await res.json();
     if (data.message === "success") {
-      await signIn("credentials", { redirect: false, username, password, remember })
-      return Router.push("/")
+      await signIn("credentials", {
+        redirect: false,
+        username,
+        password,
+        remember,
+      });
+      return Router.push("/");
     } else if (data.message === "already registered") {
-      enqueueSnackbar(data.message, { variant: 'warning', anchorOrigin: { vertical: 'top', horizontal: 'left' } })
+      enqueueSnackbar(data.message, {
+        variant: "warning",
+        anchorOrigin: { vertical: "top", horizontal: "left" },
+      });
     }
-  }
+  };
 
-  const isValid = username !== '' && password !== ''
+  const isValid = username !== "" && password !== "";
 
   return (
     <Layout>
-      <Box flexDirection='column' sx={{ display: 'flex', alignItems: 'center', pt: '100px', justifyContent: 'center', minWidth: '100%', minHeight: '100%' }}>
-        <Typography id='title' variant='h2' noWrap fontSize='min(6vw, 70px)'>
+      <Box
+        flexDirection="column"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          pt: "100px",
+          justifyContent: "center",
+          minWidth: "100%",
+          minHeight: "100%",
+        }}
+      >
+        <Typography id="title" variant="h2" noWrap fontSize="min(6vw, 70px)">
           Login User
         </Typography>
 
-        <Stack direction='column' spacing={1} sx={{ mt: '20px', mb: '20px', width: 'min(70vw, 300px)' }}>
+        <Stack
+          direction="column"
+          spacing={1}
+          sx={{ mt: "20px", mb: "20px", width: "min(70vw, 300px)" }}
+        >
           <CustomTextInput
             handleChange={(evt) => {
-              setAsEmail(/^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(evt.target.value));
-              handleChange('username')(evt);
+              setAsEmail(
+                /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(evt.target.value)
+              );
+              handleChange("username")(evt);
             }}
             value={username}
-            label={value =>
-              !value
-                ? "Username or Email"
-                : asEmail
-                  ? <>Username or <span style={{ fontWeight: 'bold' }}>Email</span></>
-                  : <><span style={{ fontWeight: 'bold' }}>Username</span> or Email</>
-            } />
-          <CustomTextInput handleChange={handleChange('password')} value={password} label='Password' privated />
+            label={(value) =>
+              !value ? (
+                "Username or Email"
+              ) : asEmail ? (
+                <>
+                  Username or <span style={{ fontWeight: "bold" }}>Email</span>
+                </>
+              ) : (
+                <>
+                  <span style={{ fontWeight: "bold" }}>Username</span> or Email
+                </>
+              )
+            }
+          />
+          <CustomTextInput
+            handleChange={handleChange("password")}
+            value={password}
+            label="Password"
+            privated
+          />
           <Button
-            sx={{ justifyContent: 'flex-start', alignItems: 'center', m: 0, p: 0 }}
-            onClick={() => setRemember(prev => !prev)}
-            color='inherit'
+            sx={{
+              justifyContent: "flex-start",
+              alignItems: "center",
+              m: 0,
+              p: 0,
+            }}
+            onClick={() => setRemember((prev) => !prev)}
+            color="inherit"
           >
-            <CheckBoxRoundedIcon color='primary' sx={{ opacity: remember ? 0 : 1, transition: 'all 0.25s' }} />
-            <CheckBoxOutlineBlankRoundedIcon sx={{ opacity: remember ? 1 : 0, position: 'absolute', transition: 'all 0.25s' }} />
+            <CheckBoxRoundedIcon
+              color="primary"
+              sx={{ opacity: remember ? 0 : 1, transition: "all 0.25s" }}
+            />
+            <CheckBoxOutlineBlankRoundedIcon
+              sx={{
+                opacity: remember ? 1 : 0,
+                position: "absolute",
+                transition: "all 0.25s",
+              }}
+            />
             Remember User
           </Button>
           <Button
             onClick={async () => {
-              const res = await signIn('credentials', { redirect: false, username, password, remember })
+              const res = await signIn("credentials", {
+                redirect: false,
+                username,
+                password,
+                remember,
+              });
               if (res) {
                 if (!res.ok) {
-                  enqueueSnackbar(res.error ?? 'unknown error', { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'left' } })
+                  enqueueSnackbar(res.error ?? "unknown error", {
+                    variant: "error",
+                    anchorOrigin: { vertical: "top", horizontal: "left" },
+                  });
                 } else if (query.callbackUrl) {
                   Router.push(query.callbackUrl as string);
                 }
@@ -103,8 +177,8 @@ const SignIn: CustomNextPage<{
             }}
             startIcon={<AddIcon />}
             disabled={!isValid}
-            variant='outlined'
-            color='primary'
+            variant="outlined"
+            color="primary"
             fullWidth
           >
             Sign In
@@ -113,27 +187,36 @@ const SignIn: CustomNextPage<{
             onClick={(e) => registerUser(username, password, e)}
             startIcon={<AddIcon />}
             disabled={!isValid}
-            variant='outlined'
-            color='primary'
+            variant="outlined"
+            color="primary"
             fullWidth
           >
             Register
           </Button>
         </Stack>
       </Box>
-      <Divider sx={{ color: "gray", ml: "15vw", mr: "15vw", mb: "20px", "&::before": { top: 0 }, "&::after": { top: 0 } }}>
+      <Divider
+        sx={{
+          color: "gray",
+          ml: "15vw",
+          mr: "15vw",
+          mb: "20px",
+          "&::before": { top: 0 },
+          "&::after": { top: 0 },
+        }}
+      >
         OR
       </Divider>
       <Auths providers={providers} />
     </Layout>
-  )
-}
+  );
+};
 
 export async function getServerSideProps() {
-  const providers = await getProviders()
+  const providers = await getProviders();
   return {
     props: { providers },
-  }
+  };
 }
 
-export default SignIn
+export default SignIn;

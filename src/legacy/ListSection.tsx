@@ -1,22 +1,24 @@
-import React from 'react'
+import React from "react";
 
-import Box, { type BoxProps } from '@mui/material/Box'
-import { motion, useAnimationControls } from 'framer-motion'
+import Box, { type BoxProps } from "@mui/material/Box";
+import { motion, useAnimationControls } from "framer-motion";
 
-import { type listAnimatonRefType } from 'src/@type'
-import ProgressiveTypography from 'src/components/ProgressiveTypography'
-import FadeUpTypography from 'src/components/FadeUpTypography'
-import listData from './listData.json'
+import { type listAnimatonRefType } from "src/@type";
+import ProgressiveTypography from "src/components/ProgressiveTypography";
+import FadeUpTypography from "src/components/FadeUpTypography";
+import listData from "./listData.json";
 
-const ListItem: React.FC<{
-  title: string,
-  description: string[],
-  image: string | string[],
-  direction: 'left' | 'right',
-  children?: JSX.Element,
-  titleRef?: listAnimatonRefType | undefined,
-  descriptionRef?: listAnimatonRefType | undefined,
-} & BoxProps> = ({
+const ListItem: React.FC<
+  {
+    title: string;
+    description: string[];
+    image: string | string[];
+    direction: "left" | "right";
+    children?: JSX.Element;
+    titleRef?: listAnimatonRefType | undefined;
+    descriptionRef?: listAnimatonRefType | undefined;
+  } & BoxProps
+> = ({
   title,
   description,
   image,
@@ -26,48 +28,71 @@ const ListItem: React.FC<{
   descriptionRef,
   ...props
 }) => {
-    return (
-      <Box {...props}>
-        <Box
-          sx={{
-            display: { xs: 'block', md: 'flex' },
-            textAlign: 'left',
-            justifyContent: 'flex-start',
-            flexDirection: direction === 'left' ? 'row' : 'row-reverse',
-            marginTop: '30px'
+  return (
+    <Box {...props}>
+      <Box
+        sx={{
+          display: { xs: "block", md: "flex" },
+          textAlign: "left",
+          justifyContent: "flex-start",
+          flexDirection: direction === "left" ? "row" : "row-reverse",
+          marginTop: "30px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            width: "100px",
+            maxHeight: "100px",
           }}
         >
-          <div style={{ display: 'flex', flexWrap: 'wrap', width: '100px', maxHeight: '100px' }}>
-            {(() => {
-              const images: string[] = Array.isArray(image) ? image : [image];
-              return images.map((image, i) =>
-                <img key={i} src={`images/langs/${image}.png`} width={`${100 / images.length}`} height={`${100 / images.length}`} />
-              )
-            })()}
-          </div>
-          <Box sx={{ marginLeft: '20px', marginRight: '20px', width: { xs: '90%', md: '60%' } }}>
-            <ProgressiveTypography
-              variant='h3'
-              animateRef={titleRef}
-              label={title}
-              fontWeight='bold'
-              fontSize='min(50px, 7vw)'
-              box={{
-                sx: {
-                  display: 'flex',
-                  justifyContent: { xs: 'left', md: direction }
-                }
-              }}
-            />
-            <FadeUpTypography variant='body2' animateRef={descriptionRef}>
-              {description.map<JSX.Element>((str, i) => <span key={i}>{str}<br /></span>)}
-            </FadeUpTypography>
-          </Box>
+          {(() => {
+            const images: string[] = Array.isArray(image) ? image : [image];
+            return images.map((image, i) => (
+              <img
+                key={i}
+                src={`images/langs/${image}.png`}
+                width={`${100 / images.length}`}
+                height={`${100 / images.length}`}
+              />
+            ));
+          })()}
+        </div>
+        <Box
+          sx={{
+            marginLeft: "20px",
+            marginRight: "20px",
+            width: { xs: "90%", md: "60%" },
+          }}
+        >
+          <ProgressiveTypography
+            variant="h3"
+            animateRef={titleRef}
+            label={title}
+            fontWeight="bold"
+            fontSize="min(50px, 7vw)"
+            box={{
+              sx: {
+                display: "flex",
+                justifyContent: { xs: "left", md: direction },
+              },
+            }}
+          />
+          <FadeUpTypography variant="body2" animateRef={descriptionRef}>
+            {description.map<JSX.Element>((str, i) => (
+              <span key={i}>
+                {str}
+                <br />
+              </span>
+            ))}
+          </FadeUpTypography>
         </Box>
-        {children}
       </Box>
-    )
-  }
+      {children}
+    </Box>
+  );
+};
 
 const ListSection: React.FC<BoxProps> = ({ ...props }) => {
   const listAnimateControl = useAnimationControls();
@@ -83,15 +108,23 @@ const ListSection: React.FC<BoxProps> = ({ ...props }) => {
 
         return {
           opacity: 1,
-          marginBottom: '20px',
-          transition: { delay: 1 + i }
-        }
+          marginBottom: "20px",
+          transition: { delay: 1 + i },
+        };
       });
     }, 1000);
   }, []);
 
   return (
-    <Box sx={{ width: '100%', height: '300px', overflowY: 'hidden', padding: '5vw' }} {...props}>
+    <Box
+      sx={{
+        width: "100%",
+        height: "300px",
+        overflowY: "hidden",
+        padding: "5vw",
+      }}
+      {...props}
+    >
       {listData.map(({ title, description, image }, i) => (
         <motion.div
           key={i}
@@ -102,14 +135,13 @@ const ListSection: React.FC<BoxProps> = ({ ...props }) => {
         >
           <ListItem
             component={motion.div}
-
             {...{ title, description, image, titleRef, descriptionRef }}
-            direction={i % 2 == 0 ? 'left' : 'right'}
+            direction={i % 2 == 0 ? "left" : "right"}
           />
         </motion.div>
       ))}
     </Box>
-  )
-}
+  );
+};
 
 export default ListSection;
