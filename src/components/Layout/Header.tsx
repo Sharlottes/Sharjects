@@ -19,24 +19,25 @@ import SettingsIcon from '@mui/icons-material/Settings'
 
 import SideMenu from '../SideMenu'
 import ThemeSelection from './ThemeSelection'
-import { dispatch } from 'src/utils/dispatch'
+import { debounce } from 'src/utils/debounce'
 
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { motion, useScroll, useAnimationControls, Variants } from 'framer-motion'
 import { useWindowDimensions } from '../../hooks/useWindowDimensions';
+import { alpha } from '@mui/material'
+import { useTheme } from '@mui/material/styles';
 
 interface HeaderProps {
   additional?: React.ReactNode | undefined
 }
 
 const Header: React.FC<HeaderProps> = ({ additional }) => {
-  const [open, setOpen] = React.useState(false);
   const controller = useAnimationControls();
-  const { width } = useWindowDimensions();
   const { scrollY } = useScroll();
-
+  const [open, setOpen] = React.useState(false);
   const decideAnimation = (y: number, open?: boolean) => y >= 1 ? open ? 'sidebar' : 'blur' : 'init';
 
+  const { width } = useWindowDimensions();
   const headerAnimateVaraints = React.useMemo<Variants>(() => {
     const headerWidth = width - Math.min(400, width * 0.15);
     const widthWithSidebar = width / 2 + headerWidth / 2 + 20;
@@ -46,21 +47,18 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
         width: widthWithSidebar,
         left: `-20px`,
         margin: `10px 0`,
-        opacity: 1,
         borderRadius: '20px'
       },
       blur: {
         width: headerWidth,
         left: leftAmount,
         margin: `10px 0`,
-        opacity: 0.5,
         borderRadius: '20px',
       },
       init: {
         width: '100%',
         left: 0,
         margin: 0,
-        opacity: 1,
         borderRadius: '0px',
       }
     }
@@ -70,27 +68,35 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
     return headerAnimateVaraints;
   }, [width]);
 
+  const appBarRef = React.useRef<HTMLDivElement>(null);
+  const theme = useTheme();
+  const updateBackcolorOpacity = React.useCallback((hover = false) => {
+    if (!appBarRef.current) return;
+    const threshold = 300;
+    appBarRef.current.style.backgroundColor = alpha(
+      theme.palette.primary.main,
+      Math.max(hover ? 1 : 0.5, Math.min(1, 1 - scrollY.get() / threshold))
+    )
+  }, [theme]);
+
   React.useEffect(() => {
-    const animate = dispatch((id: string) => {
+    const animate = debounce((id: string) => {
       controller.start(id);
     }, 0.3 * 1000);
     const onChangeHandler = () => {
       const key = decideAnimation(typeof window !== 'undefined' ? window.scrollY : 0, open);
       animate(key, key);
+      updateBackcolorOpacity();
     }
     onChangeHandler();
     return scrollY.onChange(onChangeHandler);
   }, [open])
 
-  const handleSidebarButton = () => {
-    setOpen(opened => !opened);
-  }
-
   return (
     <>
       <motion.header
-        onHoverStart={() => controller.start({ opacity: 1 })}
-        onHoverEnd={() => controller.start({ opacity: scrollY.get() < 1 || open ? 1 : 0.5 })}
+        onHoverStart={() => updateBackcolorOpacity(true)}
+        onHoverEnd={() => updateBackcolorOpacity(open)}
       >
         <AppBar
           component={motion.div}
@@ -98,7 +104,10 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
           transition={{ duration: 0.3 }}
           variants={headerAnimateVaraints}
           position="fixed"
+          ref={appBarRef}
           sx={{
+            transition: 'background-color 300ms',
+            backdropFilter: 'blur(10px)',
             zIndex: (theme) => theme.zIndex.drawer + 1,
           }}
         >
@@ -106,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
             display: 'flex', justifyContent: 'space-between', alignItems: 'center'
           }}>
             <div>
-              <IconButton sx={{ color: 'white' }} onClick={handleSidebarButton}>
+              <IconButton sx={{ color: 'white' }} onClick={() => setOpen(opened => !opened)}>
                 <MenuIcon />
               </IconButton>
               <Tooltip title='back to main'>
