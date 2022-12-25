@@ -37,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
   const { width } = useWindowDimensions();
   const headerAnimateVaraints = React.useMemo<Variants>(() => {
     const headerWidth = width - Math.min(400, width * 0.15);
-    const widthWithSidebar = width / 2 + headerWidth / 2 + 20;
+    const widthWithSidebar = (width + headerWidth) / 2 + 20;
     const leftAmount = (width - headerWidth) / 2;
     const headerAnimateVaraints = {
       sidebar: {
@@ -96,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
         open
       );
       animate(key, key);
-      updateBackcolorOpacity();
+      updateBackcolorOpacity(scrollY.get() < 1 || open);
     };
     onChangeHandler();
     return scrollY.onChange(onChangeHandler);
@@ -106,7 +106,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
     <>
       <motion.header
         onHoverStart={() => updateBackcolorOpacity(true)}
-        onHoverEnd={() => updateBackcolorOpacity(open)}
+        onHoverEnd={() => updateBackcolorOpacity(scrollY.get() < 1 || open)}
       >
         <AppBar
           component={motion.div}
