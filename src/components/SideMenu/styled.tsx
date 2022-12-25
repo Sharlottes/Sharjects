@@ -12,12 +12,6 @@ export const OwnerRow = styled("div")<{ color: string }>(({ color, theme }) =>
         color,
       },
     },
-    "& .profile-image": {
-      borderRadius: "20px",
-      marginRight: "5px",
-      width: "20px",
-      height: "20px",
-    },
   })
 );
 
@@ -33,11 +27,6 @@ export const ProjectRow = styled("div")<{ color: string }>(({ color, theme }) =>
       alignItems: "center",
       "& p": {
         transition: "color 100ms ease",
-      },
-      "& .project-icon": {
-        width: "1rem",
-        height: "1rem",
-        marginRight: "5px",
       },
     },
     "& .links": {

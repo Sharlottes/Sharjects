@@ -7,6 +7,7 @@ import { type listAnimatonRefType } from "src/@type";
 import ProgressiveTypography from "src/components/ProgressiveTypography";
 import FadeUpTypography from "src/components/FadeUpTypography";
 import listData from "./listData.json";
+import Image from "next/image";
 
 const ListItem: React.FC<
   {
@@ -50,8 +51,9 @@ const ListItem: React.FC<
           {(() => {
             const images: string[] = Array.isArray(image) ? image : [image];
             return images.map((image, i) => (
-              <img
+              <Image
                 key={i}
+                alt=""
                 src={`images/langs/${image}.png`}
                 width={`${100 / images.length}`}
                 height={`${100 / images.length}`}

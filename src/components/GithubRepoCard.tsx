@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 import replaceStringToArray from "string-replace-to-array";
 
@@ -33,10 +35,12 @@ const EmojisComponent: React.FC<{
   <>
     {replaceStringToArray(description, /:(\w+):/g, (_, name, offset) => (
       <span key={offset}>
-        <img
+        <Image
           alt={name}
           src={emojis ? emojis[name] : ""}
-          style={{ width: "1rem", height: "1rem", verticalAlign: "-0.2rem" }}
+          width={16}
+          height={16}
+          style={{ verticalAlign: "-0.2rem" }}
         />
       </span>
     ))}
@@ -180,14 +184,14 @@ const GithubRepoCard: React.FC<
           fontSize="small"
         />
         <span style={{ fontWeight: 600, color: palette.textColor }}>
-          <a
+          <Link
             style={{ textDecoration: "none", color: "inherit" }}
             href={data.html_url}
             target="_blank"
             rel="noreferrer"
           >
             {data.name}
-          </a>
+          </Link>
         </span>
       </div>
       <div
@@ -198,14 +202,14 @@ const GithubRepoCard: React.FC<
         }}
       >
         Forked from{" "}
-        <a
+        <Link
           style={{ color: "inherit", textDecoration: "none" }}
           href={data.fork ? data.source?.html_url : ""}
           target="_blank"
           rel="noreferrer"
         >
           {data.fork ? data.source?.full_name : ""}
-        </a>
+        </Link>
       </div>
       <RepoDescription
         description={data.description}
@@ -219,7 +223,7 @@ const GithubRepoCard: React.FC<
           &nbsp;
           <span>{data.language}</span>
         </div>
-        <a
+        <Link
           style={{ textDecoration: "none", color: "inherit" }}
           href={data.html_url + "/stargazers"}
           target="_blank"
@@ -235,8 +239,8 @@ const GithubRepoCard: React.FC<
             <StargazerIcon sx={{ fill: palette.iconColor }} fontSize="small" />
             &nbsp; <span>{data.stargazers_count}</span>
           </div>
-        </a>
-        <a
+        </Link>
+        <Link
           style={{ textDecoration: "none", color: "inherit" }}
           href={data.html_url + "/network/members"}
           target="_blank"
@@ -251,7 +255,7 @@ const GithubRepoCard: React.FC<
             <ForkIcon sx={{ fill: palette.iconColor }} fontSize="small" />
             &nbsp; <span>{data.forks_count}</span>
           </div>
-        </a>
+        </Link>
       </div>
     </div>
   );

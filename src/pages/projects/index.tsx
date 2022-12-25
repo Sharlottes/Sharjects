@@ -1,6 +1,7 @@
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 
-import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
@@ -68,12 +69,12 @@ const Projects: React.FC = () => (
                 <div style={{ height: "calc(100% - 30px)" }}>
                   <div style={{ display: "flex", alignItems: "center" }}>
                     {data.icon && (
-                      <img
+                      <Image
                         src={`/images/icon/${data.icon}.png`}
                         alt=""
+                        width={24}
+                        height={24}
                         style={{
-                          height: "1.5rem",
-                          width: "1.5rem",
                           marginRight: "5px",
                         }}
                       />
@@ -81,7 +82,7 @@ const Projects: React.FC = () => (
                     <div style={{ display: "flex" }}>
                       <Typography variant="h5">{data.name}</Typography>
                       {data.link && (
-                        <a href={data.link}>
+                        <Link href={data.link}>
                           <Tooltip
                             leaveDelay={300}
                             title={
@@ -100,7 +101,7 @@ const Projects: React.FC = () => (
                           >
                             <StyledOpenInNewIcon />
                           </Tooltip>
-                        </a>
+                        </Link>
                       )}
                     </div>
                   </div>
@@ -112,15 +113,17 @@ const Projects: React.FC = () => (
                 <div className="link-btn">
                   <div>
                     {!data.noGithub && (
-                      <a href={`https://github.com/${data.owner}/${data.name}`}>
+                      <Link
+                        href={`https://github.com/${data.owner}/${data.name}`}
+                      >
                         <GithubIcon />
-                      </a>
+                      </Link>
                     )}
                   </div>
                   <div>
-                    <a href={`/projects/${data.name.toLowerCase()}`}>
+                    <Link href={`/projects/${data.name.toLowerCase()}`}>
                       &gt; go!
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

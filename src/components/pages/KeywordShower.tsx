@@ -1,13 +1,13 @@
 import React from "react";
+import { Nanum_Pen_Script } from "@next/font/google";
 
 import Typography from "@mui/material/Typography";
-import { alpha, lighten } from "@mui/material/styles";
 
 import { motion, useAnimationControls, type MotionProps } from "framer-motion";
 
 import { delay } from "src/utils/delay";
-import { getComplementaryColor } from "src/utils/getComplementaryColor";
-import { lerpColor } from "../../utils/lerpColor";
+
+const nanumPen = Nanum_Pen_Script({ weight: "400" });
 
 export const keywords = [
   "19세 고등학생",
@@ -62,7 +62,7 @@ const KeywordShower: React.FC<
           <Typography
             sx={{
               color: (theme) => theme.palette.primary.main,
-              fontFamily: "Nanum Pen Script",
+              fontFamily: nanumPen.style.fontFamily,
               fontSize: "max(17px, 4vw)",
               width: "100%",
               position: "fixed",

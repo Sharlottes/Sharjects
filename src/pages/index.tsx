@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import Layout from "src/components/Layout";
 import GithubIcon from "src/assets/icons/GithubIcon";
 import { MainTitle, MainDescription, keywords } from "src/components/pages";
+import Image from "next/image";
 
 const avatarVariants = {
   show: {
@@ -50,9 +51,11 @@ const Home: React.FC = () => {
             initial={{ opacity: 0, y: -20, width: 40, height: 40 }}
           >
             <Avatar style={{ width: "inherit", height: "inherit" }}>
-              <img
-                src="images/profile/Sharlottes.png"
-                style={{ maxWidth: "min(20vw, 200px)", maxHeight: "auto" }}
+              <Image
+                alt=""
+                src="/images/profile/Sharlottes.png"
+                fill
+                sizes="min(20vw, 200px) auto"
               />
             </Avatar>
           </motion.div>

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import LoginIcon from "@mui/icons-material/Login";
@@ -12,7 +14,7 @@ const Profile: React.FC = () => {
   return (
     <ProfileContainer>
       <Avatar src={session?.user?.image ?? ""} />
-      <a href="/mypage">{session?.user?.name ?? "not logged in!"}</a>
+      <Link href="/mypage">{session?.user?.name ?? "not logged in!"}</Link>
       {status === "authenticated" ? (
         <IconButton disableRipple onClick={() => signOut()}>
           <LogoutIcon />

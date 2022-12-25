@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
@@ -133,14 +134,14 @@ const GithubUserCard: React.FC<
         >
           <div aria-label="profile name">
             <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-              <a
+              <Link
                 style={{ textDecoration: "none", color: palette.textColor }}
                 href={user.html_url}
                 target="_blank"
                 rel="noreferrer"
               >
                 {user.login}
-              </a>
+              </Link>
             </Typography>
             <Typography
               variant="caption"
@@ -192,7 +193,7 @@ const GithubUserCard: React.FC<
               />,
             ],
           ].map(([value, url, icon], i) => (
-            <a
+            <Link
               key={i}
               href={url.toString()}
               style={{ textDecoration: "none", color: "inherit" }}
@@ -207,7 +208,7 @@ const GithubUserCard: React.FC<
                 {icon}
                 {value}
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

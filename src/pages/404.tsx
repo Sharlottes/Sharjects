@@ -1,4 +1,6 @@
 import React from "react";
+import Link from "next/link";
+
 import { useRouter } from "next/router";
 
 const ErrorPage404: React.FC = () => {
@@ -13,9 +15,9 @@ const ErrorPage404: React.FC = () => {
       <>
         에러 발생!
         <br />
-        <a href="/" style={{ color: "blue" }}>
+        <Link href="/" style={{ color: "blue" }}>
           메인 페이지로 돌아가기
-        </a>
+        </Link>
       </>
     );
   else return <>정상 페이지로 리다이렉팅 시도중입니다...</>;

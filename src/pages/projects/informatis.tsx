@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/system/Stack";
 
 import TabLayout from "src/components/TabLayout";
+import Image from "next/image";
 
 const AboutPage: React.FC = () => {
   return (
@@ -144,13 +145,7 @@ const FeaturePaper: React.FC<FeaturePaperProps> = ({ title, desc, src }) => (
   <div style={{ display: "flex" }}>
     <div>
       {(Array.isArray(src) ? src : [src]).map((src, i) => (
-        <img
-          key={i}
-          src={src}
-          alt=""
-          width="100%"
-          style={{ marginTop: "5px", marginBottom: "5px" }}
-        />
+        <Image key={i} src={src} alt="" fill style={{ margin: "5px 0" }} />
       ))}
     </div>
     <div>

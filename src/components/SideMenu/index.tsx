@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 import Drawer, { type DrawerProps } from "@mui/material/Drawer";
 import type { SvgIconProps } from "@mui/material/SvgIcon";
@@ -75,7 +77,7 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
       {...props}
     >
       <div>
-        <a href="/">
+        <Link href="/">
           <Typography
             sx={{
               fontWeight: 800,
@@ -86,7 +88,7 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
           >
             Sharlotte's Portfolio
           </Typography>
-        </a>
+        </Link>
         <Typography
           variant="body2"
           sx={{ marginLeft: "5px", position: "relative", left: "100px" }}
@@ -98,7 +100,7 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
       <DivTypography />
 
       <div>
-        <a href="/timeline">
+        <Link href="/timeline">
           <Button
             startIcon={<HistoryIcon />}
             variant="contained"
@@ -107,8 +109,8 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
           >
             Timeline
           </Button>
-        </a>
-        <a href="/projects">
+        </Link>
+        <Link href="/projects">
           <Button
             startIcon={<SourceIcon />}
             variant="contained"
@@ -117,7 +119,7 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
           >
             Projects
           </Button>
-        </a>
+        </Link>
       </div>
 
       <DivTypography title="Projects" />
@@ -126,43 +128,57 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
         {projectData.map(({ owner, projects }) => (
           <div key={owner}>
             <OwnerRow color={currentColors[600]}>
-              <img
+              <Image
                 className="profile-image"
                 src={`/images/profile/${owner}.png`}
                 alt=""
+                width={20}
+                height={20}
+                style={{
+                  borderRadius: "20px",
+                  marginRight: "5px",
+                }}
               />
-              <a href={`https://github.com/${owner}`}>
+              <Link href={`https://github.com/${owner}`}>
                 <Typography className="highlight" fontWeight={500}>
                   {owner}
                 </Typography>
-              </a>
+              </Link>
             </OwnerRow>
             {projects.map((project) => (
               <ProjectRow key={project.name} color={currentColors[300]}>
                 <div className="highlight">
-                  {project.icon ? (
-                    <img
-                      className="project-icon"
-                      src={`/images/icon/${project.icon}.png`}
-                      alt=""
-                    />
-                  ) : (
-                    <div className="project-icon" />
-                  )}
-                  <a href={`/projects/${project.name.toLowerCase()}`}>
+                  <div
+                    style={{
+                      width: "1rem",
+                      height: "1rem",
+                      marginRight: "5px",
+                    }}
+                  >
+                    {project.icon && (
+                      <Image
+                        className="project-icon"
+                        src={`/images/icon/${project.icon}.png`}
+                        alt=""
+                        width={16}
+                        height={16}
+                      />
+                    )}
+                  </div>
+                  <Link href={`/projects/${project.name.toLowerCase()}`}>
                     <Typography fontWeight={600}>{project.name}</Typography>
-                  </a>
+                  </Link>
                 </div>
                 <div className="links">
                   {!project.noGithub && (
-                    <a href={`https://github.com/${owner}/${project.name}`}>
+                    <Link href={`https://github.com/${owner}/${project.name}`}>
                       <GithubIcon />
-                    </a>
+                    </Link>
                   )}
                   {project.link && (
-                    <a href={project.link}>
+                    <Link href={project.link}>
                       <OpenInNewIcon />
-                    </a>
+                    </Link>
                   )}
                 </div>
               </ProjectRow>
@@ -176,9 +192,9 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
         <DivTypography title="Links" />
         <LinksContainer>
           {links.map(([link, Component, color]) => (
-            <a href={link} key={link}>
+            <Link href={link} key={link}>
               <Component sx={{ color }} />
-            </a>
+            </Link>
           ))}
         </LinksContainer>
       </div>
