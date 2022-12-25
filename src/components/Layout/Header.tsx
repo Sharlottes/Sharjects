@@ -18,10 +18,15 @@ import {
   motion,
   useAnimationControls,
   useScroll,
-  Variants,
+  type Variants,
 } from "framer-motion";
 import HeaderMenu from "./HeaderMenu";
 import SideMenu from "../SideMenu";
+
+export interface AdditionalHeaderProps {
+  sidebarOpened: boolean;
+  scrolled: boolean;
+}
 
 export interface HeaderProps {
   additional?: React.ReactNode | undefined;

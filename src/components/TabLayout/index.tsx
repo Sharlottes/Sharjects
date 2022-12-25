@@ -1,36 +1,18 @@
-import React, { type PropsWithChildren } from "react";
+import React from "react";
 
 import Collapse from "@mui/material/Collapse";
 import Toolbar from "@mui/material/Toolbar";
-import Fab from "@mui/material/Fab";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-
-import { styled } from "@mui/material/styles";
+import { darken } from "@mui/material/styles";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
-import Layout from "./Layout";
+import Layout from "../Layout";
+import { CollapseFab } from "./styled";
 
-const CollapseFab = styled(Fab)<{ shown?: string }>(({ shown }) => ({
-  ...(Boolean(shown) && {
-    boxShadow: "none",
-  }),
-  marginRight: "5px",
-  marginLeft: "5px",
-  backgroundColor: "#7289DA",
-  position: "fixed",
-  top: "67px",
-  opacity: 0.3,
-  transition: "all 0.5s ease-out",
-  "&:hover": {
-    backgroundColor: "#7289DA",
-    opacity: 0.7,
-  },
-}));
-
-export interface TabLayoutProps extends PropsWithChildren {
+export interface TabLayoutProps extends React.PropsWithChildren {
   onIndexChanged?: (index: number) => void;
   tabs: string[];
 }
@@ -49,11 +31,13 @@ const TabLayout: React.FC<TabLayoutProps> = ({
         header={
           <>
             <Collapse
-              collapsedSize="5px"
               in={shown}
-              sx={{ backgroundColor: "#7289DA" }}
+              sx={{
+                borderRadius: "0 0 20px 20px",
+                backdropFilter: "brightness(0.9)",
+              }}
             >
-              <Toolbar variant="dense" sx={{ ml: "20px" }}>
+              <Toolbar variant="dense" sx={{ ml: "20px", width: "80%" }}>
                 <Tabs
                   value={index}
                   onChange={(_, index) => {
@@ -63,7 +47,8 @@ const TabLayout: React.FC<TabLayoutProps> = ({
                   sx={{
                     "& .MuiTab-root": {
                       "&.Mui-selected": {
-                        color: "#adb6ff",
+                        color: (theme) =>
+                          darken(theme.palette.primary.main, 0.5),
                       },
                       transition: "color 0.5s",
                     },
