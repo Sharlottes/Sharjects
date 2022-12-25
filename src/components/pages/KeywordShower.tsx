@@ -7,8 +7,6 @@ import { motion, useAnimationControls, type MotionProps } from "framer-motion";
 
 import { delay } from "src/utils/delay";
 
-const nanumPen = Nanum_Pen_Script({ weight: "400" });
-
 export const keywords = [
   "19세 고등학생",
   "잡다한 개발자",
@@ -62,7 +60,7 @@ const KeywordShower: React.FC<
           <Typography
             sx={{
               color: (theme) => theme.palette.primary.main,
-              fontFamily: nanumPen.style.fontFamily,
+              fontFamily: "Nanum Pen Script",
               fontSize: "max(17px, 4vw)",
               width: "100%",
               position: "fixed",
