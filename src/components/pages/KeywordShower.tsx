@@ -1,5 +1,4 @@
 import React from "react";
-import { Nanum_Pen_Script } from "@next/font/google";
 
 import Typography from "@mui/material/Typography";
 
