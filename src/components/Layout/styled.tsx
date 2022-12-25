@@ -169,10 +169,5 @@ export const MainBody = styled("main")(({ theme }) =>
   theme.unstable_sx({
     minHeight: "100vh",
     padding: "60px 0 20px 0",
-    backgroundImage: (theme) =>
-      theme.palette.mode === "dark"
-        ? theme.palette.primary.main
-        : `linear-gradient(${theme.palette.primary.main}cf 50%, 
-            ${alpha(getComplementaryColor(theme.palette.primary.main), 0.5)})`,
   })
 );

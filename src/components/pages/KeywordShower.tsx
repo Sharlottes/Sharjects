@@ -61,15 +61,7 @@ const KeywordShower: React.FC<
         >
           <Typography
             sx={{
-              color: (theme) =>
-                alpha(
-                  lerpColor(
-                    theme.palette.primary.main,
-                    getComplementaryColor(theme.palette.primary.main),
-                    0.8
-                  ),
-                  0.85
-                ),
+              color: (theme) => theme.palette.primary.main,
               fontFamily: "Nanum Pen Script",
               fontSize: "max(17px, 4vw)",
               width: "100%",
