@@ -33,8 +33,10 @@ export interface HeaderProps {
   additional?: React.ReactNode | undefined;
 }
 
+const THRESHOLD = 50;
+
 const decideAnimation = (y: number, open?: boolean) =>
-  y >= 1 ? (open ? "sidebar" : "blur") : "init";
+  y < THRESHOLD ? "init" : open ? "sidebar" : "blur";
 
 const Header: React.FC<HeaderProps> = ({ additional }) => {
   const theme = useTheme();
@@ -85,10 +87,9 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
   const updateBackcolorOpacity = React.useCallback(
     (hover = false) => {
       if (!appBarRef.current) return;
-      const threshold = 300;
       appBarRef.current.style.backgroundColor = alpha(
         theme.palette.primary.main,
-        Math.max(hover ? 1 : 0.5, Math.min(1, 1 - scrollY.get() / threshold))
+        Math.max(hover ? 1 : 0.5, Math.min(1, 1 - scrollY.get() / THRESHOLD))
       );
     },
     [theme]
@@ -104,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
         open
       );
       animate(key, key);
-      updateBackcolorOpacity(scrollY.get() < 1 || open);
+      updateBackcolorOpacity(scrollY.get() < THRESHOLD || open);
     };
     onChangeHandler();
     return scrollY.onChange(onChangeHandler);
@@ -114,7 +115,9 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
     <>
       <motion.header
         onHoverStart={() => updateBackcolorOpacity(true)}
-        onHoverEnd={() => updateBackcolorOpacity(scrollY.get() < 1 || open)}
+        onHoverEnd={() =>
+          updateBackcolorOpacity(scrollY.get() < THRESHOLD || open)
+        }
       >
         <AppBar
           component={motion.div}
