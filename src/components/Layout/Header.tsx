@@ -22,6 +22,7 @@ import {
 } from "framer-motion";
 import HeaderMenu from "./HeaderMenu";
 import SideMenu from "../SideMenu";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export interface AdditionalHeaderProps {
   sidebarOpened: boolean;
@@ -32,12 +33,15 @@ export interface HeaderProps {
   additional?: React.ReactNode | undefined;
 }
 
+const decideAnimation = (y: number, open?: boolean) =>
+  y >= 1 ? (open ? "sidebar" : "blur") : "init";
+
 const Header: React.FC<HeaderProps> = ({ additional }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [open, setOpen] = React.useState(false);
   const controller = useAnimationControls();
   const { scrollY } = useScroll();
-  const [open, setOpen] = React.useState(false);
-  const decideAnimation = (y: number, open?: boolean) =>
-    y >= 1 ? (open ? "sidebar" : "blur") : "init";
 
   const { width } = useWindowDimensions();
   const headerAnimateVaraints = React.useMemo<Variants>(() => {
@@ -46,8 +50,8 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
     const leftAmount = (width - headerWidth) / 2;
     const headerAnimateVaraints = {
       sidebar: {
-        width: widthWithSidebar,
-        left: `-20px`,
+        width: isMobile ? width + 30 : widthWithSidebar,
+        left: isMobile ? -15 : -20,
         margin: `10px 0`,
         borderRadius: "20px",
       },
@@ -78,7 +82,6 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
   }, [width]);
 
   const appBarRef = React.useRef<HTMLDivElement>(null);
-  const theme = useTheme();
   const updateBackcolorOpacity = React.useCallback(
     (hover = false) => {
       if (!appBarRef.current) return;
@@ -129,49 +132,33 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
           <Toolbar
             sx={{
               display: "flex",
-              justifyContent: "space-between",
               alignItems: "center",
             }}
           >
-            <div>
-              <IconButton
-                sx={{ color: "white" }}
-                onClick={() => setOpen((opened) => !opened)}
+            <IconButton
+              sx={{ color: "white" }}
+              onClick={() => setOpen((opened) => !opened)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Tooltip title="back to main">
+              <Button
+                sx={{
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  textAlign: "center",
+                }}
               >
-                <MenuIcon />
-              </IconButton>
-              <Tooltip title="back to main">
-                <Link href="/">
-                  <Button
-                    sx={{
-                      marginLeft: "10px",
-                      color: "white",
-                      fontWeight: "bold",
-                      fontSize: 20,
-                      textAlign: "center",
-                    }}
-                  >
-                    Sharlotte
-                  </Button>
-                </Link>
-              </Tooltip>
-            </div>
+                <Link href="/">Sharlotte</Link>
+              </Button>
+            </Tooltip>
             <HeaderMenu />
           </Toolbar>
           {additional}
         </AppBar>
       </motion.header>
-      <SideMenu
-        open={open}
-        slotProps={{
-          backdrop: {
-            style: {
-              opacity: 0,
-            },
-            onClick: () => setOpen(false),
-          },
-        }}
-      />
+      <SideMenu open={open} onClose={() => setOpen(false)} />
     </>
   );
 };

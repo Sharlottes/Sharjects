@@ -118,26 +118,26 @@ export const ScrollFabContainer = styled("div")({
     right: 16,
     bottom: 48,
     transition: "all 500ms",
-    "&:not(:nth-child(1))": {
+    "&:not(:nth-of-type(1))": {
       opacity: 0,
     },
-    "&:nth-child(1)": {
+    "&:nth-of-type(1)": {
       zIndex: 9998,
       opacity: 1,
     },
   },
   "&:hover": {
     "& button": {
-      "&:nth-child(1)": {
+      "&:nth-of-type(1)": {
         opacity: 0,
         zIndex: 9998,
         pointerEvents: "none",
       },
-      "&:nth-child(2)": {
+      "&:nth-of-type(2)": {
         opacity: 1,
         transform: "translateY(-24px)",
       },
-      "&:nth-child(3)": {
+      "&:nth-of-type(3)": {
         opacity: 1,
         transform: "translateY(24px)",
       },

@@ -9,7 +9,7 @@ const dateCode = (() => {
     .padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
 })();
 
-const Status: React.FC = () => {
+const VisitorStatus: React.FC = () => {
   const [visitors, setVisitors] = React.useState<Record<string, number>>();
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
@@ -22,7 +22,8 @@ const Status: React.FC = () => {
   return (
     <div
       style={{
-        marginLeft: "10px",
+        width: "fit-content",
+        margin: "0 auto",
         fontSize: 12,
         fontWeight: 500,
       }}
@@ -31,9 +32,8 @@ const Status: React.FC = () => {
         <>방문자 불러오는 중...</>
       ) : (
         <>
-          이 사이트는 오늘 {visitors[dateCode] || 0}번 조회되었고,
-          <br />총 {Object.values(visitors).reduce((a, e) => a + e, 0)}번
-          조회되었어요.
+          이 사이트는 오늘 {visitors[dateCode] || 0}번 조회되었고, 총{" "}
+          {Object.values(visitors).reduce((a, e) => a + e, 0)}번 조회되었어요.
           <Box
             component="span"
             onClick={() => setDialogOpen(true)}
@@ -57,4 +57,4 @@ const Status: React.FC = () => {
     </div>
   );
 };
-export default Status;
+export default VisitorStatus;

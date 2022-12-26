@@ -2,26 +2,34 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import Drawer, { type DrawerProps } from "@mui/material/Drawer";
-import type { SvgIconProps } from "@mui/material/SvgIcon";
+import { useTheme } from "@mui/system";
+
+import useMediaQuery from "@mui/material/useMediaQuery";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import Box from "@mui/material/Box";
 
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import HistoryIcon from "@mui/icons-material/History";
 import SourceIcon from "@mui/icons-material/Source";
 import EmailIcon from "@mui/icons-material/Email";
 
-import KakaoTalkIcon from "src/assets/icons/KakaoTalkIcon";
-import DiscordIcon from "src/assets/icons/DiscordIcon";
-import GithubIcon from "src/assets/icons/GithubIcon";
-import VelogIcon from "src/assets/icons/VelogIcon";
+import {
+  KakaoTalkIcon,
+  DiscordIcon,
+  GithubIcon,
+  VelogIcon,
+} from "src/assets/icons";
 
+import type { SxProps, Theme, SvgIconProps } from "@mui/material";
 import type { projectDataType } from "src/@type";
+
 import { OwnerRow, ProjectRow, LinksContainer } from "./styled";
 import { useThemeController } from "../MainThemeProvider";
-import Status from "./Status";
+import { RightSlide, Fade } from "../transitions";
+import VisitorStatus from "./VisitorStatus";
+import DivTypography from "./DivTypography";
 
 const projectData: Array<projectDataType> = require("public/data/projectData.json");
 const links: Array<
@@ -34,49 +42,64 @@ const links: Array<
   ["https://open.kakao.com/o/sJxW8TUb", KakaoTalkIcon, "#black"],
 ];
 
-const DivTypography: React.FC<{ title?: string }> = ({ title }) => (
-  <Divider
-    textAlign="left"
-    sx={{ margin: "10px 0", "&::before": { top: 0 }, "&::after": { top: 0 } }}
-  >
-    {title && (
-      <Typography fontWeight={500} fontSize={12}>
-        {title}
-      </Typography>
-    )}
-  </Divider>
-);
+const SideMenuSxProps: SxProps<Theme> = {
+  height: "calc(100vh - 50px)",
+  display: "flex",
+  flexDirection: "column",
+  overflow: "hidden scroll",
+  padding: "10px 24px",
+  margin: 0,
+  marginTop: "50px",
+  paddingTop: "30px",
+  boxShadow: "5px 0px 10px black",
+  msOverflowStyle: "none",
+  scrollbarWidth: "none",
+  "&::-webkit-scrollbar": {
+    display: "none",
+  },
+  "& :not(.sidemenu-header) >div": {
+    width: "100%",
+  },
+};
 
-const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
+export interface SideMenuProps {
+  open: boolean;
+  onClose?: () => void;
+}
+
+const SideMenuDrawer: React.FC<SideMenuProps> = ({
+  onClose = () => {},
+  open,
+}) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { currentColors } = useThemeController();
 
   return (
-    <Drawer
-      {...({ component: "aside" } as any)}
-      disableScrollLock
-      PaperProps={{
-        sx: {
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden scroll",
-          padding: "10px 24px",
-          marginTop: "50px",
-          paddingTop: "30px",
-          boxShadow: "5px 0px 10px black",
-          height: "calc(100vh - 50px)",
-          msOverflowStyle: "none",
-          scrollbarWidth: "none",
-          "&::-webkit-scrollbar": {
-            display: "none",
-          },
-          "& >div": {
-            width: "100%",
-          },
+    <Dialog
+      open={open}
+      sx={{
+        zIndex: 0,
+        "& .MuiDialog-container": {
+          justifyContent: "start",
+          height: "auto",
+          width: isMobile ? "auto" : "300px",
         },
       }}
-      {...props}
+      slotProps={{
+        backdrop: {
+          style: {
+            opacity: 0,
+          },
+          onClick: onClose,
+        },
+      }}
+      PaperProps={{ sx: SideMenuSxProps }}
+      fullScreen={isMobile}
+      disableScrollLock={!isMobile}
+      TransitionComponent={isMobile ? Fade : RightSlide}
     >
-      <div>
+      <div className="sidemenu-header" style={{ margin: "0 auto" }}>
         <Link href="/">
           <Typography
             sx={{
@@ -89,38 +112,35 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
             Sharlotte's Portfolio
           </Typography>
         </Link>
-        <Typography
-          variant="body2"
-          sx={{ marginLeft: "5px", position: "relative", left: "100px" }}
-        >
+        <Typography variant="body2" sx={{ position: "relative", left: 100 }}>
           the first portfolio
         </Typography>
       </div>
 
       <DivTypography />
 
-      <div>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "10px",
+          "& button": {
+            borderRadius: "20px",
+          },
+        }}
+      >
         <Link href="/timeline">
-          <Button
-            startIcon={<HistoryIcon />}
-            variant="contained"
-            size="small"
-            sx={{ borderRadius: "20px", margin: "10px" }}
-          >
+          <Button startIcon={<HistoryIcon />} variant="contained" size="small">
             Timeline
           </Button>
         </Link>
         <Link href="/projects">
-          <Button
-            startIcon={<SourceIcon />}
-            variant="contained"
-            size="small"
-            sx={{ borderRadius: "20px", margin: "10px" }}
-          >
+          <Button startIcon={<SourceIcon />} variant="contained" size="small">
             Projects
           </Button>
         </Link>
-      </div>
+      </Box>
 
       <DivTypography title="Projects" />
 
@@ -188,7 +208,7 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
       </div>
       <div style={{ marginTop: "auto" }}>
         <DivTypography title="Visitors" />
-        <Status />
+        <VisitorStatus />
         <DivTypography title="Links" />
         <LinksContainer>
           {links.map(([link, Component, color]) => (
@@ -198,7 +218,7 @@ const SideMenuDrawer: React.FC<DrawerProps> = (props) => {
           ))}
         </LinksContainer>
       </div>
-    </Drawer>
+    </Dialog>
   );
 };
 

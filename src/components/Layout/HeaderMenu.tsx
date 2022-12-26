@@ -15,7 +15,7 @@ const HeaderMenu: React.FC = () => {
   return (
     <>
       <IconButton
-        sx={{ color: "white" }}
+        sx={{ color: "white", marginLeft: "auto" }}
         onClick={(e) => setAnchor((prev) => (prev ? null : e.currentTarget))}
       >
         <SettingsIcon />
