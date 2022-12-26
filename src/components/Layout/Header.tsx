@@ -23,6 +23,7 @@ import {
 import HeaderMenu from "./HeaderMenu";
 import SideMenu from "../SideMenu";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import Layouts from "src/core/Layouts";
 
 export interface AdditionalHeaderProps {
   sidebarOpened: boolean;
@@ -130,7 +131,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
           sx={{
             transition: "background-color 300ms",
             backdropFilter: "blur(5px)",
-            zIndex: (theme) => theme.zIndex.drawer + 1,
+            zIndex: Layouts.HEADER,
           }}
         >
           <Toolbar

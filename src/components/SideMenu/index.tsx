@@ -30,6 +30,7 @@ import { useThemeController } from "../MainThemeProvider";
 import { RightSlide, Fade } from "../transitions";
 import VisitorStatus from "./VisitorStatus";
 import DivTypography from "./DivTypography";
+import Layouts from "src/core/Layouts";
 
 const projectData: Array<projectDataType> = require("public/data/projectData.json");
 const links: Array<
@@ -79,7 +80,7 @@ const SideMenuDrawer: React.FC<SideMenuProps> = ({
     <Dialog
       open={open}
       sx={{
-        zIndex: 0,
+        zIndex: Layouts.SIDE_MENU,
         "& .MuiDialog-container": {
           justifyContent: "start",
           height: "auto",

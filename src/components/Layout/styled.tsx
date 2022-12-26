@@ -1,6 +1,7 @@
 import { alpha } from "@mui/material";
 import Switch, { type SwitchProps } from "@mui/material/Switch";
 import styled from "@mui/system/styled";
+import Layouts from "src/core/Layouts";
 import { getComplementaryColor } from "src/utils/getComplementaryColor";
 
 /**
@@ -112,7 +113,7 @@ export const ScrollFabContainer = styled("div")({
   bottom: 48,
   width: 40,
   height: 40,
-  zIndex: 9999,
+  zIndex: Layouts.SCROLL_FAB,
   "& button": {
     position: "fixed",
     right: 16,
@@ -122,7 +123,7 @@ export const ScrollFabContainer = styled("div")({
       opacity: 0,
     },
     "&:nth-of-type(1)": {
-      zIndex: 9998,
+      zIndex: Layouts.SCROLL_FAB - 1,
       opacity: 1,
     },
   },
@@ -130,7 +131,7 @@ export const ScrollFabContainer = styled("div")({
     "& button": {
       "&:nth-of-type(1)": {
         opacity: 0,
-        zIndex: 9998,
+        zIndex: Layouts.SCROLL_FAB - 1,
         pointerEvents: "none",
       },
       "&:nth-of-type(2)": {
