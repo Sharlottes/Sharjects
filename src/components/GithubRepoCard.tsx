@@ -9,9 +9,7 @@ import { useTheme } from "@mui/material/styles";
 import type { GithubAPIRepoData } from "src/@type";
 import { useGithubData } from "./GithubStaticDataContext";
 import FetchSuspenseWrapper from "./FetchSuspenseWrapper";
-import RepoIcon from "src/assets/icons/github/RepoIcon";
-import StargazerIcon from "src/assets/icons/github/StargazerIcon";
-import ForkIcon from "src/assets/icons/github/ForkIcon";
+import { RepoIcon, StargazerIcon, ForkIcon } from "src/assets/icons";
 
 const getPalette = (dark: boolean) =>
   dark

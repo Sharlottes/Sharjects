@@ -179,4 +179,9 @@ export interface GithubAPIRepoData {
   parent: GithubAPIRepoData;
 }
 
+export interface MUISafeTransitionProps
+  extends Omit<TransitionProps, "appear" | "in"> {
+  children: React.ReactElement<any, any>;
+}
+
 export {};

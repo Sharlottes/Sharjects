@@ -12,9 +12,7 @@ import type { GithubProfile } from "next-auth/providers/github";
 import { useGithubData } from "./GithubStaticDataContext";
 import FetchSuspenseWrapper from "./FetchSuspenseWrapper";
 
-import RepoIcon from "src/assets/icons/github/RepoIcon";
-import GistIcon from "src/assets/icons/github/GistIcon";
-import FollowerIcon from "src/assets/icons/github/FollowerIcon";
+import { RepoIcon, GistIcon, FollowerIcon } from "src/assets/icons";
 
 const getPalette = (dark: boolean) =>
   dark
