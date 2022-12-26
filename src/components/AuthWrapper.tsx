@@ -55,7 +55,7 @@ const AuthWrapper: React.FC<{ children: JSX.Element; auth: any }> = ({
       });
     }, 1000);
     return () => clearTimeout(id);
-  }, [status]);
+  }, [auth, status]);
 
   if (auth && status === "loading") {
     return <div>Loading...</div>;

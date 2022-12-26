@@ -10,11 +10,13 @@ import { ProfileContainer } from "./styled";
 
 const Profile: React.FC = () => {
   const { data: session, status } = useSession();
-
+  console.log(session);
   return (
     <ProfileContainer>
       <Avatar src={session?.user?.image ?? ""} />
-      <Link href="/mypage">{session?.user?.name ?? "not logged in!"}</Link>
+      <Link href="/mypage">
+        {session ? session.user?.name ?? "" : "not logged in!"}
+      </Link>
       {status === "authenticated" ? (
         <IconButton disableRipple onClick={() => signOut()}>
           <LogoutIcon />

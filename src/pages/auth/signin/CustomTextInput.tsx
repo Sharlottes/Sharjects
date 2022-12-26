@@ -12,6 +12,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import type { CustomNextPage } from "src/pages/_app";
 
 export interface CustomTextInputProps {
+  inputKey: string;
   handleChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
   enable?: boolean; //default enable
   value: string; //default value
@@ -23,6 +24,7 @@ export interface CustomTextInputProps {
 
 const CustomTextInput: CustomNextPage<CustomTextInputProps> = ({
   handleChange,
+  inputKey,
   value,
   label,
   enable = true,
@@ -38,14 +40,14 @@ const CustomTextInput: CustomNextPage<CustomTextInputProps> = ({
 
   return (
     <FormControl variant="standard" disabled={!enable}>
-      <InputLabel htmlFor={`input`}>
-        {typeof label === "function" ? label(value) : label}{" "}
-        {required ? "*" : ""}
+      <InputLabel htmlFor={inputKey}>
+        {typeof label === "function" ? label(value) : label}
+        {required ? " *" : " "}
       </InputLabel>
       <Input
         error={!isValid}
-        id="input"
-        type={privated ? (show ? "text" : "password") : "text"}
+        id={inputKey}
+        type={!privated || show ? "text" : "password"}
         value={value}
         onChange={handleChange}
         endAdornment={
@@ -72,7 +74,7 @@ const CustomTextInput: CustomNextPage<CustomTextInputProps> = ({
               : [
                   ...a,
                   <Typography key={i} variant="caption" ml="10px">
-                    <span color="red">{errmsg}</span>
+                    <span style={{ color: "red" }}>{errmsg}</span>
                   </Typography>,
                 ],
           [<div key="empty" />]

@@ -51,33 +51,40 @@ const SignIn: CustomNextPage<{
       setValues((prev) => ({ ...prev, [prop]: evt.target.value }));
     };
 
-  const registerUser = async (
-    username: string,
-    password: string,
-    e: React.MouseEvent
-  ) => {
-    e.preventDefault();
-    const res = await fetch("/api/register", {
+  const loginuser = async () => {
+    const res = await signIn("credentials", {
+      callbackUrl: query.callbackUrl?.toString() ?? "/",
+      [asEmail ? "email" : "username"]: username,
+      password,
+      remember,
+    });
+
+    const errorMsg = res ? res.error : query.error;
+    if (!errorMsg || errorMsg === "SessionRequired") return;
+    enqueueSnackbar(errorMsg.toString(), {
+      variant: "error",
+      anchorOrigin: { vertical: "top", horizontal: "left" },
+      autoHideDuration: 2000,
+    });
+  };
+
+  const registerUser = async () => {
+    const { message } = await fetch("/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ username, password }),
+    }).then((res) => res.json());
+
+    enqueueSnackbar(message, {
+      variant: message === "success" ? "success" : "warning",
+      anchorOrigin: { vertical: "top", horizontal: "left" },
+      autoHideDuration: 2000,
     });
-    let data = await res.json();
-    if (data.message === "success") {
-      await signIn("credentials", {
-        redirect: false,
-        username,
-        password,
-        remember,
-      });
-      return Router.push("/");
-    } else if (data.message === "already registered") {
-      enqueueSnackbar(data.message, {
-        variant: "warning",
-        anchorOrigin: { vertical: "top", horizontal: "left" },
-      });
+
+    if (message === "success") {
+      loginuser();
     }
   };
 
@@ -112,6 +119,7 @@ const SignIn: CustomNextPage<{
               );
               handleChange("username")(evt);
             }}
+            inputKey="username-input"
             value={username}
             label={(value) =>
               !value ? (
@@ -129,6 +137,7 @@ const SignIn: CustomNextPage<{
           />
           <CustomTextInput
             handleChange={handleChange("password")}
+            inputKey="password-input"
             value={password}
             label="Password"
             privated
@@ -137,6 +146,7 @@ const SignIn: CustomNextPage<{
             sx={{
               justifyContent: "flex-start",
               alignItems: "center",
+              verticalAlign: "middle",
               m: 0,
               p: 0,
             }}
@@ -157,24 +167,7 @@ const SignIn: CustomNextPage<{
             Remember User
           </Button>
           <Button
-            onClick={async () => {
-              const res = await signIn("credentials", {
-                redirect: false,
-                username,
-                password,
-                remember,
-              });
-              if (res) {
-                if (!res.ok) {
-                  enqueueSnackbar(res.error ?? "unknown error", {
-                    variant: "error",
-                    anchorOrigin: { vertical: "top", horizontal: "left" },
-                  });
-                } else if (query.callbackUrl) {
-                  Router.push(query.callbackUrl as string);
-                }
-              }
-            }}
+            onClick={loginuser}
             startIcon={<AddIcon />}
             disabled={!isValid}
             variant="outlined"
@@ -184,7 +177,7 @@ const SignIn: CustomNextPage<{
             Sign In
           </Button>
           <Button
-            onClick={(e) => registerUser(username, password, e)}
+            onClick={registerUser}
             startIcon={<AddIcon />}
             disabled={!isValid}
             variant="outlined"

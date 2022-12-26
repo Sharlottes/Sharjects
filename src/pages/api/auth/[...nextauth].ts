@@ -7,6 +7,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import UserModel from "src/models/User";
 import connectdb from "src/lib/connectDB";
+import type { IUserDocument } from "../../../models/User";
 
 // connect to mongo db
 connectdb();
@@ -22,17 +23,23 @@ export default NextAuth({
       },
       async authorize(credentials, req) {
         if (!credentials) throw new Error("no credentials");
-        const username = credentials.username;
-        const email = credentials.email;
-        const password = credentials.password;
-        const user =
-          (await UserModel.findOne({ email })) ??
-          (await UserModel.findOne({ username }));
+        const { username, email, password } = credentials;
+        const user: IUserDocument | null = email
+          ? await UserModel.findOne({ email })
+          : username
+          ? await UserModel.findOne({ username })
+          : null;
         if (!user) throw new Error("NO USER FOUND");
         if (!password) throw new Error("Please enter password");
         if (!(await bcrypt.compare(password, user.password)))
           throw new Error("Password Incorrect.");
-        return user;
+        return {
+          id: user.id,
+          name: user.username,
+          email: /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(user.username)
+            ? user.username
+            : null,
+        };
       },
     }),
     GithubProvider({
@@ -51,15 +58,20 @@ export default NextAuth({
   ],
   pages: {
     signIn: "/auth/signin",
+    error: "/auth/login",
   },
   debug: process.env.NODE_ENV !== "production",
   secret: process.env.NEXTAUTH_AUTH_SECRET,
   jwt: {
     secret: process.env.JWT_SECRET,
   },
+  session: {
+    strategy: "jwt",
+    maxAge: 3000,
+  },
   callbacks: {
     async jwt({ token, account }) {
-      if (account && account.provider === "github") {
+      if (account) {
         token.accessToken = account.access_token;
       }
       return token;
