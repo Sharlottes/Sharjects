@@ -76,12 +76,6 @@ const SideMenuDrawer: React.FC<SideMenuProps> = ({
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { currentColors } = useThemeController();
 
-  React.useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (open && isMobile) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "auto";
-  }, [open]);
-
   return (
     <Dialog
       open={open}
@@ -101,6 +95,7 @@ const SideMenuDrawer: React.FC<SideMenuProps> = ({
           onClick: onClose,
         },
       }}
+      disableScrollLock={!isMobile}
       PaperProps={{ sx: SideMenuSxProps }}
       fullScreen={isMobile}
       TransitionComponent={isMobile ? Fade : RightSlide}
