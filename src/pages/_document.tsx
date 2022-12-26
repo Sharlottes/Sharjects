@@ -5,7 +5,6 @@ import Document, {
   NextScript,
   type DocumentContext,
 } from "next/document";
-import Script from "next/script";
 
 import createEmotionServer from "@emotion/server/create-instance";
 import createCache from "@emotion/cache";
@@ -32,11 +31,11 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap"
           />
           {(this.props as any).emotionStyleTags}
-          <Script
+          <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
           />
-          <Script
+          <script
             dangerouslySetInnerHTML={{
               __html: `
               window.dataLayer = window.dataLayer || [];
