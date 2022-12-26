@@ -45,8 +45,9 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
   const controller = useAnimationControls();
   const { scrollY } = useScroll();
 
-  const { width } = useWindowDimensions();
+  const demension = useWindowDimensions();
   const headerAnimateVaraints = React.useMemo<Variants>(() => {
+    const width = demension.offsetWidth;
     const headerWidth = width - Math.min(400, width * 0.15);
     const widthWithSidebar = (width + headerWidth) / 2 + 20;
     const leftAmount = (width - headerWidth) / 2;
@@ -81,7 +82,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
     );
 
     return headerAnimateVaraints;
-  }, [width]);
+  }, [demension.offsetWidth]);
 
   const appBarRef = React.useRef<HTMLDivElement>(null);
   const updateBackcolorOpacity = React.useCallback(
@@ -133,8 +134,12 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
           }}
         >
           <Toolbar
+            style={{
+              padding: "0 16px",
+            }}
             sx={{
               display: "flex",
+              height: "60px",
               alignItems: "center",
             }}
           >
