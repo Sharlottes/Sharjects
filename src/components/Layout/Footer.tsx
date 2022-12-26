@@ -21,7 +21,7 @@ const Footer: React.FC<{ additional?: React.ReactNode | undefined }> = ({
       variant="body2"
       sx={{
         margin: "0 auto",
-        p: "20px 0",
+        p: "20px",
         width: "fit-content",
       }}
     >
