@@ -83,7 +83,6 @@ const ThemeSelection: React.FC = () => {
             display: "flex",
             flexWrap: "wrap",
             width: "300px",
-            "& .selected": {},
           }}
         >
           {colors.map((color) => (
@@ -91,9 +90,6 @@ const ThemeSelection: React.FC = () => {
               key={color}
               color={Colors[color][300]}
               onClick={() => setColorPalette(color)}
-              className={
-                currentColors[300] === Colors[color][300] ? "selected" : ""
-              }
             />
           ))}
           <motion.div
