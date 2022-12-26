@@ -41,12 +41,14 @@
         "name": "KakaoNacksee",
         "description": "뿌링클 선착순 선물을 1초 차이로 놓쳐버린 분노로 만든 낚시 웹사이트",
         "link": "https://kakao-nacksee.vercel.app",
-        "tags": ["typescript", "react", "next", "html", "css"]
+        "tags": ["typescript", "react", "next", "html", "css"],
+        "icon": "kakaonackseeIcon"
       },
       {
         "name": "Timer",
         "description": "Flutter 공부용으로 개발중인 타이머/스케쥴링 어플리케이션",
-        "tags": ["dart", "flutter"]
+        "tags": ["dart", "flutter"],
+        "icon": "timerIcon"
       }
     ]
   },
