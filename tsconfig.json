@@ -5,6 +5,9 @@
     "moduleResolution": "node",
     "jsx": "preserve",
     "baseUrl": "./",
+    "typeRoots": [
+      "src/@types/"
+    ],
     "paths": {
       "src/*": [
         "src/*"

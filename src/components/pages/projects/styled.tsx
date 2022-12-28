@@ -1,6 +1,6 @@
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import Card from "@mui/material/Card";
-import { styled } from "@mui/system";
+import styled from "@mui/system/styled";
 import { motion } from "framer-motion";
 
 export const StyledOpenInNewIcon = styled(OpenInNewIcon)({

@@ -3,7 +3,7 @@ import React from "react";
 import Box, { type BoxProps } from "@mui/material/Box";
 import { motion, useAnimationControls } from "framer-motion";
 
-import { type listAnimatonRefType } from "src/@type";
+import { type listAnimatonRefType } from "src/@types";
 import ProgressiveTypography from "src/components/ProgressiveTypography";
 import FadeUpTypography from "src/components/FadeUpTypography";
 import listData from "./listData.json";

@@ -6,7 +6,7 @@ import replaceStringToArray from "string-replace-to-array";
 
 import { useTheme } from "@mui/material/styles";
 
-import type { GithubAPIRepoData } from "src/@type";
+import type { GithubAPIRepoData } from "src/@types";
 import { useGithubData } from "./GithubStaticDataContext";
 import FetchSuspenseWrapper from "./FetchSuspenseWrapper";
 import { RepoIcon, StargazerIcon, ForkIcon } from "src/assets/icons";

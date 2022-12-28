@@ -78,12 +78,10 @@ const ChildrenWithFetcher = <
   Component,
   fetchedPropName,
   ...others
-}: ChildrenWithFetcherProps<DT> & ChildrenComponentProps<PN, T>) => {
-  return (
-    <Component
-      {...({ [fetchedPropName]: data, ...others } as React.ComponentProps<T>)}
-    />
-  );
-};
+}: ChildrenWithFetcherProps<DT> & ChildrenComponentProps<PN, T>) => (
+  <Component
+    {...({ [fetchedPropName]: data, ...others } as React.ComponentProps<T>)}
+  />
+);
 
 export default FetchSuspenseWrapper;

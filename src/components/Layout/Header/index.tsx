@@ -21,7 +21,7 @@ import {
   type Variants,
 } from "framer-motion";
 import HeaderMenu from "./HeaderMenu";
-import SideMenu from "../SideMenu";
+import SideMenu from "../../SideMenu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Layouts from "src/core/Layouts";
 

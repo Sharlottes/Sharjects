@@ -2,8 +2,7 @@ import React from "react";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-
-import { styled } from "@mui/system";
+import styled from "@mui/system/styled";
 
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";

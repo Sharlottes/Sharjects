@@ -1,7 +1,7 @@
 import React from "react";
 import Typography, { type TypographyProps } from "@mui/material/Typography";
 import { motion, type MotionProps, useAnimationControls } from "framer-motion";
-import type { listAnimatonRefType } from "src/@type";
+import type { listAnimatonRefType } from "src/@types";
 
 const FadeUpTypography: React.FC<
   {

@@ -7,7 +7,7 @@ import {
   useAnimationControls,
 } from "framer-motion";
 import React from "react";
-import type { listAnimatonRefType } from "src/@type";
+import type { listAnimatonRefType } from "src/@types";
 
 type MotionPropsGetterType = (
   char: string,

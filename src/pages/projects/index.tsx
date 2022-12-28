@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import InfoIcon from "@mui/icons-material/Info";
 
 import Layout from "src/components/Layout";
-import type { projectDataType } from "src/@type";
+import type { projectDataType } from "src/@types";
 import GithubIcon from "src/assets/icons/GithubIcon";
 
 import { motion, Variants } from "framer-motion";

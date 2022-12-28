@@ -1,4 +1,4 @@
-import { styled } from "@mui/system";
+import styled from "@mui/system/styled";
 
 export const OwnerRow = styled("div")<{ color: string }>(({ color, theme }) =>
   theme.unstable_sx({
