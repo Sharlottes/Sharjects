@@ -9,10 +9,8 @@ export const debounce: debounceType = (callback, duration) => {
   let id: Record<string, NodeJS.Timeout | undefined> = {};
 
   return (key, ...params) => {
-    if (!id[key]) {
-      id[key] = setTimeout(() => (id[key] = undefined), duration);
-      return callback(...params);
-    }
-    return;
+    if (id[key]) return;
+    id[key] = setTimeout(() => (id[key] = undefined), duration);
+    return callback(...params);
   };
 };

@@ -1,3 +1,4 @@
+import { debounce } from "../../../utils/debounce";
 export interface TimelineItemData {
   date: string;
   y: number;
@@ -7,8 +8,11 @@ export type ScrollDirectionType = "up" | "down";
 
 export const MARGIN = 150;
 
-export const scrollWindow = (y: number) =>
-  window.scrollTo({ top: y, behavior: "smooth" });
+const debouncedScrollWindow = debounce(
+  (y: number) => window.scrollTo({ top: y, behavior: "smooth" }),
+  300
+);
+export const scrollWindow = (y: number) => debouncedScrollWindow("scroll", y);
 
 export const getDist = (to: number, targetPos = window.scrollY) =>
   (targetPos ?? 0) - to;
