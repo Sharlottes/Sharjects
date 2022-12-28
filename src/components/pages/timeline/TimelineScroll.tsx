@@ -4,10 +4,7 @@ import Stepper from "@mui/material/Stepper";
 import TimelineNav, { type TimelineNavRefType } from "./TimelineNav";
 
 const TimelineItems = dynamic(
-  () => import("src/components/pages/timeline/TimelineItems"),
-  {
-    suspense: true,
-  }
+  () => import("src/components/pages/timeline/TimelineItems")
 );
 
 const margin = 150;

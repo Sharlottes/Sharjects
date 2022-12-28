@@ -8,10 +8,7 @@ import dynamic from "next/dynamic";
 import Layout from "components/Layout";
 
 const TimelineScroll = dynamic(
-  () => import("components/pages/timeline/TimelineScroll"),
-  {
-    suspense: true,
-  }
+  () => import("components/pages/timeline/TimelineScroll")
 );
 
 const TimelineHeader: React.FC = () => {
