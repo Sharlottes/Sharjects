@@ -11,6 +11,30 @@ const TimelineItems = dynamic(
 
 const TimelineScroll: React.FC = () => {
   React.useEffect(() => {
+    const handleScroll = (event: Event) => {
+      event.preventDefault();
+      ref.current?.onScroll();
+    };
+
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      tryScroll(event.deltaY >= 0 ? "down" : "up");
+    };
+
+    const handleKeydown = (event: KeyboardEvent) => {
+      console.log(event.key);
+      const direction =
+        event.key === "w" || event.key === "ArrowUp"
+          ? "up"
+          : event.key === "s" || event.key === "ArrowDown"
+          ? "down"
+          : undefined;
+      if (direction) {
+        tryScroll(direction);
+        event.preventDefault();
+      }
+    };
+
     window.addEventListener("keydown", handleKeydown);
     window.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("scroll", handleScroll);
@@ -21,25 +45,6 @@ const TimelineScroll: React.FC = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  const handleScroll = (e: Event) => {
-    e.preventDefault();
-    ref.current?.onScroll();
-  };
-
-  const handleWheel = (ev: WheelEvent) => {
-    ev.preventDefault();
-    tryScroll(ev.deltaY >= 0 ? "down" : "up");
-  };
-  const handleKeydown = (event: KeyboardEvent) => {
-    const direction =
-      event.key === "w" || event.key === "ArrowUp"
-        ? "up"
-        : event.key === "s" || event.key === "ArrowDown"
-        ? "down"
-        : undefined;
-    if (direction) tryScroll(direction);
-  };
 
   const tryScroll = (direction: ScrollDirectionType) => {
     if (!window) return;
