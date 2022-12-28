@@ -10,7 +10,6 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 
 import { motion, useAnimationControls } from "framer-motion";
-import type { CustomNextPage } from "../_app";
 
 const getDist = (element: HTMLDivElement, targetPos = window.scrollY) =>
   (targetPos ?? 0) - element.offsetTop;
@@ -34,14 +33,7 @@ export type TimelineNavRefType = {
 export interface TimelineNavProps {
   scroll: (direction: "up" | "down") => void;
 }
-const TimelineNav: CustomNextPage<
-  TimelineNavProps,
-  TimelineNavProps,
-  React.ForwardRefExoticComponent<
-    React.PropsWithoutRef<TimelineNavProps> &
-      React.RefAttributes<TimelineNavRefType>
-  >
-> = React.forwardRef<TimelineNavRefType, TimelineNavProps>(
+const TimelineNav = React.forwardRef<TimelineNavRefType, TimelineNavProps>(
   ({ scroll }, ref) => {
     const [latestItem, setLatestItem] = React.useState<HTMLDivElement>();
     const [showed, setShowed] = React.useState(false);
@@ -238,7 +230,5 @@ const TimelineNav: CustomNextPage<
     );
   }
 );
-
-TimelineNav.notPage = true;
 
 export default TimelineNav;

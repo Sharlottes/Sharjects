@@ -1,4 +1,3 @@
-import { CustomNextPage } from "../_app";
 import { StyledUserCard, StyledRepoCard } from "./styled";
 import TimelineContent from "./TimelineContent";
 import TimelineContentTitle from "./TimelineContentTitle";
@@ -408,7 +407,3 @@ export const events: Record<dateType | monthType, JSX.Element> = {
     </>
   ),
 };
-
-const dummyPage: CustomNextPage = () => <></>;
-dummyPage.notPage = true;
-export default dummyPage;

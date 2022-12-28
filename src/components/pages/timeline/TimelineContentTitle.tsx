@@ -1,8 +1,7 @@
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
-import type { CustomNextPage } from "../_app";
 
-const TimelineContentTitle: CustomNextPage<React.PropsWithChildren> = ({
+const TimelineContentTitle: React.FC<React.PropsWithChildren> = ({
   children,
 }) => (
   <div style={{ marginBottom: "min(1vw, 5px)" }}>
@@ -12,7 +11,5 @@ const TimelineContentTitle: CustomNextPage<React.PropsWithChildren> = ({
     />
   </div>
 );
-
-TimelineContentTitle.notPage = true;
 
 export default TimelineContentTitle;

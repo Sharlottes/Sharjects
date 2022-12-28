@@ -1,15 +1,14 @@
 import Step from "@mui/material/Step";
 import StepContent from "@mui/material/StepContent";
-import type { CustomNextPage } from "src/pages/_app";
 
-interface TimelineItemProps {
+export interface TimelineItemProps {
   title: string;
   children?: JSX.Element | undefined;
   last?: boolean;
   scroll: (direction: "up" | "down") => void;
 }
 
-const TimelineItem: CustomNextPage<TimelineItemProps> = ({
+const TimelineItem: React.FC<TimelineItemProps> = ({
   title,
   children,
   last = false,

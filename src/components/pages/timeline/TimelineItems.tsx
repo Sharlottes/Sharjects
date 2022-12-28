@@ -1,8 +1,6 @@
 import Divider from "@mui/material/Divider";
-
 import TimelineItem from "./TimelineItem";
 import { events } from "./events";
-import type { CustomNextPage } from "../_app";
 
 type monthType = `${2020 | 2021 | 2022}.${string}`;
 type dateType = `${monthType}.${string}`;
@@ -14,16 +12,16 @@ const dates = Array.from([2020, 2021, 2022], (year) =>
       (__, day) =>
         `${year}.${(month + 1).toString().padStart(2, "0")}.${(day + 1)
           .toString()
-          .padStart(2, "0")}` as dateType
+          .padStart(2, "0")}`
     )
   )
-);
+) as dateType[][][];
 
 export interface TimelineItemsProps {
   scroll: (direction: "up" | "down") => void;
 }
 
-const TimelineItems: CustomNextPage<TimelineItemsProps> = ({ scroll }) => (
+const TimelineItems: React.FC<TimelineItemsProps> = ({ scroll }) => (
   <>
     {dates
       .map((years, i) =>
@@ -59,6 +57,5 @@ const TimelineItems: CustomNextPage<TimelineItemsProps> = ({ scroll }) => (
       .flat()}
   </>
 );
-TimelineItems.notPage = true;
 
 export default TimelineItems;

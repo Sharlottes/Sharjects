@@ -1,11 +1,10 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import Stepper from "@mui/material/Stepper";
-import type { CustomNextPage } from "src/pages/_app";
 import TimelineNav, { type TimelineNavRefType } from "./TimelineNav";
 
 const TimelineItems = dynamic(
-  () => import("src/pages/timeline/TimelineItems"),
+  () => import("src/components/pages/timeline/TimelineItems"),
   {
     suspense: true,
   }
@@ -38,7 +37,7 @@ const getNearestElement = (
     .pop();
 };
 
-const TimelineScroll: CustomNextPage = () => {
+const TimelineScroll: React.FC = () => {
   React.useEffect(() => {
     window.addEventListener("keydown", handleKeydown);
     window.addEventListener("wheel", handleWheel, { passive: false });
@@ -88,6 +87,5 @@ const TimelineScroll: CustomNextPage = () => {
     </Stepper>
   );
 };
-TimelineScroll.notPage = true;
 
 export default TimelineScroll;

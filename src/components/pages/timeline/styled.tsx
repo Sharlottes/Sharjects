@@ -1,10 +1,5 @@
-import GithubRepoCard, {
-  type GithubRepoCardProps,
-} from "src/components/GithubRepoCard";
-import GithubUserCard, {
-  type GithubUserCardProps,
-} from "src/components/GithubUserCard";
-import type { CustomNextPage } from "../_app";
+import { GithubRepoCard, GithubUserCard } from "src/components";
+import type { GithubRepoCardProps, GithubUserCardProps } from "src/components";
 
 export interface StyledRepoCardProps
   extends Omit<GithubRepoCardProps, "username"> {
@@ -34,7 +29,3 @@ export const StyledUserCard: React.FC<GithubUserCardProps> = (props) => (
     <GithubUserCard {...props} />
   </div>
 );
-
-const dummyPage: CustomNextPage = () => <></>;
-dummyPage.notPage = true;
-export default dummyPage;

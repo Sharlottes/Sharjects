@@ -7,9 +7,12 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import dynamic from "next/dynamic";
 import Layout from "components/Layout";
 
-const TimelineScroll = dynamic(() => import("./TimelineScroll"), {
-  suspense: true,
-});
+const TimelineScroll = dynamic(
+  () => import("components/pages/timeline/TimelineScroll"),
+  {
+    suspense: true,
+  }
+);
 
 const TimelineHeader: React.FC = () => {
   const handleClick = () => {
