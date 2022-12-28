@@ -2,36 +2,28 @@ import React from "react";
 import dynamic from "next/dynamic";
 import Stepper from "@mui/material/Stepper";
 import TimelineNav, { type TimelineNavRefType } from "./TimelineNav";
+import CSR from "src/components/CSR";
+import { getTimelineItems, MARGIN, TimelineItemData } from ".";
 
 const TimelineItems = dynamic(
   () => import("src/components/pages/timeline/TimelineItems")
 );
 
-const margin = 150;
-const getDist = (element: HTMLDivElement, targetPos = window.scrollY) =>
-  (targetPos ?? 0) - element.offsetTop;
-const getTimelineItems = () => {
-  return [
-    document.querySelector<HTMLDivElement>("div #top-anchor")!,
-    ...document.querySelectorAll("div .has-content"),
-    document.querySelector<HTMLDivElement>("div #bottom-anchor")!,
-  ] as HTMLDivElement[];
-};
 const getNearestElement = (
   direction: "up" | "down" | "none" = "none"
-): HTMLDivElement | undefined => {
-  return getTimelineItems()
-    .filter((element) =>
-      direction === "down"
-        ? getDist(element) < -(margin + 20)
-        : direction === "up"
-        ? getDist(element) > margin + 20
-        : true
-    )
-    .sort((element) =>
-      direction === "none" ? Math.abs(getDist(element)) : getDist(element)
-    )
-    .pop();
+): TimelineItemData => {
+  if (direction !== "none") {
+    const items = getTimelineItems();
+    for (let i = 0; i < items.length; i++) {
+      const item = items[direction === "up" ? items.length - 1 - i : i];
+      if (
+        Math.max(0, (direction === "up" ? -1 : 1) * (item.y - window.scrollY))
+      ) {
+        return item;
+      }
+    }
+  }
+  return { date: "", y: window.scrollY };
 };
 
 const TimelineScroll: React.FC = () => {
@@ -66,9 +58,9 @@ const TimelineScroll: React.FC = () => {
     if (!window || direction === "none") return;
 
     const item = getNearestElement(direction);
-    if (item) ref.current?.setLatestItem(item);
+    ref.current?.setLatestItem(item);
     window.scrollTo({
-      top: (item?.offsetTop ?? 0) - margin,
+      top: item.y,
       behavior: "smooth",
     });
   };
@@ -77,7 +69,9 @@ const TimelineScroll: React.FC = () => {
 
   return (
     <Stepper orientation="vertical" sx={{ marginLeft: "min(1vw, 10px)" }}>
-      <TimelineNav ref={ref} scroll={(d) => tryScroll(d)} />
+      <CSR>
+        <TimelineNav ref={ref} scroll={(d) => tryScroll(d)} />
+      </CSR>
       <React.Suspense fallback={"loading..."}>
         <TimelineItems scroll={(d) => tryScroll(d)} />
       </React.Suspense>

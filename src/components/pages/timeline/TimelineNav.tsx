@@ -8,34 +8,24 @@ import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrow
 
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
+import { getDist, getTimelineItems, MARGIN, TimelineItemData } from ".";
 
 import { motion, useAnimationControls } from "framer-motion";
 
-const getDist = (element: HTMLDivElement, targetPos = window.scrollY) =>
-  (targetPos ?? 0) - element.offsetTop;
-const getTimelineItems = () => {
-  return [
-    document.querySelector<HTMLDivElement>("div #top-anchor")!,
-    ...document.querySelectorAll("div .has-content"),
-    document.querySelector<HTMLDivElement>("div #bottom-anchor")!,
-  ] as HTMLDivElement[];
-};
-
-const margin = 150;
 const variants = {
   show: { x: 0 },
   hide: { x: -110 },
 };
 
 export type TimelineNavRefType = {
-  setLatestItem: (item: HTMLDivElement) => void;
+  setLatestItem: (item: TimelineItemData) => void;
 };
 export interface TimelineNavProps {
   scroll: (direction: "up" | "down") => void;
 }
 const TimelineNav = React.forwardRef<TimelineNavRefType, TimelineNavProps>(
   ({ scroll }, ref) => {
-    const [latestItem, setLatestItem] = React.useState<HTMLDivElement>();
+    const [latestItem, setLatestItem] = React.useState<TimelineItemData>();
     const [showed, setShowed] = React.useState(false);
 
     React.useImperativeHandle(ref, () => ({
@@ -125,7 +115,7 @@ const TimelineNav = React.forwardRef<TimelineNavRefType, TimelineNavProps>(
                 <KeyboardArrowUpIcon />
               </IconButton>
               <span style={{ cursor: "pointer" }} onClick={handleClick}>
-                {latestItem?.innerText}
+                {latestItem?.date}
               </span>
               <IconButton onClick={() => scroll("down")}>
                 <KeyboardArrowDownIcon />
@@ -166,61 +156,58 @@ const TimelineNav = React.forwardRef<TimelineNavRefType, TimelineNavProps>(
                   {getTimelineItems()
                     .sort(
                       (e1, e2) =>
-                        Math.abs(getDist(e1, latestItem?.offsetTop)) -
-                        Math.abs(getDist(e2, latestItem?.offsetTop))
+                        Math.abs(getDist(e1.y, latestItem?.y)) -
+                        Math.abs(getDist(e2.y, latestItem?.y))
                     )
                     .slice(0, 10)
                     .sort(
                       (e1, e2) =>
-                        getDist(e1, latestItem?.offsetTop) -
-                        getDist(e2, latestItem?.offsetTop)
+                        getDist(e1.y, latestItem?.y) -
+                        getDist(e2.y, latestItem?.y)
                     )
                     .reverse()
-                    .map(
-                      (elem, i, arr) =>
-                        elem.innerText && (
-                          <div>
-                            <span
+                    .map((elem, i, arr) => (
+                      <div>
+                        <span
+                          style={{
+                            margin: "5px 2px",
+                            color:
+                              elem.date === latestItem?.date
+                                ? "red"
+                                : "inherit",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            window.scrollTo({
+                              top: elem.y - MARGIN,
+                              behavior: "smooth",
+                            });
+                            setLatestItem(elem);
+                          }}
+                        >
+                          {elem.date}
+                        </span>
+                        {i !== arr.length - 1 && elem.date && (
+                          <div
+                            style={{
+                              margin: "5px 2px",
+                              display: "flex",
+                              width: "100%",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <div
                               style={{
-                                margin: "5px 2px",
-                                color:
-                                  elem.innerText === latestItem?.innerText
-                                    ? "red"
-                                    : "inherit",
-                                cursor: "pointer",
+                                display: "block",
+                                border: "1px solid #bdbdbd",
+                                minHeight: "12px",
+                                width: "1px",
                               }}
-                              onClick={() => {
-                                window.scrollTo({
-                                  top: elem.offsetTop - margin,
-                                  behavior: "smooth",
-                                });
-                                setLatestItem(elem);
-                              }}
-                            >
-                              {elem.innerText}
-                            </span>
-                            {i !== arr.length - 1 && elem.innerText && (
-                              <div
-                                style={{
-                                  margin: "5px 2px",
-                                  display: "flex",
-                                  width: "100%",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    display: "block",
-                                    border: "1px solid #bdbdbd",
-                                    minHeight: "12px",
-                                    width: "1px",
-                                  }}
-                                />
-                              </div>
-                            )}
+                            />
                           </div>
-                        )
-                    )}
+                        )}
+                      </div>
+                    ))}
                 </div>
               </div>
             </motion.div>
