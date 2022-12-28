@@ -95,7 +95,6 @@ const GithubUserCard: React.FC<
 
   const theme = useTheme();
   const palette = getPalette(theme.palette.mode === "dark");
-
   return (
     <div
       style={{
@@ -176,7 +175,7 @@ const GithubUserCard: React.FC<
             ],
             [
               user.public_gists,
-              "`https://gist.github.com/${user.login}",
+              `https://gist.github.com/${user.login}`,
               <GistIcon
                 sx={{ fill: palette.iconColor, marginRight: "8px" }}
                 fontSize="small"
