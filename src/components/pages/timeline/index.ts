@@ -1,4 +1,7 @@
 import smoothScroll from "src/utils/smoothScroll";
+
+const MARGIN = 150;
+
 export interface TimelineItemData {
   date: string;
   y: number;
@@ -6,25 +9,20 @@ export interface TimelineItemData {
 
 export type ScrollDirectionType = "up" | "down";
 
-export const MARGIN = 150;
-
 export const scrollWindow = (() => {
   let isScrolling = false;
   return (y: number) => {
     if (isScrolling) return;
     isScrolling = true;
-    smoothScroll(
-      Math.min(document.body.scrollHeight - window.innerHeight, y)
-    ).finally(() => (isScrolling = false));
+    smoothScroll(Math.min(document.body.scrollHeight - window.innerHeight, y), {
+      offset: -MARGIN,
+    }).finally(() => (isScrolling = false));
   };
 })();
 
 export const tryScroll = (direction: ScrollDirectionType) => {
   scrollWindow(getNearestItem(direction).y);
 };
-
-export const getDist = (to: number, targetPos = window.scrollY) =>
-  (targetPos ?? 0) - to;
 
 export const getTimelineItems = (() => {
   let cachedElements: HTMLDivElement[] | undefined;
@@ -54,11 +52,13 @@ export const getNearestItem = (
   for (let i = 0; i < items.length; i++) {
     const item = items[direction === "up" ? items.length - 1 - i : i];
     if (
-      direction === "up" ? item.y < window.scrollY : item.y > window.scrollY
+      direction === "up"
+        ? item.y < window.scrollY + MARGIN
+        : item.y > window.scrollY + MARGIN
     ) {
       return item;
     }
   }
 
-  return { date: "", y: window.scrollY };
+  return { date: "", y: window.scrollY + MARGIN };
 };
