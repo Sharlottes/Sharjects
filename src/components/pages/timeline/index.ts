@@ -13,9 +13,7 @@ export const scrollWindow = (() => {
   return (y: number) => {
     if (isScrolling) return;
     isScrolling = true;
-    console.log("current - ", window.scrollY, "\n target - ", y);
-
-    smoothScroll(y).then(() => (isScrolling = false));
+    smoothScroll(y).finally(() => (isScrolling = false));
   };
 })();
 
@@ -31,18 +29,10 @@ export const getTimelineItems = (() => {
 
   return () => {
     cachedElements ??= Array.from(
-      document.querySelectorAll<HTMLDivElement>(
-        "div #top-anchor, #bottom-anchor, .has-content"
-      )
+      document.querySelectorAll<HTMLDivElement>("div .has-content")
     );
-    console.log(cachedElements.map((element) => element.offsetTop));
     return cachedElements.map((element) => ({
-      date:
-        element.id === "top-anchor"
-          ? "start"
-          : element.id === "bottom-anchor"
-          ? "end"
-          : element.innerText,
+      date: element.innerText,
       y: element.offsetTop,
     }));
   };

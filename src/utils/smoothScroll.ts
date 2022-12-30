@@ -21,7 +21,7 @@ type smoothScrollType = (
  * */
 const smoothScroll: smoothScrollType = (
   from = 0,
-  { offset = 0, timeout = 10000, target = window } = {}
+  { offset = 0, timeout = 5000, target = window } = {}
 ) => {
   const targetPosition = from + offset;
   target.scrollTo({
@@ -39,16 +39,11 @@ const smoothScroll: smoothScrollType = (
     }
 
     const failed = setTimeout(() => {
-      reject();
+      reject("scroll timeout!");
       target.removeEventListener("scroll", scrollHandler);
     }, timeout);
 
     const scrollHandler = () => {
-      console.log(
-        target instanceof Window ? target.scrollY : target.scrollTop,
-        "  >>>   ",
-        targetPosition
-      );
       if (
         (target instanceof Window ? target.scrollY : target.scrollTop) !==
         targetPosition

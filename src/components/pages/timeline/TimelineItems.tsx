@@ -5,7 +5,7 @@ import { events } from "./events";
 type monthType = `${2020 | 2021 | 2022}.${string}`;
 type dateType = `${monthType}.${string}`;
 
-const dates = Array.from([2020, 2021, 2022], (year) =>
+const dates = Array.from([2020, 2021, 2022, 2023], (year) =>
   Array.from({ length: 12 }, (_, month) =>
     Array.from(
       { length: 31 },
