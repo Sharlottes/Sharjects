@@ -1,18 +1,17 @@
 import Step from "@mui/material/Step";
 import StepContent from "@mui/material/StepContent";
+import { tryScroll } from ".";
 
 export interface TimelineItemProps {
   title: string;
   children?: JSX.Element | undefined;
   last?: boolean;
-  scroll: (direction: "up" | "down") => void;
 }
 
 const TimelineItem: React.FC<TimelineItemProps> = ({
   title,
   children,
   last = false,
-  scroll,
 }) => (
   <Step expanded last={last} sx={{ padding: "auto 1vw" }}>
     <div>
@@ -31,7 +30,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
       {children}
       {children && (
         <span
-          onClick={() => scroll("down")}
+          onClick={() => tryScroll("down")}
           style={{
             position: "absolute",
             right: "10px",

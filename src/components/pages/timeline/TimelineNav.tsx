@@ -9,7 +9,12 @@ import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrow
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 
-import { TimelineItemData, ScrollDirectionType, getNearestItem } from ".";
+import {
+  TimelineItemData,
+  ScrollDirectionType,
+  getNearestItem,
+  tryScroll,
+} from ".";
 import { getTimelineItems, scrollWindow } from ".";
 
 import { motion, useAnimationControls } from "framer-motion";
@@ -21,200 +26,189 @@ const variants = {
   hide: { x: -110 },
 };
 
-export type TimelineNavRefType = {
-  onScroll: () => void;
-};
+const TimelineNav: React.FC = () => {
+  const [latestItem, setLatestItem] = React.useState<TimelineItemData>({
+    y: 0,
+    date: "top",
+  });
 
-export interface TimelineNavProps {
-  scroll: (direction: ScrollDirectionType) => void;
-}
+  React.useEffect(() => {
+    const handleScroll = () => setLatestItem(getNearestItem());
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-const TimelineNav = React.forwardRef<TimelineNavRefType, TimelineNavProps>(
-  ({ scroll }, ref) => {
-    const [latestItem, setLatestItem] = React.useState<TimelineItemData>({
-      y: 0,
-      date: "top",
+  const sortedItems = React.useMemo(() => {
+    const list = getTimelineItems();
+    const index = Math.max(0, list.indexOf(latestItem));
+    return Arrayf[index < NAV_ITEM_LENGTH ? "padRight" : "padLeft"](
+      list.slice(
+        Math.max(0, index - ~~(NAV_ITEM_LENGTH / 2)),
+        Math.min(list.length, index + ~~(NAV_ITEM_LENGTH / 2) + 1)
+      ),
+      NAV_ITEM_LENGTH,
+      { date: "", y: window.screenY }
+    );
+  }, [latestItem]);
+
+  const [showed, setShowed] = React.useState(false);
+  const controls = useAnimationControls();
+  controls.start(showed ? "show" : "hide");
+
+  const [sizedUp, setSizedUp] = React.useState(false);
+  const handleClick = () => {
+    setSizedUp((prev) => {
+      return !prev;
     });
-    React.useImperativeHandle(ref, () => ({
-      onScroll: () => {
-        setLatestItem(getNearestItem());
-      },
-    }));
-    const sortedItems = React.useMemo(() => {
-      const list = getTimelineItems();
-      const index = Math.max(0, list.indexOf(latestItem));
-      return Arrayf[index < NAV_ITEM_LENGTH ? "padRight" : "padLeft"](
-        list.slice(
-          Math.max(0, index - ~~(NAV_ITEM_LENGTH / 2)),
-          Math.min(list.length, index + ~~(NAV_ITEM_LENGTH / 2) + 1)
-        ),
-        NAV_ITEM_LENGTH,
-        { date: "", y: window.screenY }
-      );
-    }, [latestItem]);
+  };
 
-    const [showed, setShowed] = React.useState(false);
-    const controls = useAnimationControls();
-    controls.start(showed ? "show" : "hide");
-
-    const [sizedUp, setSizedUp] = React.useState(false);
-    const handleClick = () => {
-      setSizedUp((prev) => {
-        return !prev;
-      });
-    };
-
-    return (
-      <div
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        zIndex: 10,
+      }}
+    >
+      <motion.div
         style={{
-          position: "fixed",
-          top: 0,
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          zIndex: 10,
+          width: "100px",
+          height: "fit-content",
+          boxShadow: "0 0 10px black",
+          borderRadius: "10px",
         }}
+        variants={variants}
+        animate={controls}
       >
         <motion.div
-          style={{
-            width: "100px",
-            height: "fit-content",
-            boxShadow: "0 0 10px black",
-            borderRadius: "10px",
+          variants={{
+            none: {},
+            show: { x: 15 },
           }}
-          variants={variants}
-          animate={controls}
+          whileTap={showed ? "none" : "show"}
+          whileHover={showed ? "none" : "show"}
+          transition={{
+            type: "spring",
+          }}
+          style={{
+            position: "absolute",
+            right: "-30px",
+          }}
+        >
+          <IconButton
+            sx={{
+              boxShadow: "0 0 10px black",
+            }}
+            onClick={() => setShowed((prev) => !prev)}
+          >
+            <ArrowForwardIosIcon />
+          </IconButton>
+        </motion.div>
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            fontSize: "max(12, 10%)",
+          }}
         >
           <motion.div
-            variants={{
-              none: {},
-              show: { x: 15 },
-            }}
-            whileTap={showed ? "none" : "show"}
-            whileHover={showed ? "none" : "show"}
-            transition={{
-              type: "spring",
-            }}
             style={{
-              position: "absolute",
-              right: "-30px",
+              height: "100%",
+              display: sizedUp ? "none" : "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <IconButton
-              sx={{
-                boxShadow: "0 0 10px black",
-              }}
-              onClick={() => setShowed((prev) => !prev)}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
-              <ArrowForwardIosIcon />
+              <KeyboardDoubleArrowUpIcon />
+            </IconButton>
+            <IconButton onClick={() => tryScroll("up")}>
+              <KeyboardArrowUpIcon />
+            </IconButton>
+            <span style={{ cursor: "pointer" }} onClick={handleClick}>
+              {latestItem.date}
+            </span>
+            <IconButton onClick={() => tryScroll("down")}>
+              <KeyboardArrowDownIcon />
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                window.scrollTo({
+                  top: document.documentElement.scrollHeight,
+                  behavior: "smooth",
+                })
+              }
+            >
+              <KeyboardDoubleArrowDownIcon />
             </IconButton>
           </motion.div>
-          <div
+          <motion.div
             style={{
-              width: "100%",
               height: "100%",
-              backgroundColor: "white",
-              borderRadius: "10px",
-              fontSize: "max(12, 10%)",
+              display: sizedUp ? "block" : "none",
             }}
           >
-            <motion.div
-              style={{
-                height: "100%",
-                display: sizedUp ? "none" : "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <IconButton
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              >
-                <KeyboardDoubleArrowUpIcon />
-              </IconButton>
-              <IconButton onClick={() => scroll("up")}>
-                <KeyboardArrowUpIcon />
-              </IconButton>
-              <span style={{ cursor: "pointer" }} onClick={handleClick}>
-                {latestItem.date}
-              </span>
-              <IconButton onClick={() => scroll("down")}>
-                <KeyboardArrowDownIcon />
-              </IconButton>
-              <IconButton
-                onClick={() =>
-                  window.scrollTo({
-                    top: document.documentElement.scrollHeight,
-                    behavior: "smooth",
-                  })
-                }
-              >
-                <KeyboardDoubleArrowDownIcon />
-              </IconButton>
-            </motion.div>
-            <motion.div
-              style={{
-                height: "100%",
-                display: sizedUp ? "block" : "none",
-              }}
-            >
+            <div onClick={handleClick} style={{ margin: "5px", width: "100%" }}>
+              {"< back"}
+            </div>
+            <Divider sx={{ width: "100%", margin: "10px 0" }} />
+            <div style={{ height: "100%" }}>
               <div
-                onClick={handleClick}
-                style={{ margin: "5px", width: "100%" }}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
               >
-                {"< back"}
-              </div>
-              <Divider sx={{ width: "100%", margin: "10px 0" }} />
-              <div style={{ height: "100%" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  {sortedItems.map((elem, i, arr) => (
-                    <div key={i}>
-                      <span
+                {sortedItems.map((elem, i, arr) => (
+                  <div key={i}>
+                    <span
+                      style={{
+                        margin: "5px 2px",
+                        color: elem.y === latestItem.y ? "red" : "inherit",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => scrollWindow(elem.y)}
+                    >
+                      {elem.date}
+                    </span>
+                    {i !== arr.length - 1 && elem.date && (
+                      <div
                         style={{
                           margin: "5px 2px",
-                          color: elem.y === latestItem.y ? "red" : "inherit",
-                          cursor: "pointer",
+                          display: "flex",
+                          width: "100%",
+                          justifyContent: "center",
                         }}
-                        onClick={() => scrollWindow(elem.y)}
                       >
-                        {elem.date}
-                      </span>
-                      {i !== arr.length - 1 && elem.date && (
                         <div
                           style={{
-                            margin: "5px 2px",
-                            display: "flex",
-                            width: "100%",
-                            justifyContent: "center",
+                            display: "block",
+                            border: "1px solid #bdbdbd",
+                            minHeight: "12px",
+                            width: "1px",
                           }}
-                        >
-                          <div
-                            style={{
-                              display: "block",
-                              border: "1px solid #bdbdbd",
-                              minHeight: "12px",
-                              width: "1px",
-                            }}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
-            </motion.div>
-          </div>
-        </motion.div>
-      </div>
-    );
-  }
-);
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
 
 export default TimelineNav;

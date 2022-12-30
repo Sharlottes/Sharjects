@@ -1,4 +1,4 @@
-import { debounce } from "../../../utils/debounce";
+import smoothScroll from "src/utils/smoothScroll";
 export interface TimelineItemData {
   date: string;
   y: number;
@@ -8,24 +8,35 @@ export type ScrollDirectionType = "up" | "down";
 
 export const MARGIN = 150;
 
-const debouncedScrollWindow = debounce(
-  (y: number) => window.scrollTo({ top: y, behavior: "smooth" }),
-  300
-);
-export const scrollWindow = (y: number) => debouncedScrollWindow("scroll", y);
+export const scrollWindow = (() => {
+  let isScrolling = false;
+  return (y: number) => {
+    if (isScrolling) return;
+    isScrolling = true;
+    console.log("current - ", window.scrollY, "\n target - ", y);
+
+    smoothScroll(y).then(() => (isScrolling = false));
+  };
+})();
+
+export const tryScroll = (direction: ScrollDirectionType) => {
+  scrollWindow(getNearestItem(direction).y);
+};
 
 export const getDist = (to: number, targetPos = window.scrollY) =>
   (targetPos ?? 0) - to;
 
-let cachedItems: TimelineItemData[];
-export const getTimelineItems = () => {
-  if (cachedItems) return cachedItems;
-  const datas: TimelineItemData[] = [];
+export const getTimelineItems = (() => {
+  let cachedElements: HTMLDivElement[] | undefined;
 
-  for (const element of document.querySelectorAll<HTMLDivElement>(
-    "div #top-anchor, #bottom-anchor, .has-content"
-  )) {
-    datas.push({
+  return () => {
+    cachedElements ??= Array.from(
+      document.querySelectorAll<HTMLDivElement>(
+        "div #top-anchor, #bottom-anchor, .has-content"
+      )
+    );
+    console.log(cachedElements.map((element) => element.offsetTop));
+    return cachedElements.map((element) => ({
       date:
         element.id === "top-anchor"
           ? "start"
@@ -33,23 +44,22 @@ export const getTimelineItems = () => {
           ? "end"
           : element.innerText,
       y: element.offsetTop,
-    });
-  }
-  cachedItems = datas;
-  return datas;
-};
+    }));
+  };
+})();
 
 export const getNearestItem = (
-  direction: "up" | "down" | "none" = "none"
+  direction?: ScrollDirectionType
 ): TimelineItemData => {
   const items = getTimelineItems();
   for (let i = 0; i < items.length; i++) {
     const item = items[direction === "up" ? items.length - 1 - i : i];
     if (
-      Math.max(0, (direction === "up" ? -1 : 1) * (item.y - window.scrollY))
+      direction === "up" ? item.y < window.scrollY : item.y > window.scrollY
     ) {
       return item;
     }
   }
+
   return { date: "", y: window.scrollY };
 };

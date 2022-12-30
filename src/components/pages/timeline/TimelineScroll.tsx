@@ -1,19 +1,14 @@
 import React from "react";
-import dynamic from "next/dynamic";
 import Stepper from "@mui/material/Stepper";
-import TimelineNav, { type TimelineNavRefType } from "./TimelineNav";
+import TimelineNav from "./TimelineNav";
 import CSR from "src/components/CSR";
-import { getNearestItem, type ScrollDirectionType, scrollWindow } from ".";
-
-const TimelineItems = dynamic(
-  () => import("src/components/pages/timeline/TimelineItems")
-);
+import { tryScroll } from ".";
+import TimelineItems from "src/components/pages/timeline/TimelineItems";
 
 const TimelineScroll: React.FC = () => {
   React.useEffect(() => {
     const handleScroll = (event: Event) => {
       event.preventDefault();
-      ref.current?.onScroll();
     };
 
     const handleWheel = (event: WheelEvent) => {
@@ -22,7 +17,6 @@ const TimelineScroll: React.FC = () => {
     };
 
     const handleKeydown = (event: KeyboardEvent) => {
-      console.log(event.key);
       const direction =
         event.key === "w" || event.key === "ArrowUp"
           ? "up"
@@ -46,21 +40,12 @@ const TimelineScroll: React.FC = () => {
     };
   }, []);
 
-  const tryScroll = (direction: ScrollDirectionType) => {
-    if (!window) return;
-    scrollWindow(getNearestItem(direction).y);
-  };
-
-  const ref = React.useRef<TimelineNavRefType>(null);
-
   return (
     <Stepper orientation="vertical" sx={{ marginLeft: "min(1vw, 10px)" }}>
       <CSR>
-        <TimelineNav ref={ref} scroll={tryScroll} />
+        <TimelineNav />
       </CSR>
-      <React.Suspense fallback="loading...">
-        <TimelineItems scroll={tryScroll} />
-      </React.Suspense>
+      <TimelineItems />
     </Stepper>
   );
 };

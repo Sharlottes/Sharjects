@@ -17,18 +17,13 @@ const dates = Array.from([2020, 2021, 2022], (year) =>
   )
 ) as dateType[][][];
 
-export interface TimelineItemsProps {
-  scroll: (direction: "up" | "down") => void;
-}
-
-const TimelineItems: React.FC<TimelineItemsProps> = ({ scroll }) => (
+const TimelineItems: React.FC = () => (
   <>
     {dates
       .map((years, i) =>
         years.map((monthes, ii) => (
           <div key={monthes[0]}>
             <TimelineItem
-              scroll={scroll}
               title={monthes[0].slice(0, 7)}
               last={i === dates.length - 1 && ii === years.length - 1}
             >
@@ -37,7 +32,6 @@ const TimelineItems: React.FC<TimelineItemsProps> = ({ scroll }) => (
             <div style={{ marginLeft: "4%" }}>
               {monthes.map((date, iii) => (
                 <TimelineItem
-                  scroll={scroll}
                   key={`${i}${ii}${iii}`}
                   title={date}
                   last={

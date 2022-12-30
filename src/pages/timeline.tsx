@@ -4,12 +4,8 @@ import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-import dynamic from "next/dynamic";
 import Layout from "components/Layout";
-
-const TimelineScroll = dynamic(
-  () => import("components/pages/timeline/TimelineScroll")
-);
+import TimelineScroll from "components/pages/timeline/TimelineScroll";
 
 const TimelineHeader: React.FC = () => {
   const handleClick = () => {
@@ -54,9 +50,7 @@ const TimelinePage: React.FC = () => {
       <div id="top-anchor" />
       <TimelineHeader />
       <Divider />
-      <React.Suspense fallback={"loading..."}>
-        <TimelineScroll />
-      </React.Suspense>
+      <TimelineScroll />
       <div id="bottom-anchor" />
     </Layout>
   );
