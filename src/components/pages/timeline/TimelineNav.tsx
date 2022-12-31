@@ -9,16 +9,12 @@ import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrow
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 
-import {
-  TimelineItemData,
-  ScrollDirectionType,
-  getNearestItem,
-  tryScroll,
-} from ".";
+import { TimelineItemData, getNearestItem, tryScroll } from ".";
 import { getTimelineItems, scrollWindow } from ".";
 
 import { motion, useAnimationControls } from "framer-motion";
 import Arrayf from "src/utils/Arrayf";
+import { debounce } from "src/utils/debounce";
 
 const NAV_ITEM_LENGTH = 5;
 const variants = {
@@ -31,25 +27,36 @@ const TimelineNav: React.FC = () => {
     y: 0,
     date: "top",
   });
+  const [sortedItems, setSortedItem] = React.useState<TimelineItemData[]>([]);
 
   React.useEffect(() => {
-    const handleScroll = () => setLatestItem(getNearestItem());
+    const handleScroll = debounce(
+      () => {
+        const list = getTimelineItems();
+        const nearestItem = getNearestItem();
+
+        const index = Math.max(
+          0,
+          list.findIndex(({ y }) => y == nearestItem.y)
+        );
+        setSortedItem(
+          Arrayf[index < NAV_ITEM_LENGTH ? "padRight" : "padLeft"](
+            list.slice(
+              Math.max(0, index - ~~(NAV_ITEM_LENGTH / 2)),
+              Math.min(list.length, index + ~~(NAV_ITEM_LENGTH / 2) + 1)
+            ),
+            NAV_ITEM_LENGTH,
+            { date: "", y: window.screenY }
+          )
+        );
+        setLatestItem(nearestItem);
+      },
+      100,
+      true
+    );
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const sortedItems = React.useMemo(() => {
-    const list = getTimelineItems();
-    const index = Math.max(0, list.indexOf(latestItem));
-    return Arrayf[index < NAV_ITEM_LENGTH ? "padRight" : "padLeft"](
-      list.slice(
-        Math.max(0, index - ~~(NAV_ITEM_LENGTH / 2)),
-        Math.min(list.length, index + ~~(NAV_ITEM_LENGTH / 2) + 1)
-      ),
-      NAV_ITEM_LENGTH,
-      { date: "", y: window.screenY }
-    );
-  }, [latestItem]);
 
   const [showed, setShowed] = React.useState(false);
   const controls = useAnimationControls();
