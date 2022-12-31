@@ -14,9 +14,15 @@ export const scrollWindow = (() => {
   return (y: number) => {
     if (isScrolling) return;
     isScrolling = true;
-    smoothScroll(Math.min(document.body.scrollHeight - window.innerHeight, y), {
-      offset: -MARGIN,
-    }).finally(() => (isScrolling = false));
+    smoothScroll(
+      Math.max(
+        MARGIN,
+        Math.min(document.body.scrollHeight - window.innerHeight, y)
+      ),
+      {
+        offset: -MARGIN,
+      }
+    ).finally(() => (isScrolling = false));
   };
 })();
 
@@ -28,11 +34,16 @@ export const getTimelineItems = (() => {
   let cachedElements: HTMLDivElement[] | undefined;
 
   return () => {
-    cachedElements ??= Array.from(
-      document.querySelectorAll<HTMLDivElement>(
-        "div #top-anchor, #bottom-anchor, .has-content"
-      )
-    );
+    if (
+      !cachedElements ||
+      cachedElements.length === 0 ||
+      cachedElements.some((e) => e.offsetTop == 0)
+    )
+      cachedElements = Array.from(
+        document.querySelectorAll<HTMLDivElement>(
+          "div #top-anchor, #bottom-anchor, .has-content"
+        )
+      );
     return cachedElements.map((element) => ({
       date:
         element.id === "top-anchor"
