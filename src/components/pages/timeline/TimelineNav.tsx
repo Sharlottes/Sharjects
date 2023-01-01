@@ -30,10 +30,11 @@ const TimelineNav: React.FC = () => {
   const [sortedItems, setSortedItem] = React.useState<TimelineItemData[]>([]);
 
   React.useEffect(() => {
-    const handleScroll = debounce((e: Event) => {
+    const handleScroll = (e: Event) => {
       console.log(e);
       const list = getTimelineItems();
-      const nearestItem = getNearestItem();
+      const nearestItem = getNearestItem(undefined);
+      console.log(nearestItem.date);
       setLatestItem(nearestItem);
 
       const index = Math.max(
@@ -50,7 +51,7 @@ const TimelineNav: React.FC = () => {
           { date: "", y: window.screenY }
         )
       );
-    }, 100);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
