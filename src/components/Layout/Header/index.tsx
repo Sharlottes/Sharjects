@@ -15,6 +15,7 @@ import { useWindowDimensions } from "src/hooks/useWindowDimensions";
 import { debounce } from "src/utils/debounce";
 
 import {
+  type AnimationControls,
   motion,
   useAnimationControls,
   useScroll,
@@ -35,6 +36,15 @@ export interface HeaderProps {
 }
 
 const THRESHOLD = 300;
+
+const animates: Record<
+  ReturnType<typeof decideAnimation>,
+  (controller: AnimationControls) => Promise<any> | undefined
+> = {
+  sidebar: debounce((controller) => controller.start("sidebar"), 0.3 * 1000),
+  blur: debounce((controller) => controller.start("blur"), 0.3 * 1000),
+  init: debounce((controller) => controller.start("init"), 0.3 * 1000),
+};
 
 const decideAnimation = (y: number, open?: boolean) =>
   y == 0 ? "init" : open ? "sidebar" : "blur";
@@ -98,15 +108,13 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
   );
 
   React.useEffect(() => {
-    const animate = debounce((id: string) => {
-      controller.start(id);
-    }, 0.3 * 1000);
     const onChangeHandler = () => {
-      const key = decideAnimation(
-        typeof window !== "undefined" ? window.scrollY : 0,
-        open
-      );
-      animate(key, key);
+      animates[
+        decideAnimation(
+          typeof window !== "undefined" ? window.scrollY : 0,
+          open
+        )
+      ](controller);
       updateBackcolorOpacity(scrollY.get() == 0 || open);
     };
     onChangeHandler();

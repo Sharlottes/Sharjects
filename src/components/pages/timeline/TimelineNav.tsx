@@ -30,30 +30,27 @@ const TimelineNav: React.FC = () => {
   const [sortedItems, setSortedItem] = React.useState<TimelineItemData[]>([]);
 
   React.useEffect(() => {
-    const handleScroll = debounce(
-      () => {
-        const list = getTimelineItems();
-        const nearestItem = getNearestItem();
+    const handleScroll = debounce((e: Event) => {
+      console.log(e);
+      const list = getTimelineItems();
+      const nearestItem = getNearestItem();
+      setLatestItem(nearestItem);
 
-        const index = Math.max(
-          0,
-          list.findIndex(({ y }) => y == nearestItem.y)
-        );
-        setSortedItem(
-          Arrayf[index < NAV_ITEM_LENGTH ? "padRight" : "padLeft"](
-            list.slice(
-              Math.max(0, index - ~~(NAV_ITEM_LENGTH / 2)),
-              Math.min(list.length, index + ~~(NAV_ITEM_LENGTH / 2) + 1)
-            ),
-            NAV_ITEM_LENGTH,
-            { date: "", y: window.screenY }
-          )
-        );
-        setLatestItem(nearestItem);
-      },
-      100,
-      true
-    );
+      const index = Math.max(
+        0,
+        list.findIndex(({ y }) => y == nearestItem.y)
+      );
+      setSortedItem(
+        Arrayf[index < NAV_ITEM_LENGTH ? "padRight" : "padLeft"](
+          list.slice(
+            Math.max(0, index - ~~(NAV_ITEM_LENGTH / 2)),
+            Math.min(list.length, index + ~~(NAV_ITEM_LENGTH / 2) + 1)
+          ),
+          NAV_ITEM_LENGTH,
+          { date: "", y: window.screenY }
+        )
+      );
+    }, 100);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
