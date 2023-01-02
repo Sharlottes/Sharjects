@@ -15,14 +15,7 @@ export const keywords = [
 ];
 
 const KeywordShower: React.FC<
-  Omit<
-    React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLDivElement>,
-      HTMLDivElement
-    >,
-    "ref"
-  > &
-    MotionProps
+  React.HTMLAttributes<HTMLDivElement> & MotionProps
 > = (props) => {
   const controller = useAnimationControls();
 

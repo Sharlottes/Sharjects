@@ -1,7 +1,6 @@
 import React from "react";
 import Stepper from "@mui/material/Stepper";
 import TimelineNav from "./TimelineNav";
-import CSR from "src/components/CSR";
 import { tryScroll } from ".";
 import TimelineItems from "src/components/pages/timeline/TimelineItems";
 
@@ -42,9 +41,7 @@ const TimelineScroll: React.FC = () => {
 
   return (
     <Stepper orientation="vertical" sx={{ marginLeft: "min(1vw, 10px)" }}>
-      <CSR>
-        <TimelineNav />
-      </CSR>
+      <TimelineNav />
       <TimelineItems />
     </Stepper>
   );
