@@ -9,29 +9,28 @@ import IconButton from "@mui/material/IconButton";
 
 import { tryScroll } from "../..";
 import DateTypography, { type DateTypographyProps } from "./DateTypography";
+import { scrollWindow } from "../../index";
+
+const buttons: [React.FC, () => void][] = [
+  [KeyboardDoubleArrowUpIcon, () => scrollWindow(0)],
+  [KeyboardArrowUpIcon, () => tryScroll("up")],
+  [KeyboardArrowDownIcon, () => tryScroll("down")],
+  [
+    KeyboardDoubleArrowDownIcon,
+    () => scrollWindow(document.documentElement.scrollHeight),
+  ],
+];
 
 const ScrollController: React.FC<DateTypographyProps> = (props) => (
   <div>
-    <IconButton onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-      <KeyboardDoubleArrowUpIcon />
-    </IconButton>
-    <IconButton onClick={() => tryScroll("up")}>
-      <KeyboardArrowUpIcon />
-    </IconButton>
-    <DateTypography {...props} />
-    <IconButton onClick={() => tryScroll("down")}>
-      <KeyboardArrowDownIcon />
-    </IconButton>
-    <IconButton
-      onClick={() =>
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: "smooth",
-        })
-      }
-    >
-      <KeyboardDoubleArrowDownIcon />
-    </IconButton>
+    {buttons.map(([Icon, onClick], i) => (
+      <React.Fragment key={i}>
+        <IconButton onClick={onClick}>
+          <Icon />
+        </IconButton>
+        {i == 1 && <DateTypography {...props} />}
+      </React.Fragment>
+    ))}
   </div>
 );
 
