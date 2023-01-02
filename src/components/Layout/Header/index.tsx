@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { useWindowDimensions } from "src/hooks/useWindowDimensions";
-import { debounce } from "src/utils/debounce";
+import { throttle } from "src/utils/throttle";
 
 import {
   type AnimationControls,
@@ -41,9 +41,9 @@ const animates: Record<
   ReturnType<typeof decideAnimation>,
   (controller: AnimationControls) => Promise<any> | undefined
 > = {
-  sidebar: debounce((controller) => controller.start("sidebar"), 0.3 * 1000),
-  blur: debounce((controller) => controller.start("blur"), 0.3 * 1000),
-  init: debounce((controller) => controller.start("init"), 0.3 * 1000),
+  sidebar: throttle((controller) => controller.start("sidebar"), 0.3 * 1000),
+  blur: throttle((controller) => controller.start("blur"), 0.3 * 1000),
+  init: throttle((controller) => controller.start("init"), 0.3 * 1000),
 };
 
 const decideAnimation = (y: number, open?: boolean) =>

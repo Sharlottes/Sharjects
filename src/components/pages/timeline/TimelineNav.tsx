@@ -14,7 +14,6 @@ import { getTimelineItems, scrollWindow } from ".";
 
 import { motion, useAnimationControls } from "framer-motion";
 import Arrayf from "src/utils/Arrayf";
-import { debounce } from "src/utils/debounce";
 
 const NAV_ITEM_LENGTH = 5;
 const variants = {
@@ -31,10 +30,8 @@ const TimelineNav: React.FC = () => {
 
   React.useEffect(() => {
     const handleScroll = (e: Event) => {
-      console.log(e);
       const list = getTimelineItems();
       const nearestItem = getNearestItem(undefined);
-      console.log(nearestItem.date);
       setLatestItem(nearestItem);
 
       const index = Math.max(
