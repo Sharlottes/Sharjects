@@ -20,8 +20,9 @@ const NavigatorContainer: React.FC<React.PropsWithChildren> = ({
         borderRadius: "10px",
         backgroundColor: "white",
         zIndex: Layouts.SIDE_MENU - 1,
+        transform: "translateX(-110px)",
       }}
-      animate={{ ...(!showed && { x: -110 }) }}
+      animate={{ ...(showed && { x: 0 }) }}
     >
       <NavigatorShowButton
         showed={showed}
