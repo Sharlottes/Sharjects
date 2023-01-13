@@ -1,8 +1,9 @@
 import React from "react";
 import Stepper from "@mui/material/Stepper";
-import TimelineNav from "./TimelineNav";
-import { tryScroll } from ".";
-import TimelineItems from "src/components/pages/timeline/TimelineItems";
+import TimelineNav from "../TimelineNav";
+import { tryScroll } from "..";
+import TimelineItems from "src/components/pages/timeline/TimelineScroll/TimelineItems";
+import Box from "@mui/material/Box";
 
 const TimelineScroll: React.FC = () => {
   React.useEffect(() => {
@@ -40,10 +41,10 @@ const TimelineScroll: React.FC = () => {
   }, []);
 
   return (
-    <Stepper orientation="vertical" sx={{ marginLeft: "min(1vw, 10px)" }}>
+    <Box>
       <TimelineNav />
       <TimelineItems />
-    </Stepper>
+    </Box>
   );
 };
 
