@@ -1,8 +1,12 @@
 import Avatar from "@mui/material/Avatar";
-import { MainTitleAvatarContainer } from "./styled";
+import { motion } from "framer-motion";
 
 const MainTitleAvatar: React.FC = () => (
-  <MainTitleAvatarContainer
+  <motion.div
+    style={{
+      width: "fit-content",
+      height: "fit-content",
+    }}
     animate={{ opacity: 1, y: 0, scale: 1 }}
     initial={{ opacity: 0, y: -20, scale: 0 }}
     transition={{
@@ -12,7 +16,7 @@ const MainTitleAvatar: React.FC = () => (
     }}
   >
     <Avatar src="/images/profile/Sharlottes.png" />
-  </MainTitleAvatarContainer>
+  </motion.div>
 );
 
 export default MainTitleAvatar;

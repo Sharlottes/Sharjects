@@ -1,2 +1,2 @@
-export { default as MainTitle } from "./MainTitle";
-export { default as KeywordShower } from "./KeywordShower";
+export { default as MainTitle } from "./TitleSection/MainTitle";
+export { default as KeywordShower } from "./TitleSection/KeywordShower";
