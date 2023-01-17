@@ -74,7 +74,7 @@ const ListItem: React.FC<
             label={title}
             fontWeight="bold"
             fontSize="min(50px, 7vw)"
-            box={{
+            boxProps={{
               sx: {
                 display: "flex",
                 justifyContent: { xs: "left", md: direction },

@@ -21,7 +21,7 @@ interface ProgressiveTypographyProps extends TypographyProps {
   delay?: number;
   animateRef?: listAnimatonRefType | undefined;
   motion?: MotionPropsGetterType;
-  box?: BoxProps | undefined;
+  boxProps?: BoxProps | undefined;
 }
 
 const ProgressiveTypography: React.FC<ProgressiveTypographyProps> = ({
@@ -30,7 +30,7 @@ const ProgressiveTypography: React.FC<ProgressiveTypographyProps> = ({
   speed = 0.1,
   animateRef,
   motion: motionProps = () => {},
-  box: boxProps,
+  boxProps,
   ...props
 }) => {
   const control: AnimationControls[] = [];

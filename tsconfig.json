@@ -5,28 +5,14 @@
     "moduleResolution": "node",
     "jsx": "preserve",
     "baseUrl": "./",
-    "typeRoots": [
-      "src/@types/"
-    ],
+    "typeRoots": ["src/@types/"],
     "paths": {
-      "src/*": [
-        "src/*"
-      ],
-      "models/*": [
-        "src/models/*"
-      ],
-      "components/*": [
-        "src/components/*"
-      ],
-      "public/*": [
-        "public/*"
-      ]
+      "src/*": ["src/*"],
+      "models/*": ["src/models/*"],
+      "components/*": ["src/components/*"],
+      "public/*": ["public/*"]
     },
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "strict": true,
     "noEmit": true,
     "incremental": true,
@@ -40,13 +26,6 @@
     "forceConsistentCasingInFileNames": true,
     "allowJs": true
   },
-  "exclude": [
-    "dist",
-    "node_modules"
-  ],
-  "include": [
-    "**/*.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+  "exclude": ["dist", "node_modules"],
+  "include": ["**/*.d.ts", "**/*.ts", "**/*.tsx"]
 }
