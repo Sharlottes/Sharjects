@@ -34,7 +34,8 @@ export const ContentBoxWrapper = styled("div")<{
   justifyContent: "end",
   borderRadius: isMobile ? "20px 20px 0 0" : "20px",
   backdropFilter: "blur(3px)",
-  filter: "drop-shadow(-5px -3px 3px)",
+  filter: "drop-shadow(-5px 0 3px)",
+  clipPath: "polygon(100% 100%, 100% 0, 0 0, 0% 100%)",
 }));
 
 export const ContentBox = styled("div")<{

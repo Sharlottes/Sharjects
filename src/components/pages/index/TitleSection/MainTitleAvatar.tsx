@@ -25,7 +25,13 @@ const MainTitleAvatar: React.FC = () => (
         duration: 0.5,
       }}
     >
-      <Avatar src="/images/profile/Sharlottes.png" />
+      <Avatar
+        src="/images/profile/Sharlottes.png"
+        sx={{
+          width: "60px",
+          height: "60px",
+        }}
+      />
     </motion.div>
   </Divider>
 );

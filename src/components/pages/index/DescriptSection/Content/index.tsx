@@ -8,7 +8,7 @@ import {
 } from "./styled";
 import type { MotionProps } from "framer-motion";
 import { useTheme } from "@mui/system";
-import ContentStats, { ContentStatsProps } from "./ContentStats";
+import ContentStats, { type ContentStatsProps } from "./ContentStats";
 
 export interface ContentProps extends MotionProps, ContentStatsProps {
   title: string;

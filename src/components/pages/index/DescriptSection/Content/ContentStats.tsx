@@ -8,9 +8,9 @@ import styled from "@mui/system/styled";
 const ContentStatsWrapper = styled("div")(({ theme }) => ({
   width: "100%",
   [theme.breakpoints.down("md")]: {
-    boxShadow: "0 0 5px 5px",
+    boxShadow: "0 0 10px 5px",
     clipPath:
-      "polygon(80% 100%, 100% 20px, 30% 0, 31% -10%, 0 -10%, 0 0, 0 80%, 20px 100%)",
+      "polygon(80% 100%, 100% 20px, 100% 80%, 80% 1%, 30% 1%, 31% -20%, 0 -20%, 0 0, 0 80%, 20px 100%)",
 
     borderRadius: "0 0 20px 20px",
   },
@@ -32,6 +32,7 @@ export interface ContentStatsProps {
   canEnter?: boolean;
   developing?: boolean;
 }
+
 const ContentStats: React.FC<ContentStatsProps> = ({
   link,
   progress,
