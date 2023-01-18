@@ -21,6 +21,13 @@ const contentData: ContentProps[] = [
     progress: "20%",
     canEnter: true,
   },
+  {
+    title: "블로그",
+    description: "다양한 블로그에 분산된 포스트들을 한눈에 조회하세요!",
+    image: "/images/previews/blog_preview.png",
+    link: "/blogs",
+    progress: "0%",
+  },
 ];
 
 const DescriptSection: React.FC = () => (
