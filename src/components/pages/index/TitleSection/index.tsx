@@ -3,18 +3,12 @@ import KeywordShower from "./KeywordShower";
 import MainTitle from "./MainTitle";
 import MainTitleAvatar from "./MainTitleAvatar";
 
-const TitleSectionContainer = styled("div")({
-  display: "grid",
-  gridTemplateColumns: "min-content auto",
-  gap: "10px 20px",
-});
-
 const TitleSection: React.FC = () => (
-  <TitleSectionContainer>
+  <div>
     <MainTitle />
     <MainTitleAvatar />
     <KeywordShower />
-  </TitleSectionContainer>
+  </div>
 );
 
 export default TitleSection;

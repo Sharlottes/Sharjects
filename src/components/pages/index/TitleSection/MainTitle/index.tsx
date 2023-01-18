@@ -45,6 +45,7 @@ const MainTitle: React.FC = () => (
       variant="h1"
       label="Sharlotte"
       fontWeight="bold"
+      fontSize="max(4rem, 10vw)"
       motion={motionPropsGenerator}
     />
   </MainTitleContainer>
