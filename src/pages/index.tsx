@@ -3,6 +3,7 @@ import Layout from "src/components/Layout";
 import styled from "@mui/system/styled";
 import TitleSection from "src/components/pages/index/TitleSection";
 import DescriptSection from "src/components/pages/index/DescriptSection";
+import StatsSection from "src/components/pages/index/StatsSection";
 
 const SectionContainer = styled("div")({
   width: "calc(100% - 10vw)",
@@ -14,6 +15,7 @@ const Home: React.FC = () => (
     <SectionContainer>
       <TitleSection />
       <DescriptSection />
+      <StatsSection />
     </SectionContainer>
   </Layout>
 );
