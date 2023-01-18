@@ -1,8 +1,6 @@
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import Content, { ContentProps } from "./Content";
-import { DescriptSectionContainer, TitleBox, ContentsBox } from "./styled";
-import { motion } from "framer-motion";
+import TitleBox from "../TitleBox";
+import Content, { type ContentProps } from "./Content";
+import { DescriptSectionContainer, ContentsBox } from "./styled";
 
 const contentData: ContentProps[] = [
   {
@@ -33,22 +31,9 @@ const contentData: ContentProps[] = [
 const DescriptSection: React.FC = () => (
   <DescriptSectionContainer>
     <TitleBox
-      animate={{ x: 0, opacity: 1 }}
-      initial={{ x: -30, opacity: 0 }}
-      transition={{ delay: 2, duration: 1, type: "spring" }}
-    >
-      <Typography variant="h2" fontWeight="bold">
-        Contents
-      </Typography>
-      <Typography variant="body2">
-        타임라인, 프로젝트, 블로그 등 여러가지 콘텐츠들을 확인하세요!
-      </Typography>
-    </TitleBox>
-    <Divider
-      component={motion.div}
-      animate={{ opacity: 1 }}
-      initial={{ opacity: 0 }}
-      transition={{ delay: 2.25, duration: 0.5 }}
+      title="Contents"
+      description="타임라인, 프로젝트, 블로그 등 여러가지 콘텐츠들을 확인하세요!"
+      delay={2}
     />
     <ContentsBox>
       {contentData.map((data, i) => (
