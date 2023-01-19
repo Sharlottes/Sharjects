@@ -27,7 +27,9 @@ const SpotifyStatus: React.FC = () => {
         </Typography>
       </div>
       <Divider sx={{ margin: "10px 0" }} />
-      {data && data.item && <Spotify link={data.item.external_urls.spotify} />}
+      {data && data.item && (
+        <Spotify wide link={data.item.external_urls.spotify} />
+      )}
     </StatusCardContainer>
   );
 };
