@@ -22,6 +22,7 @@
     "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.2.0",
     "react-horizontal-scrolling-menu": "^3.2.0",
+    "react-spotify-embed": "^1.0.4",
     "string-replace-to-array": "^2.1.0",
     "ts-loader": "^9.3.1"
   },
@@ -31,6 +32,7 @@
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
+    "@types/spotify-api": "^0.0.19",
     "eslint": "^8.27.0",
     "eslint-config-next": "^13.1.1",
     "typescript": "^4.9.4"

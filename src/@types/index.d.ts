@@ -1,3 +1,5 @@
+import "spotify-api/index";
+
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -24,6 +26,10 @@ declare global {
       // Naver API Headers
       XNaverClientId: string;
       XNaverClientSecret: string;
+
+      // Spotify API
+      SPOTIFY_CLIENT_ID: string;
+      SPOTIFY_CLIENT_SECRET: string;
     }
   }
   interface Window {

@@ -5,12 +5,12 @@ import { motion } from "framer-motion";
 export interface TitleBoxProps {
   title: string;
   description?: string;
-  delay: number;
+  delay?: number;
 }
 const TitleBox: React.FC<TitleBoxProps> = ({
   title,
   description = "",
-  delay,
+  delay = 0,
 }) => (
   <motion.div
     style={{ margin: "10px" }}
