@@ -20,8 +20,9 @@ const SpotifyStatus: React.FC = () => {
   return (
     <StatusCardContainer>
       <div>
-        <SpotifyIcon sx={{ fill: "#1db954", transform: "scale(1.5)" }} />
-        {"  "}
+        <SpotifyIcon
+          sx={{ fill: "#1db954", transform: "scale(1.5)", marginRight: "10px" }}
+        />
         <Typography component="span" variant="h4">
           Spotify
         </Typography>

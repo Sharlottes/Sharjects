@@ -38,7 +38,6 @@ async function refreshSpotifyToken(): Promise<CredentialData> {
     }
   ).then<CredentialData>((res) => res.json());
   data.requested_at = Date.now();
-  console.log("Alert: Spotify refresh token got refreshed!\n", data);
   return data;
 }
 

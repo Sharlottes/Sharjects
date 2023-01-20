@@ -5,3 +5,12 @@ export const StatusCardContainer = styled("div")({
   border: "1px solid lightgray",
   padding: "10px",
 });
+
+export const StatusContainer = styled("div")({
+  display: "flex",
+  gap: "30px",
+});
+
+export const StatsSectionContainer = styled("div")({
+  marginTop: "120px",
+});
