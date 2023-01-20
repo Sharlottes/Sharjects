@@ -8,6 +8,8 @@ interface CredentialData {
   expires_in: number;
   requested_at: number;
 }
+
+//if expired for some reason, run ./scripts/refresh_token.bash
 let latestRefreshToken =
   "AQCul6ucxlcXDADWNfjXmZRytS_HF0Q6RATHohOQn5fib8HnGpmO9FYRjdmpVbWS0pmxOcW1aVvVj6oCjlyB9urPduKCuCVjE-qDYhYM0fo5e33GNOgooFVmTGI8lrBOaoU";
 

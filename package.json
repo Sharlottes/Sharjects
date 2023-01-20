@@ -3,7 +3,8 @@
     "dev": "next dev",
     "buildstart": "next build && next start",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "refresh": "scripts/refresh_token.bash"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",

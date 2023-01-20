@@ -1,15 +1,22 @@
 import React from "react";
 import { useRouter } from "next/router";
+import CSR from "src/components/CSR";
+import { copy } from "src/utils/copy";
 
-const SpotifyCallbackPage: React.FC = () => {
+const SpotifyCallbackPage = () => {
   const { query } = useRouter();
 
   React.useEffect(() => {
-    if (query["code"]) navigator.clipboard.writeText(query["code"]?.toString());
-    window.close();
-  }, []);
+    if (!query["code"]) return;
+    copy(query["code"].toString())
+      .then(() => window.close())
+      .catch(console.log);
+  }, [query["code"]]);
 
   return <>{query["code"]}</>;
 };
-
-export default SpotifyCallbackPage;
+export default () => (
+  <CSR>
+    <SpotifyCallbackPage />
+  </CSR>
+);
