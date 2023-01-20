@@ -8,15 +8,6 @@ interface CredentialData {
   expires_in: number;
   requested_at: number;
 }
-
-/*
-Refresh solution
--------------------
-1. enter https://accounts.spotify.com/authorize?response_type=code&client_id=2926aaa5200247a3ba7bb07b40c05715&scope=user-read-playback-state&redirect_uri=https://sharjects-sharlottes.vercel.app/
-2. get code query value and put in "CODE_HERE" on below curl command
-curl -d grant_type=authorization_code -d code=CODE_HERE -d redirect_uri=https://sharjects-sharlottes.vercel.app/ -d client_id=2926aaa5200247a3ba7bb07b40c05715 -d client_secret=ceff248866bc45938b7dbd0c24dd5187 https://accounts.spotify.com/api/token
-3. get refresh token and update to latestRefreshToken
-*/
 let latestRefreshToken =
   "AQCul6ucxlcXDADWNfjXmZRytS_HF0Q6RATHohOQn5fib8HnGpmO9FYRjdmpVbWS0pmxOcW1aVvVj6oCjlyB9urPduKCuCVjE-qDYhYM0fo5e33GNOgooFVmTGI8lrBOaoU";
 
