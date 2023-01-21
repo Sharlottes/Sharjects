@@ -33,13 +33,11 @@ const VSCodingImage = styled("img")({
 const VscodeStatus: React.FC = () => {
   const [data, setData] = React.useState<VSCodeStatusData>();
   React.useEffect(() => {
-    (async () => {
-      const res = await fetch("/api/vscode/presence").then<{
+    fetch("/api/vscode/presence")
+      .then<{
         item: VSCodeStatusData | undefined;
-      }>((data) => data.json());
-      console.log(res);
-      if (res.item) setData(res.item);
-    })();
+      }>((data) => data.json())
+      .then((res) => setData(res.item));
   }, []);
 
   return (
