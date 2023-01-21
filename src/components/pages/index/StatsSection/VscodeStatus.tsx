@@ -8,11 +8,14 @@ import type { VSCodeStatusData } from "src/@types";
 import Button from "@mui/material/Button";
 import styled from "@mui/system/styled";
 
+const VSCodeStatusContainer = styled("div")({
+  minWidth: "100%",
+  maxWidth: "300px",
+});
+
 const VSCodeStatusConent = styled("div")({
   display: "flex",
   alignItems: "center",
-  minWidth: "300px",
-  maxWidth: "100%",
 });
 
 const VSCodeStatusTitle = styled(Typography)({
@@ -51,7 +54,7 @@ const VscodeStatus: React.FC = () => {
       </div>
       <Divider sx={{ margin: "10px 0" }} />
       {data && (
-        <>
+        <VSCodeStatusContainer>
           <VSCodeStatusConent>
             <VSCodingImage src="/images/vscodeing.png" />
             <div>
@@ -76,7 +79,7 @@ const VscodeStatus: React.FC = () => {
               go repository
             </Button>
           )}
-        </>
+        </VSCodeStatusContainer>
       )}
     </StatusCardContainer>
   );
