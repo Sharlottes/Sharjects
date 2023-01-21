@@ -6,7 +6,7 @@ let latestRecord: VSCodeStatusData | undefined;
 export default (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     latestRecord = req.body;
-    res.status(200).json({ successed: true });
+    res.end();
   } else {
     res.status(200).json({ item: latestRecord });
   }
