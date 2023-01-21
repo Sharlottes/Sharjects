@@ -6,6 +6,24 @@ import { StatusCardContainer } from "./styled";
 import Divider from "@mui/material/Divider";
 import type { VSCodeStatusData } from "src/@types";
 import Button from "@mui/material/Button";
+import styled from "@mui/system/styled";
+
+const VSCodeStatusConent = styled("div")({
+  display: "flex",
+  alignItems: "center",
+});
+
+const VSCodeStatusTitle = styled(Typography)({
+  "& > span": {
+    wordBreak: "break-all",
+  },
+});
+const VSCodingImage = styled("img")({
+  width: "70px",
+  height: "70px",
+  borderRadius: "15px",
+  margin: "0 10px 10px 0",
+});
 
 const VscodeStatus: React.FC = () => {
   const [data, setData] = React.useState<VSCodeStatusData>();
@@ -32,27 +50,25 @@ const VscodeStatus: React.FC = () => {
       <Divider sx={{ margin: "10px 0" }} />
       {data && (
         <>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <img
-              src="/images/vscodeing.png"
-              style={{
-                width: "70px",
-                height: "70px",
-                borderRadius: "15px",
-                margin: "0 10px 10px 0",
-              }}
-            />
+          <VSCodeStatusConent>
+            <VSCodingImage src="/images/vscodeing.png" />
             <div>
-              <Typography>Working in {data.workspaceName}</Typography>
+              <VSCodeStatusTitle>
+                Working in
+                <br />
+                <span>{data.workspaceName}</span>
+              </VSCodeStatusTitle>
               <Typography>
-                line at{" "}
-                {data.position.map(
-                  (pos) =>
-                    `${pos.start.line}:${pos.start.char} ~ ${pos.end.line}:${pos.end.char}`
+                line at
+                {data.position.map((pos) =>
+                  pos.start.line === pos.end.line &&
+                  pos.start.char === pos.end.char
+                    ? `${pos.start.line}:${pos.start.char}`
+                    : `${pos.start.line}:${pos.start.char} ~ ${pos.end.line}:${pos.end.char}`
                 )}
               </Typography>
             </div>
-          </div>
+          </VSCodeStatusConent>
           {data.githubUrl && (
             <Button fullWidth href={data.githubUrl} variant="contained">
               go repository

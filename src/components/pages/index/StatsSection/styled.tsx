@@ -8,6 +8,7 @@ export const StatusCardContainer = styled("div")({
 
 export const StatusContainer = styled("div")({
   display: "flex",
+  flexWrap: "wrap",
   gap: "30px",
 });
 
