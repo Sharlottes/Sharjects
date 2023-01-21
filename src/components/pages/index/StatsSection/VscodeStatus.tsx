@@ -11,6 +11,8 @@ import styled from "@mui/system/styled";
 const VSCodeStatusConent = styled("div")({
   display: "flex",
   alignItems: "center",
+  minWidth: "300px",
+  maxWidth: "100%",
 });
 
 const VSCodeStatusTitle = styled(Typography)({
