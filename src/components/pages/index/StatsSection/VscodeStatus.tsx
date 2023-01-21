@@ -7,27 +7,8 @@ import Divider from "@mui/material/Divider";
 import type { VSCodeStatusData } from "src/@types";
 import Button from "@mui/material/Button";
 
-const dummy = {
-  item: {
-    workspaceName: "SharBot\\src\\index.ts",
-    position: [
-      {
-        start: {
-          char: 4,
-          line: 21,
-        },
-        end: {
-          char: 4,
-          line: 21,
-        },
-      },
-    ],
-    githubUrl: "https://github.com/Sharlottes/SharBot",
-  },
-};
-
 const VscodeStatus: React.FC = () => {
-  const [data, setData] = React.useState<VSCodeStatusData>(dummy.item);
+  const [data, setData] = React.useState<VSCodeStatusData>();
   React.useEffect(() => {
     (async () => {
       const res = await fetch("/api/vscode/presence").then<{
