@@ -12,14 +12,12 @@ import { SnackbarProvider } from "notistack";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import useAnalyticTracker from "src/hooks/useAnalyticTracker";
-import {
-  GithubStaticDataContext,
-  MainThemeProvider,
-  LifebarSnackbar,
-  AuthWrapper,
-} from "src/components/pages/_app";
+import { LifebarSnackbar, AuthWrapper } from "src/components/pages/_app";
 
 import "public/styles/global.css";
+import GithubStaticDataContext from "src/components/GithubStaticDataContext";
+import MainThemeProvider from "src/components/MainThemeProvider";
+
 require("src/lib/registerChartjs");
 
 interface AppProps extends NextAppProps {

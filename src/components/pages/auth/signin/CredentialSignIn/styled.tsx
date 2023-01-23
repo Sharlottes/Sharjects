@@ -3,15 +3,15 @@ import styled from "@mui/system/styled";
 
 export const StyledButton = styled(Button)((props) => (
   <Button variant="outlined" color="primary" fullWidth {...props} />
-));
+))({});
 
-export const CredentialContainer = styled("div")({
+export const SignInContainer = styled("div")({
   marginTop: "100px",
   minWidth: "100%",
   minHeight: "100%",
 });
 
-export const CredentialContent = styled("div")({
+export const SignInContent = styled("div")({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",

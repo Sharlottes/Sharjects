@@ -54,5 +54,4 @@ const SubmitButtons: React.FC<State> = ({ username, password }) => {
     </>
   );
 };
-
 export default SubmitButtons;
