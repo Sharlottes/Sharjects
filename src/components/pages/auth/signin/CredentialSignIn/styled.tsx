@@ -1,9 +1,9 @@
-import Button from "@mui/material/Button";
+import Button, { type ButtonProps } from "@mui/material/Button";
 import styled from "@mui/system/styled";
 
-export const StyledButton = styled(Button)((props) => (
+export const StyledButton: React.FC<ButtonProps> = (props) => (
   <Button variant="outlined" color="primary" fullWidth {...props} />
-))({});
+);
 
 export const SignInContainer = styled("div")({
   marginTop: "100px",
