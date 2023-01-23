@@ -8,9 +8,7 @@ const SpotifyCallbackPage = () => {
 
   React.useEffect(() => {
     if (!query["code"]) return;
-    copy(query["code"].toString())
-      .then(() => window.close())
-      .catch(console.log);
+    copy(query["code"].toString()).then(() => window.close());
   }, [query["code"]]);
 
   return <>{query["code"]}</>;
