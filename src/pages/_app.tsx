@@ -46,11 +46,7 @@ const MyApp: React.FC<MyAppProps> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
-  const router = useAnalyticTracker(useRouter());
-  React.useEffect(() => {
-    if (Component.notPage) router.replace("/404");
-  }, []);
-  if (Component.notPage) return <></>;
+  useAnalyticTracker();
 
   return (
     <CacheProvider value={emotionCache}>
