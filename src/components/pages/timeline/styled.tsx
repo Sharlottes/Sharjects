@@ -1,5 +1,9 @@
-import { GithubRepoCard, GithubUserCard } from "src/components";
-import type { GithubRepoCardProps, GithubUserCardProps } from "src/components";
+import GithubRepoCard, {
+  type GithubRepoCardProps,
+} from "src/components/GithubRepoCard";
+import GithubUserCard, {
+  type GithubUserCardProps,
+} from "src/components/GithubUserCard";
 
 export interface StyledRepoCardProps
   extends Omit<GithubRepoCardProps, "username"> {
