@@ -1,3 +1,7 @@
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.exclude": {
+    "src\\components": false
+  },
+  "workspace.isHidden": false
 }
