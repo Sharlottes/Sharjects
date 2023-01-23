@@ -9,7 +9,6 @@ import Typography from "@mui/material/Typography";
 import InfoIcon from "@mui/icons-material/Info";
 
 import Layout from "src/components/Layout";
-import type { projectDataType } from "src/@types";
 import GithubIcon from "src/assets/icons/GithubIcon";
 
 import { motion, Variants } from "framer-motion";
@@ -18,7 +17,7 @@ import {
   ProjectsContainer,
   ProjectCard,
   CollapseBar,
-} from "components/pages/projects";
+} from "src/components/pages/projects";
 
 const projectData: Array<projectDataType["projects"][0] & { owner: string }> = (
   require("public/data/projectData.json") as projectDataType[]

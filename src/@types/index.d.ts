@@ -1,7 +1,3 @@
-type listAnimatonRefType = {
-  list: Array<(delay: number) => void>;
-};
-
 type projectDataType = {
   owner: string;
   projects: Array<{

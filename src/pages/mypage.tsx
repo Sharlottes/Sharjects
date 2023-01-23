@@ -1,4 +1,4 @@
-import Layout from "components/Layout";
+import Layout from "src/components/Layout";
 import type { CustomNextPage } from "./_app";
 import { useSession } from "next-auth/react";
 

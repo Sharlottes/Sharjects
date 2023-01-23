@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { VSCodeStatusData } from "src/@types";
 
 let latestRecord: VSCodeStatusData | undefined;
 

@@ -7,7 +7,6 @@ import {
   useAnimationControls,
 } from "framer-motion";
 import React from "react";
-import type { listAnimatonRefType } from "src/@types";
 
 type MotionPropsGetterType = (
   char: string,
@@ -19,7 +18,6 @@ interface ProgressiveTypographyProps extends TypographyProps {
   label: string;
   speed?: number | undefined;
   delay?: number;
-  animateRef?: listAnimatonRefType | undefined;
   motion?: MotionPropsGetterType;
   boxProps?: BoxProps | undefined;
 }
@@ -28,25 +26,11 @@ const ProgressiveTypography: React.FC<ProgressiveTypographyProps> = ({
   label,
   delay = 0,
   speed = 0.1,
-  animateRef,
   motion: motionProps = () => {},
   boxProps,
   ...props
 }) => {
   const control: AnimationControls[] = [];
-
-  React.useEffect(() => {
-    animateRef?.list.push((delay: number) => {
-      control.forEach((c) =>
-        c.start((i: number) => ({
-          opacity: 1,
-          transition: {
-            delay: delay + i * speed,
-          },
-        }))
-      );
-    });
-  }, []);
 
   return (
     <Box style={{ display: "flex" }} {...boxProps}>
