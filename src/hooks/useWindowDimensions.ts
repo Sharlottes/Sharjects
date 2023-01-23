@@ -5,7 +5,7 @@ type DimensionType = Pick<
   "innerWidth" | "innerHeight" | "outerWidth" | "outerHeight"
 > &
   Pick<
-    typeof document["body"],
+    (typeof document)["body"],
     "clientWidth" | "clientHeight" | "offsetWidth" | "offsetHeight"
   >;
 
