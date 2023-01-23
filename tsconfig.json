@@ -5,11 +5,8 @@
     "moduleResolution": "node",
     "jsx": "preserve",
     "baseUrl": "./",
-    "typeRoots": ["src/@types/"],
     "paths": {
       "src/*": ["src/*"],
-      "models/*": ["src/models/*"],
-      "components/*": ["src/components/*"],
       "public/*": ["public/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
