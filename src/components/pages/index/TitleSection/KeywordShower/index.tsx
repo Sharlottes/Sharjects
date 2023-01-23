@@ -10,22 +10,20 @@ const keywords = [
   ", 학생 개발자",
 ];
 
-const KeywordShower: React.FC = () => {
-  return (
-    <KeywordShowerContainer>
-      {keywords.map((keyword, i) => (
-        <motion.div
-          key={i}
-          custom={i}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1, type: "spring", delay: 1 + i * 0.25 }}
-          initial={{ y: -50, opacity: 0 }}
-        >
-          <Typography>{keyword}</Typography>
-        </motion.div>
-      ))}
-    </KeywordShowerContainer>
-  );
-};
+const KeywordShower: React.FC = () => (
+  <KeywordShowerContainer>
+    {keywords.map((keyword, i) => (
+      <motion.div
+        key={i}
+        custom={i}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1, type: "spring", delay: 1 + i * 0.25 }}
+        initial={{ y: -50, opacity: 0 }}
+      >
+        <Typography>{keyword}</Typography>
+      </motion.div>
+    ))}
+  </KeywordShowerContainer>
+);
 
 export default KeywordShower;

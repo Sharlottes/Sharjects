@@ -1,12 +1,13 @@
+import React from "react";
+
 import Box, { type BoxProps } from "@mui/material/Box";
 import Typography, { type TypographyProps } from "@mui/material/Typography";
 import {
   type AnimationControls,
-  motion,
   type MotionProps,
+  motion,
   useAnimationControls,
 } from "framer-motion";
-import React from "react";
 
 type MotionPropsGetterType = (
   char: string,

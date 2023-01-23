@@ -51,7 +51,7 @@ const getDesignTokens = (mode: PaletteMode, palette: ColorPalette) =>
 interface ThemeController {
   toggleColorMode(): void;
   setColorPalette(value: ColorPalette): void;
-  currentColors: typeof Colors[ColorPalette];
+  currentColors: (typeof Colors)[ColorPalette];
   palette: ColorPalette;
 }
 const ControllerContext = React.createContext<ThemeController>({

@@ -8,13 +8,9 @@ import React from "react";
 const mapFetcher = function <T>(fetcher: T | Promise<T>): () => T | undefined {
   if (fetcher instanceof Promise) {
     let data: T | null | undefined = null;
-    const promise = fetcher.then(
-      (d) => (data = d),
-      (err) => {
-        console.log("failed to get data: ", err);
-        data = undefined;
-      }
-    );
+    const promise = fetcher
+      .then((d) => (data = d))
+      .catch(() => (data = undefined));
     return () => {
       if (data === null) throw promise;
       return data;

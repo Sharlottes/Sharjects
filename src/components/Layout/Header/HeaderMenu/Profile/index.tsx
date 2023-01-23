@@ -10,7 +10,7 @@ import { ProfileContainer } from "../../../styled";
 
 const Profile: React.FC = () => {
   const { data: session, status } = useSession();
-  console.log(session);
+
   return (
     <ProfileContainer>
       <Avatar src={session?.user?.image ?? ""} />

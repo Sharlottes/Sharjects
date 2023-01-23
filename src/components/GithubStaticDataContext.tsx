@@ -55,6 +55,5 @@ const GithubStaticDataContext: React.FC<{ children: JSX.Element }> = ({
 };
 export default GithubStaticDataContext;
 
-export const useGithubData = () => {
-  return React.useContext<StaticDataContextI>(StaticDataContext);
-};
+export const useGithubData = () =>
+  React.useContext<StaticDataContextI>(StaticDataContext);

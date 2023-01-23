@@ -7,7 +7,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import UserModel from "src/models/User";
 import connectdb from "src/lib/connectDB";
-import type { IUserDocument } from "../../../models/User";
+import type { IUserDocument } from "src/models/User";
 
 // connect to mongo db
 connectdb();

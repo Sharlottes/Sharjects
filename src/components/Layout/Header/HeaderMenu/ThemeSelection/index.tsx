@@ -5,7 +5,7 @@ import Divider from "@mui/material/Divider";
 import Menu from "@mui/material/Menu";
 import Box from "@mui/material/Box";
 
-import { useThemeController } from "../../../../MainThemeProvider";
+import { useThemeController } from "src/components/MainThemeProvider";
 import { useTheme } from "@mui/material/styles";
 
 import * as Colors from "@mui/material/colors";

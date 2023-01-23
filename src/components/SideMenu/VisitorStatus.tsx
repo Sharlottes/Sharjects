@@ -9,8 +9,8 @@ const dateCode = (() => {
     .padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
 })();
 
-const getVisitorData = (stack: number = 0) => {
-  return new Promise<Record<string, number>>((res, rej) => {
+const getVisitorData = (stack: number = 0) =>
+  new Promise<Record<string, number>>((res, rej) => {
     fetch("/api/visit").then(
       (response) => res(response.json()),
       (err) => {
@@ -19,7 +19,7 @@ const getVisitorData = (stack: number = 0) => {
       }
     );
   });
-};
+
 const VisitorStatus: React.FC = () => {
   const [visitors, setVisitors] = React.useState<Record<string, number>>();
   const [dialogOpen, setDialogOpen] = React.useState(false);
