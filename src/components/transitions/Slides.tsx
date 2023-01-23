@@ -1,6 +1,6 @@
 import React from "react";
 import Slide from "@mui/material/Slide";
-import type { MUISafeTransitionProps } from "..";
+import type { MUISafeTransitionProps } from ".";
 
 export const UpSlide = React.forwardRef<unknown, MUISafeTransitionProps>(
   (props, ref) => <Slide direction="up" ref={ref} {...props} />
