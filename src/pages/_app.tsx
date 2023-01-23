@@ -1,9 +1,7 @@
-import React from "react";
-
-import type { AppProps } from "next/app";
-import { useRouter } from "next/router";
-import type { NextPage } from "next";
 import Head from "next/head";
+
+import type { Session } from "next-auth/core/types";
+import type { AppProps as NextAppProps } from "next/app";
 
 import { CacheProvider, type EmotionCache } from "@emotion/react";
 import createCache from "@emotion/cache";
@@ -13,35 +11,26 @@ import { SnackbarProvider } from "notistack";
 
 import CssBaseline from "@mui/material/CssBaseline";
 
-import GithubStaticDataContext from "src/components/GithubStaticDataContext";
-import MainThemeProvider from "src/components/MainThemeProvider";
-import LifebarSnackbar from "src/components/LifebarSnackbar";
-import AuthWrapper from "src/components/AuthWrapper";
 import useAnalyticTracker from "src/hooks/useAnalyticTracker";
+import {
+  GithubStaticDataContext,
+  MainThemeProvider,
+  LifebarSnackbar,
+  AuthWrapper,
+} from "src/components/pages/_app";
 
 import "public/styles/global.css";
-
-import type { Session } from "next-auth/core/types";
-import { AnimatePresence } from "framer-motion";
-
-// for chart.js rendering
 require("src/lib/registerChartjs");
 
-export type CustomNextPage<P = {}, IP = P, C = NextPage<P, IP>> = C & {
-  auth?: any;
-  notPage?: boolean;
-};
-
-interface MyAppProps extends AppProps {
+interface AppProps extends NextAppProps {
   emotionCache?: EmotionCache;
   Component: CustomNextPage;
-  pageProps: {
+  pageProps: Record<string, any> & {
     session: Session | null;
-    [_: string]: any;
   };
 }
 
-const MyApp: React.FC<MyAppProps> = ({
+const App: React.FC<AppProps> = ({
   emotionCache = createCache({ key: "css", prepend: true }),
   Component,
   pageProps: { session, ...pageProps },
@@ -61,11 +50,9 @@ const MyApp: React.FC<MyAppProps> = ({
             maxSnack={3}
             Components={{ lifebar: LifebarSnackbar }}
           >
-            <AuthWrapper auth={Component.auth}>
+            <AuthWrapper auth={Component.auth} muteAlert={Component.muteAlert}>
               <GithubStaticDataContext>
-                <AnimatePresence>
-                  <Component {...pageProps} />
-                </AnimatePresence>
+                <Component {...pageProps} />
               </GithubStaticDataContext>
             </AuthWrapper>
           </SnackbarProvider>
@@ -75,4 +62,4 @@ const MyApp: React.FC<MyAppProps> = ({
   );
 };
 
-export default MyApp;
+export default App;
