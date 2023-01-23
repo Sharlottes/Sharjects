@@ -4,7 +4,6 @@ import Typography from "@mui/material/Typography";
 import VisualStudioCodeIcon from "src/assets/icons/VisualStudioCodeIcon";
 import { StatusCardContainer } from "./styled";
 import Divider from "@mui/material/Divider";
-import type { VSCodeStatusData } from "src/@types";
 import Button from "@mui/material/Button";
 import styled from "@mui/system/styled";
 

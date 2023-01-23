@@ -23,7 +23,6 @@ import {
 } from "src/assets/icons";
 
 import type { SxProps, Theme, SvgIconProps } from "@mui/material";
-import type { projectDataType } from "src/@types";
 
 import { OwnerRow, ProjectRow, LinksContainer } from "./styled";
 import { useThemeController } from "../MainThemeProvider";

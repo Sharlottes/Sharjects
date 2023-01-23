@@ -2,7 +2,7 @@ import React from "react";
 import Router, { useRouter } from "next/router";
 
 import CustomTextInput from "src/pages/auth/signin/CustomTextInput";
-import Layout from "components/Layout";
+import Layout from "src/components/Layout";
 import Auths from "src/pages/auth/signin/Auths";
 
 import Typography from "@mui/material/Typography";

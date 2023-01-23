@@ -20,7 +20,6 @@ import AuthWrapper from "src/components/AuthWrapper";
 import useAnalyticTracker from "src/hooks/useAnalyticTracker";
 
 import "public/styles/global.css";
-import {} from "src/@types";
 
 import type { Session } from "next-auth/core/types";
 import { AnimatePresence } from "framer-motion";
