@@ -16,6 +16,7 @@ Sharlotte의 첫 포트폴리오
 - [ ] KakaoBridge
 - [ ] RealtimeRPG
 - [ ] Sharjects
+- [ ] JudgeKit
 
 ### Organizations
 
@@ -26,3 +27,6 @@ Sharlotte의 첫 포트폴리오
 #### Avant Team
 
 - [ ] ProjectUnity
+
+#### Team CRSD
+- [ ] Dino
