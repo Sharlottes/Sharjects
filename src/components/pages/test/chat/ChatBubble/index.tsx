@@ -44,7 +44,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ sender, content, sendAt }) => {
   return (
     <ChatBubbleWrapper isOwners>
       <ChatBubbleTimestamp>{}</ChatBubbleTimestamp>
-      <ChatBubbleContainer mode={mode}>{content}</ChatBubbleContainer>
+      <ChatBubbleContainer>{content}</ChatBubbleContainer>
     </ChatBubbleWrapper>
   );
 };
