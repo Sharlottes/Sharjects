@@ -49,6 +49,12 @@
         "description": "Flutter 공부용으로 개발중인 타이머/스케쥴링 어플리케이션",
         "tags": ["dart", "flutter"],
         "icon": "timerIcon"
+      },
+      {
+        "name": "JudgeKit",
+        "description": "Node.js 퀵테스트 CLI NPM",
+        "tags": ["typescript"],
+        "icon": "judgeKitIcon"
       }
     ]
   },
@@ -71,6 +77,18 @@
         "description": "팀 Avant에서 개발중인 최대 규모의 Mindustry Java모드",
         "tags": ["java", "libgdx"],
         "icon": "projectunityIcon",
+        "noGithub": true
+      }
+    ]
+  },
+  {
+    "owner": "Team-Cresendo",
+    "projects": [
+      {
+        "name": "Dino",
+        "description": "팀 크레센도에서 개발중인 온라인 다이노 웹게임",
+        "tags": ["react", "typescript"],
+        "icon": "dinoIcon",
         "noGithub": true
       }
     ]
