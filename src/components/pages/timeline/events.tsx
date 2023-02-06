@@ -1,5 +1,4 @@
-import { StyledUserCard, StyledRepoCard } from "./styled";
-import TimelineContent from "./TimelineContent";
+import { StyledUserCard, StyledRepoCard, TimelineContent } from "./styled";
 import TimelineContentTitle from "./TimelineContentTitle";
 
 type monthType = `${2020 | 2021 | 2022}.${string}`;

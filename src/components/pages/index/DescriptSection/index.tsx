@@ -10,6 +10,7 @@ const contentData: ContentProps[] = [
     image: "/images/previews/timeline_preview.png",
     link: "/timeline",
     progress: "30%",
+    canEnter: true,
   },
   {
     title: "프로젝트",

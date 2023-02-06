@@ -7,9 +7,8 @@ import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrow
 
 import IconButton from "@mui/material/IconButton";
 
-import { tryScroll } from "../..";
 import DateTypography, { type DateTypographyProps } from "./DateTypography";
-import { scrollWindow } from "../../index";
+import { scrollWindow, tryScroll } from "../..";
 
 const buttons: [React.FC, () => void][] = [
   [KeyboardDoubleArrowUpIcon, () => scrollWindow(0)],

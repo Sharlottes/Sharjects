@@ -1,12 +1,11 @@
 import React from "react";
 
-import { scrollWindow } from "../..";
-
 import useNearestItem from "../useNearestItem";
 import useSortedItems from "../useSortedItems";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
-import { NavigateItem, NavigateItemDivider } from "./styled";
+import { NavigateContainer, NavigateItem, NavigateItemDivider } from "./styled";
+import { scrollWindow } from "../..";
 
 export interface NavigateControllerProps {
   onBackClick: () => void;
@@ -17,19 +16,13 @@ const NavigateController: React.FC<NavigateControllerProps> = ({
 }) => {
   const nearestItem = useNearestItem();
   const sortedItems = useSortedItems();
-  (() => {
-    const index = sortedItems.findIndex((item) => item.y === nearestItem.y);
-  })();
+
   return (
     <div>
       <IconButton onClick={onBackClick}>
         <ArrowBackIcon />
       </IconButton>
-      <div
-        style={{
-          textAlign: "center",
-        }}
-      >
+      <NavigateContainer>
         {sortedItems.map((elem, i, arr) => (
           <React.Fragment key={elem.date}>
             <NavigateItem
@@ -45,7 +38,7 @@ const NavigateController: React.FC<NavigateControllerProps> = ({
             />
           </React.Fragment>
         ))}
-      </div>
+      </NavigateContainer>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import Arrayf from "src/utils/Arrayf";
-import { type TimelineItemData, getTimelineItems } from "..";
+import { TimelineItemData, getTimelineItems } from "..";
 import useNearestItem from "./useNearestItem";
 
 const useSortedItems = (itemCount = 5) => {

@@ -1,11 +1,7 @@
 import React from "react";
-import Stepper from "@mui/material/Stepper";
-import TimelineNav from "../TimelineNav";
-import { tryScroll } from "..";
-import TimelineItems from "src/components/pages/timeline/TimelineScroll/TimelineItems";
-import Box from "@mui/material/Box";
+import { tryScroll } from ".";
 
-const TimelineScroll: React.FC = () => {
+export const useObserveKeyHandle = () => {
   React.useEffect(() => {
     const handleScroll = (event: Event) => {
       event.preventDefault();
@@ -39,13 +35,4 @@ const TimelineScroll: React.FC = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  return (
-    <Box>
-      <TimelineNav />
-      <TimelineItems />
-    </Box>
-  );
 };
-
-export default TimelineScroll;

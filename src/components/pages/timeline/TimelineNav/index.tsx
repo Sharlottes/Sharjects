@@ -1,19 +1,32 @@
 import React from "react";
 
-import NavigatorContainer from "./NavigatorContainer";
 import NavigateController from "./NavigateController";
 import ScrollController from "./ScrollController";
+import { NavigatorShowButton, NavigatorContainer } from "./styled";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const TimelineNav: React.FC = () => {
   const [toggled, setToggled] = React.useState(false);
-  const toggleController = () => setToggled((prev) => !prev);
+  const [showed, setShowed] = React.useState(false);
+  const showHandler = () => setShowed((prev) => !prev);
+  const toggleHandler = () => setToggled((prev) => !prev);
 
   return (
-    <NavigatorContainer>
+    <NavigatorContainer animate={{ x: showed ? 0 : -110 }}>
+      <NavigatorShowButton
+        showed={showed}
+        whileHover={{
+          x: showed ? 0 : 15,
+          color: "#666666",
+        }}
+        onClick={showHandler}
+      >
+        <ArrowForwardIosIcon />
+      </NavigatorShowButton>
       {toggled ? (
-        <NavigateController onBackClick={toggleController} />
+        <NavigateController onBackClick={toggleHandler} />
       ) : (
-        <ScrollController onDateClick={toggleController} />
+        <ScrollController onDateClick={toggleHandler} />
       )}
     </NavigatorContainer>
   );

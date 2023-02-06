@@ -1,5 +1,5 @@
 import React from "react";
-import { type TimelineItemData, getNearestItem } from "..";
+import { TimelineItemData, getNearestItem } from "..";
 
 const useNearestItem = () => {
   const [nearestItem, setNearestItem] = React.useState<TimelineItemData>({
