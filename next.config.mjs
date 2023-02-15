@@ -1,9 +1,17 @@
 //@ts-check
+//TODO - 대소문자 rewrite route
+
+import mdnConfig from "@next/mdx";
+const withMDX = mdnConfig({
+  extension: /\.mdx?$/,
+  options: {
+    providerImportSource: "@mdx-js/react",
+  },
+});
 
 /**
  * @type {import('next').NextConfig}
  */
-//TODO - 대소문자 rewrite route
 const nextConfig = {
   reactStrictMode: true,
   distDir: "dist",
@@ -34,4 +42,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withMDX(nextConfig);
