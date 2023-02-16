@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import { isEmail } from "src/utils/isEmail";
 import RememberButton from "./RememberButton";
 import SubmitButtons from "./SubmitButtons";
-import { SignInContainer, SignInContent } from "./styled";
+import { SignInContainer, SignInContent, SignInTitle } from "./styled";
 
 const LoginLabel = ({ username }: { username: string }) => (
   <>
@@ -38,9 +38,9 @@ const CredentialSignIn: React.FC = () => {
 
   return (
     <SignInContainer>
-      <Typography variant="h2" noWrap fontSize="min(6vw, 70px)">
+      <SignInTitle variant="h2" noWrap>
         Login User
-      </Typography>
+      </SignInTitle>
       <SignInContent>
         <CredentialTextInput
           handleChange={handleChange("username")}

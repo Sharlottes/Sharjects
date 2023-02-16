@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import Button, { type ButtonProps } from "@mui/material/Button";
 import styled from "@mui/system/styled";
 
@@ -11,11 +12,15 @@ export const SignInContainer = styled("div")({
   minHeight: "100%",
 });
 
+export const SignInTitle = styled(Typography)({
+  fontSize: "min(6vw, 70px)",
+  textAlign: "center",
+});
+
 export const SignInContent = styled("div")({
   display: "flex",
   flexDirection: "column",
-  alignItems: "center",
   gap: 1,
-  margin: "20px 0",
+  margin: "20px auto",
   width: "min(70vw, 300px)",
 });
