@@ -14,7 +14,7 @@ const TimelineNav: React.FC = () => {
   return (
     <NavigatorContainer animate={{ x: showed ? 0 : -110 }}>
       <NavigatorShowButton
-        showed={showed}
+        color={showed ? "#666666" : "lightgray"}
         whileHover={{
           x: showed ? 0 : 15,
           color: "#666666",
