@@ -24,23 +24,12 @@ const TimelineItems: React.FC = () => (
       .map((years, i) =>
         years.map((monthes, ii) => (
           <React.Fragment key={monthes[0]}>
-            <TimelineItem
-              title={monthes[0].slice(0, 7)}
-              last={i === dates.length - 1 && ii === years.length - 1}
-            >
+            <TimelineItem title={monthes[0].slice(0, 7)}>
               {events[monthes[0].slice(0, 7) as monthType]}
             </TimelineItem>
             <div style={{ marginLeft: "4%" }}>
               {monthes.map((date, iii) => (
-                <TimelineItem
-                  key={`${i}${ii}${iii}`}
-                  title={date}
-                  last={
-                    i === dates.length - 1 &&
-                    ii === years.length - 1 &&
-                    iii === monthes.length - 1
-                  }
-                >
+                <TimelineItem key={`${i}${ii}${iii}`} title={date}>
                   {events[date]}
                 </TimelineItem>
               ))}

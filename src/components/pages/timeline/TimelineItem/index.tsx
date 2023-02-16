@@ -3,13 +3,8 @@ import { Header, DummyHeader, TimeConnecter, TimeContent } from "./style";
 
 export interface TimelineItemProps extends React.PropsWithChildren {
   title: string;
-  last?: boolean;
 }
-const TimelineItem: React.FC<TimelineItemProps> = ({
-  title,
-  children,
-  last = false,
-}) => (
+const TimelineItem: React.FC<TimelineItemProps> = ({ title, children }) => (
   <>
     <motion.div
       initial={{ opacity: 0 }}
@@ -25,13 +20,11 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
         <DummyHeader>{title}</DummyHeader>
       )}
     </motion.div>
-    {!last && (
-      <TimeConnecter
-        initial={{ borderLeftColor: "rgba(74.1, 74.1, 74.1, 0)" }}
-        whileInView={{ borderLeftColor: "rgba(74.1, 74.1, 74.1, 0.3)" }}
-        transition={{ duration: 0.1 }}
-      />
-    )}
+    <TimeConnecter
+      initial={{ borderLeftColor: "rgba(74.1, 74.1, 74.1, 0)" }}
+      whileInView={{ borderLeftColor: "rgba(74.1, 74.1, 74.1, 0.3)" }}
+      transition={{ duration: 0.1 }}
+    />
   </>
 );
 
