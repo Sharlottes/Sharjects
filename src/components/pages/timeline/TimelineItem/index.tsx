@@ -1,18 +1,7 @@
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { Header, DummyHeader, TimeConnecter, TimeContent } from "./style";
 
-const timelineAnimateVariants: Variants = {
-  show: (i) => ({
-    opacity: 1,
-    transition: {
-      duration: 0.5,
-      delay: i / 10,
-    },
-  }),
-};
-
 export interface TimelineItemProps extends React.PropsWithChildren {
-  custom: number;
   title: string;
   last?: boolean;
 }
@@ -20,16 +9,12 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
   title,
   children,
   last = false,
-  custom,
 }) => (
   <>
     <motion.div
-      initial={{
-        opacity: 0,
-      }}
-      animate="show"
-      variants={timelineAnimateVariants}
-      custom={custom}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
     >
       {children ? (
         <>
@@ -42,12 +27,9 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
     </motion.div>
     {!last && (
       <TimeConnecter
-        initial={{
-          opacity: 0,
-        }}
-        animate="show"
-        variants={timelineAnimateVariants}
-        custom={custom * (children ? 1 : 0.25)}
+        initial={{ borderLeftColor: "rgba(74.1, 74.1, 74.1, 0)" }}
+        whileInView={{ borderLeftColor: "rgba(74.1, 74.1, 74.1, 0.3)" }}
+        transition={{ duration: 0.1 }}
       />
     )}
   </>

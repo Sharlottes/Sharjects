@@ -1,3 +1,4 @@
+import React from "react";
 import Divider from "@mui/material/Divider";
 import TimelineItem from "./TimelineItem";
 import { events } from "./events";
@@ -17,44 +18,39 @@ const dates = Array.from([2020, 2021, 2022, 2023], (year) =>
   )
 ) as dateType[][][];
 
-const TimelineItems: React.FC = () => {
-  let count = 0;
-  return (
-    <div>
-      {dates
-        .map((years, i) =>
-          years.map((monthes, ii) => (
-            <div key={monthes[0]}>
-              <TimelineItem
-                custom={++count}
-                title={monthes[0].slice(0, 7)}
-                last={i === dates.length - 1 && ii === years.length - 1}
-              >
-                {events[monthes[0].slice(0, 7) as monthType]}
-              </TimelineItem>
-              <div style={{ marginLeft: "4%" }}>
-                {monthes.map((date, iii) => (
-                  <TimelineItem
-                    custom={++count}
-                    key={`${i}${ii}${iii}`}
-                    title={date}
-                    last={
-                      i === dates.length - 1 &&
-                      ii === years.length - 1 &&
-                      iii === monthes.length - 1
-                    }
-                  >
-                    {events[date]}
-                  </TimelineItem>
-                ))}
-              </div>
-              <Divider />
+const TimelineItems: React.FC = () => (
+  <React.Fragment>
+    {dates
+      .map((years, i) =>
+        years.map((monthes, ii) => (
+          <React.Fragment key={monthes[0]}>
+            <TimelineItem
+              title={monthes[0].slice(0, 7)}
+              last={i === dates.length - 1 && ii === years.length - 1}
+            >
+              {events[monthes[0].slice(0, 7) as monthType]}
+            </TimelineItem>
+            <div style={{ marginLeft: "4%" }}>
+              {monthes.map((date, iii) => (
+                <TimelineItem
+                  key={`${i}${ii}${iii}`}
+                  title={date}
+                  last={
+                    i === dates.length - 1 &&
+                    ii === years.length - 1 &&
+                    iii === monthes.length - 1
+                  }
+                >
+                  {events[date]}
+                </TimelineItem>
+              ))}
             </div>
-          ))
-        )
-        .flat()}
-    </div>
-  );
-};
+            <Divider />
+          </React.Fragment>
+        ))
+      )
+      .flat()}
+  </React.Fragment>
+);
 
 export default TimelineItems;
