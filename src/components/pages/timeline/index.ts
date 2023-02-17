@@ -33,7 +33,8 @@ export const tryScroll = (direction: ScrollDirectionType) => {
 export const getTimelineItems = (() => {
   let cachedElements: HTMLDivElement[] | undefined;
 
-  return () => {
+  return (force = false) => {
+    if (force && cachedElements) cachedElements.length = 0;
     if (
       !cachedElements ||
       cachedElements.length === 0 ||
