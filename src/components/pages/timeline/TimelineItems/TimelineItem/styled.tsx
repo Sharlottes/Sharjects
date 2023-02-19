@@ -26,9 +26,6 @@ export const TimeContent = styled("div")(({ theme }) => ({
   border: "1px solid #fcfcfc",
   borderRadius: "20px",
   padding: "15px",
-  "& > hr": {
-    width: theme.palette.mode === "light" ? "max(100%, 100vw)" : "100%",
-  },
 }));
 
 export const Header = styled("p")({
