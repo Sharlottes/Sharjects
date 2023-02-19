@@ -40,12 +40,12 @@ export const ContentBoxWrapper = styled("div")<{
 
 export const ContentBox = styled("div")<{
   isMobile: boolean;
-}>(({ isMobile }) => ({
+}>(({ isMobile, theme }) => ({
   width: "70%",
   padding: "20px",
   zIndex: 10,
   paddingLeft: "15%",
-  backgroundColor: "white",
+  backgroundColor: theme.palette.mode === "light" ? "white" : "rgb(18, 18, 18)",
   borderRadius: isMobile ? "0 20px 0 0" : "0 20px 20px 0",
   clipPath: "polygon(20% 0, 100% 0, 100% 100%, 0% 100%)",
 }));
