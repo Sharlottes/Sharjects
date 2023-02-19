@@ -15,7 +15,21 @@ const HeaderMenu: React.FC = () => {
   return (
     <>
       <IconButton
-        sx={{ color: "white", marginLeft: "auto" }}
+        sx={{
+          color: "white",
+          marginLeft: "auto",
+          "@keyframes spin": {
+            "0%": {
+              transform: "rotate(360deg)",
+            },
+            "100%": {
+              transform: "rotate(0deg)",
+            },
+          },
+          "&:hover": {
+            animation: "spin 5s linear infinite",
+          },
+        }}
         onClick={(e) => setAnchor((prev) => (prev ? null : e.currentTarget))}
       >
         <SettingsIcon />
