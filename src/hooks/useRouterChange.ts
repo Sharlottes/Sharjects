@@ -1,7 +1,10 @@
 import React from "react";
 import { useRouter } from "next/router";
 
-const useRouterChange = (callback: (url: any) => void) => {
+const useRouterChange = (
+  callback: (url: any) => void,
+  deps: React.DependencyList = []
+) => {
   const router = useRouter();
 
   React.useEffect(() => {
@@ -9,6 +12,6 @@ const useRouterChange = (callback: (url: any) => void) => {
     return () => {
       router.events.off("routeChangeComplete", callback);
     };
-  }, [router.events]);
+  }, [router.events, callback, ...deps]);
 };
 export default useRouterChange;
