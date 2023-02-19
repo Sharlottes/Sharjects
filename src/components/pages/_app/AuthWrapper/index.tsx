@@ -19,7 +19,13 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({
   const { enqueueSnackbar } = useSnackbar();
 
   const showSnackbarAlert = () => {
-    if (muteAlert || status === "authenticated") return;
+    if (
+      muteAlert ||
+      status === "authenticated" ||
+      +(localStorage.getItem("alert_expire") ?? 0) > Date.now()
+    )
+      return;
+    console.log(+(localStorage.getItem("alert_expire") ?? 0));
     enqueueSnackbar("you are not logged in", {
       preventDuplicate: true,
       variant: "lifebar",
@@ -27,7 +33,7 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({
         vertical: "top",
         horizontal: "center",
       },
-      action: (key) => <LoginSnackbarAction key={key} />,
+      action: (key) => <LoginSnackbarAction snackbarKey={key} />,
     });
   };
   React.useEffect(showSnackbarAlert, [muteAlert]);
