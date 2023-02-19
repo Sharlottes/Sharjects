@@ -6,6 +6,7 @@ import {
   TimelineItemsContainer,
   StyledRepoCard,
   StyledUserCard,
+  LinkText,
 } from "./styled";
 import TimelineItem from "./TimelineItem";
 import { getTimelineItems } from "..";
@@ -54,6 +55,7 @@ const TimelineItems: React.FC = () => {
         components={{
           h1: TimelineContentTitle,
           p: TimelineContent,
+          a: LinkText,
           UserCard: StyledUserCard,
           RepoCard: StyledRepoCard,
         }}

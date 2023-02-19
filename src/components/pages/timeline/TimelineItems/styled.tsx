@@ -54,3 +54,7 @@ export const StyledUserCard: React.FC<GithubUserCardProps> = (props) => (
     <GithubUserCard {...props} />
   </div>
 );
+
+export const LinkText = styled("a")({
+  color: "blue",
+});
