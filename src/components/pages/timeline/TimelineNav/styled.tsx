@@ -1,5 +1,5 @@
 import styled from "@mui/system/styled";
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 import Layouts from "src/core/Layouts";
 
 export const NavigatorShowButton = styled(motion.button)<{ color: string }>(
@@ -12,6 +12,7 @@ export const NavigatorShowButton = styled(motion.button)<{ color: string }>(
     width: "36px",
     height: "36px",
     borderRadius: "18px",
+    backgroundColor: "inherit",
     transition: "color 250ms",
   })
 );
@@ -23,7 +24,7 @@ export const NavigatorContainer = styled(motion.div)({
   height: "fit-content",
   boxShadow: "0 0 10px black",
   borderRadius: "10px",
-  backgroundColor: "white",
+  backgroundColor: "inherit",
   zIndex: Layouts.SIDE_MENU - 1,
   transform: "translateX(-110px)",
 });
