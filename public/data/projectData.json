@@ -54,6 +54,11 @@
         "name": "JudgeKit",
         "description": "Node.js 퀵테스트 CLI NPM",
         "tags": ["typescript"]
+      },
+      {
+        "name": "johnLemon",
+        "description": "XREAL 과제로 제출된 존 레몬의 공포 체험",
+        "tags": ["cs", "unity"]
       }
     ]
   },
