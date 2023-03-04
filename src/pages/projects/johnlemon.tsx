@@ -47,10 +47,18 @@ const JohnLemonPage: React.FC = () => (
             gap: "50px",
           }}
         >
-          <Button variant="contained" startIcon={<GithubIcon />}>
+          <Button
+            variant="contained"
+            startIcon={<GithubIcon />}
+            href="https://github.com/Sharlottes/johnLemon"
+          >
             깃허브로 가기
           </Button>
-          <Button variant="contained" startIcon={<DownloadIcon />}>
+          <Button
+            variant="contained"
+            startIcon={<DownloadIcon />}
+            href="https://github.com/Sharlottes/johnLemon/releases/latest"
+          >
             다운로드
           </Button>
         </Box>
@@ -136,6 +144,13 @@ const JohnLemonPage: React.FC = () => (
             }
           />
         </Box>
+        <Typography variant="body2" textAlign="center" mt="10px">
+          자세한 내용은&nbsp;
+          <Link href="https://sneaky-weight-4ab.notion.site/XREAL-6c5523456a4b44c185d54fc48939d320">
+            여기
+          </Link>
+          를 참고해보세요...
+        </Typography>
       </Box>
     </Box>
   </Layout>
