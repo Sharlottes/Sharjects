@@ -5,8 +5,11 @@ body {
 }
 
 /* hyperlink style is awful */
-a {
+a:not([href^="http"]) {
   text-decoration: none;
+  color: inherit;
+}
+a[href^="http"] {
   color: inherit;
 }
 
