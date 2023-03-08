@@ -1,26 +1,36 @@
-import React from "react";
-import Link from "next/link";
+import styled from "@mui/system/styled";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
-import { useRouter } from "next/router";
+const PageContainer = styled(Box)({
+  width: "100%",
+  height: "100vh",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column",
+  gap: "50px",
+});
 
-const ErrorPage404: React.FC = () => {
-  const router = useRouter();
-  React.useEffect(() => {
-    if (router.asPath === router.asPath.toLocaleLowerCase()) {
-    } else router.replace(router.asPath.toLowerCase());
-  }, []);
+const PageTitle = styled(Box)({
+  textAlign: "center",
+  gap: "20px",
+});
 
-  if (router.asPath === router.asPath.toLocaleLowerCase())
-    return (
-      <>
-        에러 발생!
-        <br />
-        <Link href="/" style={{ color: "blue" }}>
-          메인 페이지로 돌아가기
-        </Link>
-      </>
-    );
-  else return <>정상 페이지로 리다이렉팅 시도중입니다...</>;
-};
+const ErrorPage404: React.FC = () => (
+  <PageContainer>
+    <PageTitle>
+      <Typography variant="h3" fontWeight="bold">
+        404 Not Found
+      </Typography>
+      <Typography variant="body1">해당 페이지를 찾을 수 없습니다.</Typography>
+    </PageTitle>
+    <Button href="/" variant="contained" startIcon={<ArrowBackIosIcon />}>
+      Go main page
+    </Button>
+  </PageContainer>
+);
 
 export default ErrorPage404;
