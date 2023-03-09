@@ -6,11 +6,14 @@ export interface AuthWrapperProps<AT = unknown>
   auth?: AT;
 }
 
-const AuthWrapper: React.FC<AuthWrapperProps> = ({ auth, children }) => {
-  const { status } = useSession({ required: !!auth });
-
+const Auth: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const { status } = useSession({ required: true });
   if (status === "loading") return <>Loading...</>;
+
   return <>{children}</>;
 };
+
+const AuthWrapper: React.FC<AuthWrapperProps> = ({ auth, children }) =>
+  !!auth ? <Auth>{children}</Auth> : <>{children}</>;
 
 export default AuthWrapper;
