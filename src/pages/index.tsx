@@ -6,8 +6,9 @@ import DescriptSection from "src/components/pages/index/DescriptSection";
 import StatsSection from "src/components/pages/index/StatsSection";
 
 const SectionContainer = styled("div")({
-  width: "calc(100% - 10vw)",
-  margin: "10vh 5vw 0",
+  "& .content": {
+    margin: "10vh 5vw 0",
+  },
 });
 
 const Home: React.FC = () => (

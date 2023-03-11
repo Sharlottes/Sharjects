@@ -3,7 +3,7 @@ import MainTitle from "./MainTitle";
 import MainTitleAvatar from "./MainTitleAvatar";
 
 const TitleSection: React.FC = () => (
-  <div>
+  <div className="content">
     <MainTitle />
     <MainTitleAvatar />
     <KeywordShower />

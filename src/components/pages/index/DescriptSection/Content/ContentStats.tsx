@@ -1,9 +1,32 @@
 import { Divider, IconButton, Link } from "@mui/material";
 import PreviewDialog from "./PreviewDialog";
-import { EnterButtonContainer } from "./styled";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
 import styled from "@mui/system/styled";
+
+export const EnterButtonContainer = styled("div")({
+  "& button": {
+    "--size": "30px",
+    width: "var(--size)",
+    height: "var(--size)",
+    borderRadius: "calc(var(--size))",
+  },
+  "& a": {
+    height: "24px",
+  },
+  "& span": {
+    transition: "all 250ms",
+    position: "absolute",
+    opacity: 0,
+    marginLeft: "-20px",
+  },
+  "&:hover": {
+    "& span": {
+      opacity: 1,
+      marginLeft: "0px",
+    },
+  },
+});
 
 const ContentStatsWrapper = styled("div")(({ theme }) => ({
   width: "100%",

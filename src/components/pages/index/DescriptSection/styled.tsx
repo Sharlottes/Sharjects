@@ -5,10 +5,10 @@ export const DescriptSectionContainer = styled("div")({
 });
 
 export const ContentsBox = styled("div")({
+  marginTop: "50px",
   width: "100%",
   padding: "20px 0",
   display: "flex",
   alignItems: "center",
   flexDirection: "column",
-  gap: "20px",
 });

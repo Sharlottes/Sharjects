@@ -1,23 +1,25 @@
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
-import { motion } from "framer-motion";
+import { motion, type HTMLMotionProps } from "framer-motion";
 
 export interface TitleBoxProps {
   title: string;
   description?: string;
   delay?: number;
 }
-const TitleBox: React.FC<TitleBoxProps> = ({
+const TitleBox: React.FC<TitleBoxProps & HTMLMotionProps<"div">> = ({
   title,
   description = "",
   delay = 0,
+  ...props
 }) => (
   <motion.div
-    style={{ margin: "10px" }}
+    style={{ padding: "10px" }}
     animate={{ x: 0, opacity: 1 }}
     whileInView={{ x: 0, opacity: 1 }}
     initial={{ x: -30, opacity: 0 }}
     transition={{ delay, duration: 1, type: "spring" }}
+    {...props}
   >
     <Typography variant="h2" fontWeight="bold">
       {title}

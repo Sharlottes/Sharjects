@@ -1,19 +1,13 @@
-import { Typography, useMediaQuery } from "@mui/material";
+import { Typography } from "@mui/material";
 
-import {
-  ContentContainerTop,
-  ContentContainer,
-  ContentBoxWrapper,
-  ContentBox,
-} from "./styled";
+import { ContentContainer, ContentBox, EnterButton } from "./styled";
 import type { MotionProps } from "framer-motion";
-import { useTheme } from "@mui/system";
-import ContentStats, { type ContentStatsProps } from "./ContentStats";
 
-export interface ContentProps extends MotionProps, ContentStatsProps {
+export interface ContentProps extends MotionProps {
   title: string;
   description: string;
   image: string;
+  link: string;
 }
 
 const Content: React.FC<ContentProps> = ({
@@ -21,44 +15,19 @@ const Content: React.FC<ContentProps> = ({
   description,
   image,
   link,
-  progress,
-  canEnter = false,
-  developing = false,
   ...props
-}) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
-  return (
-    <ContentContainer {...props}>
-      <ContentContainerTop image={image} isMobile={isMobile}>
-        <ContentBoxWrapper isMobile={isMobile}>
-          <ContentBox isMobile={isMobile}>
-            <Typography variant="h5" fontWeight="bold">
-              {title}
-            </Typography>
-            <Typography variant="body2">{description}</Typography>
-            {!isMobile && (
-              <ContentStats
-                canEnter={canEnter}
-                developing={developing}
-                link={link}
-                progress={progress}
-              />
-            )}
-          </ContentBox>
-        </ContentBoxWrapper>
-      </ContentContainerTop>{" "}
-      {isMobile && (
-        <ContentStats
-          canEnter={canEnter}
-          developing={developing}
-          link={link}
-          progress={progress}
-        />
-      )}
-    </ContentContainer>
-  );
-};
+}) => (
+  <ContentContainer image={image} {...props}>
+    <ContentBox>
+      <Typography variant="h5" fontWeight="bold">
+        {title}
+      </Typography>
+      <Typography variant="body2">{description}</Typography>
+    </ContentBox>
+    <EnterButton href={link} variant="contained">
+      {"> 들어가기"}
+    </EnterButton>
+  </ContentContainer>
+);
 
 export default Content;
