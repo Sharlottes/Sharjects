@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { getComplementaryColor } from "src/utils/getComplementaryColor";
+import Colorf from "src/utils/Colorf";
 
 const Footer: React.FC<{ additional?: React.ReactNode | undefined }> = ({
   additional,
@@ -13,7 +13,7 @@ const Footer: React.FC<{ additional?: React.ReactNode | undefined }> = ({
       borderTop: "solid 1px #6666667f",
       backgroundColor: (theme) =>
         theme.palette.mode === "dark"
-          ? getComplementaryColor("#e6e6e6")
+          ? Colorf.getComplementaryColor("#e6e6e6")
           : "#e6e6e6",
     }}
   >

@@ -25,6 +25,9 @@ import HeaderMenu from "./HeaderMenu";
 import SideMenu from "../../SideMenu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Layouts from "src/core/Layouts";
+import Mathf from "src/utils/Mathf";
+import Colorf from "src/utils/Colorf";
+import { toDigit } from "src/utils/toDigit";
 
 export interface AdditionalHeaderProps {
   sidebarOpened: boolean;
@@ -95,18 +98,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
     return headerAnimateVaraints;
   }, [demension.offsetWidth]);
 
-  const appBarRef = React.useRef<HTMLDivElement>(null);
-  const updateBackcolorOpacity = React.useCallback(
-    (hover = false) => {
-      if (!appBarRef.current) return;
-      appBarRef.current.style.backgroundColor = alpha(
-        theme.palette.primary.main,
-        Math.max(hover ? 1 : 0.5, Math.min(1, 1 - scrollY.get() / THRESHOLD))
-      );
-    },
-    [theme]
-  );
-
+  const [alphaAmount, setAlphaAmount] = React.useState(0);
   React.useEffect(() => {
     const onChangeHandler = () => {
       animates[
@@ -115,29 +107,45 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
           open
         )
       ](controller);
-      updateBackcolorOpacity(scrollY.get() == 0 || open);
+
+      setAlphaAmount(Mathf.clamp(scrollY.get() / THRESHOLD));
     };
     onChangeHandler();
     return scrollY.onChange(onChangeHandler);
-  }, [open, updateBackcolorOpacity]);
+  }, [open]);
 
   return (
     <>
-      <motion.header
-        onHoverStart={() => updateBackcolorOpacity(true)}
-        onHoverEnd={() => updateBackcolorOpacity(scrollY.get() == 0 || open)}
-      >
+      <motion.header>
         <AppBar
           component={motion.div}
           animate={controller}
           transition={{ duration: 0.3 }}
           variants={headerAnimateVaraints}
           position="fixed"
-          ref={appBarRef}
           sx={{
-            transition: "background-color 300ms",
+            transition: "all 300ms",
             backdropFilter: "blur(5px)",
             zIndex: Layouts.HEADER,
+            boxShadow: `0px 2px 4px -1px rgba(0,0,0,${
+              alphaAmount * 0.2
+            }), 0px 4px 5px 0px rgba(0,0,0,${
+              alphaAmount * 0.14
+            }), 0px 1px 10px 0px rgba(0,0,0,${alphaAmount * 0.12})`,
+            backgroundColor: (theme) =>
+              alpha(theme.palette.primary.main, alphaAmount * 0.75),
+            "& *": {
+              color: (theme) =>
+                (theme.palette.mode === "light"
+                  ? Colorf.colorLerp("#111111", "#ffffff", toDigit(alphaAmount))
+                  : "white") + " !important",
+            },
+            "&:hover": {
+              backgroundColor: (theme) => alpha(theme.palette.primary.main, 1),
+              "& *": {
+                color: "white !important",
+              },
+            },
           }}
         >
           <Toolbar
