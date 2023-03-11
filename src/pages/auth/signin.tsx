@@ -11,6 +11,5 @@ const SignIn: CustomNextPage = () => (
     <AuthSignIn />
   </Layout>
 );
-SignIn.muteAlert = true;
 
 export default SignIn;

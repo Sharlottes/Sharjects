@@ -10,3 +10,6 @@ const Middleware = (req: NextRequest) => {
 };
 
 export default Middleware;
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+};

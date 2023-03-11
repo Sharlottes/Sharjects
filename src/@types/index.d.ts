@@ -22,5 +22,4 @@ interface VSCodeStatusData {
 
 interface CustomNextPage<AT = unknown> extends React.FC {
   auth?: AT;
-  muteAlert?: (unknown extends AT ? boolean : unknown) | undefined;
 }

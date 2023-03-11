@@ -48,7 +48,7 @@ const App: React.FC<AppProps> = ({
             maxSnack={3}
             Components={{ lifebar: LifebarSnackbar }}
           >
-            <AuthWrapper auth={Component.auth} muteAlert={Component.muteAlert}>
+            <AuthWrapper auth={Component.auth}>
               <GithubStaticDataContext>
                 <Component {...pageProps} />
               </GithubStaticDataContext>
