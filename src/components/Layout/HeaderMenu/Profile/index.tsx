@@ -6,7 +6,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import { ProfileContainer } from "../../../styled";
+import { ProfileContainer } from "../../styled";
 
 const Profile: React.FC = () => {
   const { data: session, status } = useSession();

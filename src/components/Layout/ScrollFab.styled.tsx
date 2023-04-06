@@ -13,26 +13,26 @@ export const ScrollFabContainer = styled("div")({
     right: 16,
     bottom: 48,
     transition: "all 500ms",
-    "&:not(:nth-of-type(1))": {
+    "&:not(.main-btn)": {
       opacity: 0,
     },
-    "&:nth-of-type(1)": {
+    "&.main-btn": {
       zIndex: Layouts.SCROLL_FAB - 1,
       opacity: 1,
     },
   },
   "&:hover": {
     "& button": {
-      "&:nth-of-type(1)": {
+      "&.main-btn": {
         opacity: 0,
         zIndex: Layouts.SCROLL_FAB - 1,
         pointerEvents: "none",
       },
-      "&:nth-of-type(2)": {
+      "&.up-btn": {
         opacity: 1,
         transform: "translateY(-24px)",
       },
-      "&:nth-of-type(3)": {
+      "&.down-btn": {
         opacity: 1,
         transform: "translateY(24px)",
       },

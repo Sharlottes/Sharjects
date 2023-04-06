@@ -17,65 +17,62 @@ export interface TabLayoutProps extends React.PropsWithChildren {
   tabs: string[];
 }
 
-const TabLayout: React.FC<TabLayoutProps> = ({
-  children,
-  onIndexChanged,
-  tabs,
-}) => {
+const TabLayout: React.FC<TabLayoutProps> = ({ onIndexChanged, tabs }) => {
   const [shown, setShown] = React.useState(false);
   const [index, setIndex] = React.useState(0);
 
   return (
     <>
-      <Layout
-        header={
-          <>
-            <Collapse
-              in={shown}
-              sx={{
-                borderRadius: "0 0 20px 20px",
-                backdropFilter: "brightness(0.9)",
-              }}
-            >
-              <Toolbar variant="dense" sx={{ ml: "20px", width: "80%" }}>
-                <Tabs
-                  value={index}
-                  onChange={(_, index) => {
-                    setIndex(index);
-                    if (onIndexChanged) onIndexChanged(index);
-                  }}
-                  sx={{
-                    "& .MuiTab-root": {
-                      "&.Mui-selected": {
-                        color: (theme) =>
-                          darken(theme.palette.primary.main, 0.5),
-                      },
-                      transition: "color 0.5s",
-                    },
-                  }}
-                >
-                  {tabs.map((tab, i) => (
-                    <Tab key={i} label={tab} />
-                  ))}
-                </Tabs>
-              </Toolbar>
-            </Collapse>
-
-            <CollapseFab
-              color="inherit"
-              size="small"
-              shown={shown.toString()}
-              onClick={() => setShown((prev) => !prev)}
-            >
-              {shown ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </CollapseFab>
-          </>
-        }
+      <Collapse
+        in={shown}
+        sx={{
+          borderRadius: "0 0 20px 20px",
+          backdropFilter: "brightness(0.9)",
+        }}
       >
-        <>{children}</>
-      </Layout>
+        <Toolbar variant="dense" sx={{ ml: "20px", width: "80%" }}>
+          <Tabs
+            value={index}
+            onChange={(_, index) => {
+              setIndex(index);
+              if (onIndexChanged) onIndexChanged(index);
+            }}
+            sx={{
+              "& .MuiTab-root": {
+                "&.Mui-selected": {
+                  color: (theme) => darken(theme.palette.primary.main, 0.5),
+                },
+                transition: "color 0.5s",
+              },
+            }}
+          >
+            {tabs.map((tab, i) => (
+              <Tab key={i} label={tab} />
+            ))}
+          </Tabs>
+        </Toolbar>
+      </Collapse>
+
+      <CollapseFab
+        color="inherit"
+        size="small"
+        shown={shown.toString()}
+        onClick={() => setShown((prev) => !prev)}
+      >
+        {shown ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+      </CollapseFab>
     </>
   );
 };
 
-export default TabLayout;
+const TabLayoutWrapper: React.FC<React.PropsWithChildren & TabLayoutProps> = ({
+  children,
+  ...props
+}) => (
+  <Layout>
+    <TabLayout {...props} />
+    {children}
+  </Layout>
+);
+
+export default TabLayoutWrapper;

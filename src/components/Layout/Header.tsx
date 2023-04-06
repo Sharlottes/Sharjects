@@ -2,12 +2,9 @@ import React from "react";
 import Link from "next/link";
 
 import Tooltip from "@mui/material/Tooltip";
-import Toolbar from "@mui/material/Toolbar";
-import AppBar from "@mui/material/AppBar";
 
-import { alpha, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -22,21 +19,10 @@ import {
   type Variants,
 } from "framer-motion";
 import HeaderMenu from "./HeaderMenu";
-import SideMenu from "../../SideMenu";
+import SideMenu from "../SideMenu";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Layouts from "src/core/Layouts";
 import Mathf from "src/utils/Mathf";
-import Colorf from "src/utils/Colorf";
-import { toDigit } from "src/utils/toDigit";
-
-export interface AdditionalHeaderProps {
-  sidebarOpened: boolean;
-  scrolled: boolean;
-}
-
-export interface HeaderProps {
-  additional?: React.ReactNode | undefined;
-}
+import * as S from "./Header.styled";
 
 const THRESHOLD = 300;
 
@@ -51,6 +37,10 @@ const animates: Record<
 
 const decideAnimation = (y: number, open?: boolean) =>
   y == 0 ? "init" : open ? "sidebar" : "blur";
+
+export interface HeaderProps {
+  additional?: React.ReactNode | undefined;
+}
 
 const Header: React.FC<HeaderProps> = ({ additional }) => {
   const theme = useTheme();
@@ -117,47 +107,14 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
   return (
     <>
       <motion.header>
-        <AppBar
-          component={motion.div}
+        <S.StyledAppBar
+          alphaAmount={alphaAmount}
           animate={controller}
           transition={{ duration: 0.3 }}
           variants={headerAnimateVaraints}
           position="fixed"
-          sx={{
-            transition: "all 300ms",
-            backdropFilter: "blur(5px)",
-            zIndex: Layouts.HEADER,
-            boxShadow: `0px 2px 4px -1px rgba(0,0,0,${
-              alphaAmount * 0.2
-            }), 0px 4px 5px 0px rgba(0,0,0,${
-              alphaAmount * 0.14
-            }), 0px 1px 10px 0px rgba(0,0,0,${alphaAmount * 0.12})`,
-            backgroundColor: (theme) =>
-              alpha(theme.palette.primary.main, alphaAmount * 0.75),
-            "& *": {
-              color: (theme) =>
-                (theme.palette.mode === "light"
-                  ? Colorf.colorLerp("#111111", "#ffffff", toDigit(alphaAmount))
-                  : "white") + " !important",
-            },
-            "&:hover": {
-              backgroundColor: (theme) => alpha(theme.palette.primary.main, 1),
-              "& *": {
-                color: "white !important",
-              },
-            },
-          }}
         >
-          <Toolbar
-            style={{
-              padding: "0 16px",
-            }}
-            sx={{
-              display: "flex",
-              height: "60px",
-              alignItems: "center",
-            }}
-          >
+          <S.StyledToolbar>
             <IconButton
               sx={{ color: "white" }}
               onClick={() => setOpen((opened) => !opened)}
@@ -165,21 +122,14 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
               <MenuIcon />
             </IconButton>
             <Tooltip title="back to main">
-              <Button
-                sx={{
-                  color: "white",
-                  fontWeight: "bold",
-                  fontSize: 20,
-                  textAlign: "center",
-                }}
-              >
+              <S.LandingPageLinkButton>
                 <Link href="/">Sharlotte</Link>
-              </Button>
+              </S.LandingPageLinkButton>
             </Tooltip>
             <HeaderMenu />
-          </Toolbar>
+          </S.StyledToolbar>
           {additional}
-        </AppBar>
+        </S.StyledAppBar>
       </motion.header>
       <SideMenu open={open} onClose={() => setOpen(false)} />
     </>

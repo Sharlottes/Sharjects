@@ -9,12 +9,12 @@ export interface LayoutProps {
   children?: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, header, footer }) => (
+const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <>
-    <Header additional={header} />
+    <Header />
     <ScrollFab />
     <MainBody>{children}</MainBody>
-    <Footer additional={footer} />
+    <Footer />
   </>
 );
 
