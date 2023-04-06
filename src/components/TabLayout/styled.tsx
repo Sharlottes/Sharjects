@@ -1,9 +1,7 @@
-import Fab, { type FabProps } from "@mui/material/Fab";
+import Fab from "@mui/material/Fab";
 import { styled, alpha } from "@mui/material/styles";
 
-export const CollapseFab = styled((props: { shown?: string } & FabProps) => (
-  <Fab color="inherit" {...props} />
-))(({ shown, theme }) =>
+export const CollapseFab = styled(Fab)<{ shown?: string }>(({ shown, theme }) =>
   theme.unstable_sx({
     ...(Boolean(shown) && {
       boxShadow: "none",

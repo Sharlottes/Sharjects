@@ -62,6 +62,7 @@ const TabLayout: React.FC<TabLayoutProps> = ({
             </Collapse>
 
             <CollapseFab
+              color="inherit"
               size="small"
               shown={shown.toString()}
               onClick={() => setShown((prev) => !prev)}
