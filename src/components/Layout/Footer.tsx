@@ -1,4 +1,3 @@
-import Typography from "@mui/material/Typography";
 import * as S from "./Footer.styled";
 
 const Footer: React.FC = () => (
