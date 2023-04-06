@@ -1,5 +1,32 @@
 import styled from "@mui/system/styled";
+import IconButton from "@mui/material/IconButton";
 import Switch, { type SwitchProps } from "@mui/material/Switch";
+
+export const HeaderMenuIcon = styled(IconButton)(({ theme }) =>
+  theme.unstable_sx({
+    color: "white",
+    marginLeft: "auto",
+    "@keyframes spin": {
+      "0%": {
+        transform: "rotate(360deg)",
+      },
+      "100%": {
+        transform: "rotate(0deg)",
+      },
+    },
+    "&:hover": {
+      animation: "spin 5s linear infinite",
+    },
+  })
+);
+
+export const ColorSelectionMenuButton = styled("div")({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-around",
+  margin: "0 10px",
+  width: "100%",
+});
 
 /**
  * from @see https://mui.com/material-ui/react-switch/#customization
@@ -9,6 +36,7 @@ export const ThemeSwitch = styled((props: SwitchProps) => (
 ))(({ theme }) => ({
   width: 42,
   height: 26,
+  margin: "5px",
   padding: 0,
   "& .MuiSwitch-switchBase": {
     padding: 0,
@@ -93,13 +121,4 @@ export const ThemeSwitch = styled((props: SwitchProps) => (
       right: 21,
     },
   },
-}));
-
-export const ColoredDoat = styled("div")<{ color: string }>(({ color }) => ({
-  backgroundColor: color,
-  width: "20px",
-  height: "20px",
-  borderRadius: "10px",
-  margin: "5px",
-  cursor: "pointer",
 }));

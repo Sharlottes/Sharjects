@@ -1,12 +1,12 @@
 import Link from "next/link";
 
-import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import * as S from "./styled";
+import * as S from "./Profile.styled";
 
 const Profile: React.FC = () => {
   const { data: session, status } = useSession();

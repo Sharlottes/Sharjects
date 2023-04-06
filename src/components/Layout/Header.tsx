@@ -18,7 +18,7 @@ import {
   useScroll,
   type Variants,
 } from "framer-motion";
-import HeaderMenu from "./HeaderMenu";
+import HeaderMenu from "./HeaderMenu/HeaderMenu";
 import SideMenu from "../SideMenu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Mathf from "src/utils/Mathf";
