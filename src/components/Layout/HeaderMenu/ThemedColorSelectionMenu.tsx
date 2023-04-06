@@ -3,15 +3,13 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Menu from "@mui/material/Menu";
-import Box from "@mui/material/Box";
 
-import { useTheme } from "@mui/material/styles";
+import useTheme from "@mui/system/useTheme";
+import * as Colors from "@mui/material/colors";
 
-import { motion, type TargetAndTransition } from "framer-motion";
 import * as S from "./ThemedColorSelectionMenu.styled";
 import { useThemeController } from "src/components/MainThemeProvider";
 import ThemedColors from "src/core/ThemedColors";
-import * as Colors from "@mui/material/colors";
 
 export interface ThemedColorSelectionMenuProps {
   anchor: Element | null;
@@ -22,6 +20,17 @@ const ThemedColorSelectionMenu: React.FC<ThemedColorSelectionMenuProps> = ({
   onBackdropClick,
 }) => {
   const { setColorPalette, currentColors } = useThemeController();
+
+  const getCurrentColorCoord = () => {
+    const index = ThemedColors.findIndex(
+      (color) => currentColors[300] === Colors[color][300]
+    );
+
+    return {
+      x: 30 * (index % 10),
+      y: 25 + 30 * ~~(index / 10),
+    };
+  };
 
   return (
     <Menu
@@ -39,14 +48,7 @@ const ThemedColorSelectionMenu: React.FC<ThemedColorSelectionMenuProps> = ({
         Theme Selection
       </Typography>
       <Divider />
-      <Box
-        sx={{
-          overflow: "hidden",
-          display: "flex",
-          flexWrap: "wrap",
-          width: "300px",
-        }}
-      >
+      <S.ColorSelectionContainer>
         {ThemedColors.map((color) => (
           <S.ColoredDoat
             key={color}
@@ -54,25 +56,8 @@ const ThemedColorSelectionMenu: React.FC<ThemedColorSelectionMenuProps> = ({
             onClick={() => setColorPalette(color)}
           />
         ))}
-        <motion.div
-          animate={(() => {
-            const index = ThemedColors.findIndex(
-              (color) => currentColors[300] === Colors[color][300]
-            );
-
-            return {
-              x: 30 * (index % 10),
-              y: 25 + 30 * ~~(index / 10),
-            } as TargetAndTransition;
-          })()}
-          style={{
-            position: "absolute",
-            width: "30px",
-            height: "5px",
-            backgroundColor: "#ffd37f",
-          }}
-        />
-      </Box>
+        <S.ColorSelectIndicator animate={getCurrentColorCoord()} />
+      </S.ColorSelectionContainer>
     </Menu>
   );
 };

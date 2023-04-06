@@ -1,4 +1,5 @@
 import styled from "@mui/system/styled";
+import { motion } from "framer-motion";
 
 export const ColoredDoat = styled("div")(({ color }) => ({
   backgroundColor: color,
@@ -8,3 +9,17 @@ export const ColoredDoat = styled("div")(({ color }) => ({
   margin: "5px",
   cursor: "pointer",
 }));
+
+export const ColorSelectionContainer = styled("div")({
+  overflow: "hidden",
+  display: "flex",
+  flexWrap: "wrap",
+  width: "300px",
+});
+
+export const ColorSelectIndicator = styled(motion.div)({
+  position: "absolute",
+  width: "30px",
+  height: "5px",
+  backgroundColor: "#ffd37f",
+});
