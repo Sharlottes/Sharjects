@@ -4,6 +4,11 @@ body {
   overflow-x: hidden;
 }
 
+main {
+  min-height: 100vh;
+  padding: 60px 0 20px 0;
+}
+
 /* hyperlink style is awful */
 a:not([href^="http"]) {
   text-decoration: none;
