@@ -14,8 +14,8 @@ import { motion, type MotionProps } from "framer-motion";
 export const StyledAppBar = styled((props: AppBarProps & MotionProps) => (
   <AppBar {...props} component={motion.div} />
 ))<{
-  alphaAmount: number;
-}>(({ theme, alphaAmount }) =>
+  alpha: number;
+}>(({ theme, alpha: alphaAmount }) =>
   theme.unstable_sx({
     transition: "all 300ms",
     backdropFilter: "blur(5px)",

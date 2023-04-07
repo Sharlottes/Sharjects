@@ -42,7 +42,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
   return (
     <motion.header>
       <S.StyledAppBar
-        alphaAmount={alphaAmount}
+        alpha={alphaAmount}
         animate={controller}
         transition={{ duration: 0.3 }}
         variants={variants}
