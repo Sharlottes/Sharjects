@@ -6,6 +6,7 @@ import { useTheme } from "@mui/system";
 
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import Box from "@mui/material/Box";
@@ -14,6 +15,7 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import HistoryIcon from "@mui/icons-material/History";
 import SourceIcon from "@mui/icons-material/Source";
 import EmailIcon from "@mui/icons-material/Email";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import {
   KakaoTalkIcon,
@@ -222,4 +224,21 @@ const SideMenuDrawer: React.FC<SideMenuProps> = ({
   );
 };
 
-export default SideMenuDrawer;
+const SideMenuWrapper: React.FC = () => {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <>
+      <IconButton
+        sx={{ color: "white" }}
+        onClick={() => setOpen((opened) => !opened)}
+      >
+        <MenuIcon />
+      </IconButton>
+
+      <SideMenuDrawer open={open} onClose={() => setOpen(false)} />
+    </>
+  );
+};
+
+export default SideMenuWrapper;
