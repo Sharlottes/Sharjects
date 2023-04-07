@@ -5,7 +5,7 @@ import type { Variants } from "framer-motion";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const useHeaderAnimationVariants = (
-  onVariantsChanged: () => void
+  onVariantsChanged: (newestVariant: Variants) => void
 ): Variants => {
   const isMobile = useMediaQuery("sm");
   const demension = useWindowDimensions();
@@ -36,7 +36,7 @@ const useHeaderAnimationVariants = (
       },
     };
 
-    onVariantsChanged();
+    onVariantsChanged(headerAnimateVaraints);
 
     return headerAnimateVaraints;
   }, [demension.offsetWidth]);
