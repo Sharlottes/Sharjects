@@ -26,9 +26,9 @@ import {
 
 import type { SxProps, Theme, SvgIconProps } from "@mui/material";
 
-import { OwnerRow, ProjectRow, LinksContainer } from "./styled";
-import { useThemeController } from "../MainThemeProvider";
-import { RightSlide, Fade } from "../transitions";
+import { OwnerRow, ProjectRow, LinksContainer } from "./SideMenu.styled";
+import { useThemeController } from "../../MainThemeProvider";
+import { RightSlide, Fade } from "../../transitions";
 import VisitorStatus from "./VisitorStatus";
 import DivTypography from "./DivTypography";
 import Layouts from "src/core/Layouts";

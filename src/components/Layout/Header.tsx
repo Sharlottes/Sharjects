@@ -11,7 +11,7 @@ import {
   useAnimationControls,
 } from "framer-motion";
 import HeaderMenu from "./HeaderMenu/HeaderMenu";
-import SideMenu from "../SideMenu";
+import SideMenu from "./SideMenu/SideMenu";
 import * as S from "./Header.styled";
 import useHeaderAnimationVariants from "src/hooks/useHeaderAnimationVariants";
 import useHeaderAlphaAmount from "src/hooks/useHeaderAlphaAmount";
