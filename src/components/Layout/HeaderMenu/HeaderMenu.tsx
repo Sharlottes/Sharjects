@@ -3,32 +3,28 @@ import React from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useTheme } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
-import Menu from "@mui/material/Menu";
 
 import Profile from "./Profile";
 import * as S from "./HeaderMenu.styled";
 import ThemedColorSelectionMenu from "./ThemedColorSelectionMenu";
 import { useThemeController } from "src/components/MainThemeProvider";
+import MenuWrapper from "src/components/MenuWrapper";
 
-export interface HeaderMenuProps {
-  anchor: Element | null;
-  onBackdropClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
-}
+const IconDrawer: React.FC<{ onClick: React.MouseEventHandler }> = ({
+  onClick,
+}) => (
+  <S.HeaderMenuIcon onClick={onClick}>
+    <SettingsIcon />
+  </S.HeaderMenuIcon>
+);
 
-const HeaderMenu: React.FC<HeaderMenuProps> = ({ anchor, onBackdropClick }) => {
+const HeaderMenu: React.FC = () => {
   const { toggleColorMode } = useThemeController();
   const theme = useTheme();
 
   return (
-    <Menu
-      open={Boolean(anchor)}
-      anchorEl={anchor}
-      componentsProps={{
-        backdrop: {
-          onClick: onBackdropClick,
-        },
-      }}
-      disableScrollLock
+    <MenuWrapper
+      IconDrawer={IconDrawer}
       PaperProps={{
         sx: {
           minWidth: "180px",
@@ -47,23 +43,8 @@ const HeaderMenu: React.FC<HeaderMenuProps> = ({ anchor, onBackdropClick }) => {
           checked={theme.palette.mode === "dark"}
         />
       </S.ColorSelectionMenuButton>
-    </Menu>
+    </MenuWrapper>
   );
 };
 
-const HeaderMenuWrapper: React.FC = () => {
-  const [anchor, setAnchor] = React.useState<Element | null>(null);
-
-  return (
-    <>
-      <S.HeaderMenuIcon
-        onClick={(e) => setAnchor((prev) => (prev ? null : e.currentTarget))}
-      >
-        <SettingsIcon />
-      </S.HeaderMenuIcon>
-      <HeaderMenu anchor={anchor} onBackdropClick={() => setAnchor(null)} />
-    </>
-  );
-};
-
-export default HeaderMenuWrapper;
+export default HeaderMenu;

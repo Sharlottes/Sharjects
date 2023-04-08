@@ -2,7 +2,6 @@ import React from "react";
 
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import Menu from "@mui/material/Menu";
 
 import useTheme from "@mui/system/useTheme";
 import * as Colors from "@mui/material/colors";
@@ -10,15 +9,16 @@ import * as Colors from "@mui/material/colors";
 import * as S from "./ThemedColorSelectionMenu.styled";
 import { useThemeController } from "src/components/MainThemeProvider";
 import ThemedColors from "src/core/ThemedColors";
+import MenuWrapper from "src/components/MenuWrapper";
 
-export interface ThemedColorSelectionMenuProps {
-  anchor: Element | null;
-  onBackdropClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
-}
-const ThemedColorSelectionMenu: React.FC<ThemedColorSelectionMenuProps> = ({
-  anchor,
-  onBackdropClick,
+const IconDrawer: React.FC<{ onClick: React.MouseEventHandler }> = ({
+  onClick,
 }) => {
+  const theme = useTheme();
+  return <S.ColoredDoat onClick={onClick} color={theme.palette.primary.main} />;
+};
+
+const ThemedColorSelectionMenu: React.FC = () => {
   const { setColorPalette, currentColors } = useThemeController();
 
   const getCurrentColorCoord = () => {
@@ -33,15 +33,8 @@ const ThemedColorSelectionMenu: React.FC<ThemedColorSelectionMenuProps> = ({
   };
 
   return (
-    <Menu
-      open={Boolean(anchor)}
-      anchorEl={anchor}
-      componentsProps={{
-        backdrop: {
-          onClick: onBackdropClick,
-        },
-      }}
-      disableScrollLock
+    <MenuWrapper
+      IconDrawer={IconDrawer}
       PaperProps={{ sx: { padding: "8px" } }}
     >
       <Typography fontSize={15} fontWeight={500}>
@@ -58,26 +51,8 @@ const ThemedColorSelectionMenu: React.FC<ThemedColorSelectionMenuProps> = ({
         ))}
         <S.ColorSelectIndicator animate={getCurrentColorCoord()} />
       </S.ColorSelectionContainer>
-    </Menu>
+    </MenuWrapper>
   );
 };
 
-const ThemedColorSelectionMenuWrapper: React.FC = () => {
-  const [anchor, setAnchor] = React.useState<Element | null>(null);
-  const theme = useTheme();
-
-  return (
-    <>
-      <S.ColoredDoat
-        onClick={({ currentTarget }) => setAnchor(currentTarget)}
-        color={theme.palette.primary.main}
-      />
-      <ThemedColorSelectionMenu
-        anchor={anchor}
-        onBackdropClick={() => setAnchor(null)}
-      />
-    </>
-  );
-};
-
-export default ThemedColorSelectionMenuWrapper;
+export default ThemedColorSelectionMenu;
