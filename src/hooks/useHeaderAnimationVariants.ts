@@ -1,7 +1,7 @@
 import React from "react";
 import { useWindowDimensions } from "src/hooks/useWindowDimensions";
 
-import type { Variants } from "framer-motion";
+import { useScroll, type Variants } from "framer-motion";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const useHeaderAnimationVariants = (
@@ -9,8 +9,9 @@ const useHeaderAnimationVariants = (
 ): Variants => {
   const isMobile = useMediaQuery("sm");
   const demension = useWindowDimensions();
-  const headerAnimateVaraints = React.useMemo<Variants>(() => {
-    const width = demension.offsetWidth;
+  const { scrollY } = useScroll();
+
+  const calculateVariants = (width: number) => {
     const headerWidth = width - Math.min(400, width * 0.15);
     const widthWithSidebar = (width + headerWidth) / 2 + 20;
     const leftAmount = (width - headerWidth) / 2;
@@ -36,12 +37,29 @@ const useHeaderAnimationVariants = (
       },
     };
 
-    onVariantsChanged(headerAnimateVaraints);
-
     return headerAnimateVaraints;
+  };
+  const [variants, setVariants] = React.useState<Variants>(
+    calculateVariants(demension.offsetWidth)
+  );
+
+  React.useEffect(() => {
+    onVariantsChanged(variants);
+  }, [variants]);
+
+  const latestScrollY = React.useRef(0);
+  React.useEffect(() => {
+    const onChangeHandler = (latestValue: number) => {
+      if (latestScrollY.current != latestValue) {
+        latestScrollY.current = latestValue;
+        setVariants(calculateVariants(demension.offsetWidth));
+      }
+    };
+    onChangeHandler(0);
+    return scrollY.on("change", onChangeHandler);
   }, [demension.offsetWidth]);
 
-  return headerAnimateVaraints;
+  return variants;
 };
 
 export default useHeaderAnimationVariants;

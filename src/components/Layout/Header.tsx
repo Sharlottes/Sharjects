@@ -35,9 +35,7 @@ const Header: React.FC<HeaderProps> = ({ additional }) => {
   const variants = useHeaderAnimationVariants((variants) =>
     startAnimation(controller, variants)
   );
-  const alphaAmount = useHeaderAlphaAmount(() =>
-    startAnimation(controller, variants)
-  );
+  const alphaAmount = useHeaderAlphaAmount();
 
   return (
     <motion.header>
