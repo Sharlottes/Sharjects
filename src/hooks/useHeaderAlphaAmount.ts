@@ -14,7 +14,7 @@ const useHeaderAlphaAmount = (onScrollChanged: () => void): number => {
       setAlphaAmount(Mathf.clamp(scrollY.get() / THRESHOLD));
     };
     onChangeHandler();
-    return scrollY.onChange(onChangeHandler);
+    return scrollY.on("change", onChangeHandler);
   }, []);
 
   return alphaAmount;
