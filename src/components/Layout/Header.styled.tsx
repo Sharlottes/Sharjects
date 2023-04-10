@@ -20,6 +20,8 @@ export const StyledAppBar = styled((props: AppBarProps & MotionProps) => (
     transition: "all 300ms",
     backdropFilter: "blur(5px)",
     zIndex: Layouts.HEADER,
+    left: 0,
+    right: 0,
     boxShadow: `0px 2px 4px -1px rgba(0,0,0,${
       alphaAmount * 0.2
     }), 0px 4px 5px 0px rgba(0,0,0,${

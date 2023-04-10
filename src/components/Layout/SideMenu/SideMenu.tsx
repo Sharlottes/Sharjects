@@ -224,8 +224,14 @@ const SideMenuDrawer: React.FC<SideMenuProps> = ({
   );
 };
 
-const SideMenuWrapper: React.FC = () => {
+const SideMenuWrapper: React.FC<{
+  onOpenChanged?: (isOpened: boolean) => void;
+}> = ({ onOpenChanged }) => {
   const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if (onOpenChanged) onOpenChanged(open);
+  }, [open]);
 
   return (
     <>

@@ -8,7 +8,7 @@ import Profile from "./Profile";
 import * as S from "./HeaderMenu.styled";
 import ThemedColorSelectionMenu from "./ThemedColorSelectionMenu";
 import { useThemeController } from "src/components/MainThemeProvider";
-import MenuWrapper from "src/components/MenuWrapper";
+import MenuWrapper, { MenuWrapperProps } from "src/components/MenuWrapper";
 
 const IconDrawer: React.FC<{ onClick: React.MouseEventHandler }> = ({
   onClick,
@@ -18,12 +18,15 @@ const IconDrawer: React.FC<{ onClick: React.MouseEventHandler }> = ({
   </S.HeaderMenuIcon>
 );
 
-const HeaderMenu: React.FC = () => {
+const HeaderMenu: React.FC<Pick<MenuWrapperProps, "onOpenChanged">> = ({
+  onOpenChanged,
+}) => {
   const { toggleColorMode } = useThemeController();
   const theme = useTheme();
 
   return (
     <MenuWrapper
+      onOpenChanged={onOpenChanged}
       IconDrawer={IconDrawer}
       PaperProps={{
         sx: {
