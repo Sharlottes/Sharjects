@@ -1,21 +1,18 @@
-import React from "react";
-
+import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import SpotifyIcon from "src/assets/icons/SpotifyIcon";
-import { StatusCardContainer } from "./styled";
-import Divider from "@mui/material/Divider";
 import Spotify from "react-spotify-embed";
+import useSWR from "swr";
+
+import { StatusCardContainer } from "./styled";
 
 const SpotifyStatus: React.FC = () => {
-  const [data, setData] = React.useState<SpotifyApi.CurrentPlaybackResponse>();
-  React.useEffect(() => {
-    (async () => {
-      const res = await fetch(
-        "/api/spotify/playback"
-      ).then<SpotifyApi.CurrentPlaybackResponse>((data) => data.json());
-      setData(res);
-    })();
-  }, []);
+  const { data } = useSWR<SpotifyApi.CurrentPlaybackResponse>(
+    "/api/spotify/playback",
+    fetchSpotifyPlaybackData
+  );
+
+  if (!data) return <></>;
 
   return (
     <StatusCardContainer>
@@ -34,5 +31,12 @@ const SpotifyStatus: React.FC = () => {
     </StatusCardContainer>
   );
 };
+
+async function fetchSpotifyPlaybackData(url: string) {
+  const data = await fetch(url).then<SpotifyApi.CurrentPlaybackResponse>(
+    (data) => data.json()
+  );
+  return data;
+}
 
 export default SpotifyStatus;

@@ -1,5 +1,4 @@
-import { Typography } from "@mui/material";
-import React from "react";
+import Typography from "@mui/material/Typography";
 import useSWR from "swr";
 
 interface GithubStatData {
@@ -8,20 +7,22 @@ interface GithubStatData {
 }
 
 const GithubStatus: React.FC = () => {
-  const { data, isLoading } = useSWR<GithubStatData>(
+  const { data } = useSWR<GithubStatData>(
     "/api/github/users/sharlottes/events/public",
     fetchGithubStatData
   );
+
+  if (!data) return <></>;
 
   return (
     <Typography>
       최근에 깃허브에서{" "}
       <Typography fontWeight="bold" component="span">
-        {data?.commitCount || 0}
+        {data.commitCount}
       </Typography>
       번 커밋하고{" "}
       <Typography fontWeight="bold" component="span">
-        {data?.prCount || 0}
+        {data.prCount}
       </Typography>
       번 풀 리퀘스트를 했어요.
     </Typography>

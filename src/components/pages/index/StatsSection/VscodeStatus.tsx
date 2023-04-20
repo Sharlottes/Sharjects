@@ -1,11 +1,10 @@
-import React from "react";
-
 import Typography from "@mui/material/Typography";
-import VisualStudioCodeIcon from "src/assets/icons/VisualStudioCodeIcon";
-import { StatusCardContainer } from "./styled";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import styled from "@mui/system/styled";
+import useSWR from "swr";
+
+import { StatusCardContainer } from "./styled";
 
 const VSCodeStatusContainer = styled("div")({
   minWidth: "100%",
@@ -30,25 +29,15 @@ const VSCodingImage = styled("img")({
 });
 
 const VscodeStatus: React.FC = () => {
-  const [data, setData] = React.useState<VSCodeStatusData>();
-  React.useEffect(() => {
-    fetch("/api/vscode/presence")
-      .then<{
-        item: VSCodeStatusData | undefined;
-      }>((data) => data.json())
-      .then((res) => setData(res.item));
-  }, []);
+  const { data } = useSWR<VSCodeStatusData | undefined>(
+    "/api/vscode/presence",
+    fetchVisualStudioCodeStatsData
+  );
+
+  if (!data) return <></>;
 
   return (
     <StatusCardContainer>
-      <div>
-        <VisualStudioCodeIcon
-          sx={{ transform: "scale(1.5)", marginRight: "10px" }}
-        />
-        <Typography component="span" variant="h4">
-          Vscode
-        </Typography>
-      </div>
       <Divider sx={{ margin: "10px 0" }} />
       {data && (
         <VSCodeStatusContainer>
@@ -81,5 +70,12 @@ const VscodeStatus: React.FC = () => {
     </StatusCardContainer>
   );
 };
+
+async function fetchVisualStudioCodeStatsData(url: string) {
+  const { item } = await fetch(url).then<{
+    item: VSCodeStatusData | undefined;
+  }>((data) => data.json());
+  return item;
+}
 
 export default VscodeStatus;
