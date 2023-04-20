@@ -2,6 +2,7 @@ import React from "react";
 
 import TitleBox from "../TitleBox";
 import SpotifyStatus from "./SpotifyStatus";
+import GithubStatus from "./GithubStatus";
 import VscodeStatus from "./VscodeStatus";
 import { StatsSectionContainer, StatusContainer } from "./styled";
 
@@ -11,6 +12,7 @@ const StatsSection: React.FC = () => (
     <StatusContainer>
       <SpotifyStatus />
       <VscodeStatus />
+      <GithubStatus />
     </StatusContainer>
   </StatsSectionContainer>
 );
