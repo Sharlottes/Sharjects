@@ -10,6 +10,8 @@ import { useGithubData } from "./GithubStaticDataContext";
 import FetchSuspenseWrapper from "./FetchSuspenseWrapper";
 import { RepoIcon, StargazerIcon, ForkIcon } from "src/assets/icons";
 
+import useSWR from "swr";
+
 const getPalette = (dark: boolean) =>
   dark
     ? {
@@ -25,46 +27,13 @@ const getPalette = (dark: boolean) =>
         iconColor: "#57606a",
       };
 
-const EmojisComponent: React.FC<{
-  description: string;
-  emojis: Record<string, string>;
-}> = ({ description, emojis }) => (
-  <>
-    {replaceStringToArray(description, /:(\w+):/g, (_, name, offset) => (
-      <span key={offset}>
-        <Image
-          alt={name}
-          src={emojis ? emojis[name] : ""}
-          width={16}
-          height={16}
-          style={{ verticalAlign: "-0.2rem" }}
-        />
-      </span>
-    ))}
-  </>
-);
-
 const RepoDescription: React.FC<{
-  description: string | null;
+  description: string;
   iconColor: string;
 }> = ({ description, iconColor }) => {
-  const { getData } = useGithubData();
-
-  let desc = <>{description}</>;
-  if (description) {
-    desc = (
-      <FetchSuspenseWrapper<
-        "emojis",
-        typeof EmojisComponent,
-        Record<string, string>
-      >
-        fetcher={() => getData("emojis")}
-        Component={EmojisComponent}
-        fetchedPropName="emojis"
-        description={description}
-      />
-    );
-  }
+  const { data: emojis } = useSWR("/api/github/emojis", (url) =>
+    fetch(url).then((res) => res.json())
+  );
 
   return (
     <div
@@ -75,7 +44,24 @@ const RepoDescription: React.FC<{
         color: iconColor,
       }}
     >
-      {desc}
+      {stringToElement(
+        description,
+        /:(\w+):/g,
+        (name, offset) => (
+          <span key={offset}>
+            <Image
+              alt={name}
+              src={emojis ? emojis[name] : ""}
+              width={16}
+              height={16}
+              style={{ verticalAlign: "-0.2rem" }}
+            />
+          </span>
+        ),
+        (str, idx) => (
+          <span key={idx}>{str}</span>
+        )
+      )}
     </div>
   );
 };
@@ -208,10 +194,12 @@ const GithubRepoCard: React.FC<
           {data.fork ? data.source?.full_name : ""}
         </Link>
       </div>
-      <RepoDescription
-        description={data.description}
-        iconColor={palette.iconColor}
-      />
+      {data.description && (
+        <RepoDescription
+          description={data.description}
+          iconColor={palette.iconColor}
+        />
+      )}
       <div
         style={{ fontSize: "12px", color: palette.iconColor, display: "flex" }}
       >
