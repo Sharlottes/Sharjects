@@ -5739,11 +5739,6 @@ stop-iteration-iterator@^1.0.0:
   dependencies:
     internal-slot "^1.0.4"
 
-string-replace-to-array@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/string-replace-to-array/-/string-replace-to-array-2.1.0.tgz#44571dbd33a3e23de31db948b5b84f1b7913fb39"
-  integrity sha512-xG2w4fE5FsTXS4AFxoF3uctByqTIFBX8lFRNcPcIznTVCMXbYvbatkPVLpAo13tfuWtzbWEV6u5bjoE9bOv87w==
-
 "string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"

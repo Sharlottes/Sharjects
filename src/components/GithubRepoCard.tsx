@@ -2,8 +2,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import replaceStringToArray from "string-replace-to-array";
-
 import { useTheme } from "@mui/material/styles";
 
 import { useGithubData } from "./GithubStaticDataContext";
