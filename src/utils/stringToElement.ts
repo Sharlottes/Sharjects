@@ -33,3 +33,5 @@ function stringToElement<T = Element>(
 
   return output;
 }
+
+export default stringToElement;

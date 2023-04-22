@@ -11,6 +11,7 @@ import FetchSuspenseWrapper from "./FetchSuspenseWrapper";
 import { RepoIcon, StargazerIcon, ForkIcon } from "src/assets/icons";
 
 import useSWR from "swr";
+import stringToElement from "src/utils/stringToElement";
 
 const getPalette = (dark: boolean) =>
   dark
