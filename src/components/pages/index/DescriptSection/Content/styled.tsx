@@ -12,7 +12,7 @@ export const ContentContainer = styled(motion.div)<{
     border: "1px solid gray",
     borderRadius: toRight ? "20px 1px 1px 20px" : "1px 20px 20px 1px",
     "--themedColor": theme.palette.mode === "light" ? "white" : "black",
-    backgroundColor: "white",
+    backgroundColor: "var(--themedColor)",
     transition: "box-shadow 500ms",
     "&::before": {
       content: "''",
@@ -58,8 +58,9 @@ export const ContentContainer = styled(motion.div)<{
   })
 );
 
-export const ContentWrapper = styled("div")({
+export const ContentWrapper = styled("div")(({ theme }) => ({
   transition: "all 300ms 300ms",
-  backgroundColor: "white",
+  "--themedColor": theme.palette.mode === "light" ? "white" : "black",
+  backgroundColor: "var(--themedColor)",
   padding: "20px",
-});
+}));
