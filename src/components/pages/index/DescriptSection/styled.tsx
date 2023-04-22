@@ -10,5 +10,5 @@ export const ContentsBox = styled("div")({
   padding: "20px 0",
   display: "flex",
   flexDirection: "column",
-  gap: "50px",
+  gap: "30px",
 });
