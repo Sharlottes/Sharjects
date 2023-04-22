@@ -14,7 +14,7 @@ const TitleBox: React.FC<TitleBoxProps & HTMLMotionProps<"div">> = ({
   ...props
 }) => (
   <motion.div
-    style={{ padding: "10px" }}
+    style={{ padding: "10px", textAlign: "center" }}
     animate={{ x: 0, opacity: 1 }}
     whileInView={{ x: 0, opacity: 1 }}
     initial={{ x: -30, opacity: 0 }}

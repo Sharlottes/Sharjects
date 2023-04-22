@@ -9,6 +9,6 @@ export const ContentsBox = styled("div")({
   width: "100%",
   padding: "20px 0",
   display: "flex",
-  alignItems: "center",
   flexDirection: "column",
+  gap: "50px",
 });

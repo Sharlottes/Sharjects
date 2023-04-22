@@ -1,32 +1,37 @@
-import { alpha } from "@mui/material";
 import Button from "@mui/material/Button";
 import styled from "@mui/system/styled";
 import { motion } from "framer-motion";
 
 export const ContentContainer = styled(motion.div)<{
+  toRight: boolean;
   image: string;
-}>(({ image }) => ({
-  textAlign: "center",
-  width: "100vw",
-  height: "350px",
-  backgroundImage: `url(${image})`,
-  backgroundPosition: "-50px 400px",
-  backgroundAttachment: "fixed",
-  boxShadow: "inset 0 -50px 150px -50px #000",
-}));
+}>(({ theme, toRight, image }) =>
+  theme.unstable_sx({
+    textAlign: "center",
+    alignSelf: toRight ? "flex-end" : "flex-start",
+    width: "45vw",
+    border: "1px solid gray",
+    borderRadius: toRight ? "20px 1px 1px 20px" : "1px 20px 20px 1px",
+    "--themedColor": theme.palette.mode === "light" ? "white" : "black",
+    backgroundImage: `url(${image})`,
+    animation: "move",
+    "@keyframes move": {
+      "0%": {
+        transform: "translateX(0%)",
+      },
+      "50%": {
+        transform: "translateX(100%)",
+      },
+      "100%": {
+        transform: "translateX(0%)",
+      },
+    },
+  })
+);
 
 export const ContentBox = styled("div")(({ theme }) => ({
-  "--themedColor": theme.palette.mode === "light" ? "white" : "black",
-  height: "100px",
-  transform: "translateY(-50px)",
-  backdropFilter: "blur(20px)",
-  filter: `drop-shadow(16px 16px 20px var(--themedColor))`,
-  backgroundColor: alpha(
-    theme.palette.mode === "light" ? "#ffffff" : "#000000",
-    0.75
-  ),
   padding: "20px",
-  boxShadow: `0 0 30px var(--themedColor)`,
+  backgroundColor: "white",
 }));
 
 export const EnterButton = styled(Button)({

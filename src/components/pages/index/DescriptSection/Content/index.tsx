@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 
-import { ContentContainer, ContentBox, EnterButton } from "./styled";
+import { ContentContainer, ContentBox } from "./styled";
 import type { MotionProps } from "framer-motion";
 
 export interface ContentProps extends MotionProps {
@@ -8,6 +8,7 @@ export interface ContentProps extends MotionProps {
   description: string;
   image: string;
   link: string;
+  toRight: boolean;
 }
 
 const Content: React.FC<ContentProps> = ({
@@ -15,19 +16,21 @@ const Content: React.FC<ContentProps> = ({
   description,
   image,
   link,
+  toRight,
   ...props
 }) => {
   return (
-    <ContentContainer image={image} {...props}>
+    <ContentContainer toRight={toRight} image={image} {...props}>
       <ContentBox>
         <Typography variant="h5" fontWeight="bold">
           {title}
         </Typography>
         <Typography variant="body2">{description}</Typography>
       </ContentBox>
+      {/* 
       <EnterButton href={link} variant="contained">
         {"> 들어가기"}
-      </EnterButton>
+      </EnterButton>*/}
     </ContentContainer>
   );
 };

@@ -1,8 +1,9 @@
+import type { Variants } from "framer-motion";
 import TitleBox from "../TitleBox";
 import Content, { type ContentProps } from "./Content";
 import { DescriptSectionContainer, ContentsBox } from "./styled";
 
-const contentData: ContentProps[] = [
+const contentData: Omit<ContentProps, "toRight">[] = [
   {
     title: "타임라인",
     description:
@@ -24,6 +25,24 @@ const contentData: ContentProps[] = [
   },
 ];
 
+const variation: Variants = {
+  show: (i) => ({
+    x: 0,
+    opacity: 1,
+    transition: {
+      delay: 2.25 + i * 0.25,
+      duration: i % 2 != 0 ? 1 : 1.25,
+      ease: [0.79, -0.06, 0.19, 1.16],
+    },
+  }),
+  shadow: (i) => ({
+    boxShadow: "0 -50px 50px -50px #000",
+    transition: {
+      delay: 2.25 + i * 0.25 + (i % 2 != 0 ? 1 : 1.25),
+    },
+  }),
+};
+
 const DescriptSection: React.FC = () => (
   <DescriptSectionContainer>
     <TitleBox
@@ -34,13 +53,7 @@ const DescriptSection: React.FC = () => (
     />
     <ContentsBox>
       {contentData.map((data, i) => (
-        <Content
-          {...data}
-          key={i}
-          animate={{ y: 0, opacity: 1 }}
-          initial={{ y: 30, opacity: 0 }}
-          transition={{ delay: 2.25 + i * 0.25, duration: 1 }}
-        />
+        <Content {...data} toRight={i % 2 != 0} key={i} custom={i} />
       ))}
     </ContentsBox>
   </DescriptSectionContainer>
