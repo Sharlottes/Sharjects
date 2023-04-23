@@ -1,5 +1,7 @@
-import React from "react";
+import type { MenuOpenData } from "./Header";
 
+import React from "react";
+import Mathf from "src/utils/Mathf";
 import { useScroll, type Variant } from "framer-motion";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useWindowDimensions } from "src/hooks/useWindowDimensions";
@@ -9,7 +11,37 @@ type HeaderAnimationVariants = Record<
   Variant
 >;
 
-const useHeaderAnimationVariants = (): HeaderAnimationVariants => {
+const THRESHOLD = 300;
+
+export const decideAnimation = (
+  menuOpened: MenuOpenData
+): keyof HeaderAnimationVariants =>
+  typeof window == "undefined" || window.scrollY == 0
+    ? "init"
+    : menuOpened.side && menuOpened.setting
+    ? "both"
+    : menuOpened.side
+    ? "toLeft"
+    : menuOpened.setting
+    ? "toRight"
+    : "blur";
+
+export const useHeaderAlphaAmount = (): number => {
+  const [alphaAmount, setAlphaAmount] = React.useState(0);
+  const { scrollY } = useScroll();
+
+  React.useEffect(() => {
+    const onChangeHandler = () => {
+      setAlphaAmount(Mathf.clamp(scrollY.get() / THRESHOLD));
+    };
+    onChangeHandler();
+    return scrollY.on("change", onChangeHandler);
+  }, []);
+
+  return alphaAmount;
+};
+
+export const useHeaderAnimationVariants = (): HeaderAnimationVariants => {
   const isMobile = useMediaQuery("sm");
   const demension = useWindowDimensions();
   const { scrollY } = useScroll();
@@ -69,5 +101,3 @@ const useHeaderAnimationVariants = (): HeaderAnimationVariants => {
 
   return variants;
 };
-
-export default useHeaderAnimationVariants;

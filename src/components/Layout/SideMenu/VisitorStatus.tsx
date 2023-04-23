@@ -1,6 +1,7 @@
 import React from "react";
 import VisitorGraphDialog from "./VisitorGraphDialog";
 import Box from "@mui/material/Box";
+import useSWR from "swr";
 
 const dateCode = (() => {
   const date = new Date();
@@ -9,24 +10,12 @@ const dateCode = (() => {
     .padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
 })();
 
-const getVisitorData = (stack: number = 0) =>
-  new Promise<Record<string, number>>((res, rej) => {
-    fetch("/api/visit").then(
-      (response) => res(response.json()),
-      (err) => {
-        if (stack <= 5) getVisitorData(++stack);
-        rej(err);
-      }
-    );
-  });
-
 const VisitorStatus: React.FC = () => {
-  const [visitors, setVisitors] = React.useState<Record<string, number>>();
   const [dialogOpen, setDialogOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    getVisitorData().then((data) => setVisitors(data));
-  }, []);
+  const { data: visitors, isLoading } = useSWR<Record<string, number>>(
+    "/api/visit",
+    (url) => fetch(url).then((res) => res.json())
+  );
 
   return (
     <div
@@ -37,7 +26,7 @@ const VisitorStatus: React.FC = () => {
         fontWeight: 500,
       }}
     >
-      {!visitors ? (
+      {!visitors || isLoading ? (
         <>방문자 불러오는 중...</>
       ) : (
         <>
