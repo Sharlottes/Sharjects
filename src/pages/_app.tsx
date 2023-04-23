@@ -16,6 +16,7 @@ import { LifebarSnackbar, AuthWrapper } from "src/components/pages/_app";
 
 import "public/styles/global.css";
 import MainThemeProvider from "src/components/MainThemeProvider";
+import { SWRConfig } from "swr";
 
 require("src/lib/registerChartjs");
 
@@ -47,9 +48,17 @@ const App: React.FC<AppProps> = ({
             maxSnack={3}
             Components={{ lifebar: LifebarSnackbar }}
           >
-            <AuthWrapper auth={Component.auth}>
-              <Component {...pageProps} />
-            </AuthWrapper>
+            <SWRConfig
+              value={{
+                refreshInterval: 3000,
+                fetcher: (resource, init) =>
+                  fetch(resource, init).then((res) => res.json()),
+              }}
+            >
+              <AuthWrapper auth={Component.auth}>
+                <Component {...pageProps} />
+              </AuthWrapper>
+            </SWRConfig>
           </SnackbarProvider>
         </SessionProvider>
       </MainThemeProvider>

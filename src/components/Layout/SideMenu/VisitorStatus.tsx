@@ -12,10 +12,8 @@ const dateCode = (() => {
 
 const VisitorStatus: React.FC = () => {
   const [dialogOpen, setDialogOpen] = React.useState(false);
-  const { data: visitors, isLoading } = useSWR<Record<string, number>>(
-    "/api/visit",
-    (url) => fetch(url).then((res) => res.json())
-  );
+  const { data: visitors, isLoading } =
+    useSWR<Record<string, number>>("/api/visit");
 
   return (
     <div

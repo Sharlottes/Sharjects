@@ -38,9 +38,7 @@ const GithubUserCard: React.FC<
     >
 > = ({ username, style, ...props }) => {
   const { data: session } = useSession();
-  const { data: user } = useSWR(`/api/github/users/${username}`, (url) =>
-    fetch(url).then((res) => res.json())
-  );
+  const { data: user } = useSWR(`/api/github/users/${username}`);
   const { data: isFollowing, mutate } = useSWR(
     () =>
       session && user

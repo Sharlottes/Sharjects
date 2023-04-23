@@ -40,16 +40,9 @@ const GithubRepoCard: React.FC<
   const theme = useTheme();
   const palette = getGithubPalette(dark ?? theme.palette.mode === "dark");
 
-  const { data } = useSWR(
-    `/api/github/repos/${username}/${repository}`,
-    (url) => fetch(url).then((res) => res.json())
-  );
-  const { data: emojis } = useSWR("/api/github/emojis", (url) =>
-    fetch(url).then((res) => res.json())
-  );
-  const { data: colors } = useSWR("/api/github/colors", (url) =>
-    fetch(url).then((res) => res.json())
-  );
+  const { data } = useSWR(`/api/github/repos/${username}/${repository}`);
+  const { data: emojis } = useSWR("/api/github/emojis");
+  const { data: colors } = useSWR("/api/github/colors");
 
   return (
     <div
