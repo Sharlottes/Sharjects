@@ -8,7 +8,7 @@ export const ContentContainer = styled(motion.div)<{
   theme.unstable_sx({
     textAlign: "center",
     alignSelf: toRight ? "flex-end" : "flex-start",
-    width: "45vw",
+    width: "max(500px, 45vw)",
     border: "1px solid gray",
     borderRadius: toRight ? "20px 1px 1px 20px" : "1px 20px 20px 1px",
     "--themedColor": theme.palette.mode === "light" ? "white" : "black",
