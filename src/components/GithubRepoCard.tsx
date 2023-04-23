@@ -3,15 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useTheme } from "@mui/material/styles";
-
-import { useGithubData } from "./GithubStaticDataContext";
-import FetchSuspenseWrapper from "./FetchSuspenseWrapper";
 import { RepoIcon, StargazerIcon, ForkIcon } from "src/assets/icons";
 
 import useSWR from "swr";
 import stringToElement from "src/utils/stringToElement";
+import * as S from "./GithubRepoCard.styled";
 
-const getPalette = (dark: boolean) =>
+const getGithubPalette = (dark: boolean) =>
   dark
     ? {
         background: "#0d1117",
@@ -26,122 +24,32 @@ const getPalette = (dark: boolean) =>
         iconColor: "#57606a",
       };
 
-const RepoDescription: React.FC<{
-  description: string;
-  iconColor: string;
-}> = ({ description, iconColor }) => {
-  const { data: emojis } = useSWR("/api/github/emojis", (url) =>
-    fetch(url).then((res) => res.json())
-  );
-
-  return (
-    <div
-      style={{
-        fontSize: "12px",
-        marginBottom: "16px",
-        marginTop: "8px",
-        color: iconColor,
-      }}
-    >
-      {stringToElement(
-        description,
-        /:(\w+):/g,
-        (name, offset) => (
-          <span key={offset}>
-            <Image
-              alt={name}
-              src={emojis ? emojis[name] : ""}
-              width={16}
-              height={16}
-              style={{ verticalAlign: "-0.2rem" }}
-            />
-          </span>
-        ),
-        (str, idx) => (
-          <span key={idx}>{str}</span>
-        )
-      )}
-    </div>
-  );
-};
-
-const ColoredDoat: React.FC<{
-  colors: Record<string, { color: string }>;
-  language: string;
-}> = ({ colors, language }) => (
-  <span
-    style={{
-      width: "12px",
-      height: "12px",
-      borderRadius: "100%",
-      backgroundColor: colors ? colors[language ?? ""]?.color : "rgba(0,0,0,0)",
-      display: "inline-block",
-      top: "1px",
-      position: "relative",
-    }}
-  />
-);
-
-const LanguageDoat: React.FC<{ language: string }> = ({ language }) => {
-  const { getData } = useGithubData();
-
-  return (
-    <FetchSuspenseWrapper<
-      "colors",
-      typeof ColoredDoat,
-      Record<string, { color: string }>
-    >
-      fetcher={() =>
-        getData(
-          "colors",
-          "https://raw.githubusercontent.com/ozh/github-colors/master/colors.json"
-        )
-      }
-      Component={ColoredDoat}
-      fetchedPropName="colors"
-      language={language}
-    />
-  );
-};
-
 export interface GithubRepoCardProps {
   username: string;
   repository: string;
   dark?: boolean;
 }
 
-const GithubRepoCardFetcher: React.FC<
+const GithubRepoCard: React.FC<
   GithubRepoCardProps &
     React.DetailedHTMLProps<
       React.HTMLAttributes<HTMLDivElement>,
       HTMLDivElement
     >
-> = ({ username, repository, ...props }) => {
-  const { getData } = useGithubData();
-
-  return (
-    <FetchSuspenseWrapper
-      fetcher={() =>
-        getData<GithubAPIRepoData>(
-          repository,
-          `repos/${username}/${repository}`
-        )
-      }
-      Component={GithubRepoCard}
-      fetchedPropName="data"
-      {...props}
-    />
-  );
-};
-
-const GithubRepoCard: React.FC<
-  { data: GithubAPIRepoData; dark?: boolean } & React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  >
-> = ({ data, style, dark, ...props }) => {
+> = ({ username, repository, style, dark, ...props }) => {
   const theme = useTheme();
-  const palette = getPalette(dark ?? theme.palette.mode === "dark");
+  const palette = getGithubPalette(dark ?? theme.palette.mode === "dark");
+
+  const { data } = useSWR(
+    `/api/github/repos/${username}/${repository}`,
+    (url) => fetch(url).then((res) => res.json())
+  );
+  const { data: emojis } = useSWR("/api/github/emojis", (url) =>
+    fetch(url).then((res) => res.json())
+  );
+  const { data: colors } = useSWR("/api/github/colors", (url) =>
+    fetch(url).then((res) => res.json())
+  );
 
   return (
     <div
@@ -194,16 +102,41 @@ const GithubRepoCard: React.FC<
         </Link>
       </div>
       {data.description && (
-        <RepoDescription
-          description={data.description}
-          iconColor={palette.iconColor}
-        />
+        <div
+          style={{
+            fontSize: "12px",
+            marginBottom: "16px",
+            marginTop: "8px",
+            color: palette.iconColor,
+          }}
+        >
+          {stringToElement(
+            data.description,
+            /:(\w+):/g,
+            (name, offset) => (
+              <span key={offset}>
+                <Image
+                  alt={name}
+                  src={emojis ? emojis[name] : ""}
+                  width={16}
+                  height={16}
+                  style={{ verticalAlign: "-0.2rem" }}
+                />
+              </span>
+            ),
+            (str, idx) => (
+              <span key={idx}>{str}</span>
+            )
+          )}
+        </div>
       )}
       <div
         style={{ fontSize: "12px", color: palette.iconColor, display: "flex" }}
       >
         <div style={{ marginRight: "16px" }}>
-          <LanguageDoat language={data.language} />
+          <S.ColoredDoat
+            color={colors[data.language ?? ""]?.color ?? "rgba(0,0,0,0)"}
+          />
           &nbsp;
           <span>{data.language}</span>
         </div>
@@ -244,4 +177,4 @@ const GithubRepoCard: React.FC<
     </div>
   );
 };
-export default GithubRepoCardFetcher;
+export default GithubRepoCard;

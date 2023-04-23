@@ -15,7 +15,6 @@ import useAnalyticTracker from "src/hooks/useAnalyticTracker";
 import { LifebarSnackbar, AuthWrapper } from "src/components/pages/_app";
 
 import "public/styles/global.css";
-import GithubStaticDataContext from "src/components/GithubStaticDataContext";
 import MainThemeProvider from "src/components/MainThemeProvider";
 
 require("src/lib/registerChartjs");
@@ -49,9 +48,7 @@ const App: React.FC<AppProps> = ({
             Components={{ lifebar: LifebarSnackbar }}
           >
             <AuthWrapper auth={Component.auth}>
-              <GithubStaticDataContext>
-                <Component {...pageProps} />
-              </GithubStaticDataContext>
+              <Component {...pageProps} />
             </AuthWrapper>
           </SnackbarProvider>
         </SessionProvider>

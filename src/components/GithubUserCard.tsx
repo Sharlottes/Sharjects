@@ -6,15 +6,13 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 
-import { signIn, useSession } from "next-auth/react";
-import type { GithubProfile } from "next-auth/providers/github";
-
-import { useGithubData } from "./GithubStaticDataContext";
-import FetchSuspenseWrapper from "./FetchSuspenseWrapper";
+import { useSession } from "next-auth/react";
 
 import { RepoIcon, GistIcon, FollowerIcon } from "src/assets/icons";
+import useSWR from "swr";
+import * as U from "./GithubUserCard.util";
 
-const getPalette = (dark: boolean) =>
+const getGithubPalette = (dark: boolean) =>
   dark
     ? {
         background: "#0d1117",
@@ -29,72 +27,35 @@ const getPalette = (dark: boolean) =>
         iconColor: "#57606a",
       };
 
-const GithubUserCardFetcher: React.FC<
+export interface GithubUserCardProps {
+  username: string;
+}
+const GithubUserCard: React.FC<
   GithubUserCardProps &
     React.DetailedHTMLProps<
       React.HTMLAttributes<HTMLDivElement>,
       HTMLDivElement
     >
-> = ({ username, ...props }) => {
-  const { getData } = useGithubData();
-  return (
-    <FetchSuspenseWrapper
-      fetcher={() => getData<GithubProfile>(username, `users/${username}`)}
-      Component={GithubUserCard}
-      fetchedPropName="user"
-      {...props}
-    />
-  );
-};
-
-export interface GithubUserCardProps {
-  username: string;
-}
-
-const GithubUserCard: React.FC<
-  { user: GithubProfile } & React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  >
-> = ({ user, style, ...props }) => {
-  const [isFollowing, setFollowing] = React.useState(false);
+> = ({ username, style, ...props }) => {
   const { data: session } = useSession();
-
-  const request = React.useCallback(
-    (method: string = "GET") => {
-      if (
-        !(session && session.accessToken) ||
-        user.name === session?.user?.name
-      )
-        return;
-
-      return fetch(`https://api.github.com/user/following/${user.login}`, {
-        method,
-        headers: {
-          Accept: "application/vnd.github+json",
-          Authorization: `token ${session.accessToken}`,
-        },
-      });
-    },
-    [session]
+  const { data: user } = useSWR(`/api/github/users/${username}`, (url) =>
+    fetch(url).then((res) => res.json())
   );
-
-  React.useEffect(() => {
-    if (session && session.accessToken) {
-      request()?.then((res) => setFollowing(res.status === 204));
-    }
-  }, [request, session]);
-
+  const { data: isFollowing, mutate } = useSWR(
+    () =>
+      session && user
+        ? [session, user, `https://api.github.com/user/following/${user.login}`]
+        : null,
+    U.fetchFollowingToGet
+  );
   const fetchFollowing = () => {
-    if (session && session.accessToken)
-      request(isFollowing ? "DELETE" : "PUT")?.then(
-        (res) => res.ok && setFollowing((prev) => !prev)
-      );
-    else signIn("github");
+    U.fetchFollowingToPost(session, user, isFollowing ? "DELETE" : "PUT")?.then(
+      (res) => res.ok && mutate((prev) => !prev)
+    );
   };
 
   const theme = useTheme();
-  const palette = getPalette(theme.palette.mode === "dark");
+  const palette = getGithubPalette(theme.palette.mode === "dark");
   return (
     <div
       style={{
@@ -213,4 +174,4 @@ const GithubUserCard: React.FC<
   );
 };
 
-export default GithubUserCardFetcher;
+export default GithubUserCard;
