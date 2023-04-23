@@ -1,7 +1,7 @@
 import ProgressiveTypography from "src/components/ProgressiveTypography";
 import Content, { type ContentProps } from "./Content";
 import { DescriptSectionContainer, ContentsBox } from "./styled";
-import Center from "src/components/Center";
+import Center from "src/components/utils/Center";
 
 const contentData: Omit<ContentProps, "toRight">[] = [
   {

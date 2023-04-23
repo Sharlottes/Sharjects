@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import CSR from "src/components/CSR";
+import CSR from "src/components/utils/CSR";
 import { copy } from "src/utils/copy";
 
 const SpotifyCallbackPage = () => {
