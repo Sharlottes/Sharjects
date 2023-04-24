@@ -1,7 +1,6 @@
 //@ts-check
-//TODO - 대소문자 rewrite route
-
 import mdnConfig from "@next/mdx";
+
 const withMDX = mdnConfig({
   extension: /\.mdx?$/,
   options: {

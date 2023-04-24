@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
+//TODO - 대소문자 rewrite route
 const Middleware = (req: NextRequest) => {
   if (req.nextUrl.pathname === req.nextUrl.pathname.toLowerCase())
     return NextResponse.next();
