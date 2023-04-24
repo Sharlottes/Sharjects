@@ -15,30 +15,12 @@ const withMDX = mdnConfig({
 const nextConfig = {
   reactStrictMode: true,
   distDir: "dist",
-  webpack(config) {
-    config.resolve.fallback = { fs: false };
-    config.module.rules.push({
-      test: /\.tsx?$/,
-      use: "ts-loader",
-    });
-    config.module.rules.push({
-      test: /\.svg$/i,
-      issuer: /\.tsx?$/,
-      use: ["@svgr/webpack"],
-    });
-    return config;
-  },
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [{ key: "Access-Control-Allow-Origin", value: "*" }],
-      },
-    ];
-  },
   compiler: {
-    styledComponents: true,
     emotion: true,
+  },
+  experimental: {
+    appDir: true,
+    mdxRs: true,
   },
 };
 
