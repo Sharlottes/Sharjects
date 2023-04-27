@@ -17,6 +17,7 @@ import { LifebarSnackbar, AuthWrapper } from "src/components/pages/_app";
 import "public/styles/global.css";
 import MainThemeProvider from "src/components/MainThemeProvider";
 import { SWRConfig } from "swr";
+import Providers from "./Providers";
 
 require("src/lib/registerChartjs");
 
@@ -29,40 +30,26 @@ interface AppProps extends NextAppProps {
 }
 
 const App: React.FC<AppProps> = ({
-  emotionCache = createCache({ key: "css", prepend: true }),
   Component,
+  emotionCache = createCache({ key: "css", prepend: true }),
   pageProps: { session, ...pageProps },
 }) => {
   useAnalyticTracker();
 
   return (
-    <CacheProvider value={emotionCache}>
+    <>
       <Head>
         <title>Sharlotte's Portfolio</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <MainThemeProvider>
-        <CssBaseline />
-        <SessionProvider session={session}>
-          <SnackbarProvider
-            maxSnack={3}
-            Components={{ lifebar: LifebarSnackbar }}
-          >
-            <SWRConfig
-              value={{
-                refreshInterval: 3000,
-                fetcher: (resource, init) =>
-                  fetch(resource, init).then((res) => res.json()),
-              }}
-            >
-              <AuthWrapper auth={Component.auth}>
-                <Component {...pageProps} />
-              </AuthWrapper>
-            </SWRConfig>
-          </SnackbarProvider>
-        </SessionProvider>
-      </MainThemeProvider>
-    </CacheProvider>
+      <Providers
+        emotionCache={emotionCache}
+        session={session}
+        auth={Component.auth}
+      >
+        <Component {...pageProps} />
+      </Providers>
+    </>
   );
 };
 
