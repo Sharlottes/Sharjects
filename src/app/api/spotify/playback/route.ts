@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 
 interface CredentialData {
   access_token: string;
@@ -10,7 +10,7 @@ interface CredentialData {
 }
 
 //if expired for some reason, run ./scripts/refresh_token.bash
-let latestRefreshToken =
+const latestRefreshToken =
   "AQBbXo2gR_qCHepnrr6vh7J3_5AefJIR089S_6ul7Fmbjnh3Z6Viva2cid82sK9N9C_fjK1jvSpJKc9j4QFPolOOUCG208cqaW-TAY5x2AFWbQlHrbYMpHdcpRg7bc0GVuQ";
 
 const toQueryString = (data: Record<string, any>) =>
@@ -48,7 +48,7 @@ async function getToken() {
   return cachedToken;
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export async function GET() {
   cachedToken ??= await refreshSpotifyToken();
   const token = await getToken();
   const data = await fetch("https://api.spotify.com/v1/me/player", {
@@ -56,5 +56,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       Authorization: `Bearer ${token.access_token}`,
     },
   }).then((res) => res.json());
-  res.json(data);
-};
+  NextResponse.json(data);
+}

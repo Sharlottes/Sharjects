@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+// need to split out from this project :p
 export default async function handler(
   { query: { searchType, word } }: NextApiRequest,
   res: NextApiResponse
