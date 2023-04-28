@@ -27,11 +27,12 @@ import {
 import type { SxProps, Theme, SvgIconProps } from "@mui/material";
 
 import { OwnerRow, ProjectRow, LinksContainer } from "./SideMenu.styled";
-import { useThemeController } from "../../MainThemeProvider";
-import { RightSlide, Fade } from "../../transitions";
 import VisitorStatus from "./VisitorStatus";
 import DivTypography from "./DivTypography";
 import Layouts from "src/core/Layouts";
+import { useThemeController } from "src/components/MainThemeProvider";
+import { RightSlide } from "src/components/transitions/Slides";
+import Fade from "src/components/transitions/Fade";
 
 const projectData: Array<projectDataType> = require("public/data/projectData.json");
 const links: Array<
