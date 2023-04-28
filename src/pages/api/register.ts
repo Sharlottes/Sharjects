@@ -1,18 +1,18 @@
 import bcrypt from "bcrypt";
 import UserModel from "src/models/User";
-import { NextResponse } from "next/server";
-
+import type { NextApiRequest, NextApiResponse } from "next";
 // 사용자 이름과 비밀번호에 맞는 유저가 없으면 새로 생성
-export async function POST(req: Request) {
-  const body = await req.json()!;
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const body = req.body;
   const isEmail = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(body.username);
   const user = isEmail
     ? await UserModel.findOne({ email: body.username })
     : await UserModel.findOne({ username: body.username });
   if (user) {
-    return new Response(JSON.stringify({ message: "already registered" }), {
-      status: 200,
-    });
+    res.status(200).json({ message: "already registered" });
   } else {
     const salt = await bcrypt.genSalt(10);
     const hashPass = await bcrypt.hash(body.password, salt);
@@ -22,8 +22,6 @@ export async function POST(req: Request) {
       password: hashPass,
     });
     await newUser.save();
-    return new Response(JSON.stringify({ message: "success" }), {
-      status: 200,
-    });
+    res.status(200).json({ message: "success" });
   }
 }

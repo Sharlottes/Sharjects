@@ -18,7 +18,6 @@ const nextConfig = {
     emotion: true,
   },
   experimental: {
-    appDir: true,
     mdxRs: true,
   },
 };
