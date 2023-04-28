@@ -1,24 +1,13 @@
-import Head from "next/head";
-
-import type { Session } from "next-auth/core/types";
 import type { AppProps as NextAppProps } from "next/app";
+import type { Session } from "next-auth/core/types";
+import type { EmotionCache } from "@emotion/react";
 
-import { CacheProvider, type EmotionCache } from "@emotion/react";
+import Head from "next/head";
 import createCache from "@emotion/cache";
-
-import { SessionProvider } from "next-auth/react";
-import { SnackbarProvider } from "notistack";
-
-import CssBaseline from "@mui/material/CssBaseline";
-
+import Providers from "src/components/Providers";
 import useAnalyticTracker from "src/hooks/useAnalyticTracker";
-import { LifebarSnackbar, AuthWrapper } from "src/components/pages/_app";
 
 import "public/styles/global.css";
-import MainThemeProvider from "src/components/MainThemeProvider";
-import { SWRConfig } from "swr";
-import Providers from "./Providers";
-
 require("src/lib/registerChartjs");
 
 interface AppProps extends NextAppProps {

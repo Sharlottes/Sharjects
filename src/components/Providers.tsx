@@ -1,4 +1,3 @@
-import { LifebarSnackbar, AuthWrapper } from "src/components/pages/_app";
 import { CacheProvider, type EmotionCache } from "@emotion/react";
 import MainThemeProvider from "src/components/MainThemeProvider";
 import useAnalyticTracker from "src/hooks/useAnalyticTracker";
@@ -8,12 +7,15 @@ import { SnackbarProvider } from "notistack";
 import { SWRConfig } from "swr";
 
 import type { Session } from "next-auth";
+import AuthWrapper from "./AuthWrapper";
+import LifebarSnackbar from "./LifebarSnackbar";
 
 interface ProvidersProps extends React.PropsWithChildren {
   emotionCache: EmotionCache;
   session: Session | null;
   auth: any;
 }
+
 function Providers({ emotionCache, session, auth, children }: ProvidersProps) {
   useAnalyticTracker();
   return (
