@@ -15,21 +15,20 @@ const Profile: React.FC = () => {
 
   if (status == "loading") return <CircularProgress />;
 
+  const handleClick = () => {
+    if (status === "authenticated") signOut();
+    else signIn();
+  };
+
   return (
     <S.ProfileContainer>
       <Avatar src={session?.user?.image ?? ""} />
       <Link href="/mypage">
         {session ? session.user?.name ?? "" : "not logged in!"}
       </Link>
-      {status === "authenticated" ? (
-        <IconButton disableRipple onClick={() => signOut()}>
-          <LogoutIcon />
-        </IconButton>
-      ) : (
-        <IconButton disableRipple onClick={() => signIn()}>
-          <LoginIcon />
-        </IconButton>
-      )}
+      <IconButton disableRipple onClick={handleClick}>
+        {status === "authenticated" ? <LogoutIcon /> : <LoginIcon />}
+      </IconButton>
     </S.ProfileContainer>
   );
 };
