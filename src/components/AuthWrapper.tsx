@@ -9,7 +9,7 @@ function AuthWrapper({
   children,
 }: React.PropsWithChildren<AuthWrapperProps>) {
   const { status } = useSession({ required: !!auth });
-  if (auth || status === "loading") return <>Loading...</>;
+  if (auth && status === "loading") return <>Loading...</>;
 
   return <>{children}</>;
 }
