@@ -12,12 +12,12 @@ import Layout from "src/components/Layout";
 import GithubIcon from "src/assets/icons/GithubIcon";
 
 import { motion, Variants } from "framer-motion";
+import CollapseBar from "src/components/pages/projects/CollapseBar";
 import {
-  StyledOpenInNewIcon,
   ProjectsContainer,
   ProjectCard,
-  CollapseBar,
-} from "src/components/pages/projects";
+  StyledOpenInNewIcon,
+} from "src/components/pages/projects/styled";
 
 const projectData: Array<projectDataType["projects"][0] & { owner: string }> = (
   require("public/data/projectData.json") as projectDataType[]
