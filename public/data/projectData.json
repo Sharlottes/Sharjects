@@ -61,39 +61,5 @@
         "tags": ["cs", "unity"]
       }
     ]
-  },
-  {
-    "owner": "Gamer-Studio",
-    "projects": [
-      {
-        "name": "CardDefense",
-        "description": "팀 GameStudio에서 유니티로 개발중인 디펜스 장르의 모바일 카드게임",
-        "tags": ["cs", "unity"],
-        "noGithub": true
-      }
-    ]
-  },
-  {
-    "owner": "AvantTeam",
-    "projects": [
-      {
-        "name": "ProjectUnity",
-        "description": "팀 Avant에서 개발중인 최대 규모의 Mindustry Java모드",
-        "tags": ["java", "libgdx"],
-        "icon": "projectunityIcon",
-        "noGithub": true
-      }
-    ]
-  },
-  {
-    "owner": "Team-Cresendo",
-    "projects": [
-      {
-        "name": "Dino",
-        "description": "팀 크레센도에서 개발중인 온라인 다이노 웹게임",
-        "tags": ["react", "typescript"],
-        "noGithub": true
-      }
-    ]
   }
 ]
