@@ -317,6 +317,66 @@ type GithubAPIUserEventData = {
   }>;
 };
 
+type GithubAPIUser = {
+  login: string;
+  id: number;
+  node_id: string;
+  avatar_url: "uri";
+  gravatar_id: string | null;
+  url: "uri";
+  html_url: "uri";
+  followers_url: "uri";
+  following_url: "uri";
+  gists_url: "uri";
+  starred_url: "uri";
+  subscriptions_url: "uri";
+  organizations_url: "uri";
+  repos_url: "uri";
+  events_url: "uri";
+  received_events_url: "uri";
+  type: string;
+  site_admin: boolean;
+  name: string | null;
+  company: string | null;
+  blog: string | null;
+  location: string | null;
+  email: "email" | null;
+  hireable: string | null;
+  bio: string | null;
+  twitter_username?: string | null;
+  public_repos: number;
+  public_gists: number;
+  followers: number;
+  following: number;
+  created_at: "date-time";
+  updated_at: "date-time";
+  suspended_at?: "date-time" | null;
+  plan?: {
+    collaborators: number;
+    name: string;
+    space: number;
+    private_repos: number;
+  };
+} & (
+  | {
+      private_gists: number;
+      total_private_repos: number;
+      owned_private_repos: number;
+      disk_usage: number;
+      collaborators: number;
+      two_factor_authentication: boolean;
+      business_plus?: boolean;
+      ldap_dn?: string;
+    }
+  | {
+      private_gists?: number;
+      total_private_repos?: number;
+      owned_private_repos?: number;
+      disk_usage?: number;
+      collaborators?: number;
+    }
+);
+
 interface GithubUser {
   name: string | null;
   email: string | null;
@@ -424,6 +484,6 @@ interface GithubAPIRepoData {
   temp_clone_token: null;
   network_count: number;
   subscribers_count: number;
-  source: GithubAPIRepoData;
+  source?: GithubAPIRepoData;
   parent: GithubAPIRepoData;
 }

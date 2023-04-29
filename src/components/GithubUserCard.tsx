@@ -1,44 +1,54 @@
 import React from "react";
 import Link from "next/link";
 
-import { useTheme } from "@mui/material/styles";
+import useSWR from "swr";
+import { useSession } from "next-auth/react";
+import type { SvgIconProps } from "@mui/material";
+
+import FollowerIcon from "src/assets/icons/github/FollowerIcon";
+import RepoIcon from "src/assets/icons/github/RepoIcon";
+import GistIcon from "src/assets/icons/github/GistIcon";
+import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 
-import { useSession } from "next-auth/react";
-
-import { RepoIcon, GistIcon, FollowerIcon } from "src/assets/icons";
-import useSWR from "swr";
 import * as U from "./GithubUserCard.util";
+import S from "./GithubUserCard.styled";
 
-const getGithubPalette = (dark: boolean) =>
-  dark
-    ? {
-        background: "#0d1117",
-        textColor: "#58a6ff",
-        borderColor: "#30363d",
-        iconColor: "#8b949e",
-      }
-    : {
-        background: "white",
-        textColor: "#0969da",
-        borderColor: "#d0d7de",
-        iconColor: "#57606a",
-      };
+function getIcons(
+  user: GithubAPIUser
+): [number, string, React.FC<SvgIconProps>][] {
+  const arr: [number, string, React.FC<SvgIconProps>][] = [];
+
+  if (user.public_repos !== 0)
+    arr.push([
+      user.public_repos,
+      `https://github.com/${user.login}/?tab=repositories`,
+      RepoIcon,
+    ]);
+  if (user.public_gists !== 0)
+    arr.push([
+      user.public_gists,
+      `https://gist.github.com/${user.login}`,
+      GistIcon,
+    ]);
+  if (user.followers !== 0)
+    arr.push([
+      user.followers,
+      `https://github.com/${user.login}/?tab=followers`,
+      FollowerIcon,
+    ]);
+  return arr;
+}
 
 export interface GithubUserCardProps {
   username: string;
 }
-const GithubUserCard: React.FC<
-  GithubUserCardProps &
-    React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLDivElement>,
-      HTMLDivElement
-    >
-> = ({ username, style, ...props }) => {
+
+const GithubUserCard: React.FC<GithubUserCardProps> = ({ username }) => {
   const { data: session } = useSession();
-  const { data: user } = useSWR(`/api/github/users/${username}`);
+  const { data: user } = useSWR<GithubAPIUser>(`/api/github/users/${username}`);
   const { data: isFollowing, mutate } = useSWR(
     () =>
       session && user
@@ -52,123 +62,39 @@ const GithubUserCard: React.FC<
     );
   };
 
-  const theme = useTheme();
-  const palette = getGithubPalette(theme.palette.mode === "dark");
+  if (!user) return <CircularProgress />;
+
   return (
-    <div
-      style={{
-        fontFamily:
-          "-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji",
-        border: "1px solid",
-        borderColor: palette.borderColor,
-        borderRadius: "6px",
-        background: palette.background,
-        padding: "16px",
-        fontSize: "14px",
-        lineHeight: "1.5",
-        color: "themedBlack",
-        ...style,
-      }}
-      {...props}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "start",
-          alignItems: "start",
-        }}
-      >
+    <S.GithubCardContainer>
+      <S.GithubCardHeader>
         <Avatar src={user.avatar_url} />
-        <div
-          style={{
-            display: "flex",
-            marginLeft: "5px",
-            justifyContent: "space-between",
-            alignItems: "center",
-            minWidth: "40%",
-          }}
-        >
-          <div aria-label="profile name">
-            <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-              <Link
-                style={{ textDecoration: "none", color: palette.textColor }}
-                href={user.html_url}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {user.login}
-              </Link>
-            </Typography>
-            <Typography
-              variant="caption"
-              sx={{ position: "relative", top: "-10px" }}
-            >
-              {user.name ?? <span style={{ color: "gray" }}>{"<Empty>"}</span>}
-            </Typography>
-          </div>
-          <Button
-            id="followbtn"
-            size="small"
-            variant="outlined"
-            onClick={fetchFollowing}
-            sx={{ height: "35px", marginLeft: "20px" }}
-            disabled={user.name === session?.user?.name}
-          >
-            {isFollowing ? "UnFollow" : "Follow"}
-          </Button>
+        <div>
+          <Typography variant="subtitle1">
+            <Link href={user.html_url}>{user.login}</Link>
+          </Typography>
+          <Typography variant="caption">{user.name ?? "<Empty>"}</Typography>
         </div>
-      </div>
-      <div style={{ marginLeft: "20px" }}>
-        <Typography variant="body1" sx={{ ml: "5px" }}>
-          {user.bio}
-        </Typography>
-        <div style={{ display: "flex", margin: "10px auto" }}>
-          {[
-            [
-              user.public_repos,
-              `https://github.com/${user.login}/?tab=repositories`,
-              <RepoIcon
-                sx={{ fill: palette.iconColor, marginRight: "8px" }}
-                fontSize="small"
-              />,
-            ],
-            [
-              user.public_gists,
-              `https://gist.github.com/${user.login}`,
-              <GistIcon
-                sx={{ fill: palette.iconColor, marginRight: "8px" }}
-                fontSize="small"
-              />,
-            ],
-            [
-              user.followers,
-              `https://github.com/${user.login}/?tab=followers`,
-              <FollowerIcon
-                sx={{ fill: palette.iconColor, marginRight: "8px" }}
-                fontSize="small"
-              />,
-            ],
-          ].map(([value, url, icon], i) => (
-            <Link
-              key={i}
-              href={url.toString()}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <div
-                style={{
-                  margin: "auto 5px",
-                  display: value === 0 ? "none" : "flex",
-                  alignItems: "center",
-                }}
-              >
-                {icon}
-                {value}
-              </div>
+        <Button
+          size="small"
+          variant="outlined"
+          onClick={fetchFollowing}
+          disabled={user.name === session?.user?.name}
+        >
+          {isFollowing ? "UnFollow" : "Follow"}
+        </Button>
+      </S.GithubCardHeader>
+      <S.GithubCardBody>
+        <Typography variant="body1">{user.bio}</Typography>
+        <div className="icons">
+          {getIcons(user).map(([value, url, Icon], i) => (
+            <Link key={i} href={url.toString()}>
+              <Icon fontSize="small" />
+              {value}
             </Link>
           ))}
         </div>
-      </div>
-    </div>
+      </S.GithubCardBody>
+    </S.GithubCardContainer>
   );
 };
 

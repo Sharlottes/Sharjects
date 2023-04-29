@@ -29,7 +29,6 @@ function Providers({ emotionCache, session, auth, children }: ProvidersProps) {
           >
             <SWRConfig
               value={{
-                refreshInterval: 3000,
                 fetcher: (resource, init) =>
                   fetch(resource, init).then((res) => res.json()),
               }}

@@ -1,53 +1,13 @@
-import React, { type PropsWithChildren } from "react";
+import React from "react";
 
 import * as Colors from "@mui/material/colors";
-import { createTheme, type Theme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
 
 import type { PaletteMode } from "@mui/material";
-import type { PaletteColor, PaletteColorOptions } from "@mui/material/styles";
-import type { Color } from "@mui/material";
-
-type Partialize<T> = {
-  [P in keyof T]?: T[P] extends Function
-    ? T[P]
-    : T[P] extends PaletteColor
-    ? PaletteColorOptions
-    : Partial<T[P]>;
-};
-
-type CustomPalette = Record<"themedWhite" | "themedBlack", PaletteColor> &
-  Record<"accent" | "health", Color>;
-
-declare module "@mui/material/styles" {
-  interface Palette extends CustomPalette {}
-  interface PaletteOptions extends Partialize<CustomPalette> {}
-}
+import { getDesignTokens } from "./MainThemeProvider.util";
 
 type ColorPalette = Exclude<keyof typeof Colors, "common">;
-const getDesignTokens = (mode: PaletteMode, palette: ColorPalette) =>
-  ({
-    palette: {
-      mode,
-      primary: {
-        main: Colors[palette][300],
-      },
-      themedBlack: { main: mode === "light" ? "black" : "white" },
-      themedWhite: { main: mode === "light" ? "white" : "black" },
-      text: {
-        ...(mode === "light"
-          ? {
-              primary: Colors.grey[900],
-              secondary: Colors.grey[500],
-            }
-          : {
-              primary: "#fff",
-              secondary: Colors.grey[500],
-            }),
-      },
-    },
-  } as Theme);
-
 interface ThemeController {
   toggleColorMode(): void;
   setColorPalette(value: ColorPalette): void;
@@ -55,17 +15,13 @@ interface ThemeController {
   palette: ColorPalette;
 }
 const ControllerContext = React.createContext<ThemeController>({
-  toggleColorMode: () => {
-    throw new Error("subscribed out of provider!");
-  },
-  setColorPalette: () => {
-    throw new Error("subscribed out of provider!");
-  },
+  toggleColorMode: () => {},
+  setColorPalette: () => {},
   currentColors: Colors.blue,
   palette: "blue",
 });
 
-const MainThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
+const MainThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [mode, setMode] = React.useState<PaletteMode>("light");
   const [palette, setPalette] = React.useState<ColorPalette>("blue");
 

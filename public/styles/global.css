@@ -15,7 +15,7 @@ a:not([href^="http"]) {
   color: inherit;
 }
 a[href^="http"] {
-  color: inherit;
+  color: auto;
 }
 
 p {
