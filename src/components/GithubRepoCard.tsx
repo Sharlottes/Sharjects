@@ -8,10 +8,10 @@ import StargazerIcon from "src/assets/icons/github/StargazerIcon";
 import RepoIcon from "src/assets/icons/github/RepoIcon";
 import ForkIcon from "src/assets/icons/github/ForkIcon";
 import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
 
-import stringToElement from "src/utils/stringToElement";
+import U from "./GithubRepoCard.util";
 import S from "./GithubRepoCard.styled";
-import { Typography } from "@mui/material";
 
 export interface GithubRepoCardProps {
   username: string;
@@ -50,7 +50,7 @@ const GithubRepoCard: React.FC<GithubRepoCardProps> = ({
       </S.GithubCardHeader>
       <S.GithubCardDescription>
         {data.description &&
-          stringToElement(
+          U.stringToElement(
             data.description,
             /:(\w+):/g,
             (name, offset) => (
@@ -90,4 +90,5 @@ const GithubRepoCard: React.FC<GithubRepoCardProps> = ({
     </S.GithubCardContainer>
   );
 };
+
 export default GithubRepoCard;

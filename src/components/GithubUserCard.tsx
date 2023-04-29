@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 
-import * as U from "./GithubUserCard.util";
+import U from "./GithubUserCard.util";
 import S from "./GithubUserCard.styled";
 
 function getIcons(
