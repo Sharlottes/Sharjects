@@ -34,7 +34,7 @@ const GithubRepoCard: React.FC<GithubRepoCardProps> = ({
 
   return (
     <S.GithubCardContainer>
-      <S.GithubCardTitle>
+      <S.GithubCardHeader>
         <RepoIcon fontSize="small" />
         <div>
           <Typography variant="subtitle1">
@@ -47,7 +47,7 @@ const GithubRepoCard: React.FC<GithubRepoCardProps> = ({
             </Typography>
           )}
         </div>
-      </S.GithubCardTitle>
+      </S.GithubCardHeader>
       <S.GithubCardDescription>
         {data.description &&
           stringToElement(

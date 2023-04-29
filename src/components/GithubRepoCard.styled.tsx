@@ -28,7 +28,7 @@ namespace S {
     })
   );
 
-  export const GithubCardTitle = styled("div")(({ theme }) =>
+  export const GithubCardHeader = styled("div")(({ theme }) =>
     theme.unstable_sx({
       display: "flex",
       alignItems: "top",
