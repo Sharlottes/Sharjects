@@ -17,22 +17,19 @@ import SourceIcon from "@mui/icons-material/Source";
 import EmailIcon from "@mui/icons-material/Email";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import {
-  KakaoTalkIcon,
-  DiscordIcon,
-  GithubIcon,
-  VelogIcon,
-} from "src/assets/icons";
-
 import type { SxProps, Theme, SvgIconProps } from "@mui/material";
 
 import S from "./SideMenu.styled";
 import VisitorStatus from "./VisitorStatus";
 import DivTypography from "./DivTypography";
 import Layouts from "src/core/Layouts";
-import { useThemeController } from "src/components/MainThemeProvider";
+import { useThemeController } from "src/components/providers/MainThemeProvider";
 import { RightSlide } from "src/components/transitions/Slides";
 import Fade from "src/components/transitions/Fade";
+import DiscordIcon from "src/assets/icons/DiscordIcon";
+import GithubIcon from "src/assets/icons/GithubIcon";
+import KakaoTalkIcon from "src/assets/icons/KakaoTalkIcon";
+import VelogIcon from "src/assets/icons/VelogIcon";
 
 const projectData: Array<projectDataType> = require("public/data/projectData.json");
 const links: Array<

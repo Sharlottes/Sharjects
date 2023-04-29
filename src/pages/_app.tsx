@@ -4,7 +4,7 @@ import type { EmotionCache } from "@emotion/react";
 
 import Head from "next/head";
 import createCache from "@emotion/cache";
-import Providers from "src/components/Providers";
+import Providers from "src/components/providers/Providers";
 import useAnalyticTracker from "src/hooks/useAnalyticTracker";
 
 import "public/styles/global.css";

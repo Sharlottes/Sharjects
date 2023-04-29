@@ -3,7 +3,7 @@ import React from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
-import Layout from "./Layout";
+import Layout from ".";
 import Tab from "@mui/material/Tab";
 import S from "./TabLayout.styled";
 

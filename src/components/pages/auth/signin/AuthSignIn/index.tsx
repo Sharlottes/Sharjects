@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
-import { DiscordIcon, GithubIcon, GoogleIcon } from "src/assets/icons";
 import { OAuthButton, OAuthButtonsContainer } from "./styled";
+import DiscordIcon from "src/assets/icons/DiscordIcon";
+import GithubIcon from "src/assets/icons/GithubIcon";
+import GoogleIcon from "src/assets/icons/GoogleIcon";
 
 const icons: Array<{ name: string; icon: JSX.Element; colors: string[] }> = [
   {

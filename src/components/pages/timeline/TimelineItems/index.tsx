@@ -33,7 +33,7 @@ const TimelineItems: React.FC = () => {
   React.useEffect(() => {
     Promise.all(
       dates.map((date) =>
-        import(`src/doc/timeline/${date.replaceAll(".", "")}.mdx`)
+        import(`doc/timeline/${date.replaceAll(".", "")}.mdx`)
           .then<[dateType, typeof import("*.mdx")["default"]]>((res) => [
             date,
             res.default,

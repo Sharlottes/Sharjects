@@ -4,7 +4,7 @@ import Slide from "@mui/material/Slide";
 import IconButton from "@mui/material/IconButton";
 
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
-import GithubRepoCardFetcher from "src/components/GithubRepoCard";
+import GithubRepoCard from "src/components/GithubRepoCard";
 
 const CollapseBar: React.FC<{ author: string; name: string }> = ({
   author,
@@ -30,7 +30,7 @@ const CollapseBar: React.FC<{ author: string; name: string }> = ({
       </IconButton>
       <Slide direction="up" in={opened} unmountOnExit mountOnEnter>
         <div>
-          <GithubRepoCardFetcher username={author} repository={name} dark />
+          <GithubRepoCard username={author} repository={name} />
         </div>
       </Slide>
     </div>
