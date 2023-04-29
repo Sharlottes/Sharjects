@@ -1,16 +1,18 @@
 import styled from "@mui/system/styled";
 import { motion } from "framer-motion";
 
-export const ContentContainer = styled(motion.div)<{
-  toRight: boolean;
+export const ContentContainer = styled(motion.div, {
+  shouldForwardProp: (props) => props !== "toright",
+})<{
+  toright: boolean;
   image: string;
-}>(({ theme, toRight, image }) =>
+}>(({ theme, toright, image }) =>
   theme.unstable_sx({
     textAlign: "center",
-    alignSelf: toRight ? "flex-end" : "flex-start",
+    alignSelf: toright ? "flex-end" : "flex-start",
     width: "max(500px, 45vw)",
     border: "1px solid gray",
-    borderRadius: toRight ? "20px 1px 1px 20px" : "1px 20px 20px 1px",
+    borderRadius: toright ? "20px 1px 1px 20px" : "1px 20px 20px 1px",
     "--themedColor": theme.palette.mode === "light" ? "white" : "black",
     backgroundColor: "var(--themedColor)",
     transition: "box-shadow 500ms",
@@ -26,7 +28,7 @@ export const ContentContainer = styled(motion.div)<{
       zIndex: -1,
       transition: "all 300ms",
       backdropFilter: "blur(10px)",
-      borderRadius: toRight ? "20px 1px 1px 20px" : "1px 20px 20px 1px",
+      borderRadius: toright ? "20px 1px 1px 20px" : "1px 20px 20px 1px",
       backgroundImage: `url(${image})`,
       animation: "imageMove 5s linear 0s infinite alternate",
       backgroundRepeat: "no-repeat",
@@ -34,7 +36,7 @@ export const ContentContainer = styled(motion.div)<{
     },
     "&:hover": {
       color: "gray",
-      boxShadow: `${toRight ? "-8px" : "8px"} 8px 15px`,
+      boxShadow: `${toright ? "-8px" : "8px"} 8px 15px`,
       "&::before": {
         opacity: 1,
         filter: "blur(10px)",

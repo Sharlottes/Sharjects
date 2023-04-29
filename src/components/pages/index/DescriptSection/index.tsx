@@ -3,7 +3,7 @@ import Content, { type ContentProps } from "./Content";
 import { DescriptSectionContainer, ContentsBox } from "./styled";
 import Center from "src/components/utils/Center";
 
-const contentData: Omit<ContentProps, "toRight">[] = [
+const contentData: Omit<ContentProps, "toright">[] = [
   {
     title: "타임라인",
     description: "개발 일대기를 시간 축으로 나열한 자동 수직 스크롤 타임라인",
@@ -69,7 +69,7 @@ const DescriptSection: React.FC = () => (
             ease: [0.79, -0.06, 0.19, 1.16],
           }}
           key={i}
-          toRight={i % 2 != 0}
+          toright={i % 2 != 0}
         />
       ))}
     </ContentsBox>

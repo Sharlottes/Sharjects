@@ -8,7 +8,7 @@ export interface ContentProps extends MotionProps {
   description: string;
   image: string;
   link: string;
-  toRight: boolean;
+  toright: boolean;
 }
 
 const Content: React.FC<ContentProps> = ({
@@ -16,10 +16,10 @@ const Content: React.FC<ContentProps> = ({
   description,
   image,
   link,
-  toRight,
+  toright,
   ...props
 }) => (
-  <ContentContainer toRight={toRight} image={image} {...props}>
+  <ContentContainer toright={toright} image={image} {...props}>
     <ContentWrapper>
       <Link href={link}>
         <Typography variant="h5" fontWeight="bold">
