@@ -10,8 +10,8 @@ import {
   motion,
   useAnimationControls,
 } from "framer-motion";
-import HeaderMenu from "./HeaderMenu/HeaderMenu";
-import SideMenu from "./SideMenu/SideMenu";
+import HeaderMenu from "./HeaderMenu";
+import SideMenu from "./SideMenu";
 
 import * as S from "./Header.styled";
 import * as U from "./Header.util";
