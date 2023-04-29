@@ -5,7 +5,7 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
 
 import type { PaletteMode } from "@mui/material";
-import { getDesignTokens } from "./MainThemeProvider.util";
+import U from "./MainThemeProvider.util";
 
 type ColorPalette = Exclude<keyof typeof Colors, "common">;
 interface ThemeController {
@@ -47,7 +47,7 @@ const MainThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   // Update the theme only if the mode changes
   const theme = React.useMemo(
-    () => createTheme(getDesignTokens(mode, palette)),
+    () => createTheme(U.getDesignTokens(mode, palette)),
     [mode, palette]
   );
 

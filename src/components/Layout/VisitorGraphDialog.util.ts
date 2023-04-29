@@ -8,19 +8,23 @@ function parseDate(str: string): string {
   })`;
 }
 
-export const useVisitorGraphData = (visitors: Record<string, number>) => {
-  const entries = Object.entries(visitors);
-  return {
-    datasets: [
-      {
-        type: "line" as const,
-        label: "Dataset 1",
-        data: entries
-          .slice(Math.max(0, entries.length - 7))
-          .map(([date, amount]) => ({ x: parseDate(date), y: amount })),
-        borderColor: "green",
-        borderWidth: 2,
-      },
-    ],
+namespace U {
+  export const useVisitorGraphData = (visitors: Record<string, number>) => {
+    const entries = Object.entries(visitors);
+    return {
+      datasets: [
+        {
+          type: "line" as const,
+          label: "Dataset 1",
+          data: entries
+            .slice(Math.max(0, entries.length - 7))
+            .map(([date, amount]) => ({ x: parseDate(date), y: amount })),
+          borderColor: "green",
+          borderWidth: 2,
+        },
+      ],
+    };
   };
-};
+}
+
+export default U;

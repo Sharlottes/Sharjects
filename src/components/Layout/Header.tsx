@@ -13,10 +13,8 @@ import {
 import HeaderMenu from "./HeaderMenu";
 import SideMenu from "./SideMenu";
 
-import * as S from "./Header.styled";
-import * as U from "./Header.util";
-
-// TODO: thinking about sidebar interaction
+import S from "./Header.styled";
+import U from "./Header.util";
 
 export interface MenuOpenData {
   side: boolean;

@@ -5,7 +5,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 import Layout from "./Layout";
 import Tab from "@mui/material/Tab";
-import * as S from "./TabLayout.styled";
+import S from "./TabLayout.styled";
 
 interface TabLayoutProps {
   onIndexChanged?: (index: number) => void;

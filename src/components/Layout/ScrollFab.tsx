@@ -3,7 +3,7 @@ import Portal from "@mui/material/Portal";
 import SwapVerticalCircleIcon from "@mui/icons-material/SwapVerticalCircle";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import * as S from "./ScrollFab.styled";
+import S from "./ScrollFab.styled";
 
 export interface ScrollFabProps {
   target?: Element | undefined;

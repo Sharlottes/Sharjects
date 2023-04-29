@@ -5,10 +5,11 @@ import { useTheme } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
 
 import Profile from "./Profile";
-import * as S from "./HeaderMenu.styled";
 import ThemedColorSelectionMenu from "./ThemedColorSelectionMenu";
 import { useThemeController } from "src/components/MainThemeProvider";
-import MenuWrapper, { MenuWrapperProps } from "src/components/MenuWrapper";
+import MenuWrapper, { type MenuWrapperProps } from "src/components/MenuWrapper";
+
+import S from "./HeaderMenu.styled";
 
 const IconDrawer: React.FC<{ onClick: React.MouseEventHandler }> = ({
   onClick,

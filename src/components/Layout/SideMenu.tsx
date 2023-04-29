@@ -26,7 +26,7 @@ import {
 
 import type { SxProps, Theme, SvgIconProps } from "@mui/material";
 
-import { OwnerRow, ProjectRow, LinksContainer } from "./SideMenu.styled";
+import S from "./SideMenu.styled";
 import VisitorStatus from "./VisitorStatus";
 import DivTypography from "./DivTypography";
 import Layouts from "src/core/Layouts";
@@ -150,7 +150,7 @@ const SideMenuDrawer: React.FC<SideMenuProps> = ({
       <div style={{ margin: "15px 0 0 10px", gap: "10px" }}>
         {projectData.map(({ owner, projects }) => (
           <div key={owner}>
-            <OwnerRow color={currentColors[600]}>
+            <S.OwnerRow color={currentColors[600]}>
               <Image
                 className="profile-image"
                 src={`/images/profile/${owner}.png`}
@@ -167,9 +167,9 @@ const SideMenuDrawer: React.FC<SideMenuProps> = ({
                   {owner}
                 </Typography>
               </Link>
-            </OwnerRow>
+            </S.OwnerRow>
             {projects.map((project) => (
-              <ProjectRow key={project.name} color={currentColors[300]}>
+              <S.ProjectRow key={project.name} color={currentColors[300]}>
                 <div className="highlight">
                   <div
                     style={{
@@ -204,7 +204,7 @@ const SideMenuDrawer: React.FC<SideMenuProps> = ({
                     </Link>
                   )}
                 </div>
-              </ProjectRow>
+              </S.ProjectRow>
             ))}
           </div>
         ))}
@@ -213,13 +213,13 @@ const SideMenuDrawer: React.FC<SideMenuProps> = ({
         <DivTypography title="Visitors" />
         <VisitorStatus />
         <DivTypography title="Links" />
-        <LinksContainer>
+        <S.LinksContainer>
           {links.map(([link, Component, color]) => (
             <Link href={link} key={link}>
               <Component sx={{ color }} />
             </Link>
           ))}
-        </LinksContainer>
+        </S.LinksContainer>
       </div>
     </Dialog>
   );

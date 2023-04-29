@@ -2,7 +2,7 @@ import Dialog, { type DialogProps } from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
 import { Line } from "react-chartjs-2";
-import { useVisitorGraphData } from "./VisitorGraphDialog.util";
+import U from "./VisitorGraphDialog.util";
 
 export interface VisitorGraphDialogProps extends DialogProps {
   data: Record<string, number>;
@@ -12,7 +12,7 @@ const VisitorGraphDialog: React.FC<VisitorGraphDialogProps> = ({
   data: visitors,
   ...props
 }) => {
-  const data = useVisitorGraphData(visitors);
+  const data = U.useVisitorGraphData(visitors);
 
   return (
     <Dialog {...props}>

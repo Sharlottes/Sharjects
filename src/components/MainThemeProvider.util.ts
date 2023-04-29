@@ -1,8 +1,8 @@
 import * as Colors from "@mui/material/colors";
-
-import { type PaletteMode, type ThemeOptions } from "@mui/material";
+import type { PaletteMode, ThemeOptions } from "@mui/material";
 
 type ColorPalette = Exclude<keyof typeof Colors, "common">;
+
 function getLightPalette() {
   return {
     themedBlack: "black",
@@ -37,17 +37,21 @@ function getDarkPalette() {
   };
 }
 
-export function getDesignTokens(
-  mode: PaletteMode,
-  palette: ColorPalette
-): ThemeOptions {
-  return {
-    palette: {
-      mode,
-      primary: {
-        main: Colors[palette][300],
+namespace U {
+  export function getDesignTokens(
+    mode: PaletteMode,
+    palette: ColorPalette
+  ): ThemeOptions {
+    return {
+      palette: {
+        mode,
+        primary: {
+          main: Colors[palette][300],
+        },
+        ...(mode === "light" ? getLightPalette() : getDarkPalette()),
       },
-      ...(mode === "light" ? getLightPalette() : getDarkPalette()),
-    },
-  };
+    };
+  }
 }
+
+export default U;

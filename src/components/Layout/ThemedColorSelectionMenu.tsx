@@ -6,7 +6,7 @@ import Divider from "@mui/material/Divider";
 import useTheme from "@mui/system/useTheme";
 import * as Colors from "@mui/material/colors";
 
-import * as S from "./ThemedColorSelectionMenu.styled";
+import S from "./ThemedColorSelectionMenu.styled";
 import { useThemeController } from "src/components/MainThemeProvider";
 import ThemedColors from "src/core/ThemedColors";
 import MenuWrapper from "src/components/MenuWrapper";

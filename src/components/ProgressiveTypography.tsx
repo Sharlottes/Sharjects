@@ -9,6 +9,8 @@ import {
   useAnimationControls,
 } from "framer-motion";
 
+import U from "./ProgressiveTypography.util";
+
 type MotionPropsGetterType = (
   char: string,
   ref: React.RefObject<HTMLDivElement>,
@@ -27,7 +29,7 @@ const ProgressiveTypography: React.FC<ProgressiveTypographyProps> = ({
   label,
   delay = 0,
   speed = 0.1,
-  motion: motionProps = motionPropsGenerator,
+  motion: motionProps = U.motionPropsGenerator,
   boxProps,
   ...props
 }) => {
@@ -65,40 +67,4 @@ const ProgressiveTypography: React.FC<ProgressiveTypographyProps> = ({
   );
 };
 
-function motionPropsGenerator(
-  char: string,
-  ref: React.RefObject<HTMLDivElement>,
-  start: (x: string | number, y: string | number) => Promise<unknown>
-) {
-  const check = () => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!ref.current || !rect) return;
-    const isInOfViewPoint =
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth);
-    if (isInOfViewPoint) return;
-    const reverse = (str: string) =>
-      str.includes("-") ? str.replace("-", "") : "-" + str;
-    const [x, y] = ref.current.style.transform
-      .replace(/translate[X|Y]\((-?\d*.\d*)px\)/g, "$1")
-      .split(/\s/)
-      .slice(0, 2)
-      .map((str) => parseFloat(reverse(str)));
-
-    start(x, y).then(() => {
-      if (char == "o")
-        window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-    });
-  };
-  return {
-    animate: "show",
-    drag: true,
-    dragTransition: { power: 0.4, timeConstant: 200 },
-    onDragEnd: check,
-    onDragTransitionEnd: check,
-  };
-}
 export default ProgressiveTypography;
