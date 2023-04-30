@@ -1,7 +1,6 @@
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import Card from "@mui/material/Card";
 import styled from "@mui/system/styled";
-import { motion } from "framer-motion";
 
 export default {
   StyledOpenInNewIcon: styled(OpenInNewIcon)({
@@ -13,32 +12,7 @@ export default {
     },
   }),
 
-  ProjectsContainer: styled(motion.div)(({ theme }) => ({
-    display: "grid",
-    alignItems: "stretch",
-    gap: "20px",
-    padding: "0 20px",
-    [theme.breakpoints.between("xs", "sm")]: {
-      gridTemplateColumns: "repeat(1, 1fr)",
-    },
-    [theme.breakpoints.between("sm", "md")]: {
-      gridTemplateColumns: "repeat(2, 1fr)",
-    },
-    [theme.breakpoints.between("md", "lg")]: {
-      gridTemplateColumns: "repeat(3, 1fr)",
-    },
-    [theme.breakpoints.between("lg", 1400)]: {
-      gridTemplateColumns: "repeat(4, 1fr)",
-    },
-    [theme.breakpoints.between(1400, 1650)]: {
-      gridTemplateColumns: "repeat(5, 1fr)",
-    },
-    [theme.breakpoints.up(1650)]: {
-      gridTemplateColumns: "repeat(6, 1fr)",
-    },
-  })),
-
-  ProjectCard: styled(Card)(({ theme }) =>
+  ProjectCardWrapper: styled(Card)(({ theme }) =>
     theme.unstable_sx({
       borderRadius: "20px",
       border: "1px solid #dcdcdc",
@@ -49,6 +23,45 @@ export default {
       flexDirection: "column",
       justifyContent: "space-between",
       gridTemplateColumns: "1fr",
+      "& .collapse-bar": {
+        width: "100%",
+        height: "100%",
+        color: "#777777",
+        gridColumnStart: 1,
+        gridRowStart: 1,
+        alignSelf: "flex-end",
+        pointerEvents: "none",
+        opacity: 0,
+        transition: "opacity,transform",
+        transitionDuration: "100ms,250ms",
+        transitionDelay: "125ms",
+        transitionTimingFunction: "ease,cubic-bezier(.01,1.76,.67,.79)",
+        "&>div": {
+          backgroundColor: "black",
+          padding: "15px 10px 10px 10px",
+          boxShadow: "inset 0 7px 7px #777777",
+          height: "100%",
+          pointerEvents: "fill",
+          "&>div": {
+            height: "100%",
+          },
+        },
+      },
+      "&:hover": {
+        boxShadow: "0 0 10px black",
+        "& .collapse-bar": {
+          opacity: 1,
+          transform: "translateY(80%)",
+        },
+      },
+    })
+  ),
+  LinkButton: styled("div")(({ theme }) => ({})),
+  ProjectCardContainer: styled("div")(({ theme }) =>
+    theme.unstable_sx({
+      padding: "10px 15px",
+      gridColumnStart: 1,
+      gridRowStart: 1,
       "& .MuiDivider-root": {
         transition: "width,background-color",
         transitionDuration: "250ms",
@@ -109,32 +122,7 @@ export default {
           },
         },
       },
-      "& .collapse-bar": {
-        width: "100%",
-        height: "100%",
-        color: "#777777",
-        gridColumnStart: 1,
-        gridRowStart: 1,
-        alignSelf: "flex-end",
-        pointerEvents: "none",
-        opacity: 0,
-        transition: "opacity,transform",
-        transitionDuration: "100ms,250ms",
-        transitionDelay: "125ms",
-        transitionTimingFunction: "ease,cubic-bezier(.01,1.76,.67,.79)",
-        "&>div": {
-          backgroundColor: "black",
-          padding: "15px 10px 10px 10px",
-          boxShadow: "inset 0 7px 7px #777777",
-          height: "100%",
-          pointerEvents: "fill",
-          "&>div": {
-            height: "100%",
-          },
-        },
-      },
       "&:hover": {
-        boxShadow: "0 0 10px black",
         "& .MuiDivider-root": {
           width: "100%",
           backgroundColor: (themes) => themes.palette.primary.main,
@@ -143,10 +131,6 @@ export default {
           "& >div": {
             opacity: 1,
           },
-        },
-        "& .collapse-bar": {
-          opacity: 1,
-          transform: "translateY(80%)",
         },
       },
     })
