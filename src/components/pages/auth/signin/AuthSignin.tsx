@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
-import { OAuthButton, OAuthButtonsContainer } from "./styled";
+import S from "./AuthSignin.styled";
 import DiscordIcon from "src/assets/icons/DiscordIcon";
 import GithubIcon from "src/assets/icons/GithubIcon";
 import GoogleIcon from "src/assets/icons/GoogleIcon";
@@ -36,9 +36,9 @@ const AuthSignIn: React.FC = () => {
     });
 
   return (
-    <OAuthButtonsContainer>
+    <S.OAuthButtonsContainer>
       {icons.map(({ name, icon, colors: [base, bg, accent] }) => (
-        <OAuthButton
+        <S.OAuthButton
           base={base}
           bg={bg}
           accent={accent}
@@ -47,9 +47,9 @@ const AuthSignIn: React.FC = () => {
           startIcon={icon}
         >
           Sign in with {name}
-        </OAuthButton>
+        </S.OAuthButton>
       ))}
-    </OAuthButtonsContainer>
+    </S.OAuthButtonsContainer>
   );
 };
 

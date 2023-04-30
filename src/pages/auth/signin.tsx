@@ -1,7 +1,7 @@
 import Layout from "src/components/Layout";
 
 import CredentialSignIn from "src/components/pages/auth/signin/CredentialSignIn";
-import AuthSignIn from "src/components/pages/auth/signin/AuthSignIn";
+import AuthSignIn from "src/components/pages/auth/signin/AuthSignin";
 import Divider from "@mui/material/Divider";
 
 const SignIn: CustomNextPage = () => (
