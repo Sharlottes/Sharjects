@@ -2,8 +2,8 @@ import styled from "@mui/system/styled";
 import IconButton from "@mui/material/IconButton";
 import Switch, { type SwitchProps } from "@mui/material/Switch";
 
-namespace S {
-  export const HeaderMenuIcon = styled(IconButton)(({ theme }) =>
+export default {
+  HeaderMenuIcon: styled(IconButton)(({ theme }) =>
     theme.unstable_sx({
       color: "white",
       marginLeft: "auto",
@@ -19,20 +19,20 @@ namespace S {
         animation: "spin 5s linear infinite",
       },
     })
-  );
+  ),
 
-  export const ColorSelectionMenuButton = styled("div")({
+  ColorSelectionMenuButton: styled("div")({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-around",
     margin: "0 10px",
     width: "100%",
-  });
+  }),
 
   /**
    * from @see https://mui.com/material-ui/react-switch/#customization
    */
-  export const ThemeSwitch = styled((props: SwitchProps) => (
+  ThemeSwitch: styled((props: SwitchProps) => (
     <Switch
       focusVisibleClassName=".Mui-focusVisible"
       disableRipple
@@ -127,7 +127,5 @@ namespace S {
         right: 21,
       },
     },
-  }));
-}
-
-export default S;
+  })),
+};

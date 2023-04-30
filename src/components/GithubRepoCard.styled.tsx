@@ -1,7 +1,7 @@
 import styled from "@mui/system/styled";
 
-namespace S {
-  export const ColoredDoat = styled("span")<{
+export default {
+  ColoredDoat: styled("span")<{
     color: string;
   }>(({ color }) => ({
     width: "12px",
@@ -11,9 +11,9 @@ namespace S {
     display: "inline-block",
     top: "1px",
     position: "relative",
-  }));
+  })),
 
-  export const GithubCardContainer = styled("div")(({ theme }) =>
+  GithubCardContainer: styled("div")(({ theme }) =>
     theme.unstable_sx({
       fontFamily:
         "-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji",
@@ -26,9 +26,9 @@ namespace S {
       lineHeight: "1.5",
       color: "themedBlack",
     })
-  );
+  ),
 
-  export const GithubCardHeader = styled("div")(({ theme }) =>
+  GithubCardHeader: styled("div")(({ theme }) =>
     theme.unstable_sx({
       display: "flex",
       alignItems: "top",
@@ -55,17 +55,17 @@ namespace S {
         },
       },
     })
-  );
+  ),
 
-  export const GithubCardFork = styled("div")(({ theme }) =>
+  GithubCardFork: styled("div")(({ theme }) =>
     theme.unstable_sx({
       display: "block",
       fontSize: "12px",
       color: "github.iconColor",
     })
-  );
+  ),
 
-  export const GithubCardDescription = styled("div")(({ theme }) =>
+  GithubCardDescription: styled("div")(({ theme }) =>
     theme.unstable_sx({
       fontSize: "12px",
       marginBottom: "16px",
@@ -75,9 +75,9 @@ namespace S {
         verticalAlign: "-0.2rem",
       },
     })
-  );
+  ),
 
-  export const GithubCardFooter = styled("div")(({ theme }) =>
+  GithubCardFooter: styled("div")(({ theme }) =>
     theme.unstable_sx({
       display: "flex",
       gap: "16px",
@@ -91,6 +91,5 @@ namespace S {
         color: "github.iconColor",
       },
     })
-  );
-}
-export default S;
+  ),
+};

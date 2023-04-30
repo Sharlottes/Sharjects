@@ -1,13 +1,6 @@
 import React from "react";
 import { MDXProvider } from "@mdx-js/react";
-import {
-  TimelineContent,
-  TimelineContentTitle,
-  TimelineItemsContainer,
-  StyledRepoCard,
-  StyledUserCard,
-  LinkText,
-} from "./styled";
+import S from "./styled";
 import TimelineItem from "./TimelineItem";
 import { getTimelineItems } from "..";
 
@@ -50,14 +43,14 @@ const TimelineItems: React.FC = () => {
   }, []);
 
   return (
-    <TimelineItemsContainer>
+    <S.TimelineItemsContainer>
       <MDXProvider
         components={{
-          h1: TimelineContentTitle,
-          p: TimelineContent,
-          a: LinkText,
-          UserCard: StyledUserCard,
-          RepoCard: StyledRepoCard,
+          h1: S.TimelineContentTitle,
+          p: S.TimelineContent,
+          a: S.LinkText,
+          UserCard: S.StyledUserCard,
+          RepoCard: S.StyledRepoCard,
         }}
       >
         {dates.map((date, i) => {
@@ -69,7 +62,7 @@ const TimelineItems: React.FC = () => {
           );
         })}
       </MDXProvider>
-    </TimelineItemsContainer>
+    </S.TimelineItemsContainer>
   );
 };
 

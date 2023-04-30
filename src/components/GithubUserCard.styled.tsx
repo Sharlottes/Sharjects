@@ -1,7 +1,7 @@
 import styled from "@mui/system/styled";
 
-namespace S {
-  export const GithubCardContainer = styled("div")(({ theme }) =>
+export default {
+  GithubCardContainer: styled("div")(({ theme }) =>
     theme.unstable_sx({
       fontFamily:
         "-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji",
@@ -14,9 +14,9 @@ namespace S {
       lineHeight: "1.5",
       color: "themedBlack",
     })
-  );
+  ),
 
-  export const GithubCardHeader = styled("div")(({ theme }) =>
+  GithubCardHeader: styled("div")(({ theme }) =>
     theme.unstable_sx({
       display: "flex",
       gap: "10px",
@@ -37,9 +37,9 @@ namespace S {
         top: "5px",
       },
     })
-  );
+  ),
 
-  export const GithubCardBody = styled("div")(({ theme }) =>
+  GithubCardBody: styled("div")(({ theme }) =>
     theme.unstable_sx({
       marginLeft: "20px",
       "& .MuiTypography-body1": {
@@ -61,6 +61,5 @@ namespace S {
         },
       },
     })
-  );
-}
-export default S;
+  ),
+};

@@ -4,7 +4,7 @@ import useNearestItem from "../useNearestItem";
 import useSortedItems from "../useSortedItems";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
-import { NavigateContainer, NavigateItem, NavigateItemDivider } from "./styled";
+import S from "./styled";
 import { scrollWindow } from "../..";
 
 export interface NavigateControllerProps {
@@ -22,23 +22,23 @@ const NavigateController: React.FC<NavigateControllerProps> = ({
       <IconButton onClick={onBackClick}>
         <ArrowBackIcon />
       </IconButton>
-      <NavigateContainer>
+      <S.NavigateContainer>
         {sortedItems.map((elem, i, arr) => (
           <React.Fragment key={elem.date}>
-            <NavigateItem
+            <S.NavigateItem
               current={elem.y === nearestItem.y}
               onClick={() => scrollWindow(elem.y)}
             >
               {elem.date}
-            </NavigateItem>
-            <NavigateItemDivider
+            </S.NavigateItem>
+            <S.NavigateItemDivider
               show={
                 i !== arr.length - 1 && elem.date !== "" && elem.date !== "end"
               }
             />
           </React.Fragment>
         ))}
-      </NavigateContainer>
+      </S.NavigateContainer>
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import styled from "@mui/system/styled";
 import Layouts from "src/core/Layouts";
 
-namespace S {
-  export const ScrollFabContainer = styled("div")({
+export default {
+  ScrollFabContainer: styled("div")({
     position: "fixed",
     right: 16,
     bottom: 48,
@@ -39,7 +39,5 @@ namespace S {
         },
       },
     },
-  });
-}
-
-export default S;
+  }),
+};

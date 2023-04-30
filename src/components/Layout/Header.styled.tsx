@@ -11,8 +11,8 @@ import { toDigit } from "src/utils/toDigit";
 
 import { motion, type MotionProps } from "framer-motion";
 
-namespace S {
-  export const StyledAppBar = styled((props: AppBarProps & MotionProps) => (
+export default {
+  StyledAppBar: styled((props: AppBarProps & MotionProps) => (
     <AppBar {...props} component={motion.div} />
   ))<{
     alpha: number;
@@ -43,23 +43,21 @@ namespace S {
         },
       },
     })
-  );
+  ),
 
-  export const StyledToolbar = styled(Toolbar)({
+  StyledToolbar: styled(Toolbar)({
     padding: "0 16px",
     display: "flex",
     height: "60px",
     alignItems: "center",
-  });
+  }),
 
-  export const LandingPageLinkButton = styled(Button)(({ theme }) =>
+  LandingPageLinkButton: styled(Button)(({ theme }) =>
     theme.unstable_sx({
       color: "white",
       fontWeight: "bold",
       fontSize: 20,
       textAlign: "center",
     })
-  );
-}
-
-export default S;
+  ),
+};

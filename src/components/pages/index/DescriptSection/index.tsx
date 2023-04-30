@@ -1,6 +1,6 @@
 import ProgressiveTypography from "src/components/ProgressiveTypography";
 import Content, { type ContentProps } from "./Content";
-import { DescriptSectionContainer, ContentsBox } from "./styled";
+import S from "./styled";
 import Center from "src/components/utils/Center";
 
 const contentData: Omit<ContentProps, "toright">[] = [
@@ -25,7 +25,7 @@ const contentData: Omit<ContentProps, "toright">[] = [
 ];
 
 const DescriptSection: React.FC = () => (
-  <DescriptSectionContainer>
+  <S.DescriptSectionContainer>
     <Center className="content">
       <ProgressiveTypography
         boxProps={{
@@ -51,7 +51,7 @@ const DescriptSection: React.FC = () => (
         delay={2}
       />
     </Center>
-    <ContentsBox>
+    <S.ContentsBox>
       {contentData.map((data, i) => (
         <Content
           {...data}
@@ -72,8 +72,8 @@ const DescriptSection: React.FC = () => (
           toright={i % 2 != 0}
         />
       ))}
-    </ContentsBox>
-  </DescriptSectionContainer>
+    </S.ContentsBox>
+  </S.DescriptSectionContainer>
 );
 
 export default DescriptSection;

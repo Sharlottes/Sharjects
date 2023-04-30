@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Header, DummyHeader, TimeConnecter, TimeContent } from "./styled";
+import S from "./styled";
 
 export interface TimelineItemProps extends React.PropsWithChildren {
   title: string;
@@ -10,7 +10,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ title, children }) => (
       display: "flex",
     }}
   >
-    <TimeConnecter
+    <S.TimeConnecter
       hascontent={children ? "true" : ""}
       initial={{ borderLeftColor: "rgba(74.1, 74.1, 74.1, 0)" }}
       whileInView={{ borderLeftColor: "rgba(74.1, 74.1, 74.1, 0.3)" }}
@@ -25,11 +25,11 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ title, children }) => (
     >
       {children ? (
         <>
-          <Header className="has-content">{title}</Header>
-          <TimeContent>{children}</TimeContent>
+          <S.Header className="has-content">{title}</S.Header>
+          <S.TimeContent>{children}</S.TimeContent>
         </>
       ) : (
-        <DummyHeader>{title}</DummyHeader>
+        <S.DummyHeader>{title}</S.DummyHeader>
       )}
     </motion.div>
   </div>

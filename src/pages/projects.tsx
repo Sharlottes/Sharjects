@@ -12,7 +12,7 @@ import Layout from "src/components/Layout";
 import GithubIcon from "src/assets/icons/GithubIcon";
 
 import { motion, Variants } from "framer-motion";
-import * as S from "src/components/pages/projects/styled";
+import S from "src/components/pages/projects/styled";
 import CollapseBar from "src/components/pages/projects/CollapseBar";
 
 const projectData: Array<projectDataType["projects"][0] & { owner: string }> = (

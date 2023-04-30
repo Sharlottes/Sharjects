@@ -1,7 +1,7 @@
 import styled from "@mui/system/styled";
 
-namespace S {
-  export const ProfileContainer = styled("div")(({ theme }) => ({
+export default {
+  ProfileContainer: styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
@@ -19,7 +19,5 @@ namespace S {
     "& button": {
       flex: 2,
     },
-  }));
-}
-
-export default S;
+  })),
+};
