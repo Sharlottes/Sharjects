@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import useSWR from "swr";
@@ -15,13 +17,18 @@ const VscodeStatus: React.FC = () => {
   return (
     <S.VSCodeStatusContainer>
       <S.VSCodeStatusConent>
-        <S.VSCodingImage src="/images/vscodeing.png" />
+        <Image
+          src="/images/vscodeing.png"
+          alt="vscoding icon"
+          width={70}
+          height={70}
+        />
         <div>
-          <S.VSCodeStatusTitle>
+          <Typography>
             Working in
             <br />
             <span>{item.workspaceName}</span>
-          </S.VSCodeStatusTitle>
+          </Typography>
           <Typography>
             line at
             {item.position.map((pos) =>

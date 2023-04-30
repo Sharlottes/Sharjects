@@ -10,18 +10,12 @@ export default {
   VSCodeStatusConent: styled("div")({
     display: "flex",
     alignItems: "center",
-  }),
-
-  VSCodeStatusTitle: styled(Typography)({
-    "& > span": {
+    "& img": {
+      borderRadius: "15px",
+      margin: "0 10px 10px 0",
+    },
+    "& span": {
       wordBreak: "break-all",
     },
-  }),
-
-  VSCodingImage: styled("img")({
-    width: "70px",
-    height: "70px",
-    borderRadius: "15px",
-    margin: "0 10px 10px 0",
   }),
 };

@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import type { MotionProps } from "framer-motion";
-import S from "./styled";
+import type { MotionProps, Variant } from "framer-motion";
+import S from "./Content.styled";
 
 export interface ContentProps extends MotionProps {
   title: string;
@@ -11,6 +11,16 @@ export interface ContentProps extends MotionProps {
   toright: boolean;
 }
 
+const variant: Variant = (i) => ({
+  x: i % 2 == 0 ? "-1%" : "1%",
+  opacity: 1,
+  transition: {
+    delay: 2.25 + i * 0.25,
+    duration: i % 2 != 0 ? 1 : 1.25,
+    ease: [0.79, -0.06, 0.19, 1.16],
+  },
+});
+
 const Content: React.FC<ContentProps> = ({
   title,
   description,
@@ -19,7 +29,17 @@ const Content: React.FC<ContentProps> = ({
   toright,
   ...props
 }) => (
-  <S.ContentContainer toright={toright} image={image} {...props}>
+  <S.ContentContainer
+    {...props}
+    initial={{
+      x: "150%",
+      opacity: 0,
+    }}
+    toright={toright}
+    image={image}
+    variants={{ show: variant }}
+    animate="show"
+  >
     <S.ContentWrapper>
       <Link href={link}>
         <Typography variant="h5" fontWeight="bold">

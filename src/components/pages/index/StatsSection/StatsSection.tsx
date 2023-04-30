@@ -1,14 +1,18 @@
-import React from "react";
-
-import TitleBox from "../TitleBox";
 import SpotifyStatus from "./SpotifyStatus";
 import GithubStatus from "./GithubStatus";
 import VscodeStatus from "./VscodeStatus";
-import S from "./styled";
+import Typography from "@mui/material/Typography";
+import Center from "src/components/utils/Center";
+
+import S from "./StatsSection.styled";
 
 const StatsSection: React.FC = () => (
   <S.StatsSectionContainer className="content">
-    <TitleBox title="Stats" description="지금 이 사람의 여러 상태들은..." />
+    <Center>
+      <Typography variant="h2" fontWeight="bold">
+        Stats
+      </Typography>
+    </Center>
     <S.StatusContainer>
       <SpotifyStatus />
       <VscodeStatus />
