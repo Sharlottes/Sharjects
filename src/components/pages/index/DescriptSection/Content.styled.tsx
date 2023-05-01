@@ -6,8 +6,7 @@ export default {
     shouldForwardProp: (props) => props !== "toright",
   })<{
     toright: boolean;
-    image: string;
-  }>(({ theme, toright, image }) =>
+  }>(({ theme, toright }) =>
     theme.unstable_sx({
       textAlign: "center",
       alignSelf: toright ? "flex-end" : "flex-start",
@@ -17,45 +16,37 @@ export default {
       "--themedColor": theme.palette.mode === "light" ? "white" : "black",
       backgroundColor: "var(--themedColor)",
       transition: "box-shadow 500ms",
-      "&::before": {
-        content: "''",
-        display: "block",
-        position: "fixed",
-        width: "100%",
-        height: "80%",
-        left: 0,
-        right: 0,
+      "& > img": {
+        pointerEvents: "none",
+        position: "absolute",
+        width: "max(500px, 45vw) !important",
         opacity: 0,
+        filter: "blur(10px)",
         zIndex: -1,
         transition: "all 300ms",
-        backdropFilter: "blur(10px)",
         borderRadius: toright ? "20px 1px 1px 20px" : "1px 20px 20px 1px",
-        backgroundImage: `url(${image})`,
         animation: "imageMove 5s linear 0s infinite alternate",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "200%",
       },
       "&:hover": {
         color: "gray",
         boxShadow: `${toright ? "-8px" : "8px"} 8px 15px`,
-        "&::before": {
+        "& > img": {
           opacity: 1,
-          filter: "blur(10px)",
         },
         "& > div": {
-          transition: "all 300ms 0ms",
+          transition: "all 300ms",
           backgroundColor: "rgba(0,0,0,0)",
         },
       },
       "@keyframes imageMove": {
         "0%": {
-          backgroundPosition: "0% 20%",
+          objectPosition: "0% 20%",
         },
         "50%": {
-          backgroundPosition: "50% 70%",
+          objectPosition: "50% 70%",
         },
         "100%": {
-          backgroundPosition: "100% 20%",
+          objectPosition: "100% 20%",
         },
       },
     })

@@ -1,5 +1,6 @@
-import Typography from "@mui/material/Typography";
 import Link from "next/link";
+import Image from "next/image";
+import Typography from "@mui/material/Typography";
 import type { MotionProps, Variant } from "framer-motion";
 import S from "./Content.styled";
 
@@ -40,6 +41,7 @@ const Content: React.FC<ContentProps> = ({
     variants={{ show: variant }}
     animate="show"
   >
+    <Image src={image} fill alt="preview" />
     <S.ContentWrapper>
       <Link href={link}>
         <Typography variant="h5" fontWeight="bold">
