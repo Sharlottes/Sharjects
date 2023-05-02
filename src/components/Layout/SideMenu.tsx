@@ -234,6 +234,7 @@ const SideMenuWrapper: React.FC<{
   return (
     <>
       <IconButton
+        aria-label="sidebar menu"
         sx={{ color: "white" }}
         onClick={() => setOpen((opened) => !opened)}
       >

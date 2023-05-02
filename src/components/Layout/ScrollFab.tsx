@@ -17,13 +17,23 @@ const ScrollFab: React.FC<ScrollFabProps> = ({ target = global.window }) => {
   return (
     <Portal>
       <S.ScrollFabContainer>
-        <Fab size="small" className="main-btn">
+        <Fab size="small" className="main-btn" aria-label="main button">
           <SwapVerticalCircleIcon />
         </Fab>
-        <Fab size="small" className="up-btn" onClick={scrollToTop}>
+        <Fab
+          size="small"
+          className="up-btn"
+          aria-label="to top button"
+          onClick={scrollToTop}
+        >
           <KeyboardArrowUpIcon />
         </Fab>
-        <Fab size="small" className="down-btn" onClick={scrollToBottom}>
+        <Fab
+          size="small"
+          className="down-btn"
+          aria-label="to bottom button"
+          onClick={scrollToBottom}
+        >
           <KeyboardArrowDownIcon />
         </Fab>
       </S.ScrollFabContainer>

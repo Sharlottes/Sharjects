@@ -14,7 +14,7 @@ import S from "./HeaderMenu.styled";
 const IconDrawer: React.FC<{ onClick: React.MouseEventHandler }> = ({
   onClick,
 }) => (
-  <S.HeaderMenuIcon onClick={onClick}>
+  <S.HeaderMenuIcon aria-label="setting menu" onClick={onClick}>
     <SettingsIcon />
   </S.HeaderMenuIcon>
 );
