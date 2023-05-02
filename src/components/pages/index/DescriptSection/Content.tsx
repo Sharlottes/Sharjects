@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import Typography from "@mui/material/Typography";
 import type { MotionProps, Variant } from "framer-motion";
 import S from "./Content.styled";
@@ -7,7 +6,6 @@ import S from "./Content.styled";
 export interface ContentProps extends MotionProps {
   title: string;
   description: string;
-  image: string;
   link: string;
   toright: boolean;
 }
@@ -25,7 +23,6 @@ const variant: Variant = (i) => ({
 const Content: React.FC<ContentProps> = ({
   title,
   description,
-  image,
   link,
   toright,
   ...props
@@ -37,14 +34,16 @@ const Content: React.FC<ContentProps> = ({
       opacity: 0,
     }}
     toright={toright}
-    image={image}
     variants={{ show: variant }}
     animate="show"
   >
-    <Image src={image} fill alt="preview" />
+    <S.Shower i={0} toright={toright} className="shower" />
+    <S.Shower i={1} toright={toright} className="shower" />
+    <S.Shower i={2} toright={toright} className="shower" />
+
     <S.ContentWrapper>
       <Link href={link}>
-        <Typography variant="h5" fontWeight="bold">
+        <Typography fontSize="1.5rem" fontWeight="bold">
           {title}
         </Typography>
         <Typography variant="body2">{description}</Typography>

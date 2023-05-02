@@ -2,19 +2,16 @@
   {
     "title": "타임라인",
     "description": "개발 일대기를 시간 축으로 나열한 자동 수직 스크롤 타임라인",
-    "image": "/images/previews/timeline_preview.png",
     "link": "/timeline"
   },
   {
     "title": "프로젝트",
     "description": "여러가지 분야에 걸친 다양한 개발 프로젝트들의 목록",
-    "image": "/images/previews/projects_preview.png",
     "link": "/projects"
   },
   {
     "title": "블로그",
     "description": "다양한 블로그에 분산된 포스트들을 한 곳에서!",
-    "image": "/images/previews/blog_preview.png",
     "link": "/blogs"
   }
 ]

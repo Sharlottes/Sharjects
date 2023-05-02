@@ -30,6 +30,10 @@ const App: React.FC<AppProps> = ({
       <Head>
         <title>Sharlotte's Portfolio</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <meta
+          name="description"
+          content="the first portfolio website based on Next.js, published on Vercel."
+        />
       </Head>
       <Providers
         emotionCache={emotionCache}
