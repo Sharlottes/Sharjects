@@ -12,7 +12,7 @@ export default {
     theme.unstable_sx({
       position: "absolute",
       alignSelf: toright ? "flex-end" : "flex-start",
-      width: "max(500px, 45vw)",
+      width: "min(max(500px, 45vw), 100vw)",
       height: "99px",
       "&::before": {
         content: "''",
@@ -33,22 +33,23 @@ export default {
         animationDelay: `${i * (toright ? 0.1 : 0.25)}s`,
         [`@keyframes move${i}${toright ? "r" : ""}`]: {
           "0%": {
-            width: "calc(max(500px, 45vw) * 0)",
-            transform: "translateX(calc(max(500px, 45vw) * 0))",
+            width: "calc(min(max(500px, 45vw), 100vw) * 0)",
+            transform: "translateX(calc(min(max(500px, 45vw), 100vw) * 0))",
           },
           "50%": {
-            width: `calc(max(500px, 45vw) * ${toright ? 0 : 1})`,
+            width: `calc(min(max(500px, 45vw), 100vw) * ${toright ? 0 : 1})`,
             clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0 100%)",
-            transform: "translateX(calc(max(500px, 45vw) * 0 - 1px))",
+            transform:
+              "translateX(calc(min(max(500px, 45vw), 100vw) * 0 - 1px))",
           },
           "100%": {
-            width: `calc(max(500px, 45vw) * ${0.2 + 0.15 * i})`,
+            width: `calc(min(max(500px, 45vw), 100vw) * ${0.2 + 0.15 * i})`,
             clipPath: toright
               ? "polygon(0% 0%, 50% 0%, 100% 100%, 0 100%)"
               : "polygon(50% 0%, 100% 0%, 100% 100%, 0 100%)",
             transform: toright
-              ? "translateX(calc(max(500px, 45vw) * 0))"
-              : `translateX(calc(max(500px, 45vw) * ${
+              ? "translateX(calc(min(max(500px, 45vw), 100vw) * 0))"
+              : `translateX(calc(min(max(500px, 45vw), 100vw) * ${
                   1 - (0.2 + 0.15 * i)
                 } - 1px))`,
           },
@@ -65,7 +66,7 @@ export default {
       "--themedColor": theme.palette.mode === "light" ? "white" : "black",
       textAlign: "center",
       alignSelf: toright ? "flex-end" : "flex-start",
-      width: "max(500px, 45vw)",
+      width: "min(max(500px, 45vw), 100vw)",
       height: "100px",
       border: "1px solid gray",
       borderRadius: toright ? "20px 1px 1px 20px" : "1px 20px 20px 1px",
