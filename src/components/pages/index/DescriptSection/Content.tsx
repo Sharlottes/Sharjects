@@ -43,7 +43,7 @@ const Content: React.FC<ContentProps> = ({
 
     <S.ContentWrapper>
       <Link href={link}>
-        <Typography variant="h5" fontWeight="bold">
+        <Typography fontSize="1.5rem" fontWeight="bold">
           {title}
         </Typography>
         <Typography variant="body2">{description}</Typography>
