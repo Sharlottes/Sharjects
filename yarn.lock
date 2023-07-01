@@ -1314,10 +1314,10 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.3.tgz#cef09e3ec9af1d63d2a6cc5b383a737e24e6dcf5"
   integrity sha512-5cJ8CB4yAx7BH1oMvdU0Jh9lrEXyPkar6F9G/ERswkCuvP4KQZfZkSjcMbAICCpQTN4OuZn8tz0HiKv9TGZgrQ==
 
-"@types/spotify-api@^0.0.19":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@types/spotify-api/-/spotify-api-0.0.19.tgz#8788819f199b90ad2784b97390a2d353c7463cb1"
-  integrity sha512-tdtxjhZs7w/dN7kpeezRe492kXzWXvilW/1ibNMoM2ymcRwKCrK5exEeBNCZhwZMtG+S2eZMaAaBsnTnqun1PQ==
+"@types/spotify-api@^0.0.22":
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/@types/spotify-api/-/spotify-api-0.0.22.tgz#762707c4ad323e9d1c4e75e85742ad50e1666942"
+  integrity sha512-oZLKiI6Fck/BGd0QdmIdJCY351xQfRkfpx2Q23jIntL3YQx85vScYuFJMK81/NoSK9m7HYOl2DW4A9WomDuJOA==
 
 "@types/webidl-conversions@*":
   version "7.0.0"
