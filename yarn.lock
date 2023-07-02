@@ -3071,10 +3071,10 @@ nopt@^5.0.0:
   dependencies:
     abbrev "1"
 
-notistack@3.0.0-alpha.11:
-  version "3.0.0-alpha.11"
-  resolved "https://registry.yarnpkg.com/notistack/-/notistack-3.0.0-alpha.11.tgz#9c089e6a8c3c37b8899b22a094471feebba89c64"
-  integrity sha512-QfiVC1On1Zfs1UADxgRRhcVhAWveD3lBUKhDwx0GdXoSKii0UARz0tfJyIwwOxy5Lr+DOeAHz8Mvl1GwpeVnQQ==
+notistack@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/notistack/-/notistack-3.0.1.tgz#daf59888ab7e2c30a1fa8f71f9cba2978773236e"
+  integrity sha512-ntVZXXgSQH5WYfyU+3HfcXuKaapzAJ8fBLQ/G618rn3yvSzEbnOB8ZSOwhX+dAORy/lw+GC2N061JA0+gYWTVA==
   dependencies:
     clsx "^1.1.0"
     goober "^2.0.33"
