@@ -2,13 +2,11 @@ import React from "react";
 import { MDXProvider } from "@mdx-js/react";
 import S from "./styled";
 import TimelineItem from "./TimelineItem";
-import { getTimelineItems } from "..";
+import { useTimeline } from "../TimelineProvider";
 
 type dateType = `${string}.${string}.${string}`;
 type componentDataType = Record<dateType, typeof import("*.mdx")["default"]>;
-
-const years = [2020, 2021, 2022, 2023];
-const dates = Array.from(years, (year) =>
+const dates = Array.from([2020, 2021, 2022, 2023], (year) =>
   Array.from({ length: 12 }, (_, month) =>
     Array.from(
       { length: 32 },
@@ -21,6 +19,7 @@ const dates = Array.from(years, (year) =>
 ).flat(2) as dateType[];
 
 const TimelineItems: React.FC = () => {
+  const { initTimelineItems } = useTimeline();
   const [Components, setComponents] = React.useState<componentDataType>({});
 
   React.useEffect(() => {
@@ -38,7 +37,7 @@ const TimelineItems: React.FC = () => {
         (r): r is NonNullable<typeof r> => r !== undefined
       );
       setComponents(Object.fromEntries(items));
-      setTimeout(() => getTimelineItems(true), 500);
+      setTimeout(() => initTimelineItems(), 500);
     });
   }, []);
 

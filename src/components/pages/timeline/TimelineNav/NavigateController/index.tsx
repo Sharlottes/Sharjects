@@ -1,11 +1,10 @@
 import React from "react";
 
-import useNearestItem from "../useNearestItem";
-import useSortedItems from "../useSortedItems";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
 import S from "./styled";
-import { scrollWindow } from "../..";
+import { getTLD, useTimeline } from "../../TimelineProvider";
+import useScrollEvent from "src/hooks/useScrollEvent";
 
 export interface NavigateControllerProps {
   onBackClick: () => void;
@@ -14,8 +13,31 @@ export interface NavigateControllerProps {
 const NavigateController: React.FC<NavigateControllerProps> = ({
   onBackClick,
 }) => {
-  const nearestItem = useNearestItem();
-  const sortedItems = useSortedItems();
+  const {
+    timelineItems,
+    currentItem: currentItemRef,
+    scrollWindow,
+  } = useTimeline();
+  const [sortedItems, setSortedItems] = React.useState<HTMLDivElement[]>([]);
+
+  useScrollEvent(() => {
+    const currentItem = currentItemRef.current;
+    if (!currentItem) return;
+
+    const itemCount = 5;
+    const list = timelineItems.current;
+    const index = list.findIndex(
+      (elem) => getTLD(elem, "date") == getTLD(currentItem, "date")
+    );
+    if (index == -1) return [];
+
+    setSortedItems(
+      list.slice(
+        Math.max(0, index - ~~(itemCount / 2)),
+        Math.min(list.length, index + ~~(itemCount / 2) + 1)
+      )
+    );
+  });
 
   return (
     <div>
@@ -24,16 +46,21 @@ const NavigateController: React.FC<NavigateControllerProps> = ({
       </IconButton>
       <S.NavigateContainer>
         {sortedItems.map((elem, i, arr) => (
-          <React.Fragment key={elem.date}>
+          <React.Fragment key={getTLD(elem, "date")}>
             <S.NavigateItem
-              current={elem.y === nearestItem.y}
-              onClick={() => scrollWindow(elem.y)}
+              current={
+                !!currentItemRef.current &&
+                getTLD(elem, "date") === getTLD(currentItemRef.current, "date")
+              }
+              onClick={() => scrollWindow(getTLD(elem, "y"))}
             >
-              {elem.date}
+              {getTLD(elem, "date")}
             </S.NavigateItem>
             <S.NavigateItemDivider
               show={
-                i !== arr.length - 1 && elem.date !== "" && elem.date !== "end"
+                i !== arr.length - 1 &&
+                getTLD(elem, "date") !== "" &&
+                getTLD(elem, "date") !== "end"
               }
             />
           </React.Fragment>

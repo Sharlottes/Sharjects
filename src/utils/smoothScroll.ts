@@ -21,9 +21,13 @@ type smoothScrollType = (
  * */
 const smoothScroll: smoothScrollType = (
   from = 0,
-  { offset = 0, timeout = 5000, target = window } = {}
+  { offset = 0, timeout = 3000, target = window } = {}
 ) => {
-  const targetPosition = from + offset;
+  const targetPosition = Math.max(
+    0,
+    Math.min(document.body.scrollHeight - window.innerHeight, from + offset)
+  );
+  console.log(targetPosition);
   target.scrollTo({
     top: targetPosition,
     behavior: "smooth",
@@ -36,23 +40,21 @@ const smoothScroll: smoothScrollType = (
     );
 
   return new Promise((resolve, reject) => {
-    if (getCurrentGap() > 1) {
-      resolve();
-      return;
-    }
-
-    const failed = setTimeout(() => {
+    const timeoutID = setTimeout(() => {
       reject("scroll timeout!");
       target.removeEventListener("scroll", scrollHandler);
     }, timeout);
+    const intervalID = setInterval(() => {
+      scrollHandler();
+    }, 100);
 
-    const scrollHandler = () => {
-      console.log(getCurrentGap());
+    function scrollHandler() {
       if (getCurrentGap() > 1) return;
       target.removeEventListener("scroll", scrollHandler);
-      clearTimeout(failed);
+      clearTimeout(timeoutID);
+      clearInterval(intervalID);
       resolve();
-    };
+    }
     target.addEventListener("scroll", scrollHandler);
   });
 };

@@ -8,29 +8,32 @@ import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrow
 import IconButton from "@mui/material/IconButton";
 
 import DateTypography, { type DateTypographyProps } from "./DateTypography";
-import { scrollWindow, tryScroll } from "../..";
+import { useTimeline, ScrollDirectionType } from "../../TimelineProvider";
 
-const buttons: [React.FC, () => void][] = [
-  [KeyboardDoubleArrowUpIcon, () => scrollWindow(0)],
-  [KeyboardArrowUpIcon, () => tryScroll("up")],
-  [KeyboardArrowDownIcon, () => tryScroll("down")],
-  [
-    KeyboardDoubleArrowDownIcon,
-    () => scrollWindow(document.documentElement.scrollHeight),
-  ],
+const buttons: [React.FC, ScrollDirectionType | (() => number)][] = [
+  [KeyboardDoubleArrowUpIcon, () => 0],
+  [KeyboardArrowUpIcon, "up"],
+  [KeyboardArrowDownIcon, "down"],
+  [KeyboardDoubleArrowDownIcon, () => document.documentElement.scrollHeight],
 ];
 
-const ScrollController: React.FC<DateTypographyProps> = (props) => (
-  <div>
-    {buttons.map(([Icon, onClick], i) => (
-      <React.Fragment key={i}>
-        <IconButton onClick={onClick}>
-          <Icon />
-        </IconButton>
-        {i == 1 && <DateTypography {...props} />}
-      </React.Fragment>
-    ))}
-  </div>
-);
+export default function ScrollController(props: DateTypographyProps) {
+  const { scrollWindow } = useTimeline();
 
-export default ScrollController;
+  return (
+    <div>
+      {buttons.map(([Icon, getY], i) => (
+        <React.Fragment key={i}>
+          <IconButton
+            onClick={() =>
+              scrollWindow(typeof getY === "string" ? getY : getY())
+            }
+          >
+            <Icon />
+          </IconButton>
+          {i == 1 && <DateTypography {...props} />}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}

@@ -1,7 +1,9 @@
 import React from "react";
-import { tryScroll } from ".";
+import { useTimeline } from "./TimelineProvider";
 
 export const useObserveKeyHandle = () => {
+  const { scrollWindow } = useTimeline();
+
   React.useEffect(() => {
     const handleScroll = (event: Event) => {
       event.preventDefault();
@@ -9,7 +11,8 @@ export const useObserveKeyHandle = () => {
 
     const handleWheel = (event: WheelEvent) => {
       event.preventDefault();
-      tryScroll(event.deltaY >= 0 ? "down" : "up");
+      const direction = event.deltaY >= 0 ? "down" : "up";
+      scrollWindow(direction);
     };
 
     const handleKeydown = (event: KeyboardEvent) => {
@@ -19,9 +22,10 @@ export const useObserveKeyHandle = () => {
           : event.key === "s" || event.key === "ArrowDown"
           ? "down"
           : undefined;
+
       if (direction) {
-        tryScroll(direction);
         event.preventDefault();
+        scrollWindow(direction);
       }
     };
 

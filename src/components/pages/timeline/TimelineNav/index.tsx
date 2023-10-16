@@ -5,8 +5,11 @@ import ScrollController from "./ScrollController";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import S from "./styled";
+import { useObserveKeyHandle } from "../useObserveKeyHandle";
 
 const TimelineNav: React.FC = () => {
+  useObserveKeyHandle();
+
   const [toggled, setToggled] = React.useState(false);
   const [showed, setShowed] = React.useState(false);
   const showHandler = () => setShowed((prev) => !prev);
