@@ -13,7 +13,7 @@ const DateTypography: React.FC<DateTypographyProps> = ({ onDateClick }) => {
       sx={{ cursor: "pointer", width: "80px", textAlign: "center" }}
       onClick={onDateClick}
     >
-      {nearestItem.date}
+      {nearestItem?.date}
     </Typography>
   );
 };

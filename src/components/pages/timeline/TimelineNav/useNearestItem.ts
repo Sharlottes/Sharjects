@@ -2,10 +2,9 @@ import React from "react";
 import { TimelineItemData, getNearestItem } from "..";
 
 const useNearestItem = () => {
-  const [nearestItem, setNearestItem] = React.useState<TimelineItemData>({
-    y: 0,
-    date: "top",
-  });
+  const [nearestItem, setNearestItem] = React.useState<
+    TimelineItemData | undefined
+  >();
 
   React.useEffect(() => {
     const handleScroll = () => setNearestItem(getNearestItem(undefined));

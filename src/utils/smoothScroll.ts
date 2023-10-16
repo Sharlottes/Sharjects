@@ -29,11 +29,14 @@ const smoothScroll: smoothScrollType = (
     behavior: "smooth",
   });
 
+  const getCurrentGap = () =>
+    Math.abs(
+      (target instanceof Window ? target.scrollY : target.scrollTop) -
+        targetPosition
+    );
+
   return new Promise((resolve, reject) => {
-    if (
-      (target instanceof Window ? target.scrollY : target.scrollTop) ===
-      targetPosition
-    ) {
+    if (getCurrentGap() > 1) {
       resolve();
       return;
     }
@@ -44,11 +47,8 @@ const smoothScroll: smoothScrollType = (
     }, timeout);
 
     const scrollHandler = () => {
-      if (
-        (target instanceof Window ? target.scrollY : target.scrollTop) !==
-        targetPosition
-      )
-        return;
+      console.log(getCurrentGap());
+      if (getCurrentGap() > 1) return;
       target.removeEventListener("scroll", scrollHandler);
       clearTimeout(failed);
       resolve();
