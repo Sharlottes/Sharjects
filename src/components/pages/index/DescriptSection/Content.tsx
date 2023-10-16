@@ -14,7 +14,7 @@ const variant: Variant = (i) => ({
   x: i % 2 == 0 ? "-1%" : "1%",
   opacity: 1,
   transition: {
-    delay: 2.25 + i * 0.25,
+    delay: i * 0.25,
     duration: i % 2 != 0 ? 1 : 1.25,
     ease: [0.79, -0.06, 0.19, 1.16],
   },
