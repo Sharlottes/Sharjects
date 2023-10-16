@@ -30,7 +30,16 @@ function Providers({ emotionCache, session, auth, children }: ProvidersProps) {
             <SWRConfig
               value={{
                 fetcher: (resource, init) =>
-                  fetch(resource, init).then((res) => res.json()),
+                  fetch(resource, init).then(
+                    (res) => {
+                      if (res.status >= 400) console.error(res);
+                      else return res.json();
+                    },
+                    (err) => {
+                      console.error(err);
+                      return undefined;
+                    }
+                  ),
               }}
             >
               <AuthWrapper auth={auth}>{children}</AuthWrapper>
