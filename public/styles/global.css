@@ -10,12 +10,9 @@ main {
 }
 
 /* hyperlink style is awful */
-a:not([href^="http"]) {
+a {
   text-decoration: none;
   color: inherit;
-}
-a[href^="http"] {
-  color: auto;
 }
 
 p {
