@@ -9,7 +9,7 @@ export default {
     "& p": {
       color: theme.palette.primary.main,
       fontSize: "25px",
-      fontFamily: "Nanum Pen Script",
+      fontFamily: "var(--font-nanum-pen-script)",
     },
   })),
 };
