@@ -1,5 +1,7 @@
 //@ts-check
 import mdnConfig from "@next/mdx";
+import { createVanillaExtractPlugin } from "@vanilla-extract/next-plugin";
+const withVanillaExtract = createVanillaExtractPlugin();
 
 const withMDX = mdnConfig({
   extension: /\.mdx?$/,
@@ -22,4 +24,4 @@ const nextConfig = {
   },
 };
 
-export default withMDX(nextConfig);
+export default withVanillaExtract(withMDX(nextConfig));

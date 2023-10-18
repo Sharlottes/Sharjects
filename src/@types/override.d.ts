@@ -21,3 +21,25 @@ declare module "notistack" {
     lifebar: true;
   }
 }
+
+declare global {
+  interface CustomPalette {
+    themedBlack: string;
+    themedWhite: string;
+    text: {
+      primary: string;
+      secondary: string;
+    };
+    github: {
+      backgroundColor: string;
+      linkColor: string;
+      borderColor: string;
+      iconColor: string;
+    };
+  }
+}
+
+declare module "@mui/material/styles" {
+  interface Palette extends CustomPalette {}
+  interface PaletteOptions extends Partial<CustomPalette> {}
+}
