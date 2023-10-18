@@ -1,7 +1,6 @@
 import { CacheProvider, type EmotionCache } from "@emotion/react";
 import MainThemeProvider from "./MainThemeProvider";
 import useAnalyticTracker from "src/hooks/useAnalyticTracker";
-import CssBaseline from "@mui/material/CssBaseline";
 import { SessionProvider } from "next-auth/react";
 import { SnackbarProvider } from "notistack";
 import { SWRConfig } from "swr";
@@ -21,7 +20,6 @@ function Providers({ emotionCache, session, auth, children }: ProvidersProps) {
   return (
     <CacheProvider value={emotionCache}>
       <MainThemeProvider>
-        <CssBaseline />
         <SessionProvider session={session}>
           <SnackbarProvider
             maxSnack={3}

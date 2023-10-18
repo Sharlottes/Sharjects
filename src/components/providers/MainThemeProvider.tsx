@@ -3,6 +3,7 @@ import React from "react";
 import * as Colors from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 import type { PaletteMode } from "@mui/material";
 import U from "./MainThemeProvider.util";
@@ -53,6 +54,8 @@ const MainThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   return (
     <ControllerContext.Provider value={defaultControllerContext}>
+      <CssBaseline enableColorScheme />
+
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </ControllerContext.Provider>
   );
