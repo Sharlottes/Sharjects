@@ -43,6 +43,9 @@ namespace U {
     palette: ColorPalette
   ): ThemeOptions {
     return {
+      typography: {
+        fontFamily: "inherit",
+      },
       palette: {
         mode,
         primary: {

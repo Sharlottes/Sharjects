@@ -6,16 +6,15 @@ import Head from "next/head";
 import createCache from "@emotion/cache";
 import Providers from "src/components/providers/Providers";
 import useAnalyticTracker from "src/hooks/useAnalyticTracker";
-import { Roboto, Nanum_Pen_Script } from "next/font/google";
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
-  display: "swap",
+import localFont from "next/font/local";
+import { Nanum_Pen_Script } from "next/font/google";
+const pretendard = localFont({
+  src: "../../public/fonts/PretendardVariable.woff2",
+  variable: "--font-pretendard",
 });
 const nanumPenScript = Nanum_Pen_Script({
   subsets: ["latin"],
   weight: "400",
-  display: "swap",
 });
 
 import "public/styles/global.css";
@@ -40,11 +39,11 @@ const App: React.FC<AppProps> = ({
     <>
       <style jsx global>{`
         :root {
-          --font-roboto: ${roboto.style.fontFamily};
+          --font-pretendard: ${pretendard.style.fontFamily};
           --font-nanum-pen-script: ${nanumPenScript.style.fontFamily};
         }
-        html {
-          font-family: var(--font-roboto);
+        * {
+          font-family: var(--font-pretendard);
         }
       `}</style>
       <Head>
