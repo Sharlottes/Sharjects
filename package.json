@@ -1,4 +1,5 @@
 {
+  "name": "Sharjects",
   "scripts": {
     "dev": "next dev",
     "buildstart": "next build && next start",

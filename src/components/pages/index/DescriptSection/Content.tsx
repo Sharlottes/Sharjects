@@ -1,7 +1,9 @@
 import Link from "next/link";
 import Typography from "@mui/material/Typography";
+import { motion } from "framer-motion";
 import type { MotionProps, Variant } from "framer-motion";
-import S from "./Content.styled";
+import * as styles from "./Content.css";
+import { assignInlineVars } from "@vanilla-extract/dynamic";
 
 export interface ContentProps extends MotionProps {
   title: string;
@@ -20,36 +22,48 @@ const variant: Variant = (i) => ({
   },
 });
 
-const Content: React.FC<ContentProps> = ({
+function Content({
   title,
   description,
   link,
   toright,
   ...props
-}) => (
-  <S.ContentContainer
-    {...props}
-    initial={{
-      x: "150%",
-      opacity: 0,
-    }}
-    toright={toright}
-    variants={{ show: variant }}
-    animate="show"
-  >
-    <S.Shower i={0} toright={toright} className="shower" />
-    <S.Shower i={1} toright={toright} className="shower" />
-    <S.Shower i={2} toright={toright} className="shower" />
+}: ContentProps) {
+  return (
+    <motion.div
+      {...props}
+      className={styles.contentContainer}
+      data-toright={toright}
+      initial={{
+        x: "150%",
+        opacity: 0,
+      }}
+      variants={{ show: variant }}
+      animate="show"
+    >
+      <div
+        className={styles.shower}
+        style={assignInlineVars({ [styles.i]: "0" })}
+      />
+      <div
+        className={styles.shower}
+        style={assignInlineVars({ [styles.i]: "1" })}
+      />
+      <div
+        className={styles.shower}
+        style={assignInlineVars({ [styles.i]: "2" })}
+      />
 
-    <S.ContentWrapper>
-      <Link href={link}>
-        <Typography fontSize="1.5rem" fontWeight="bold">
-          {title}
-        </Typography>
-        <Typography variant="body2">{description}</Typography>
-      </Link>
-    </S.ContentWrapper>
-  </S.ContentContainer>
-);
+      <div className={styles.contentWrapper}>
+        <Link href={link}>
+          <Typography fontSize="1.5rem" fontWeight="bold">
+            {title}
+          </Typography>
+          <Typography variant="body2">{description}</Typography>
+        </Link>
+      </div>
+    </motion.div>
+  );
+}
 
 export default Content;

@@ -6,7 +6,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import type { PaletteMode } from "@mui/material";
-import U from "./MainThemeProvider.util";
+import * as U from "./MainThemeProvider.util";
+import { getCssVariablesByTheme } from "src/utils/getCssVariablesByTheme";
 
 type ColorPalette = Exclude<keyof typeof Colors, "common">;
 interface ThemeController {
@@ -52,12 +53,22 @@ const MainThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     [mode, palette]
   );
 
-  return (
-    <ControllerContext.Provider value={defaultControllerContext}>
-      <CssBaseline enableColorScheme />
+  const { css: cssVariableTheme } = React.useMemo(
+    () => getCssVariablesByTheme(theme),
+    [theme]
+  );
 
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
-    </ControllerContext.Provider>
+  return (
+    <>
+      <style>{`
+      :root {
+        ${cssVariableTheme}
+      }`}</style>
+      <ControllerContext.Provider value={defaultControllerContext}>
+        <CssBaseline />
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      </ControllerContext.Provider>
+    </>
   );
 };
 

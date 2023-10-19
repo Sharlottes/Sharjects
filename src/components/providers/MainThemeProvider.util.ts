@@ -3,7 +3,7 @@ import type { PaletteMode, ThemeOptions } from "@mui/material";
 
 type ColorPalette = Exclude<keyof typeof Colors, "common">;
 
-function getLightPalette() {
+function getLightPalette(): CustomPalette {
   return {
     themedBlack: "black",
     themedWhite: "white",
@@ -20,7 +20,7 @@ function getLightPalette() {
   };
 }
 
-function getDarkPalette() {
+function getDarkPalette(): CustomPalette {
   return {
     themedBlack: "white",
     themedWhite: "black",
@@ -37,24 +37,20 @@ function getDarkPalette() {
   };
 }
 
-namespace U {
-  export function getDesignTokens(
-    mode: PaletteMode,
-    palette: ColorPalette
-  ): ThemeOptions {
-    return {
-      typography: {
-        fontFamily: "inherit",
+export function getDesignTokens(
+  mode: PaletteMode,
+  palette: ColorPalette
+): ThemeOptions {
+  return {
+    typography: {
+      fontFamily: "inherit",
+    },
+    palette: {
+      mode,
+      primary: {
+        main: Colors[palette][300],
       },
-      palette: {
-        mode,
-        primary: {
-          main: Colors[palette][300],
-        },
-        ...(mode === "light" ? getLightPalette() : getDarkPalette()),
-      },
-    };
-  }
+      ...(mode === "light" ? getLightPalette() : getDarkPalette()),
+    },
+  };
 }
-
-export default U;
