@@ -27,7 +27,6 @@ const smoothScroll: smoothScrollType = (
     0,
     Math.min(document.body.scrollHeight - window.innerHeight, from + offset)
   );
-  console.log(targetPosition);
   target.scrollTo({
     top: targetPosition,
     behavior: "smooth",

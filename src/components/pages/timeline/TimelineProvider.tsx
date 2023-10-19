@@ -37,7 +37,6 @@ export default function TimelineProvider({
   const [_, rerender] = useState<void>();
 
   const scrollWindow = (y: number | ScrollDirectionType) => {
-    console.log("called", isScrolling);
     if (isScrolling) return;
     isScrolling = true;
     if (typeof y === "string") {
