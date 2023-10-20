@@ -1,6 +1,3 @@
-import React from "react";
-import VisitorGraphDialog from "./VisitorGraphDialog";
-import Box from "@mui/material/Box";
 import useSWR from "swr";
 
 const dateCode = (() => {
@@ -11,7 +8,6 @@ const dateCode = (() => {
 })();
 
 const VisitorStatus: React.FC = () => {
-  const [dialogOpen, setDialogOpen] = React.useState(false);
   const { data: visitors, isLoading } =
     useSWR<Record<string, number>>("/api/visit");
 
@@ -30,24 +26,6 @@ const VisitorStatus: React.FC = () => {
         <>
           이 사이트는 오늘 {visitors[dateCode] || 0}번 조회되었고, 총{" "}
           {Object.values(visitors).reduce((a, e) => a + e, 0)}번 조회되었어요.
-          <Box
-            component="span"
-            onClick={() => setDialogOpen(true)}
-            sx={{
-              color: (theme) =>
-                theme.palette.mode === "dark" ? "skyblue" : "blue",
-              cursor: "pointer",
-            }}
-          >
-            그래프 보기
-          </Box>
-          <VisitorGraphDialog
-            data={visitors}
-            maxWidth="xs"
-            fullWidth
-            onClose={() => setDialogOpen(false)}
-            open={dialogOpen}
-          />
         </>
       )}
     </div>
