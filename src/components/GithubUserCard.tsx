@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 
 import useSWR from "swr";
-import { useSession } from "next-auth/react";
 import type { SvgIconProps } from "@mui/material";
 
 import FollowerIcon from "src/assets/icons/github/FollowerIcon";
@@ -11,9 +10,7 @@ import GistIcon from "src/assets/icons/github/GistIcon";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 
-import U from "./GithubUserCard.util";
 import S from "./GithubUserCard.styled";
 
 function getIcons(
@@ -47,20 +44,7 @@ export interface GithubUserCardProps {
 }
 
 const GithubUserCard: React.FC<GithubUserCardProps> = ({ username }) => {
-  const { data: session } = useSession();
   const { data: user } = useSWR<GithubAPIUser>(`/api/github/users/${username}`);
-  const { data: isFollowing, mutate } = useSWR(
-    () =>
-      session && user
-        ? [session, user, `https://api.github.com/user/following/${user.login}`]
-        : null,
-    U.fetchFollowingToGet
-  );
-  const fetchFollowing = () => {
-    U.fetchFollowingToPost(session, user, isFollowing ? "DELETE" : "PUT")?.then(
-      (res) => res.ok && mutate((prev) => !prev)
-    );
-  };
 
   if (!user) return <CircularProgress />;
 
@@ -74,20 +58,12 @@ const GithubUserCard: React.FC<GithubUserCardProps> = ({ username }) => {
           </Typography>
           <Typography variant="caption">{user.name ?? "<Empty>"}</Typography>
         </div>
-        <Button
-          size="small"
-          variant="outlined"
-          onClick={fetchFollowing}
-          disabled={user.name === session?.user?.name}
-        >
-          {isFollowing ? "UnFollow" : "Follow"}
-        </Button>
       </S.GithubCardHeader>
       <S.GithubCardBody>
         <Typography variant="body1">{user.bio}</Typography>
         <div className="icons">
           {getIcons(user).map(([value, url, Icon], i) => (
-            <Link key={i} href={url.toString()}>
+            <Link key={i} href={url}>
               <Icon fontSize="small" />
               {value}
             </Link>

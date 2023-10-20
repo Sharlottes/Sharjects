@@ -10,8 +10,8 @@ import ForkIcon from "src/assets/icons/github/ForkIcon";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 
-import U from "./GithubRepoCard.util";
 import S from "./GithubRepoCard.styled";
+import stringToElement from "src/utils/stringToElement";
 
 export interface GithubRepoCardProps {
   username: string;
@@ -50,7 +50,7 @@ const GithubRepoCard: React.FC<GithubRepoCardProps> = ({
       </S.GithubCardHeader>
       <S.GithubCardDescription>
         {data.description &&
-          U.stringToElement(
+          stringToElement(
             data.description,
             /:(\w+):/g,
             (name, offset) => (
