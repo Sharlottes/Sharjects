@@ -1,15 +1,15 @@
-type throttleType = <PT extends Array<any>, RT = void>(
+export const throttle = <PT extends Array<any>, RT = void>(
   callback: (...args: PT) => RT,
-  duration?: number
-) => (
-  ...params: Parameters<typeof callback>
-) => ReturnType<typeof callback> | undefined;
-
-export const throttle: throttleType = (callback, duration = 100) => {
+  duration = 100,
+  force = (..._: PT) => false
+): ((...args: PT) => RT | undefined) => {
   let id: NodeJS.Timeout | undefined;
 
   return (...params) => {
-    if (id) return;
+    if (id) {
+      if (force(...params)) clearTimeout(id);
+      else return;
+    }
     id = setTimeout(() => (id = undefined), duration);
     return callback(...params);
   };

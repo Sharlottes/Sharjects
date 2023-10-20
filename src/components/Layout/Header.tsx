@@ -2,79 +2,114 @@ import React from "react";
 import Link from "next/link";
 
 import Tooltip from "@mui/material/Tooltip";
-import { throttle } from "src/utils/throttle";
+import Toolbar from "@mui/material/Toolbar";
+import AppBar from "@mui/material/AppBar";
 
-import {
-  AnimationControls,
-  Variants,
-  motion,
-  useAnimationControls,
-} from "framer-motion";
-import HeaderMenu from "./HeaderMenu";
+import { motion, useAnimationControls, useScroll } from "framer-motion";
+
+import { useThemeController } from "src/components/providers/MainThemeProvider";
+import { throttle } from "src/utils/throttle";
+import Mathf from "src/utils/Mathf";
+
+import ThemedColorSelectionMenu from "./ThemedColorSelectionMenu";
 import SideMenu from "./SideMenu";
 
-import S from "./Header.styled";
-import U from "./Header.util";
+import { ThemeSwitch } from "./Header.styled";
+import * as styles from "./Header.css";
 
-export interface MenuOpenData {
-  side: boolean;
-  setting: boolean;
-}
-
-export interface HeaderProps {
-  additional?: React.ReactNode | undefined;
-}
-
-const Header: React.FC<HeaderProps> = ({ additional }) => {
-  const startAnimation = throttle(
-    (controller: AnimationControls, variant: Variants) =>
-      controller.start(variant[U.decideAnimation(menuOpened)]),
-    0.3 * 1000
-  );
-
-  const [menuOpened, setMenuOpened] = React.useState<MenuOpenData>({
-    side: false,
-    setting: false,
-  });
-
+export default function Header({ children }: React.PropsWithChildren) {
+  const [menuOpened, setMenuOpened] = React.useState(false);
+  const appBarRef = React.useRef<HTMLDivElement>(null!);
+  const { toggleColorMode } = useThemeController();
   const controller = useAnimationControls();
-  const alphaAmount = U.useHeaderAlphaAmount();
-  const variants = U.useHeaderAnimationVariants();
+  const { scrollY } = useScroll();
+
+  const handleOpenChanged = (isOpened: boolean) => {
+    setMenuOpened(isOpened);
+    controller.start(window.scrollY != 0 || isOpened ? "init" : "blur");
+  };
 
   React.useEffect(() => {
-    startAnimation(controller, variants);
-  }, [controller, variants, menuOpened]);
+    let lastY = scrollY.get();
+    const handleHeaderStyle = (lastY: number) => {
+      appBarRef.current.style.setProperty(
+        styles.alphaAmount.replaceAll(/var\((--.*),?.*\)$/g, "$1"),
+        String(
+          menuOpened
+            ? 0
+            : Mathf.clamp(
+                ((lastY / 100) * document.body.scrollHeight) / THRESHOLD
+              )
+        )
+      );
+    };
+    const handleScrollEvent = throttle(
+      (y = window.scrollY) => {
+        lastY = y;
+        controller.start(y == 0 || menuOpened ? "init" : "blur");
+      },
+      0.1 * 1000,
+      (y = window.scrollY) => lastY != y
+    );
+    const handleEvent = (ev: number | UIEvent) => {
+      const y = typeof ev === "number" ? ev : window.scrollY;
+      handleScrollEvent(y);
+      handleHeaderStyle(y);
+    };
+    handleEvent(window.scrollY);
+    const removeScrollEvent = scrollY.on("change", handleEvent);
+    window.addEventListener("resize", handleEvent);
+    return () => {
+      window.removeEventListener("resize", handleEvent);
+      removeScrollEvent();
+    };
+  }, [controller, scrollY, menuOpened]);
 
   return (
-    <motion.header>
-      <S.StyledAppBar
-        alpha={menuOpened.setting || menuOpened.side ? 1.4 : alphaAmount}
-        animate={controller}
-        transition={{ duration: 0.3 }}
-        variants={variants}
-        position="fixed"
-      >
-        <S.StyledToolbar>
-          <SideMenu
-            onOpenChanged={(isOpened) => {
-              setMenuOpened((prev) => ({ ...prev, side: isOpened }));
-            }}
-          />
-          <Tooltip title="back to main">
-            <S.LandingPageLinkButton>
-              <Link href="/">Sharlotte</Link>
-            </S.LandingPageLinkButton>
-          </Tooltip>
-          <HeaderMenu
-            onOpenChanged={(isOpened) => {
-              setMenuOpened((prev) => ({ ...prev, setting: isOpened }));
-            }}
-          />
-        </S.StyledToolbar>
-        {additional}
-      </S.StyledAppBar>
-    </motion.header>
+    <AppBar
+      ref={appBarRef}
+      className={styles.appBar}
+      component={motion.header}
+      animate={controller}
+      transition={{ duration: 0.3 }}
+      variants={variants}
+    >
+      <Toolbar className={styles.toolbar}>
+        <SideMenu onOpenChanged={handleOpenChanged} />
+        <Tooltip title="back to main">
+          <Link href="/" className={styles.gotoHomeLink}>
+            Sharlotte
+          </Link>
+        </Tooltip>
+        <ThemedColorSelectionMenu />
+        <ThemeSwitch
+          focusVisibleClassName=".Mui-focusVisible"
+          disableRipple
+          onClick={toggleColorMode}
+        />
+      </Toolbar>
+      {children}
+    </AppBar>
   );
-};
+}
 
-export default Header;
+const THRESHOLD = 300;
+const variants = {
+  blur: () => {
+    const fullWidth = document.body.offsetWidth;
+    const headerWidth = fullWidth - Math.min(400, fullWidth * 0.15);
+    const gap = (fullWidth - headerWidth) / 2;
+    return {
+      width: fullWidth - Math.min(400, fullWidth * 0.15),
+      x: gap,
+      margin: `10px 0`,
+      borderRadius: "20px",
+    };
+  },
+  init: () => ({
+    width: document.body.offsetWidth,
+    x: 0,
+    margin: 0,
+    borderRadius: "0px",
+  }),
+};
