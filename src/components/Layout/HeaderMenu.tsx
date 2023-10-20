@@ -2,9 +2,7 @@ import React from "react";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useTheme } from "@mui/material/styles";
-import Divider from "@mui/material/Divider";
 
-import Profile from "./Profile";
 import ThemedColorSelectionMenu from "./ThemedColorSelectionMenu";
 import { useThemeController } from "src/components/providers/MainThemeProvider";
 import MenuWrapper, { type MenuWrapperProps } from "src/components/MenuWrapper";
@@ -38,8 +36,6 @@ const HeaderMenu: React.FC<Pick<MenuWrapperProps, "onOpenChanged">> = ({
         },
       }}
     >
-      <Profile />
-      <Divider />
       <S.ColorSelectionMenuButton>
         <ThemedColorSelectionMenu />
         <S.ThemeSwitch
