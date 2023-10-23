@@ -3,7 +3,7 @@ import type { PaletteMode, ThemeOptions } from "@mui/material";
 
 type ColorPalette = Exclude<keyof typeof Colors, "common">;
 
-function getLightPalette(): CustomPalette {
+function getLightPalette() {
   return {
     themedBlack: "black",
     themedWhite: "white",
@@ -20,7 +20,7 @@ function getLightPalette(): CustomPalette {
   };
 }
 
-function getDarkPalette(): CustomPalette {
+function getDarkPalette() {
   return {
     themedBlack: "white",
     themedWhite: "black",
@@ -50,6 +50,7 @@ export function getDesignTokens(
       primary: {
         main: Colors[palette][300],
       },
+      main: Colors[palette],
       ...(mode === "light" ? getLightPalette() : getDarkPalette()),
     },
   };

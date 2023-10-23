@@ -1,4 +1,5 @@
-import { Envs } from "./envs";
+import type { Envs } from "./envs";
+import type { Color } from "@mui/material";
 
 declare global {
   namespace NodeJS {
@@ -26,6 +27,12 @@ declare global {
   interface CustomPalette {
     themedBlack: string;
     themedWhite: string;
+    /**
+     * current theme's primary colors (50 ~ A700)
+     *
+     * **primary.main == main[300]**
+     */
+    main: Color;
     text: {
       primary: string;
       secondary: string;
