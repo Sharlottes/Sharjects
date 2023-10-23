@@ -12,7 +12,7 @@ import createCache from "@emotion/cache";
 class MyDocument extends Document {
   render() {
     return (
-      <Html lang="en">
+      <Html lang="ko">
         <Head>
           <link rel="shortcut icon" href="/favicon.ico" />
 
