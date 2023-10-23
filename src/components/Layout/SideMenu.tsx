@@ -2,13 +2,12 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { useTheme } from "@mui/system";
-
-import useMediaQuery from "@mui/material/useMediaQuery";
+import type { SvgIconProps } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
 import Box from "@mui/material/Box";
 
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
@@ -17,19 +16,14 @@ import SourceIcon from "@mui/icons-material/Source";
 import EmailIcon from "@mui/icons-material/Email";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import type { SxProps, Theme, SvgIconProps } from "@mui/material";
-
-import S from "./SideMenu.styled";
-import VisitorStatus from "./VisitorStatus";
-import DivTypography from "./DivTypography";
-import Layouts from "src/core/Layouts";
-import { useThemeController } from "src/components/providers/MainThemeProvider";
-import { RightSlide } from "src/components/transitions/Slides";
-import Fade from "src/components/transitions/Fade";
+import KakaoTalkIcon from "src/assets/icons/KakaoTalkIcon";
 import DiscordIcon from "src/assets/icons/DiscordIcon";
 import GithubIcon from "src/assets/icons/GithubIcon";
-import KakaoTalkIcon from "src/assets/icons/KakaoTalkIcon";
 import VelogIcon from "src/assets/icons/VelogIcon";
+
+import useSWR from "swr";
+
+import * as styles from "./SideMenu.css";
 
 const projectData: Array<projectDataType> = require("public/data/projectData.json");
 const links: Array<
@@ -42,142 +36,82 @@ const links: Array<
   ["https://open.kakao.com/o/sJxW8TUb", KakaoTalkIcon, "#black"],
 ];
 
-const SideMenuSxProps: SxProps<Theme> = {
-  height: "calc(100vh - 50px)",
-  display: "flex",
-  flexDirection: "column",
-  overflow: "hidden scroll",
-  padding: "10px 24px",
-  margin: 0,
-  marginTop: "50px",
-  paddingTop: "30px",
-  boxShadow: "5px 0px 10px black",
-  msOverflowStyle: "none",
-  scrollbarWidth: "none",
-  "&::-webkit-scrollbar": {
-    display: "none",
-  },
-  "& :not(.sidemenu-header) >div": {
-    width: "100%",
-  },
-};
-
 export interface SideMenuProps {
   open: boolean;
   onClose?: () => void;
 }
 
-const SideMenuDrawer: React.FC<SideMenuProps> = ({
-  onClose = () => {},
-  open,
-}) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const { currentColors } = useThemeController();
+function SideMenuDrawer({ onClose = () => {}, open }: SideMenuProps) {
+  const { data: visitors, isLoading } =
+    useSWR<Record<string, number>>("/api/visit");
 
   return (
-    <Dialog
+    <Drawer
       open={open}
-      sx={{
-        zIndex: Layouts.SIDE_MENU,
-        "& .MuiDialog-container": {
-          justifyContent: "start",
-          height: "auto",
-          width: isMobile ? "auto" : "300px",
-        },
-      }}
+      anchor="left"
       slotProps={{
         backdrop: {
-          style: {
-            opacity: 0,
-          },
           onClick: onClose,
         },
       }}
-      disableScrollLock={!isMobile}
-      PaperProps={{ sx: SideMenuSxProps }}
-      fullScreen={isMobile}
-      TransitionComponent={isMobile ? Fade : RightSlide}
+      className={styles.sideMenu}
+      PaperProps={{ className: styles.sideMenuContainer }}
     >
-      <div className="sidemenu-header" style={{ margin: "0 auto" }}>
-        <Link href="/">
-          <Typography
-            sx={{
-              fontWeight: 800,
-              fontSize: 20,
-              transition: "color 150ms ease-in",
-              "&:hover": { color: currentColors[600] },
-            }}
-          >
-            Sharlotte's Portfolio
-          </Typography>
+      <div className={styles.sideMenuHeader}>
+        <Link href="/" className={styles.sideMenuTitle}>
+          Sharlotte's Portfolio
         </Link>
-        <Typography variant="body2" sx={{ position: "relative", left: 100 }}>
+        <Typography variant="body2" className={styles.sideMenuSubtitle}>
           the first portfolio
         </Typography>
       </div>
 
-      <DivTypography />
+      <Divider className={styles.divTypography} />
 
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          gap: "10px",
-          "& button": {
-            borderRadius: "20px",
-          },
-        }}
-      >
-        <Link href="/timeline">
-          <Button startIcon={<HistoryIcon />} variant="contained" size="small">
-            Timeline
-          </Button>
-        </Link>
-        <Link href="/projects">
-          <Button startIcon={<SourceIcon />} variant="contained" size="small">
-            Projects
-          </Button>
-        </Link>
+      <Box className={styles.navButtons}>
+        <Button
+          LinkComponent={Link}
+          href="/timeline"
+          className={styles.navButton}
+          startIcon={<HistoryIcon />}
+          variant="contained"
+          size="small"
+        >
+          Timeline
+        </Button>
+        <Button
+          LinkComponent={Link}
+          href="/projects"
+          className={styles.navButton}
+          startIcon={<SourceIcon />}
+          variant="contained"
+          size="small"
+        >
+          Projects
+        </Button>
       </Box>
 
-      <DivTypography title="Projects" />
+      <Divider className={styles.divTypography}>Projects</Divider>
 
-      <div style={{ margin: "15px 0 0 10px", gap: "10px" }}>
+      <div className={styles.bodyContainer}>
         {projectData.map(({ owner, projects }) => (
-          <div key={owner}>
-            <S.OwnerRow color={currentColors[600]}>
+          <React.Fragment key={owner}>
+            <div className={styles.ownerRow}>
               <Image
-                className="profile-image"
+                className={styles.ownerProfileImage}
                 src={`/images/profile/${owner}.png`}
                 alt=""
-                width={20}
-                height={20}
-                style={{
-                  borderRadius: "20px",
-                  marginRight: "5px",
-                }}
+                width={16}
+                height={16}
               />
-              <Link href={`https://github.com/${owner}`}>
-                <Typography className="highlight" fontWeight={500}>
-                  {owner}
-                </Typography>
-              </Link>
-            </S.OwnerRow>
+              <Link href={`https://github.com/${owner}`}>{owner}</Link>
+            </div>
             {projects.map((project) => (
-              <S.ProjectRow key={project.name} color={currentColors[300]}>
-                <div className="highlight">
-                  <div
-                    style={{
-                      width: "1rem",
-                      height: "1rem",
-                      marginRight: "5px",
-                    }}
-                  >
+              <div key={project.name} className={styles.projectRow}>
+                <div className={styles.projectLabel}>
+                  <div className={styles.projectIconContainer}>
                     {project.icon && (
                       <Image
-                        className="project-icon"
                         src={`/images/icon/${project.icon}.png`}
                         alt=""
                         width={16}
@@ -186,41 +120,59 @@ const SideMenuDrawer: React.FC<SideMenuProps> = ({
                     )}
                   </div>
                   <Link href={`/projects/${project.name.toLowerCase()}`}>
-                    <Typography fontWeight={600}>{project.name}</Typography>
+                    {project.name}
                   </Link>
                 </div>
-                <div className="links">
+                <div className={styles.projectLinks}>
                   {!project.noGithub && (
                     <Link href={`https://github.com/${owner}/${project.name}`}>
-                      <GithubIcon />
+                      <GithubIcon className={styles.projectLinkIcon} />
                     </Link>
                   )}
                   {project.link && (
                     <Link href={project.link}>
-                      <OpenInNewIcon />
+                      <OpenInNewIcon className={styles.projectLinkIcon} />
                     </Link>
                   )}
                 </div>
-              </S.ProjectRow>
+              </div>
             ))}
-          </div>
+          </React.Fragment>
         ))}
       </div>
-      <div style={{ marginTop: "auto" }}>
-        <DivTypography title="Visitors" />
-        <VisitorStatus />
-        <DivTypography title="Links" />
-        <S.LinksContainer>
-          {links.map(([link, Component, color]) => (
-            <Link href={link} key={link}>
-              <Component sx={{ color }} />
-            </Link>
-          ))}
-        </S.LinksContainer>
+
+      <Divider className={styles.divTypography}>Visitors</Divider>
+
+      <div className={styles.visitorContainer}>
+        {!visitors || isLoading ? (
+          <>방문자 불러오는 중...</>
+        ) : (
+          <>
+            이 사이트는 오늘 {visitors[dateCode] || 0}번 조회되었고, 총{" "}
+            {Object.values(visitors).reduce((a, e) => a + e, 0)}번 조회되었어요.
+          </>
+        )}
       </div>
-    </Dialog>
+
+      <Divider className={styles.divTypography}>Links</Divider>
+
+      <div className={styles.linksContainer}>
+        {links.map(([link, Component, color]) => (
+          <Link href={link} key={link} className={styles.link}>
+            <Component sx={{ color }} />
+          </Link>
+        ))}
+      </div>
+    </Drawer>
   );
-};
+}
+
+const dateCode = (() => {
+  const date = new Date();
+  return `${date.getFullYear()}${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
+})();
 
 const SideMenuWrapper: React.FC<{
   onOpenChanged?: (isOpened: boolean) => void;
