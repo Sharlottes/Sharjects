@@ -9,7 +9,7 @@ import Document, {
 import createEmotionServer from "@emotion/server/create-instance";
 import createCache from "@emotion/cache";
 
-class MyDocument extends Document {
+export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="ko">
@@ -71,5 +71,3 @@ class MyDocument extends Document {
     };
   }
 }
-
-export default MyDocument;

@@ -8,6 +8,7 @@ import Providers from "src/components/providers/Providers";
 import useAnalyticTracker from "src/hooks/useAnalyticTracker";
 import localFont from "next/font/local";
 import { Nanum_Pen_Script } from "next/font/google";
+
 const pretendard = localFont({
   src: "../../public/fonts/PretendardVariable.woff2",
   variable: "--font-pretendard",
@@ -28,11 +29,11 @@ interface AppProps extends NextAppProps {
   };
 }
 
-const App: React.FC<AppProps> = ({
+export default function App({
   Component,
   emotionCache = createCache({ key: "css", prepend: true }),
   pageProps: { session, ...pageProps },
-}) => {
+}: AppProps) {
   useAnalyticTracker();
 
   return (
@@ -63,6 +64,4 @@ const App: React.FC<AppProps> = ({
       </Providers>
     </>
   );
-};
-
-export default App;
+}

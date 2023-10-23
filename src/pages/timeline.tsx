@@ -1,16 +1,15 @@
-import React from "react";
-
-import Divider from "@mui/material/Divider";
 import Layout from "src/components/Layout";
+import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
-import TimelineItems from "src/components/pages/timeline/TimelineItems";
 import TimelineNav from "src/components/pages/timeline/TimelineNav";
+import TimelineItems from "src/components/pages/timeline/TimelineItems";
 import TimelineProvider from "src/components/pages/timeline/TimelineProvider";
 
-const TimelinePage: React.FC = () => {
+export default function TimelinePage() {
   return (
     <Layout>
       <div id="top-anchor" />
+
       <Typography variant="h1" fontWeight="bold" align="center">
         Timeline
       </Typography>
@@ -26,6 +25,4 @@ const TimelinePage: React.FC = () => {
       <div id="bottom-anchor" />
     </Layout>
   );
-};
-
-export default TimelinePage;
+}
