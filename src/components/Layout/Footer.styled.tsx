@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import styled from "@mui/system/styled";
-import variableMap from "src/lib/variableMap";
+import ThemeVariables from "src/core/ThemeVariables";
 
 export default {
   FooterContainer: styled("footer")(({ theme }) =>
@@ -8,7 +8,7 @@ export default {
       width: "100%",
       minHeight: "100px",
       borderTop: "solid 1px #6666667f",
-      backgroundColor: variableMap.palette.themedWhite,
+      backgroundColor: ThemeVariables.palette.themedWhite,
     })
   ),
 

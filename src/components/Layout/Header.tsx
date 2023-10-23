@@ -16,7 +16,7 @@ import { useThemeController } from "src/components/providers/MainThemeProvider";
 import MenuWrapper from "src/components/MenuWrapper";
 import ThemedColors from "src/core/ThemedColors";
 import { throttle } from "src/utils/throttle";
-import variableMap from "src/lib/variableMap";
+import ThemeVariables from "src/core/ThemeVariables";
 import Mathf from "src/utils/Mathf";
 
 import { ThemeSwitch } from "./Header.styled";
@@ -164,7 +164,7 @@ function ColorSelectionMenuButton({
     <div
       className={styles.coloredDoat}
       style={assignInlineVars({
-        [styles.color]: variableMap.palette.main[300],
+        [styles.color]: ThemeVariables.palette.main[300],
       })}
       onClick={onClick}
     />

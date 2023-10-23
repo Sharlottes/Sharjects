@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import variableMap from "src/lib/variableMap";
+import ThemeVariables from "src/core/ThemeVariables";
 import Layouts from "src/core/Layouts";
 
 export const sideMenu = style({
@@ -48,7 +48,7 @@ export const sideMenuTitle = style({
   transition: "color 150ms ease-in",
   selectors: {
     "&:hover": {
-      color: variableMap.palette.main[600],
+      color: ThemeVariables.palette.main[600],
     },
   },
 });
@@ -87,7 +87,7 @@ export const ownerRow = style({
   transition: "color 150ms ease-in",
   selectors: {
     "&:hover": {
-      color: variableMap.palette.main[600],
+      color: ThemeVariables.palette.main[600],
     },
   },
 });
@@ -112,7 +112,7 @@ export const projectLabel = style({
   selectors: {
     [`${projectRow}:hover &`]: {
       transform: "translateX(50px)",
-      color: variableMap.palette.main[300],
+      color: ThemeVariables.palette.main[300],
     },
   },
 });
@@ -134,7 +134,7 @@ export const projectLinkIcon = style({
   transition: "color 300ms ease-out",
   selectors: {
     "&:hover": {
-      color: variableMap.palette.text.primary,
+      color: ThemeVariables.palette.text.primary,
     },
   },
 });

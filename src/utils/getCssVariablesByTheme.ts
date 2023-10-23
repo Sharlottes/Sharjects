@@ -17,24 +17,24 @@ type VariableMap = Pick<
 
 // yey hack time
 export function getCssVariablesByTheme(theme: Theme): {
-  variableMap: VariableMap;
+  ThemeVariables: VariableMap;
   css: string;
 } {
-  const variableMap: any = {};
+  const ThemeVariables: any = {};
 
   const css = themeProps
     .map((key) => {
-      variableMap[key] ??= {};
-      return tokensToCss(theme[key], "--theme-" + key, variableMap[key]);
+      ThemeVariables[key] ??= {};
+      return tokensToCss(theme[key], "--theme-" + key, ThemeVariables[key]);
     })
     .join("\n");
-  return { variableMap, css };
+  return { ThemeVariables, css };
 }
 
 function tokensToCss(
   rootObject: unknown,
   base: string,
-  variableMap: Record<string, {}>
+  ThemeVariables: Record<string, {}>
 ): string {
   function repeat(
     object: Record<PropertyKey, unknown> = {},
@@ -59,11 +59,11 @@ function tokensToCss(
       }
 
       if (baseStack.length == 0) {
-        variableMap[key] = `var(${newBase})`;
+        ThemeVariables[key] = `var(${newBase})`;
       }
 
       Object.assign(
-        variableMap,
+        ThemeVariables,
         baseStack.reduce((currentObject: any, objKey: string, i) => {
           currentObject[objKey] ??= {};
           if (i != baseStack.length - 1) {
@@ -73,7 +73,7 @@ function tokensToCss(
             Object.assign(currentObject[objKey], { [key]: `var(${newBase})` });
           }
           return currentObject;
-        }, variableMap)
+        }, ThemeVariables)
       );
 
       return css + newBase + ": " + value + ";\n";

@@ -1,5 +1,5 @@
 import { createVar, keyframes, style } from "@vanilla-extract/css";
-import variableMap from "src/lib/variableMap";
+import ThemeVariables from "src/core/ThemeVariables";
 
 export const i = createVar();
 const contentWidth = "min(max(500px, 45vw), 100vw)";
@@ -40,7 +40,7 @@ export const contentContainer = style({
   height: "100px",
   border: "1px solid gray",
   transition: "box-shadow 500ms",
-  backgroundColor: variableMap.palette.themedWhite,
+  backgroundColor: ThemeVariables.palette.themedWhite,
   selectors: {
     "&[data-toright='true']": {
       alignSelf: "flex-end",
@@ -59,7 +59,7 @@ export const contentContainer = style({
 export const contentWrapper = style({
   transition: "all 300ms 700ms",
   padding: "20px",
-  backgroundColor: variableMap.palette.themedWhite,
+  backgroundColor: ThemeVariables.palette.themedWhite,
   selectors: {
     [`${contentContainer}:hover &`]: {
       transition: "all 300ms",
@@ -82,7 +82,7 @@ export const shower = style({
       height: "inherit",
       backgroundColor: `color-mix(
         in srgb, 
-        ${variableMap.palette.primary.main},
+        ${ThemeVariables.palette.primary.main},
         transparent calc(100% - 100% * (0.4 + 0.3 * (2 - ${i})))
       )`,
       animationDuration: "0.5s",

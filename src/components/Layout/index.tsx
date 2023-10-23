@@ -1,7 +1,7 @@
 import Header from "./Header";
 import Footer from "./Footer";
 import ScrollFab from "./ScrollFab";
-import variableMap from "src/lib/variableMap";
+import ThemeVariables from "src/core/ThemeVariables";
 
 const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <>
@@ -9,7 +9,7 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
     <ScrollFab />
     <main
       style={{
-        backgroundColor: variableMap.palette.themedWhite,
+        backgroundColor: ThemeVariables.palette.themedWhite,
       }}
     >
       {children}

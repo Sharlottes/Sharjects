@@ -1,5 +1,5 @@
 import Layouts from "src/core/Layouts";
-import variableMap from "src/lib/variableMap";
+import ThemeVariables from "src/core/ThemeVariables";
 import { style, createVar } from "@vanilla-extract/css";
 
 export const alphaAmount = createVar();
@@ -13,19 +13,19 @@ export const appBar = style({
     0px 4px 5px 0px rgba(0, 0, 0, calc(${alphaAmount} * 0.14)), 
     0px 1px 10px 0px rgba(0, 0, 0, calc(${alphaAmount} * 0.12))`,
   backgroundColor: `color-mix(in srgb,
-    ${variableMap.palette.primary.main},
+    ${ThemeVariables.palette.primary.main},
     transparent calc(${alphaAmount} * 0.75 * 100%)
   )`,
   color: `color-mix(in srgb, 
-    ${variableMap.palette.primary.main}, 
-    ${variableMap.palette.text.primary} calc((1 - ${alphaAmount}) * 100%)
+    ${ThemeVariables.palette.primary.main}, 
+    ${ThemeVariables.palette.text.primary} calc((1 - ${alphaAmount}) * 100%)
   )`,
   backdropFilter: "blur(5px)",
   transition: "all 300ms",
   selectors: {
     "&:hover": {
-      backgroundColor: variableMap.palette.primary.main,
-      color: variableMap.palette.text.primary,
+      backgroundColor: ThemeVariables.palette.primary.main,
+      color: ThemeVariables.palette.text.primary,
     },
   },
 });

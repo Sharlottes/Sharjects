@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import variableMap from "src/lib/variableMap";
+import ThemeVariables from "src/core/ThemeVariables";
 
 export const titleContainer = style({ margin: "10vh 5vw 0" });
 
@@ -17,7 +17,7 @@ export const keywordsContainer = style({
 });
 
 export const keyword = style({
-  color: variableMap.palette.primary.main,
+  color: ThemeVariables.palette.primary.main,
   fontSize: "25px",
   fontFamily: "var(--font-nanum-pen-script)",
 });
