@@ -83,7 +83,7 @@ export const shower = style({
       backgroundColor: `color-mix(
         in srgb, 
         ${variableMap.palette.primary.main},
-        rgba(1,1,1,0) calc(100% - 100% * (0.4 + 0.3 * (2 - ${i})))
+        transparent calc(100% - 100% * (0.4 + 0.3 * (2 - ${i})))
       )`,
       animationDuration: "0.5s",
       transition: "all 1.2s",
