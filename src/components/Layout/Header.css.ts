@@ -44,3 +44,32 @@ export const gotoHomeLink = style({
   fontSize: 20,
   flex: 1,
 });
+
+export const colorSelectMenu = style({
+  padding: "8px",
+  fontSize: "15px",
+  fontWeight: 500,
+});
+
+export const color = createVar();
+export const coloredDoat = style({
+  backgroundColor: color,
+  width: "20px",
+  height: "20px",
+  borderRadius: "10px",
+  margin: "5px",
+  cursor: "pointer",
+});
+
+export const ColorSelectionContainer = style({
+  overflow: "hidden",
+  display: "flex",
+  flexWrap: "wrap",
+  width: "300px",
+});
+export const ColorSelectIndicator = style({
+  position: "absolute",
+  width: "30px",
+  height: "5px",
+  backgroundColor: "#ffd37f",
+});

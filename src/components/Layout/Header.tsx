@@ -1,26 +1,34 @@
 import React from "react";
 import Link from "next/link";
 
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
 
+import * as Colors from "@mui/material/colors";
+import type { Color } from "@mui/material";
+
 import { motion, useAnimationControls, useScroll } from "framer-motion";
+import { assignInlineVars, setElementVars } from "@vanilla-extract/dynamic";
 
 import { useThemeController } from "src/components/providers/MainThemeProvider";
+import MenuWrapper from "src/components/MenuWrapper";
+import ThemedColors from "src/core/ThemedColors";
 import { throttle } from "src/utils/throttle";
+import variableMap from "src/lib/variableMap";
 import Mathf from "src/utils/Mathf";
-
-import ThemedColorSelectionMenu from "./ThemedColorSelectionMenu";
-import SideMenu from "./SideMenu";
 
 import { ThemeSwitch } from "./Header.styled";
 import * as styles from "./Header.css";
+import SideMenu from "./SideMenu";
 
 export default function Header({ children }: React.PropsWithChildren) {
   const [menuOpened, setMenuOpened] = React.useState(false);
   const appBarRef = React.useRef<HTMLDivElement>(null!);
-  const { toggleColorMode } = useThemeController();
+  const { setColorPalette, currentColors, toggleColorMode } =
+    useThemeController();
   const controller = useAnimationControls();
   const { scrollY } = useScroll();
 
@@ -32,16 +40,15 @@ export default function Header({ children }: React.PropsWithChildren) {
   React.useEffect(() => {
     let lastY = scrollY.get();
     const handleHeaderStyle = (lastY: number) => {
-      appBarRef.current.style.setProperty(
-        styles.alphaAmount.replaceAll(/var\((--.*),?.*\)$/g, "$1"),
-        String(
+      setElementVars(appBarRef.current, {
+        [styles.alphaAmount]: String(
           menuOpened
             ? 0
             : Mathf.clamp(
                 ((lastY / 100) * document.body.scrollHeight) / THRESHOLD
               )
-        )
-      );
+        ),
+      });
     };
     const handleScrollEvent = throttle(
       (y = window.scrollY) => {
@@ -81,7 +88,33 @@ export default function Header({ children }: React.PropsWithChildren) {
             Sharlotte
           </Link>
         </Tooltip>
-        <ThemedColorSelectionMenu />
+
+        <MenuWrapper
+          IconDrawer={ColorSeleectionMenuButton}
+          PaperProps={{
+            className: styles.colorSelectMenu,
+          }}
+        >
+          <p>Theme Selection</p>
+          <Divider />
+          <div className={styles.ColorSelectionContainer}>
+            {ThemedColors.map((color) => (
+              <div
+                key={color}
+                className={styles.coloredDoat}
+                style={assignInlineVars({
+                  [styles.color]: Colors[color][300],
+                })}
+                onClick={() => setColorPalette(color)}
+              />
+            ))}
+            <motion.div
+              className={styles.ColorSelectIndicator}
+              animate={getColorCoord(currentColors)}
+            />
+          </div>
+        </MenuWrapper>
+
         <ThemeSwitch
           focusVisibleClassName=".Mui-focusVisible"
           disableRipple
@@ -113,3 +146,28 @@ const variants = {
     borderRadius: "0px",
   }),
 };
+
+function getColorCoord(colors: Color) {
+  const index = ThemedColors.findIndex(
+    (color) => colors[300] === Colors[color][300]
+  );
+
+  return {
+    x: 30 * (index % 10),
+    y: 25 + 30 * ~~(index / 10),
+  };
+}
+
+function ColorSeleectionMenuButton({
+  onClick,
+}: Pick<React.HTMLAttributes<HTMLDivElement>, "onClick">) {
+  return (
+    <div
+      className={styles.coloredDoat}
+      style={assignInlineVars({
+        [styles.color]: variableMap.palette.main[300],
+      })}
+      onClick={onClick}
+    />
+  );
+}
