@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 import Toolbar from "@mui/material/Toolbar";
@@ -90,7 +89,7 @@ export default function Header({ children }: React.PropsWithChildren) {
         </Tooltip>
 
         <MenuWrapper
-          IconDrawer={ColorSeleectionMenuButton}
+          IconDrawer={ColorSelectionMenuButton}
           PaperProps={{
             className: styles.colorSelectMenu,
           }}
@@ -158,7 +157,7 @@ function getColorCoord(colors: Color) {
   };
 }
 
-function ColorSeleectionMenuButton({
+function ColorSelectionMenuButton({
   onClick,
 }: Pick<React.HTMLAttributes<HTMLDivElement>, "onClick">) {
   return (
