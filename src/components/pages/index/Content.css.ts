@@ -50,20 +50,23 @@ export const contentContainer = style({
       alignSelf: "flex-start",
       borderRadius: "1px 20px 20px 1px",
     },
-    "&:hover": {
+    "&[data-toright='true']:hover": {
       boxShadow: `8px 8px 15px`,
+    },
+    "&[data-toright='false']:hover": {
+      boxShadow: `-8px 8px 15px`,
     },
   },
 });
 
 export const contentWrapper = style({
-  transition: "all 300ms 700ms",
+  transition: "background-color 300ms",
   padding: "20px",
   backgroundColor: ThemeVariables.palette.themedWhite,
   selectors: {
     [`${contentContainer}:hover &`]: {
-      transition: "all 300ms",
-      backgroundColor: "rgba(0,0,0,0)",
+      transition: "background-color 300ms",
+      backgroundColor: `color-mix(in srgb, ${ThemeVariables.palette.themedWhite}, transparent 100%)`,
     },
   },
 });
