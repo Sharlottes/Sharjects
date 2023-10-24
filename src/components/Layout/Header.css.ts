@@ -42,7 +42,7 @@ export const gotoHomeLink = style({
   marginLeft: "8px",
   fontWeight: "bold",
   fontSize: 20,
-  flex: 1,
+  marginRight: "auto",
 });
 
 export const colorSelectMenu = style({
