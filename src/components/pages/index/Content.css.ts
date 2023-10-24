@@ -60,6 +60,7 @@ export const contentContainer = style({
 });
 
 export const contentWrapper = style({
+  display: "block",
   transition: "background-color 300ms",
   padding: "20px",
   backgroundColor: ThemeVariables.palette.themedWhite,
@@ -75,6 +76,7 @@ export const shower = style({
   position: "absolute",
   width: contentWidth,
   height: "99px",
+  pointerEvents: "none",
   selectors: {
     "&::before": {
       content: "''",

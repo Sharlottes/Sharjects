@@ -54,14 +54,12 @@ function Content({
         style={assignInlineVars({ [styles.i]: "2" })}
       />
 
-      <div className={styles.contentWrapper}>
-        <Link href={link}>
-          <Typography fontSize="1.5rem" fontWeight="bold">
-            {title}
-          </Typography>
-          <Typography variant="body2">{description}</Typography>
-        </Link>
-      </div>
+      <Link href={link} className={styles.contentWrapper}>
+        <Typography fontSize="1.5rem" fontWeight="bold">
+          {title}
+        </Typography>
+        <Typography variant="body2">{description}</Typography>
+      </Link>
     </motion.div>
   );
 }
