@@ -190,7 +190,7 @@ function ColorSelectionMenuButton({
     <div
       className={styles.coloredDoat}
       style={assignInlineVars({
-        [styles.color]: ThemeVariables.palette.main[300],
+        [styles.color]: ThemeVariables.palette.main[400],
       })}
       onClick={onClick}
     />
