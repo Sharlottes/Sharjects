@@ -52,24 +52,46 @@ export const colorSelectMenu = style({
 });
 
 export const color = createVar();
+export const currentColorDoat = style({
+  width: "24px",
+  height: "24px",
+  margin: "10px",
+  borderRadius: "50%",
+  cursor: "pointer",
+  backgroundColor: `color-mix(in srgb, ${ThemeVariables.palette.main[400]}, white 5%)`,
+});
+
 export const coloredDoat = style({
   backgroundColor: color,
   width: "20px",
   height: "20px",
-  borderRadius: "10px",
+  borderRadius: "50%",
   margin: "5px",
   cursor: "pointer",
 });
 
-export const ColorSelectionContainer = style({
+export const colorSelectionContainer = style({
   overflow: "hidden",
   display: "flex",
   flexWrap: "wrap",
   width: "300px",
 });
-export const ColorSelectIndicator = style({
+export const colorSelectIndicator = style({
   position: "absolute",
   width: "30px",
   height: "5px",
   backgroundColor: "#ffd37f",
+});
+
+export const themeSwitchCheckbox = style({
+  width: "24px",
+  height: "24px",
+  borderRadius: "50%",
+  transition: "background-color 300ms ease-out",
+  backgroundColor: "white",
+  selectors: {
+    "&.Mui-checked": {
+      backgroundColor: "#444",
+    },
+  },
 });
