@@ -1,5 +1,5 @@
 import * as Colors from "@mui/material/colors";
-import type { PaletteMode, ThemeOptions } from "@mui/material";
+import type { Color, PaletteMode, ThemeOptions } from "@mui/material";
 
 type ColorPalette = Exclude<keyof typeof Colors, "common">;
 
@@ -37,6 +37,16 @@ function getDarkPalette() {
   };
 }
 
+function getPalettes(mode: PaletteMode, palette: ColorPalette) {
+  return {
+    mode,
+    primary: {
+      main: Colors[palette][300],
+    },
+    main: Colors[palette],
+    ...(mode === "light" ? getLightPalette() : getDarkPalette()),
+  };
+}
 export function getDesignTokens(
   mode: PaletteMode,
   palette: ColorPalette
@@ -45,13 +55,13 @@ export function getDesignTokens(
     typography: {
       fontFamily: "inherit",
     },
-    palette: {
-      mode,
-      primary: {
-        main: Colors[palette][300],
-      },
-      main: Colors[palette],
-      ...(mode === "light" ? getLightPalette() : getDarkPalette()),
-    },
+    palette: getPalettes(mode, palette),
   };
+}
+
+type CustomPalette = ReturnType<typeof getPalettes>;
+
+declare module "@mui/material/styles" {
+  interface Palette extends CustomPalette {}
+  interface PaletteOptions extends Partial<CustomPalette> {}
 }
