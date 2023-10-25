@@ -8,6 +8,7 @@ import Providers from "src/components/providers/Providers";
 import useAnalyticTracker from "src/hooks/useAnalyticTracker";
 import localFont from "next/font/local";
 import { Nanum_Pen_Script } from "next/font/google";
+import "public/styles/global.css";
 
 const pretendard = localFont({
   src: "../../public/fonts/PretendardVariable.woff2",
@@ -17,9 +18,6 @@ const nanumPenScript = Nanum_Pen_Script({
   subsets: ["latin"],
   weight: "400",
 });
-
-import "public/styles/global.css";
-require("src/lib/registerChartjs");
 
 interface AppProps extends NextAppProps {
   emotionCache?: EmotionCache;
