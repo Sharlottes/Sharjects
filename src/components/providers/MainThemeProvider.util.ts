@@ -53,7 +53,7 @@ export function getDesignTokens(
 ): ThemeOptions {
   return {
     typography: {
-      fontFamily: "inherit",
+      fontFamily: "var(--font-pretendard)",
     },
     palette: getPalettes(mode, palette),
   };

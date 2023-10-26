@@ -41,9 +41,6 @@ export default function App({
           --font-pretendard: ${pretendard.style.fontFamily};
           --font-nanum-pen-script: ${nanumPenScript.style.fontFamily};
         }
-        * {
-          font-family: var(--font-pretendard);
-        }
       `}</style>
       <Head>
         <title>Sharlotte's Portfolio</title>

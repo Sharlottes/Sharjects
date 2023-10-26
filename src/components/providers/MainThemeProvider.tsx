@@ -65,8 +65,10 @@ const MainThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
         ${cssVariableTheme}
       }`}</style>
       <ControllerContext.Provider value={defaultControllerContext}>
-        <CssBaseline />
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
       </ControllerContext.Provider>
     </>
   );
