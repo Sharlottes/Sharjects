@@ -1,13 +1,13 @@
 //@ts-check
 import { createVanillaExtractPlugin } from "@vanilla-extract/next-plugin";
 import createBundleAnalyzer from "@next/bundle-analyzer";
-import createMdnConfig from "@next/mdx";
+import createMdxConfig from "@next/mdx";
 
 const withVanillaExtract = createVanillaExtractPlugin();
 const withBundleAnalyzer = createBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
-const withMDX = createMdnConfig({
+const withMDX = createMdxConfig({
   extension: /\.mdx?$/,
   options: {
     providerImportSource: "@mdx-js/react",

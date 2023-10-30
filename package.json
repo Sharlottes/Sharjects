@@ -1,8 +1,9 @@
 {
   "name": "Sharjects",
   "scripts": {
-    "dev": "next dev",
+    "dev": "yarn prebuild && next dev",
     "buildstart": "next build && next start",
+    "prebuild": "node scripts/generateTimelineMetadata.js",
     "build": "next build",
     "start": "next start",
     "refresh": "scripts/refresh_token.bash",
